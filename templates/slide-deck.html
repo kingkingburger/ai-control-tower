@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>{{TITLE}}</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg-dark: #0a0a0f;
+    --bg-card: #14141f;
+    --bg-surface: #1c1c2e;
+    --accent-blue: #4f8cff;
+    --accent-purple: #a855f7;
+    --accent-cyan: #22d3ee;
+    --accent-green: #34d399;
+    --accent-orange: #fb923c;
+    --accent-pink: #f472b6;
+    --text-primary: #f0f0f5;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    /* Day accent colors — customize per presentation */
+    --day1-color: #4f8cff;
+    --day2-color: #a855f7;
+    --day3-color: #22d3ee;
+    --day4-color: #fb923c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .slides-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .slide.prev {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* ===== TITLE SLIDE ===== */
+  .slide-title {
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 30%, rgba(79,140,255,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(168,85,247,0.08) 0%, transparent 50%),
+                var(--bg-dark);
+  }
+
+  .slide-title .camp-badge {
+    display: inline-block;
+    padding: 10px 28px;
+    border: 1px solid rgba(79,140,255,0.4);
+    border-radius: 100px;
+    font-size: 18px;
+    color: var(--accent-blue);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .slide-title h1 {
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .slide-title .subtitle {
+    font-size: 28px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .slide-title .meta {
+    display: flex;
+    gap: 40px;
+    color: var(--text-muted);
+    font-size: 18px;
+  }
+
+  .slide-title .meta span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== DAY HEADER SLIDES ===== */
+  .day-header {
+    text-align: center;
+  }
+
+  .day-header .day-number {
+    font-size: 200px;
+    font-weight: 900;
+    opacity: 0.06;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    letter-spacing: -8px;
+  }
+
+  .day-header .day-label {
+    font-size: 22px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  .day-header h2 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.3;
+    max-width: 900px;
+    margin-bottom: 24px;
+  }
+
+  .day-header .day-meta {
+    font-size: 20px;
+    color: var(--text-muted);
+  }
+
+  /* ===== CONTENT SLIDES ===== */
+  .content-slide {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 50px 80px 80px;
+  }
+
+  .content-slide .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .content-slide .slide-header .day-tag {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .content-slide .slide-header h3 {
+    font-size: 40px;
+    font-weight: 700;
+  }
+
+  .card-grid {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    flex: 1;
+  }
+
+  .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .card:hover {
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .card .card-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .card p, .card li {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .card ul {
+    padding-left: 20px;
+  }
+
+  .card ul li {
+    margin-bottom: 6px;
+  }
+
+  .card .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  /* ===== QUOTE CARD ===== */
+  .quote-card {
+    background: var(--bg-surface);
+    border-left: 3px solid var(--accent-blue);
+    padding: 24px 28px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .quote-card p {
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  .quote-card .quote-author {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-style: normal;
+    margin-top: 8px;
+  }
+
+  /* ===== TABLE STYLE ===== */
+  .styled-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 18px;
+  }
+
+  .styled-table thead th {
+    background: var(--bg-surface);
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .styled-table thead th:first-child { border-radius: 10px 0 0 0; }
+  .styled-table thead th:last-child { border-radius: 0 10px 0 0; }
+
+  .styled-table tbody td {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .styled-table tbody tr:last-child td { border-bottom: none; }
+  .styled-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .styled-table .tool-name {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* ===== FLOW DIAGRAM ===== */
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    justify-content: center;
+    width: 100%;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+
+  .flow-step {
+    background: var(--bg-surface);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px 24px;
+    text-align: center;
+    min-width: 130px;
+  }
+
+  .flow-step .step-icon { font-size: 28px; margin-bottom: 6px; }
+  .flow-step .step-label { font-size: 17px; font-weight: 500; }
+  .flow-step .step-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+  .flow-arrow {
+    font-size: 24px;
+    color: var(--text-muted);
+    padding: 0 6px;
+  }
+
+  /* ===== OVERVIEW SLIDE ===== */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+  }
+
+  .overview-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .overview-card .ov-day {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .overview-card h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .overview-card p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .overview-card .ov-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* ===== NAV ===== */
+  .slide-nav {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    background: rgba(20,20,31,0.85);
+    backdrop-filter: blur(12px);
+    padding: 10px 24px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .slide-nav .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-primary);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+
+  .slide-nav .nav-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .slide-nav .slide-counter {
+    font-size: 16px;
+    color: var(--text-muted);
+    min-width: 60px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .slide-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .slide-dots .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .slide-dots .dot.active {
+    background: var(--accent-blue);
+    width: 20px;
+    border-radius: 3px;
+  }
+
+  .slide-dots .dot.day1.active { background: var(--day1-color); }
+  .slide-dots .dot.day2.active { background: var(--day2-color); }
+  .slide-dots .dot.day3.active { background: var(--day3-color); }
+  .slide-dots .dot.day4.active { background: var(--day4-color); }
+
+  /* ===== HIGHLIGHT TEXT ===== */
+  .hl-blue { color: var(--accent-blue); }
+  .hl-purple { color: var(--accent-purple); }
+  .hl-cyan { color: var(--accent-cyan); }
+  .hl-green { color: var(--accent-green); }
+  .hl-orange { color: var(--accent-orange); }
+  .hl-pink { color: var(--accent-pink); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  /* ===== KEY INSIGHT ===== */
+  .key-insight {
+    background: linear-gradient(135deg, rgba(79,140,255,0.08), rgba(168,85,247,0.08));
+    border: 1px solid rgba(79,140,255,0.15);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .key-insight .insight-label {
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin-bottom: 12px;
+  }
+
+  .key-insight p {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* ===== SUMMARY PILL ===== */
+  .summary-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .pill {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid;
+  }
+
+  /* ===== FINAL SLIDE ===== */
+  .slide-final {
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 50%, rgba(168,85,247,0.08) 0%, transparent 60%),
+                var(--bg-dark);
+  }
+
+  .slide-final h2 {
+    font-size: 60px;
+    font-weight: 900;
+    margin-bottom: 32px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .slide-final .takeaway-list {
+    list-style: none;
+    text-align: left;
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  .slide-final .takeaway-list li {
+    font-size: 22px;
+    color: var(--text-secondary);
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    line-height: 1.5;
+  }
+
+  .slide-final .takeaway-list li .tk-num {
+    color: var(--accent-purple);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .slide { padding: 40px; }
+    .content-slide { padding: 40px 50px; }
+    .slide-title h1 { font-size: 42px; }
+    .day-header h2 { font-size: 32px; }
+    .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+    .overview-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="slides-container" id="slidesContainer">
+
+  <!-- ====================================================================
+       SLIDE CONTENT GOES HERE
+
+       Available slide types:
+
+       1. TITLE SLIDE
+          <div class="slide slide-title" data-group="intro">
+            <div class="camp-badge">BADGE TEXT</div>
+            <h1>Title</h1>
+            <p class="subtitle">Subtitle</p>
+            <div class="meta"><span>Meta 1</span><span>Meta 2</span></div>
+          </div>
+
+       2. DAY HEADER SLIDE
+          <div class="slide day-header" data-group="day1" style="background: radial-gradient(...)">
+            <div class="day-number" style="color:var(--day1-color)">01</div>
+            <div class="day-label" style="color:var(--day1-color)">Day 1 · Date</div>
+            <h2>Section Title</h2>
+            <p class="day-meta">Duration · Speakers</p>
+          </div>
+
+       3. CONTENT SLIDE (cards)
+          <div class="slide content-slide" data-group="day1">
+            <div class="slide-header">
+              <div class="day-tag" style="background:rgba(...); color:var(--day1-color)">DAY 1</div>
+              <h3>Slide Title</h3>
+            </div>
+            <div class="card-grid cols-2">
+              <div class="card">
+                <div class="card-accent" style="background:var(--day1-color)"></div>
+                <h4>Card Title</h4>
+                <p>Card content</p>
+              </div>
+            </div>
+          </div>
+
+       4. CONTENT SLIDE (with quote)
+          Add after card-grid:
+          <div class="quote-card" style="border-color:var(--day1-color)">
+            <p>"Quote text"</p>
+            <div class="quote-author">— Author</div>
+          </div>
+
+       5. CONTENT SLIDE (with table)
+          <table class="styled-table">...</table>
+
+       6. CONTENT SLIDE (with flow diagram)
+          <div class="flow-diagram">
+            <div class="flow-step"><div class="step-icon">icon</div><div class="step-label">Label</div><div class="step-sub">Sub</div></div>
+            <div class="flow-arrow">&#10132;</div>
+            ...
+          </div>
+
+       7. KEY INSIGHT
+          <div class="key-insight">
+            <div class="insight-label">Label</div>
+            <p>Insight text</p>
+          </div>
+
+       8. FINAL SLIDE
+          <div class="slide slide-final" data-group="summary">
+            <h2>Title</h2>
+            <ul class="takeaway-list">
+              <li><span class="tk-num">01</span><span>Takeaway</span></li>
+            </ul>
+            <p class="footer">Footer text</p>
+          </div>
+
+       data-group values: "intro", "day1", "day2", "day3", "day4", "summary"
+       ==================================================================== -->
+
+  {{SLIDES}}
+
+</div>
+
+<nav class="slide-nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592;</button>
+  <div class="slide-dots" id="slideDots"></div>
+  <span class="slide-counter" id="slideCounter">1 / 1</span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">&#8594;</button>
+</nav>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('slideDots');
+  const counter = document.getElementById('slideCounter');
+  const progressBar = document.getElementById('progressBar');
+  let current = 0;
+  const total = slides.length;
+
+  // Group colors for dot navigation — extend as needed
+  const groupColors = {
+    intro: '',
+    day1: 'day1',
+    day2: 'day2',
+    day3: 'day3',
+    day4: 'day4',
+    summary: ''
+  };
+
+  // Create dots
+  slides.forEach((s, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    const group = s.dataset.group;
+    const gc = groupColors[group];
+    if (gc) dot.classList.add(gc);
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(index) {
+    if (index < 0 || index >= total) return;
+    slides[current].classList.remove('active');
+    if (index > current) slides[current].classList.add('prev');
+
+    setTimeout(() => {
+      slides.forEach(s => { s.classList.remove('prev'); });
+    }, 500);
+
+    current = index;
+    slides[current].classList.add('active');
+
+    // Update dots
+    document.querySelectorAll('.slide-dots .dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+
+    // Update counter
+    counter.textContent = `${current + 1} / ${total}`;
+
+    // Update progress
+    progressBar.style.width = `${((current + 1) / total) * 100}%`;
+  }
+
+  window.navigate = function(dir) {
+    goTo(current + dir);
+  };
+
+  // Keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      navigate(1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigate(-1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goTo(total - 1);
+    }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+  });
+
+  // Init
+  goTo(0);
+})();
+</script>
+
+</body>
+</html>
