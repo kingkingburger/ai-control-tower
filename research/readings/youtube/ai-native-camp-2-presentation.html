@@ -1,0 +1,1220 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AI Native Camp 2기 — Day 1~4 Summary</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg-dark: #0a0a0f;
+    --bg-card: #14141f;
+    --bg-surface: #1c1c2e;
+    --accent-blue: #4f8cff;
+    --accent-purple: #a855f7;
+    --accent-cyan: #22d3ee;
+    --accent-green: #34d399;
+    --accent-orange: #fb923c;
+    --accent-pink: #f472b6;
+    --text-primary: #f0f0f5;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --day1-color: #4f8cff;
+    --day2-color: #a855f7;
+    --day3-color: #22d3ee;
+    --day4-color: #fb923c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .slides-container {
+    width: 100vw;
+    height: 100vh;
+    position: relative;
+  }
+
+  .slide {
+    position: absolute;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 60px 80px;
+    opacity: 0;
+    transform: translateX(60px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none;
+    overflow-y: auto;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0);
+    pointer-events: all;
+  }
+
+  .slide.prev {
+    opacity: 0;
+    transform: translateX(-60px);
+  }
+
+  /* ===== TITLE SLIDE ===== */
+  .slide-title {
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 30%, rgba(79,140,255,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(168,85,247,0.08) 0%, transparent 50%),
+                var(--bg-dark);
+  }
+
+  .slide-title .camp-badge {
+    display: inline-block;
+    padding: 10px 28px;
+    border: 1px solid rgba(79,140,255,0.4);
+    border-radius: 100px;
+    font-size: 18px;
+    color: var(--accent-blue);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 32px;
+  }
+
+  .slide-title h1 {
+    font-size: 80px;
+    font-weight: 900;
+    line-height: 1.2;
+    margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent-blue) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .slide-title .subtitle {
+    font-size: 28px;
+    color: var(--text-secondary);
+    font-weight: 300;
+    margin-bottom: 48px;
+  }
+
+  .slide-title .meta {
+    display: flex;
+    gap: 40px;
+    color: var(--text-muted);
+    font-size: 18px;
+  }
+
+  .slide-title .meta span {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  /* ===== DAY HEADER SLIDES ===== */
+  .day-header {
+    text-align: center;
+  }
+
+  .day-header .day-number {
+    font-size: 200px;
+    font-weight: 900;
+    opacity: 0.06;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -60%);
+    letter-spacing: -8px;
+  }
+
+  .day-header .day-label {
+    font-size: 22px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-bottom: 16px;
+    opacity: 0.7;
+  }
+
+  .day-header h2 {
+    font-size: 56px;
+    font-weight: 700;
+    line-height: 1.3;
+    max-width: 900px;
+    margin-bottom: 24px;
+  }
+
+  .day-header .day-meta {
+    font-size: 20px;
+    color: var(--text-muted);
+  }
+
+  /* ===== CONTENT SLIDES ===== */
+  .content-slide {
+    align-items: flex-start;
+    justify-content: flex-start;
+    padding: 50px 80px 80px;
+  }
+
+  .content-slide .slide-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-bottom: 32px;
+    width: 100%;
+    flex-shrink: 0;
+  }
+
+  .content-slide .slide-header .day-tag {
+    padding: 6px 16px;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    flex-shrink: 0;
+  }
+
+  .content-slide .slide-header h3 {
+    font-size: 40px;
+    font-weight: 700;
+  }
+
+  .card-grid {
+    display: grid;
+    gap: 20px;
+    width: 100%;
+    flex: 1;
+  }
+
+  .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 28px;
+    position: relative;
+    overflow: hidden;
+    transition: border-color 0.3s;
+  }
+
+  .card:hover {
+    border-color: rgba(255,255,255,0.15);
+  }
+
+  .card .card-icon {
+    font-size: 32px;
+    margin-bottom: 12px;
+    display: block;
+  }
+
+  .card h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+
+  .card p, .card li {
+    font-size: 18px;
+    color: var(--text-secondary);
+    line-height: 1.7;
+  }
+
+  .card ul {
+    padding-left: 20px;
+  }
+
+  .card ul li {
+    margin-bottom: 6px;
+  }
+
+  .card .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  /* ===== QUOTE CARD ===== */
+  .quote-card {
+    background: var(--bg-surface);
+    border-left: 3px solid var(--accent-blue);
+    padding: 24px 28px;
+    border-radius: 0 12px 12px 0;
+    margin-bottom: 20px;
+    width: 100%;
+  }
+
+  .quote-card p {
+    font-size: 22px;
+    font-style: italic;
+    color: var(--text-primary);
+    line-height: 1.6;
+  }
+
+  .quote-card .quote-author {
+    font-size: 16px;
+    color: var(--text-muted);
+    font-style: normal;
+    margin-top: 8px;
+  }
+
+  /* ===== TABLE STYLE ===== */
+  .styled-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    font-size: 18px;
+  }
+
+  .styled-table thead th {
+    background: var(--bg-surface);
+    padding: 16px 20px;
+    text-align: left;
+    font-weight: 600;
+    font-size: 16px;
+    letter-spacing: 0.5px;
+    color: var(--text-secondary);
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .styled-table thead th:first-child { border-radius: 10px 0 0 0; }
+  .styled-table thead th:last-child { border-radius: 0 10px 0 0; }
+
+  .styled-table tbody td {
+    padding: 16px 20px;
+    border-bottom: 1px solid rgba(255,255,255,0.04);
+    color: var(--text-secondary);
+    line-height: 1.5;
+  }
+
+  .styled-table tbody tr:last-child td { border-bottom: none; }
+  .styled-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .styled-table .tool-name {
+    color: var(--text-primary);
+    font-weight: 500;
+  }
+
+  /* ===== FLOW DIAGRAM ===== */
+  .flow-diagram {
+    display: flex;
+    align-items: center;
+    gap: 0;
+    justify-content: center;
+    width: 100%;
+    margin: 24px 0;
+    flex-wrap: wrap;
+  }
+
+  .flow-step {
+    background: var(--bg-surface);
+    border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px;
+    padding: 18px 24px;
+    text-align: center;
+    min-width: 130px;
+  }
+
+  .flow-step .step-icon { font-size: 28px; margin-bottom: 6px; }
+  .flow-step .step-label { font-size: 17px; font-weight: 500; }
+  .flow-step .step-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+
+  .flow-arrow {
+    font-size: 24px;
+    color: var(--text-muted);
+    padding: 0 6px;
+  }
+
+  /* ===== OVERVIEW SLIDE ===== */
+  .overview-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+    width: 100%;
+  }
+
+  .overview-card {
+    background: var(--bg-card);
+    border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .overview-card .ov-day {
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 2px;
+    margin-bottom: 16px;
+    text-transform: uppercase;
+  }
+
+  .overview-card h4 {
+    font-size: 22px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    line-height: 1.4;
+  }
+
+  .overview-card p {
+    font-size: 16px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+  }
+
+  .overview-card .ov-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  /* ===== PROGRESS BAR ===== */
+  .progress-bar {
+    position: fixed;
+    top: 0; left: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
+    transition: width 0.4s ease;
+    z-index: 100;
+  }
+
+  /* ===== NAV ===== */
+  .slide-nav {
+    position: fixed;
+    bottom: 30px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    z-index: 100;
+    background: rgba(20,20,31,0.85);
+    backdrop-filter: blur(12px);
+    padding: 10px 24px;
+    border-radius: 100px;
+    border: 1px solid rgba(255,255,255,0.08);
+  }
+
+  .slide-nav .nav-btn {
+    background: none;
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-primary);
+    width: 36px; height: 36px;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 16px;
+    transition: all 0.2s;
+  }
+
+  .slide-nav .nav-btn:hover {
+    background: rgba(255,255,255,0.1);
+    border-color: rgba(255,255,255,0.3);
+  }
+
+  .slide-nav .slide-counter {
+    font-size: 16px;
+    color: var(--text-muted);
+    min-width: 60px;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+  }
+
+  .slide-dots {
+    display: flex;
+    gap: 6px;
+  }
+
+  .slide-dots .dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.15);
+    transition: all 0.3s;
+    cursor: pointer;
+  }
+
+  .slide-dots .dot.active {
+    background: var(--accent-blue);
+    width: 20px;
+    border-radius: 3px;
+  }
+
+  .slide-dots .dot.day1.active { background: var(--day1-color); }
+  .slide-dots .dot.day2.active { background: var(--day2-color); }
+  .slide-dots .dot.day3.active { background: var(--day3-color); }
+  .slide-dots .dot.day4.active { background: var(--day4-color); }
+
+  /* ===== HIGHLIGHT TEXT ===== */
+  .hl-blue { color: var(--accent-blue); }
+  .hl-purple { color: var(--accent-purple); }
+  .hl-cyan { color: var(--accent-cyan); }
+  .hl-green { color: var(--accent-green); }
+  .hl-orange { color: var(--accent-orange); }
+  .hl-pink { color: var(--accent-pink); }
+
+  code {
+    font-family: 'JetBrains Mono', monospace;
+    background: rgba(255,255,255,0.06);
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 16px;
+  }
+
+  /* ===== KEY INSIGHT ===== */
+  .key-insight {
+    background: linear-gradient(135deg, rgba(79,140,255,0.08), rgba(168,85,247,0.08));
+    border: 1px solid rgba(79,140,255,0.15);
+    border-radius: 16px;
+    padding: 32px;
+    width: 100%;
+    text-align: center;
+    margin-top: 20px;
+  }
+
+  .key-insight .insight-label {
+    font-size: 15px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--accent-blue);
+    margin-bottom: 12px;
+  }
+
+  .key-insight p {
+    font-size: 24px;
+    font-weight: 500;
+    line-height: 1.5;
+  }
+
+  /* ===== SUMMARY PILL ===== */
+  .summary-pills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 16px;
+  }
+
+  .pill {
+    padding: 8px 18px;
+    border-radius: 100px;
+    font-size: 16px;
+    font-weight: 500;
+    border: 1px solid;
+  }
+
+  /* ===== FINAL SLIDE ===== */
+  .slide-final {
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 50%, rgba(168,85,247,0.08) 0%, transparent 60%),
+                var(--bg-dark);
+  }
+
+  .slide-final h2 {
+    font-size: 60px;
+    font-weight: 900;
+    margin-bottom: 32px;
+    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .slide-final .takeaway-list {
+    list-style: none;
+    text-align: left;
+    max-width: 850px;
+    margin: 0 auto;
+  }
+
+  .slide-final .takeaway-list li {
+    font-size: 22px;
+    color: var(--text-secondary);
+    padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    line-height: 1.5;
+  }
+
+  .slide-final .takeaway-list li .tk-num {
+    color: var(--accent-purple);
+    font-family: 'JetBrains Mono', monospace;
+    font-weight: 600;
+    font-size: 18px;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+
+  /* ===== RESPONSIVE ===== */
+  @media (max-width: 1024px) {
+    .slide { padding: 40px; }
+    .content-slide { padding: 40px 50px; }
+    .slide-title h1 { font-size: 42px; }
+    .day-header h2 { font-size: 32px; }
+    .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+    .overview-grid { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="slides-container" id="slidesContainer">
+
+  <!-- ========== SLIDE 0: TITLE ========== -->
+  <div class="slide slide-title active" data-group="intro">
+    <div class="camp-badge">NFM &middot; 2026.03.02 — 03.05</div>
+    <h1>AI Native Camp 2기</h1>
+    <p class="subtitle">Day 1 — 4 핵심 요약</p>
+    <div class="meta">
+      <span>&#128218; 4일 온라인 + 1일 오프라인</span>
+      <span>&#128101; 비개발자 91%</span>
+      <span>&#127891; 장원준 &middot; 정구봉 &middot; 김성중</span>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 1: OVERVIEW ========== -->
+  <div class="slide content-slide" data-group="intro">
+    <div class="slide-header">
+      <h3>캠프 전체 여정</h3>
+    </div>
+    <div class="overview-grid">
+      <div class="overview-card">
+        <div class="ov-accent" style="background:var(--day1-color)"></div>
+        <div class="ov-day" style="color:var(--day1-color)">Day 1</div>
+        <h4>AI 네이티브 마인드셋<br>& Claude Code 정복</h4>
+        <p>환경 세팅, CLAUDE.md, 메모리, 스킬, 서브 에이전트, 에이전트 팀즈</p>
+      </div>
+      <div class="overview-card">
+        <div class="ov-accent" style="background:var(--day2-color)"></div>
+        <div class="ov-day" style="color:var(--day2-color)">Day 2</div>
+        <h4>업무 도구 설계 철학<br>& MCP 딥다이브</h4>
+        <p>SaaS KPI 분석, MCP 연결, Context Sync, Gmail 스킬</p>
+      </div>
+      <div class="overview-card">
+        <div class="ov-accent" style="background:var(--day3-color)"></div>
+        <div class="ov-day" style="color:var(--day3-color)">Day 3</div>
+        <h4>Clarify 스킬<br>& GitHub</h4>
+        <p>암묵지→명시지, Clarify 4단계, Playwright, Git 자동화</p>
+      </div>
+      <div class="overview-card">
+        <div class="ov-accent" style="background:var(--day4-color)"></div>
+        <div class="ov-day" style="color:var(--day4-color)">Day 4</div>
+        <h4>Compound<br>Engineering</h4>
+        <p>복리 시스템, 멀티 에이전트 세션 랩, 스킬 제작, 정보 습득</p>
+      </div>
+    </div>
+    <div class="key-insight">
+      <div class="insight-label">Camp Core Message</div>
+      <p>Claude Code를 <span class="hl-blue">OS</span>로 활용하여 컴퓨터 전체를 자연어로 제어하고,<br><span class="hl-purple">맥락 공급 구조</span>를 설계하여 <span class="hl-orange">복리 효과</span>를 만드는 것</p>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 2: DAY 1 HEADER ========== -->
+  <div class="slide day-header" data-group="day1" style="background: radial-gradient(ellipse at 50% 40%, rgba(79,140,255,0.1) 0%, transparent 60%), var(--bg-dark);">
+    <div class="day-number" style="color:var(--day1-color)">01</div>
+    <div class="day-label" style="color:var(--day1-color)">Day 1 &middot; 2026.03.02</div>
+    <h2>AI 네이티브 마인드셋과<br>Claude Code 완전 정복</h2>
+    <p class="day-meta">4h &middot; 장원준, 정구봉, 김성중</p>
+  </div>
+
+  <!-- ========== SLIDE 3: DAY 1 CONTENT 1 ========== -->
+  <div class="slide content-slide" data-group="day1">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(79,140,255,0.15); color:var(--day1-color)">DAY 1</div>
+      <h3>왜 Claude Code인가</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--day1-color)"></div>
+        <div class="card-icon">&#128187;</div>
+        <h4>Claude Code = 컴퓨터 제어 OS</h4>
+        <p>브라우저 기반 AI(ChatGPT, Claude Web)와 달리, 로컬 컴퓨터의 모든 파일을 직접 읽고 쓰며 제어한다. SaaS 시대의 워크플로우가 자연어 레이어까지 내려온 것.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day1-color)"></div>
+        <div class="card-icon">&#128275;</div>
+        <h4>"기술 해방"</h4>
+        <p>코딩이 전문 영역으로 존재하던 시대가 끝나고, 자연어로 컴퓨터를 조작할 수 있게 되면서 <strong>각자의 도메인 전문성</strong>이 곧 무기가 되는 시대.</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day1-color)"></div>
+        <div class="card-icon">&#128200;</div>
+        <h4>지식 노동의 재정의</h4>
+        <ul>
+          <li>농경사회: 경험 · 연장자 우위</li>
+          <li>제조업: 분업 · 실행력</li>
+          <li>지식 노동: IQ · 자율성</li>
+          <li><strong>AI 시대: 맥락 공급 · 판단 기준 · 결과 검증</strong></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day1-color)"></div>
+        <div class="card-icon">&#127942;</div>
+        <h4>해커톤 RALPH 사례</h4>
+        <p>12시간 AI만 코딩 해커톤. <strong>1등 팀: 10만 줄 코드</strong>. 손을 안 댄 팀이 1·2등 — 스펙 설계 4시간 + AI 무한 루프 구현 전략이 핵심.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 4: DAY 1 CONTENT 2 ========== -->
+  <div class="slide content-slide" data-group="day1">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(79,140,255,0.15); color:var(--day1-color)">DAY 1</div>
+      <h3>핵심 기능 7가지</h3>
+    </div>
+    <div class="card-grid cols-4">
+      <div class="card">
+        <div class="card-icon">&#129504;</div>
+        <h4>CLAUDE.md</h4>
+        <p>매 세션마다 시스템 프롬프트 아래 자동 로딩. <strong>짧고 정확하게</strong> — 잘못된 정보가 들어가면 토큰 낭비와 오작동.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128466;</div>
+        <h4>Auto Memory</h4>
+        <p>대화 내용을 자동으로 프로젝트별 memory.md에 저장. 앞 200줄 우선 로딩, 필요시 에이전틱 추가 로딩.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#9889;</div>
+        <h4>Skills</h4>
+        <p><strong>Progressive Disclosure</strong> — CLAUDE.md와 달리 필요할 때만 로드. 컨텍스트 효율의 핵심 설계 원칙.</p>
+      </div>
+      <div class="card">
+        <div class="card-icon">&#128101;</div>
+        <h4>Sub-agents & Teams</h4>
+        <p>빈 컨텍스트에서 병렬 실행. <strong>읽기 분리에 최적</strong>, 쓰기 병렬은 충돌 위험. 팀즈는 팀메이트 간 소통 가능.</p>
+      </div>
+    </div>
+    <div class="quote-card" style="border-color: var(--day1-color); margin-top: 24px;">
+      <p>"토큰을 더 많이 효과적으로 쓸 수 있는 구조를 이해하는 것이 AI 레버리지의 핵심이다."</p>
+      <div class="quote-author">— 정구봉</div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 5: DAY 2 HEADER ========== -->
+  <div class="slide day-header" data-group="day2" style="background: radial-gradient(ellipse at 50% 40%, rgba(168,85,247,0.1) 0%, transparent 60%), var(--bg-dark);">
+    <div class="day-number" style="color:var(--day2-color)">02</div>
+    <div class="day-label" style="color:var(--day2-color)">Day 2 &middot; 2026.03.03</div>
+    <h2>업무 도구의 설계 철학부터<br>MCP 딥다이브, Context Sync</h2>
+    <p class="day-meta">2h 32m &middot; 장원준, 정구봉</p>
+  </div>
+
+  <!-- ========== SLIDE 6: DAY 2 CONTENT 1 ========== -->
+  <div class="slide content-slide" data-group="day2">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(168,85,247,0.15); color:var(--day2-color)">DAY 2</div>
+      <h3>업무 도구 설계 철학</h3>
+    </div>
+    <table class="styled-table">
+      <thead>
+        <tr><th>도구</th><th>설계 철학</th><th>AI 활용 포인트</th></tr>
+      </thead>
+      <tbody>
+        <tr><td class="tool-name">Slack</td><td>채널 중심 공개 커뮤니케이션</td><td>팀 2,000개 메시지 누적 시 93% 리텐션</td></tr>
+        <tr><td class="tool-name">Gmail</td><td>검색 중심 외부 커뮤니케이션</td><td>라벨 시스템으로 구조화된 데이터 소스</td></tr>
+        <tr><td class="tool-name">Notion</td><td>블록 단위 구조화</td><td>DB 생성 횟수 = 잘 쓰는 기준, AI 파싱에 유리</td></tr>
+        <tr><td class="tool-name">Linear</td><td>스프린트 대신 사이클(Cycle)</td><td>AI 시대 빠른 개발 속도에 적합한 단순 구조</td></tr>
+        <tr><td class="tool-name">Fireflies</td><td>API 개방성 극대화</td><td>팀 전체 미팅 자산화, 한국어 오류도 AI 후처리 보완</td></tr>
+        <tr><td class="tool-name">Google Cal</td><td>일정 생성 허들 낮추기</td><td>시간이라는 차원을 구조화</td></tr>
+      </tbody>
+    </table>
+    <div class="key-insight" style="margin-top: 16px;">
+      <div class="insight-label">Core Insight</div>
+      <p>"아무리 똑똒하고 학벌 좋고 해봤자 <span class="hl-purple">온보딩 없이는 바보</span> — AI도 <span class="hl-purple">맥락이 없으면</span> 마찬가지"</p>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 7: DAY 2 CONTENT 2 ========== -->
+  <div class="slide content-slide" data-group="day2">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(168,85,247,0.15); color:var(--day2-color)">DAY 2</div>
+      <h3>MCP vs 스킬 & Context Sync</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--day2-color)"></div>
+        <div class="card-icon">&#128268;</div>
+        <h4>MCP = 표준화 레이어</h4>
+        <ul>
+          <li>USB-C / HTTP처럼 이해 — AI가 SaaS 데이터를 표준 방식으로 접근</li>
+          <li>Anthropic이 제작, Linux Foundation으로 이전 중</li>
+          <li>Tool / Resource / Prompt 중 <strong>Tool만 주로 사용</strong></li>
+          <li><code>toolSearch: true</code> 설정으로 미사용 MCP 토큰 절약</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day2-color)"></div>
+        <div class="card-icon">&#128736;</div>
+        <h4>스킬 = 커스터마이징 레이어</h4>
+        <ul>
+          <li>Python/API 스크립트를 Claude Code가 직접 실행</li>
+          <li>에러 시 <strong>자기개선 루프</strong> 가능 (MCP는 불가)</li>
+          <li>커스텀 에러 핸들링, 포맷 변환 자유로움</li>
+          <li>"MCP는 Chrome DevTools만 남기고 나머지는 스킬로"</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 20px; width: 100%;">
+      <div class="card-accent" style="background: linear-gradient(90deg, var(--day2-color), var(--accent-cyan))"></div>
+      <h4 style="margin-bottom: 16px;">&#128640; Context Sync 패턴</h4>
+      <div class="flow-diagram">
+        <div class="flow-step"><div class="step-icon">&#128172;</div><div class="step-label">Slack</div></div>
+        <div class="flow-step"><div class="step-icon">&#128231;</div><div class="step-label">Gmail</div></div>
+        <div class="flow-step"><div class="step-icon">&#128221;</div><div class="step-label">Notion</div></div>
+        <div class="flow-step"><div class="step-icon">&#128197;</div><div class="step-label">Calendar</div></div>
+        <div class="flow-step"><div class="step-icon">&#127908;</div><div class="step-label">Fireflies</div></div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step" style="border-color: var(--day2-color);">
+          <div class="step-icon">&#129302;</div>
+          <div class="step-label" style="color: var(--day2-color);">8개 병렬 에이전트</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step" style="border-color: var(--accent-green);">
+          <div class="step-icon">&#128203;</div>
+          <div class="step-label" style="color: var(--accent-green);">브리핑 문서</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 8: DAY 3 HEADER ========== -->
+  <div class="slide day-header" data-group="day3" style="background: radial-gradient(ellipse at 50% 40%, rgba(34,211,238,0.1) 0%, transparent 60%), var(--bg-dark);">
+    <div class="day-number" style="color:var(--day3-color)">03</div>
+    <div class="day-label" style="color:var(--day3-color)">Day 3 &middot; 2026.03.04</div>
+    <h2>잘 아는 것과 잘 전달하는 것은<br>20배 다르다</h2>
+    <p class="day-meta">2h 26m &middot; 장원준, 정구봉</p>
+  </div>
+
+  <!-- ========== SLIDE 9: DAY 3 CONTENT 1 ========== -->
+  <div class="slide content-slide" data-group="day3">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(34,211,238,0.15); color:var(--day3-color)">DAY 3</div>
+      <h3>Clarify — Planning 이전의 의도 추출</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--day3-color)"></div>
+        <h4>&#127919; 암묵지 → 명시지</h4>
+        <p>맥킨지 보고서: 전문가가 코드 작업 중 <strong>60%를 '이해'에 소비</strong>. 잘 안다고 잘 전달되는 것이 아니며, 한국 고맥락 문화는 AI 활용 시 오히려 비용이 된다.</p>
+        <div class="summary-pills" style="margin-top: 12px;">
+          <span class="pill" style="border-color: var(--day3-color); color: var(--day3-color);">Garbage In, Garbage Out</span>
+          <span class="pill" style="border-color: var(--accent-pink); color: var(--accent-pink);">Unknown Unknowns</span>
+        </div>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day3-color)"></div>
+        <h4>&#128269; Clarify 4단계 프로토콜</h4>
+        <ul>
+          <li><strong>1. Capture</strong> — 현재 요청 포착</li>
+          <li><strong>2. AskUserQuestion</strong> — 가설 기반 다지선다 설계</li>
+          <li><strong>3. Select Options</strong> — 사용자 선택</li>
+          <li><strong>4. Before/After</strong> — 결과 비교</li>
+        </ul>
+        <p style="margin-top: 12px;">Clarify에 <span class="hl-cyan">Opus(고성능)</span> 모델, 구현에 소형 모델 — <strong>토큰은 투자</strong></p>
+      </div>
+    </div>
+    <div class="card-grid cols-2" style="margin-top: 20px;">
+      <div class="card">
+        <div class="card-accent" style="background:var(--day3-color)"></div>
+        <h4>&#127760; 브라우저 자동화 도구 비교</h4>
+        <ul>
+          <li><strong>Clauding Chrome</strong>: 로그인 세션 유지 (인증 필요 사이트)</li>
+          <li><strong>Playwright MCP</strong>: 봇 탐지 우회 (네이버 등)</li>
+          <li><strong>Chrome DevTools</strong>: 개발 테스트 용도</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day3-color)"></div>
+        <h4>&#128187; 비개발자를 위한 Git</h4>
+        <ul>
+          <li><code>commit</code> = 되돌릴 수 있는 저장점</li>
+          <li><code>branch</code> = 사본에서 작업</li>
+          <li><code>PR</code> = 검토 요청</li>
+          <li>Slack MCP + GitHub API → 30개 레포 자동 생성</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 10: DAY 3 CONTENT 2 ========== -->
+  <div class="slide content-slide" data-group="day3">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(34,211,238,0.15); color:var(--day3-color)">DAY 3</div>
+      <h3>실전 사례 — 네이버 부동산 스크래핑</h3>
+    </div>
+    <div class="card" style="width: 100%; margin-bottom: 20px;">
+      <div class="card-accent" style="background: linear-gradient(90deg, var(--day3-color), var(--accent-green))"></div>
+      <h4 style="margin-bottom: 16px;">&#127968; 송희의 부동산 매물 비교 분석 자동화</h4>
+      <div class="flow-diagram">
+        <div class="flow-step">
+          <div class="step-icon">&#127963;</div>
+          <div class="step-label">Phase 1</div>
+          <div class="step-sub">국토부 API<br>과거 거래 데이터</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step">
+          <div class="step-icon">&#128200;</div>
+          <div class="step-label">Google Sheets</div>
+          <div class="step-sub">거래량 기준<br>아파트 5개 샘플</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step" style="border-color: var(--day3-color);">
+          <div class="step-icon">&#127760;</div>
+          <div class="step-label" style="color: var(--day3-color);">Phase 2</div>
+          <div class="step-sub">네이버 부동산<br>Playwright 스크래핑</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step" style="border-color: var(--accent-green);">
+          <div class="step-icon">&#128202;</div>
+          <div class="step-label" style="color: var(--accent-green);">분석 완료</div>
+          <div class="step-sub">실시간 호가<br>비교 분석</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card" style="border-color: var(--day3-color);">
+      <p>"네이버가 Claude를 직접 막더라고요. Playwright로 우회했더니 됐어요. 신기하게 Playwright는 일반 Chrome처럼 인식되는 것 같았어요."</p>
+      <div class="quote-author">— 송희 (Line Plus)</div>
+    </div>
+    <div class="quote-card" style="border-color: var(--day3-color);">
+      <p>"Clarify라는 것을 잘하게 된다는 것은 MCP 연결 같은 테크니컬한 것보다 훨씬 더 큰 레버리지를 당길 수 있다."</p>
+      <div class="quote-author">— 정구봉</div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 11: DAY 4 HEADER ========== -->
+  <div class="slide day-header" data-group="day4" style="background: radial-gradient(ellipse at 50% 40%, rgba(251,146,60,0.1) 0%, transparent 60%), var(--bg-dark);">
+    <div class="day-number" style="color:var(--day4-color)">04</div>
+    <div class="day-label" style="color:var(--day4-color)">Day 4 &middot; 2026.03.05</div>
+    <h2>만든 건 초안이다<br>Compound Engineering</h2>
+    <p class="day-meta">2h 26m &middot; 장원준, 정구봉 (마지막 온라인 세션)</p>
+  </div>
+
+  <!-- ========== SLIDE 12: DAY 4 CONTENT 1 ========== -->
+  <div class="slide content-slide" data-group="day4">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(251,146,60,0.15); color:var(--day4-color)">DAY 4</div>
+      <h3>Compound Engineering — 복리의 원리</h3>
+    </div>
+    <div class="flow-diagram" style="margin-bottom: 32px;">
+      <div class="flow-step" style="border-color: var(--day4-color);">
+        <div class="step-icon">&#128296;</div>
+        <div class="step-label">Build</div>
+        <div class="step-sub">만들기</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step">
+        <div class="step-icon">&#128187;</div>
+        <div class="step-label">Use</div>
+        <div class="step-sub">사용</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step">
+        <div class="step-icon">&#128065;</div>
+        <div class="step-label">Notice</div>
+        <div class="step-sub">불편함 발견</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step">
+        <div class="step-icon">&#128270;</div>
+        <div class="step-label">Debug</div>
+        <div class="step-sub">원인 파악</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step">
+        <div class="step-icon">&#128295;</div>
+        <div class="step-label">Fix</div>
+        <div class="step-sub">수정</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="border-color: var(--accent-green);">
+        <div class="step-icon">&#128221;</div>
+        <div class="step-label">Document</div>
+        <div class="step-sub">기록</div>
+      </div>
+      <div class="flow-arrow">&#128260;</div>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--day4-color)"></div>
+        <h4>&#128161; 핵심 프레임워크</h4>
+        <ul>
+          <li><strong>프롬프트 질 &lt; 환경 세팅</strong> — 환경이 잘 세팅되면 프롬프트 하나하나의 질보다 환경 품질이 결정적</li>
+          <li><strong>Andrew Ng 데이터</strong>: 워크플로우 설계가 모델 업그레이드보다 <span class="hl-orange">2.5배</span> 효과적</li>
+          <li>Shopify CEO: 모든 의사결정을 MD 파일로 기록</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day4-color)"></div>
+        <h4>&#128736; 실전 수칙</h4>
+        <ul>
+          <li>CLAUDE.md를 자기 워크플로우에 맞게 <strong>계속 깎아라</strong></li>
+          <li>AI에게 적극적으로 권한을 위임하라 (리스크 테이킹)</li>
+          <li>스킬을 인위적으로 만들겠다는 의식을 가져라</li>
+          <li>실수가 발생하면 즉시 시스템에 반영하라</li>
+          <li>AI한테 기록을 맡기면 AI가 제일 잘 기록한다</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 13: DAY 4 CONTENT 2 ========== -->
+  <div class="slide content-slide" data-group="day4">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(251,146,60,0.15); color:var(--day4-color)">DAY 4</div>
+      <h3>멀티 에이전트 세션 랩 & 스킬 제작</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--day4-color)"></div>
+        <h4>&#129302; 세션 랩 — "작업 후 책상 정리 루틴"</h4>
+        <p style="margin-bottom: 12px;">작업 세션 종료 후 자동으로 4개 에이전트를 병렬 실행:</p>
+        <ul>
+          <li><span class="hl-blue">Document Updater</span> — 문서 업데이트 제안</li>
+          <li><span class="hl-purple">Automation Scout</span> — 새 스킬/자동화 제안</li>
+          <li><span class="hl-green">Learning Miner</span> — 배울 점 추출</li>
+          <li><span class="hl-orange">Sustainability Tester</span> — 지속 가능성 검증</li>
+        </ul>
+        <p style="margin-top: 12px; color: var(--text-muted); font-size: 13px;">Phase: 변경 확인 → 병렬 분석 → 중복 검사 → 액션 선택</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--day4-color)"></div>
+        <h4>&#128218; 스킬 제작 베스트 프랙티스</h4>
+        <p style="margin-bottom: 12px;">Anthropic 공식 가이드:</p>
+        <ul>
+          <li><strong>1.</strong> Claude와 대화하며 실제 작업 수행</li>
+          <li><strong>2.</strong> "방금 했던 작업을 스킬로 만들어줘"</li>
+          <li><strong>3.</strong> 새 세션에서 스킬 실행</li>
+          <li><strong>4.</strong> 의도와 다른 부분 → 원래 세션에서 수정</li>
+          <li><strong>5.</strong> 반복하여 다듬기</li>
+        </ul>
+        <p style="margin-top: 12px; font-style: italic; color: var(--text-muted);">"완벽한 스킬은 만들 수 없다. 만들고 실행하고 검증하면서 컴파운드 해야 한다."</p>
+      </div>
+    </div>
+    <div class="card" style="margin-top: 20px; width: 100%;">
+      <div class="card-accent" style="background: linear-gradient(90deg, var(--day4-color), var(--accent-pink))"></div>
+      <h4>&#128225; AI 정보 습득 전략</h4>
+      <div class="flow-diagram" style="margin-top: 12px;">
+        <div class="flow-step">
+          <div class="step-icon">&#120143;</div>
+          <div class="step-label">X (Twitter)</div>
+          <div class="step-sub">1차 소스<br>생산자 팔로우</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step">
+          <div class="step-icon">&#128230;</div>
+          <div class="step-label">FX Embed</div>
+          <div class="step-sub">아카이빙</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step">
+          <div class="step-icon">&#128220;</div>
+          <div class="step-label">Content Digest</div>
+          <div class="step-sub">퀴즈 기반 학습</div>
+        </div>
+        <div class="flow-arrow">&#10132;</div>
+        <div class="flow-step" style="border-color: var(--accent-green);">
+          <div class="step-icon">&#128300;</div>
+          <div class="step-label" style="color: var(--accent-green);">Deep Research</div>
+          <div class="step-sub">틀린 부분만<br>심층 리서치</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 14: JOURNEY RECAP ========== -->
+  <div class="slide content-slide" data-group="summary">
+    <div class="slide-header">
+      <h3>4일간의 여정 — Context → Compound</h3>
+    </div>
+    <div class="flow-diagram" style="margin-bottom: 40px;">
+      <div class="flow-step" style="border-color: var(--day1-color); min-width: 160px;">
+        <div class="step-label" style="color: var(--day1-color); font-weight: 700;">Day 1</div>
+        <div class="step-sub">환경 세팅<br>CLAUDE.md · 스킬</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="border-color: var(--day2-color); min-width: 160px;">
+        <div class="step-label" style="color: var(--day2-color); font-weight: 700;">Day 2</div>
+        <div class="step-sub">정보 연결<br>MCP · Context Sync</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="border-color: var(--day3-color); min-width: 160px;">
+        <div class="step-label" style="color: var(--day3-color); font-weight: 700;">Day 3</div>
+        <div class="step-sub">의도 구조화<br>Clarify · GitHub</div>
+      </div>
+      <div class="flow-arrow">&#10132;</div>
+      <div class="flow-step" style="border-color: var(--day4-color); min-width: 160px;">
+        <div class="step-label" style="color: var(--day4-color); font-weight: 700;">Day 4</div>
+        <div class="step-sub">복리 축적<br>Compound Engineering</div>
+      </div>
+    </div>
+    <div class="card-grid cols-3">
+      <div class="card" style="text-align: center;">
+        <div class="card-icon">&#128161;</div>
+        <h4>Context Engineering</h4>
+        <p>AI에게 <strong>올바른 맥락</strong>을 공급하는 시스템을 설계하라</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="card-icon">&#128295;</div>
+        <h4>Harness Engineering</h4>
+        <p>모델 성능은 모델 자체보다 <strong>어떻게 엮느냐</strong>에 달려있다</p>
+      </div>
+      <div class="card" style="text-align: center;">
+        <div class="card-icon">&#128200;</div>
+        <h4>Compound Engineering</h4>
+        <p>환경을 반복 개선하여 <strong>복리 효과</strong>를 만들어라</p>
+      </div>
+    </div>
+    <div class="quote-card" style="border-color: var(--accent-purple); margin-top: 24px;">
+      <p>"원래 일을 잘하던 사람들이 AI도 잘 쓴다. 언러닝(unlearning)을 잘하는 사람들이 AI 시대에도 빠르게 적응한다."</p>
+      <div class="quote-author">— 정구봉</div>
+    </div>
+  </div>
+
+  <!-- ========== SLIDE 15: FINAL ========== -->
+  <div class="slide slide-final" data-group="summary">
+    <h2>Key Takeaways</h2>
+    <ul class="takeaway-list">
+      <li>
+        <span class="tk-num">01</span>
+        <span>Claude Code는 코딩 도구가 아니라 <strong>컴퓨터를 자연어로 제어하는 OS</strong>다</span>
+      </li>
+      <li>
+        <span class="tk-num">02</span>
+        <span>똑똑한 AI를 쓰는 것보다 AI에게 <strong>올바른 맥락을 공급하는 시스템</strong>을 만드는 것이 핵심</span>
+      </li>
+      <li>
+        <span class="tk-num">03</span>
+        <span>MCP는 빠른 시작, <strong>스킬은 실무 최적화</strong> — 자기개선 루프가 핵심 차이</span>
+      </li>
+      <li>
+        <span class="tk-num">04</span>
+        <span>Clarify로 <strong>의도를 먼저 추출</strong>한 뒤 Planning → 구현. 토큰은 투자다</span>
+      </li>
+      <li>
+        <span class="tk-num">05</span>
+        <span>Build → Use → Notice → Debug → Fix → Document <strong>사이클을 반복</strong>하며 복리를 쌓아라</span>
+      </li>
+      <li>
+        <span class="tk-num">06</span>
+        <span>프롬프트 하나의 질보다 <strong>환경 품질</strong>이 AI 레버리지를 결정한다</span>
+      </li>
+    </ul>
+    <p style="margin-top: 48px; color: var(--text-muted); font-size: 14px;">AI Native Camp 2기 &middot; NFM &middot; 2026.03.02 — 03.05</p>
+  </div>
+
+</div>
+
+<!-- NAV -->
+<nav class="slide-nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592;</button>
+  <div class="slide-dots" id="slideDots"></div>
+  <span class="slide-counter" id="slideCounter">1 / 1</span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">&#8594;</button>
+</nav>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('slideDots');
+  const counter = document.getElementById('slideCounter');
+  const progressBar = document.getElementById('progressBar');
+  let current = 0;
+  const total = slides.length;
+
+  // Group colors
+  const groupColors = {
+    intro: '',
+    day1: 'day1',
+    day2: 'day2',
+    day3: 'day3',
+    day4: 'day4',
+    summary: ''
+  };
+
+  // Create dots
+  slides.forEach((s, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    const group = s.dataset.group;
+    const gc = groupColors[group];
+    if (gc) dot.classList.add(gc);
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(index) {
+    if (index < 0 || index >= total) return;
+    slides[current].classList.remove('active');
+    if (index > current) slides[current].classList.add('prev');
+
+    setTimeout(() => {
+      slides.forEach(s => { s.classList.remove('prev'); });
+    }, 500);
+
+    current = index;
+    slides[current].classList.add('active');
+
+    // Update dots
+    document.querySelectorAll('.slide-dots .dot').forEach((d, i) => {
+      d.classList.toggle('active', i === current);
+    });
+
+    // Update counter
+    counter.textContent = `${current + 1} / ${total}`;
+
+    // Update progress
+    progressBar.style.width = `${((current + 1) / total) * 100}%`;
+  }
+
+  window.navigate = function(dir) {
+    goTo(current + dir);
+  };
+
+  // Keyboard nav
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') {
+      e.preventDefault();
+      navigate(1);
+    } else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') {
+      e.preventDefault();
+      navigate(-1);
+    } else if (e.key === 'Home') {
+      e.preventDefault();
+      goTo(0);
+    } else if (e.key === 'End') {
+      e.preventDefault();
+      goTo(total - 1);
+    }
+  });
+
+  // Touch support
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+  });
+
+  // Init
+  goTo(0);
+})();
+</script>
+
+</body>
+</html>
