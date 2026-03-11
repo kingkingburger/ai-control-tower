@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Agent Arena - AI 의사결정 토론 시연</title>
 <style>
-  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;600&display=swap');
 
   :root {
-    --bg-dark: #0a0a0f;
-    --bg-card: #14141f;
-    --bg-surface: #1c1c2e;
+    --bg-dark: #06060c;
+    --bg-card: rgba(16,16,28,0.65);
+    --bg-surface: rgba(28,28,46,0.7);
     --accent-blue: #4f8cff;
     --accent-purple: #a855f7;
     --accent-cyan: #22d3ee;
@@ -19,18 +19,20 @@
     --accent-pink: #f472b6;
     --accent-red: #f87171;
     --text-primary: #f0f0f5;
-    --text-secondary: #9ca3af;
+    --text-secondary: #a1a1b5;
     --text-muted: #6b7280;
     --day1-color: #4f8cff;
     --day2-color: #a855f7;
     --day3-color: #22d3ee;
     --day4-color: #fb923c;
+    --glass-border: rgba(255,255,255,0.08);
+    --glass-hover: rgba(255,255,255,0.14);
   }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
 
   body {
-    font-family: 'Noto Sans KR', sans-serif;
+    font-family: 'Noto Sans KR', 'Outfit', sans-serif;
     background: var(--bg-dark);
     color: var(--text-primary);
     overflow: hidden;
@@ -38,10 +40,87 @@
     width: 100vw;
   }
 
+  /* ===== ANIMATED BACKGROUND ===== */
+  .bg-orbs {
+    position: fixed;
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 0;
+    overflow: hidden;
+    pointer-events: none;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(120px);
+  }
+
+  .orb-1 {
+    width: 700px; height: 700px;
+    background: rgba(79,140,255,0.12);
+    top: -250px; right: -150px;
+    animation: orbFloat1 28s ease-in-out infinite;
+  }
+
+  .orb-2 {
+    width: 600px; height: 600px;
+    background: rgba(168,85,247,0.10);
+    bottom: -250px; left: -150px;
+    animation: orbFloat2 32s ease-in-out infinite;
+  }
+
+  .orb-3 {
+    width: 450px; height: 450px;
+    background: rgba(34,211,238,0.07);
+    top: 40%; left: 40%;
+    animation: orbFloat3 24s ease-in-out infinite;
+  }
+
+  @keyframes orbFloat1 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(-60px, 40px) scale(1.05); }
+    66% { transform: translate(30px, -30px) scale(0.95); }
+  }
+
+  @keyframes orbFloat2 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    33% { transform: translate(50px, -50px) scale(1.1); }
+    66% { transform: translate(-40px, 30px) scale(0.9); }
+  }
+
+  @keyframes orbFloat3 {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(-70px, -40px) scale(1.15); }
+  }
+
+  /* ===== GRAIN TEXTURE ===== */
+  .grain {
+    position: fixed;
+    top: -50%; left: -50%;
+    width: 200%; height: 200%;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.025;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.7' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+    animation: grainShift 8s steps(10) infinite;
+  }
+
+  @keyframes grainShift {
+    0%, 100% { transform: translate(0, 0); }
+    10% { transform: translate(-5%, -10%); }
+    30% { transform: translate(3%, 5%); }
+    50% { transform: translate(-3%, 2%); }
+    70% { transform: translate(7%, -5%); }
+    90% { transform: translate(-2%, 8%); }
+  }
+
+  /* ===== SLIDES CONTAINER ===== */
   .slides-container {
     width: 100vw;
     height: 100vh;
     position: relative;
+    z-index: 2;
   }
 
   .slide {
@@ -52,109 +131,190 @@
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 60px 80px;
+    padding: 70px 100px;
     opacity: 0;
-    transform: translateX(60px);
-    transition: opacity 0.5s ease, transform 0.5s ease;
+    transform: scale(0.97) translateX(30px);
+    filter: blur(6px);
+    transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1),
+                filter 0.7s cubic-bezier(0.16, 1, 0.3, 1);
     pointer-events: none;
     overflow-y: auto;
   }
 
   .slide.active {
     opacity: 1;
-    transform: translateX(0);
+    transform: scale(1) translateX(0);
+    filter: blur(0);
     pointer-events: all;
   }
 
   .slide.prev {
     opacity: 0;
-    transform: translateX(-60px);
+    transform: scale(0.97) translateX(-30px);
+    filter: blur(6px);
+  }
+
+  /* ===== STAGGERED ENTRANCE ANIMATIONS ===== */
+  @keyframes fadeInUp {
+    from { opacity: 0; transform: translateY(32px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  @keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.88); }
+    to { opacity: 1; transform: scale(1); }
+  }
+
+  @keyframes fadeInLeft {
+    from { opacity: 0; transform: translateX(-40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes fadeInRight {
+    from { opacity: 0; transform: translateX(40px); }
+    to { opacity: 1; transform: translateX(0); }
+  }
+
+  @keyframes pulseGlow {
+    0%, 100% { opacity: 0.5; }
+    50% { opacity: 1; }
+  }
+
+  @keyframes subtlePulse {
+    0%, 100% { transform: translate(-50%, -60%) scale(1); opacity: 0.06; }
+    50% { transform: translate(-50%, -60%) scale(1.03); opacity: 0.09; }
+  }
+
+  .slide .anim {
+    opacity: 0;
+  }
+
+  .slide.active .anim {
+    animation: fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+
+  .slide.active .anim-scale {
+    animation: fadeInScale 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+
+  .slide.active .anim-left {
+    animation: fadeInLeft 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--d, 0) * 1ms);
+  }
+
+  .slide.active .anim-right {
+    animation: fadeInRight 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    animation-delay: calc(var(--d, 0) * 1ms);
   }
 
   /* ===== TITLE SLIDE ===== */
-  .slide-title {
-    text-align: center;
-    background: radial-gradient(ellipse at 50% 30%, rgba(79,140,255,0.12) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 70%, rgba(168,85,247,0.08) 0%, transparent 50%),
-                var(--bg-dark);
-  }
+  .slide-title { text-align: center; }
 
   .slide-title .camp-badge {
     display: inline-block;
-    padding: 10px 28px;
-    border: 1px solid rgba(79,140,255,0.4);
+    padding: 12px 32px;
+    border: 1px solid rgba(79,140,255,0.35);
     border-radius: 100px;
+    font-family: 'Outfit', sans-serif;
     font-size: 18px;
+    font-weight: 500;
     color: var(--accent-blue);
-    letter-spacing: 2px;
+    letter-spacing: 3px;
     text-transform: uppercase;
-    margin-bottom: 32px;
+    margin-bottom: 36px;
+    backdrop-filter: blur(10px);
+    background: rgba(79,140,255,0.06);
   }
 
   .slide-title h1 {
-    font-size: 80px;
+    font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+    font-size: 100px;
     font-weight: 900;
-    line-height: 1.2;
-    margin-bottom: 20px;
-    background: linear-gradient(135deg, #fff 30%, var(--accent-blue) 100%);
+    line-height: 1.1;
+    margin-bottom: 24px;
+    background: linear-gradient(135deg, #fff 20%, var(--accent-blue) 50%, var(--accent-purple) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientShift 6s ease-in-out infinite;
+  }
+
+  @keyframes gradientShift {
+    0%, 100% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
   }
 
   .slide-title .subtitle {
-    font-size: 28px;
+    font-size: 32px;
     color: var(--text-secondary);
     font-weight: 300;
-    margin-bottom: 48px;
+    margin-bottom: 52px;
+    letter-spacing: 1px;
   }
 
   .slide-title .meta {
     display: flex;
-    gap: 40px;
+    gap: 48px;
     color: var(--text-muted);
-    font-size: 18px;
+    font-size: 20px;
+    font-family: 'Outfit', sans-serif;
   }
 
   .slide-title .meta span {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
   }
+
+  .slide-title .meta span::before {
+    content: '';
+    width: 4px;
+    height: 4px;
+    border-radius: 50%;
+    background: var(--accent-blue);
+  }
+
+  .slide-title .meta span:first-child::before { display: none; }
 
   /* ===== DAY HEADER SLIDES ===== */
-  .day-header {
-    text-align: center;
-  }
+  .day-header { text-align: center; }
 
   .day-header .day-number {
-    font-size: 200px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 240px;
     font-weight: 900;
     opacity: 0.06;
     position: absolute;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -60%);
-    letter-spacing: -8px;
+    letter-spacing: -10px;
+    animation: subtlePulse 4s ease-in-out infinite;
   }
 
   .day-header .day-label {
-    font-size: 22px;
-    letter-spacing: 4px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 24px;
+    letter-spacing: 6px;
     text-transform: uppercase;
-    margin-bottom: 16px;
+    margin-bottom: 20px;
     opacity: 0.7;
+    font-weight: 500;
   }
 
   .day-header h2 {
-    font-size: 56px;
+    font-size: 64px;
     font-weight: 700;
     line-height: 1.3;
-    max-width: 900px;
-    margin-bottom: 24px;
+    max-width: 1000px;
+    margin-bottom: 28px;
   }
 
   .day-header .day-meta {
-    font-size: 20px;
+    font-size: 22px;
     color: var(--text-muted);
   }
 
@@ -162,33 +322,36 @@
   .content-slide {
     align-items: flex-start;
     justify-content: flex-start;
-    padding: 50px 80px 80px;
+    padding: 56px 100px 90px;
   }
 
   .content-slide .slide-header {
     display: flex;
     align-items: center;
-    gap: 16px;
-    margin-bottom: 32px;
+    gap: 18px;
+    margin-bottom: 36px;
     width: 100%;
     flex-shrink: 0;
   }
 
   .content-slide .slide-header .day-tag {
-    padding: 6px 16px;
-    border-radius: 6px;
-    font-size: 16px;
+    padding: 7px 18px;
+    border-radius: 8px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
     font-weight: 600;
-    letter-spacing: 1px;
+    letter-spacing: 1.5px;
     text-transform: uppercase;
     flex-shrink: 0;
+    backdrop-filter: blur(8px);
   }
 
   .content-slide .slide-header h3 {
-    font-size: 40px;
+    font-size: 44px;
     font-weight: 700;
   }
 
+  /* ===== GLASS CARDS ===== */
   .card-grid {
     display: grid;
     gap: 20px;
@@ -202,44 +365,42 @@
 
   .card {
     background: var(--bg-card);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 28px;
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 18px;
+    padding: 30px;
     position: relative;
     overflow: hidden;
-    transition: border-color 0.3s;
+    transition: border-color 0.4s, box-shadow 0.4s, transform 0.3s;
   }
 
   .card:hover {
-    border-color: rgba(255,255,255,0.15);
+    border-color: var(--glass-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
 
   .card .card-icon {
-    font-size: 32px;
-    margin-bottom: 12px;
+    font-size: 36px;
+    margin-bottom: 14px;
     display: block;
   }
 
   .card h4 {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 600;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
     line-height: 1.3;
   }
 
   .card p, .card li {
-    font-size: 18px;
+    font-size: 20px;
     color: var(--text-secondary);
     line-height: 1.7;
   }
 
-  .card ul {
-    padding-left: 20px;
-  }
-
-  .card ul li {
-    margin-bottom: 6px;
-  }
+  .card ul { padding-left: 22px; }
+  .card ul li { margin-bottom: 8px; }
 
   .card .card-accent {
     position: absolute;
@@ -247,28 +408,45 @@
     height: 3px;
   }
 
+  /* Card glow effect */
+  .card .card-glow {
+    position: absolute;
+    top: -40%; left: -20%;
+    width: 140%;
+    height: 80%;
+    border-radius: 50%;
+    filter: blur(60px);
+    opacity: 0;
+    transition: opacity 0.5s;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .card:hover .card-glow { opacity: 0.06; }
+
   /* ===== QUOTE CARD ===== */
   .quote-card {
     background: var(--bg-surface);
+    backdrop-filter: blur(16px);
     border-left: 3px solid var(--accent-blue);
-    padding: 24px 28px;
-    border-radius: 0 12px 12px 0;
+    padding: 28px 32px;
+    border-radius: 0 14px 14px 0;
     margin-bottom: 20px;
     width: 100%;
   }
 
   .quote-card p {
-    font-size: 22px;
+    font-size: 24px;
     font-style: italic;
     color: var(--text-primary);
     line-height: 1.6;
   }
 
   .quote-card .quote-author {
-    font-size: 16px;
+    font-size: 18px;
     color: var(--text-muted);
     font-style: normal;
-    margin-top: 8px;
+    margin-top: 10px;
   }
 
   /* ===== TABLE STYLE ===== */
@@ -276,36 +454,43 @@
     width: 100%;
     border-collapse: separate;
     border-spacing: 0;
-    font-size: 18px;
+    font-size: 20px;
   }
 
   .styled-table thead th {
     background: var(--bg-surface);
-    padding: 16px 20px;
+    backdrop-filter: blur(12px);
+    padding: 20px 24px;
     text-align: left;
     font-weight: 600;
-    font-size: 16px;
-    letter-spacing: 0.5px;
+    font-size: 17px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
     color: var(--text-secondary);
     border-bottom: 1px solid rgba(255,255,255,0.08);
   }
 
-  .styled-table thead th:first-child { border-radius: 10px 0 0 0; }
-  .styled-table thead th:last-child { border-radius: 0 10px 0 0; }
+  .styled-table thead th:first-child { border-radius: 12px 0 0 0; }
+  .styled-table thead th:last-child { border-radius: 0 12px 0 0; }
 
   .styled-table tbody td {
-    padding: 16px 20px;
+    padding: 20px 24px;
     border-bottom: 1px solid rgba(255,255,255,0.04);
     color: var(--text-secondary);
     line-height: 1.5;
   }
 
   .styled-table tbody tr:last-child td { border-bottom: none; }
-  .styled-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+
+  .styled-table tbody tr {
+    transition: background 0.3s;
+  }
+
+  .styled-table tbody tr:hover td { background: rgba(255,255,255,0.03); }
 
   .styled-table .tool-name {
     color: var(--text-primary);
-    font-weight: 500;
+    font-weight: 600;
   }
 
   /* ===== FLOW DIAGRAM ===== */
@@ -315,66 +500,306 @@
     gap: 0;
     justify-content: center;
     width: 100%;
-    margin: 24px 0;
+    margin: 28px 0;
     flex-wrap: wrap;
   }
 
   .flow-step {
     background: var(--bg-surface);
-    border: 1px solid rgba(255,255,255,0.08);
-    border-radius: 12px;
-    padding: 18px 24px;
+    backdrop-filter: blur(12px);
+    border: 1px solid var(--glass-border);
+    border-radius: 14px;
+    padding: 22px 28px;
     text-align: center;
-    min-width: 130px;
+    min-width: 140px;
+    transition: border-color 0.3s, box-shadow 0.3s;
   }
 
-  .flow-step .step-icon { font-size: 28px; margin-bottom: 6px; }
-  .flow-step .step-label { font-size: 17px; font-weight: 500; }
-  .flow-step .step-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+  .flow-step:hover {
+    border-color: var(--glass-hover);
+    box-shadow: 0 4px 24px rgba(0,0,0,0.2);
+  }
+
+  .flow-step .step-icon { font-size: 32px; margin-bottom: 8px; }
+  .flow-step .step-label { font-size: 19px; font-weight: 600; }
+  .flow-step .step-sub { font-size: 15px; color: var(--text-muted); margin-top: 6px; }
 
   .flow-arrow {
-    font-size: 24px;
+    font-size: 26px;
     color: var(--text-muted);
-    padding: 0 6px;
+    padding: 0 8px;
+    animation: pulseGlow 2s ease-in-out infinite;
   }
 
   /* ===== KEY INSIGHT ===== */
   .key-insight {
-    background: linear-gradient(135deg, rgba(79,140,255,0.08), rgba(168,85,247,0.08));
-    border: 1px solid rgba(79,140,255,0.15);
-    border-radius: 16px;
-    padding: 32px;
+    background: linear-gradient(135deg, rgba(79,140,255,0.06), rgba(168,85,247,0.06));
+    backdrop-filter: blur(16px);
+    border: 1px solid rgba(79,140,255,0.12);
+    border-radius: 18px;
+    padding: 36px;
     width: 100%;
     text-align: center;
-    margin-top: 20px;
+    margin-top: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .key-insight::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(79,140,255,0.4), rgba(168,85,247,0.4), transparent);
   }
 
   .key-insight .insight-label {
-    font-size: 15px;
-    letter-spacing: 3px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 16px;
+    letter-spacing: 4px;
     text-transform: uppercase;
     color: var(--accent-blue);
-    margin-bottom: 12px;
+    margin-bottom: 14px;
+    font-weight: 500;
   }
 
   .key-insight p {
-    font-size: 24px;
+    font-size: 26px;
     font-weight: 500;
+    line-height: 1.6;
+  }
+
+  /* ===== VERSUS LAYOUT ===== */
+  .versus-grid {
+    display: grid;
+    grid-template-columns: 1fr 80px 1fr;
+    gap: 0;
+    width: 100%;
+    align-items: stretch;
+  }
+
+  .versus-divider {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+  }
+
+  .versus-arrow {
+    font-size: 40px;
+    color: var(--text-muted);
+    animation: pulseGlow 2s ease-in-out infinite;
+  }
+
+  .versus-card {
+    background: var(--bg-card);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    border-radius: 20px;
+    padding: 36px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .versus-card .card-accent {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 3px;
+  }
+
+  .versus-before {
+    box-shadow: 0 0 60px rgba(251,146,60,0.06);
+  }
+
+  .versus-after {
+    box-shadow: 0 0 60px rgba(52,211,153,0.06);
+  }
+
+  .versus-card .phase-badge {
+    display: inline-block;
+    padding: 6px 18px;
+    border-radius: 100px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    letter-spacing: 0.5px;
+  }
+
+  .versus-card .vote-count {
+    font-family: 'Outfit', sans-serif;
+    font-size: 72px;
+    font-weight: 900;
+    line-height: 1;
+    margin-bottom: 10px;
+    letter-spacing: -2px;
+  }
+
+  .versus-card .vote-label {
+    font-size: 20px;
+    color: var(--text-secondary);
+    margin-bottom: 20px;
+    font-weight: 500;
+  }
+
+  .versus-card .vote-reasons {
+    list-style: none;
+    padding: 0;
+  }
+
+  .versus-card .vote-reasons li {
+    font-size: 18px;
+    color: var(--text-secondary);
+    padding: 8px 0;
+    padding-left: 20px;
+    position: relative;
     line-height: 1.5;
   }
 
-  /* ===== FINAL SLIDE ===== */
-  .slide-final {
-    text-align: center;
-    background: radial-gradient(ellipse at 50% 50%, rgba(168,85,247,0.08) 0%, transparent 60%),
-                var(--bg-dark);
+  .versus-card .vote-reasons li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 16px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
   }
 
+  .versus-before .vote-reasons li::before { background: var(--accent-orange); box-shadow: 0 0 8px var(--accent-orange); }
+  .versus-after .vote-reasons li::before { background: var(--accent-green); box-shadow: 0 0 8px var(--accent-green); }
+
+  /* ===== DEMO SLIDE ===== */
+  .demo-slide {
+    text-align: center;
+  }
+
+  .demo-slide h2 {
+    font-size: 56px;
+    font-weight: 700;
+    margin-bottom: 20px;
+  }
+
+  .demo-slide .demo-sub {
+    font-size: 24px;
+    color: var(--text-secondary);
+    margin-bottom: 40px;
+  }
+
+  .demo-terminal {
+    background: rgba(12,12,20,0.9);
+    border: 1px solid rgba(34,211,238,0.2);
+    border-radius: 16px;
+    padding: 0;
+    max-width: 1000px;
+    width: 100%;
+    text-align: left;
+    box-shadow: 0 0 80px rgba(34,211,238,0.06),
+                0 20px 60px rgba(0,0,0,0.4);
+    overflow: hidden;
+    position: relative;
+  }
+
+  .demo-terminal::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(34,211,238,0.5), transparent);
+  }
+
+  .demo-terminal-bar {
+    padding: 14px 20px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+  }
+
+  .demo-terminal-bar .dot {
+    width: 12px; height: 12px;
+    border-radius: 50%;
+  }
+
+  .demo-terminal-bar .dot:nth-child(1) { background: #ff5f57; }
+  .demo-terminal-bar .dot:nth-child(2) { background: #ffbd2e; }
+  .demo-terminal-bar .dot:nth-child(3) { background: #28c840; }
+
+  .demo-terminal-bar .terminal-title {
+    flex: 1;
+    text-align: center;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 13px;
+    color: var(--text-muted);
+    margin-right: 36px;
+  }
+
+  .demo-terminal-body {
+    padding: 28px 32px;
+    font-family: 'JetBrains Mono', monospace;
+    font-size: 18px;
+    line-height: 1.8;
+    min-height: 160px;
+  }
+
+  .demo-terminal-body .prompt-line {
+    color: var(--text-secondary);
+  }
+
+  .demo-terminal-body .prompt-line .prompt-char {
+    color: var(--accent-green);
+    font-weight: 600;
+  }
+
+  .demo-terminal-body .cmd-text {
+    color: var(--accent-cyan);
+  }
+
+  .cursor-blink {
+    display: inline-block;
+    width: 10px;
+    height: 20px;
+    background: var(--accent-cyan);
+    animation: blink 1s step-end infinite;
+    vertical-align: text-bottom;
+    margin-left: 2px;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  .demo-terminal-body .scanline {
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 2px;
+    background: rgba(34,211,238,0.08);
+    animation: scanDown 4s linear infinite;
+    pointer-events: none;
+  }
+
+  @keyframes scanDown {
+    0% { top: 0; }
+    100% { top: 100%; }
+  }
+
+  .demo-footnote {
+    color: var(--text-muted);
+    margin-top: 36px;
+    font-size: 18px;
+  }
+
+  /* ===== FINAL SLIDE ===== */
+  .slide-final { text-align: center; }
+
   .slide-final h2 {
-    font-size: 60px;
+    font-family: 'Outfit', 'Noto Sans KR', sans-serif;
+    font-size: 68px;
     font-weight: 900;
-    margin-bottom: 32px;
-    background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+    margin-bottom: 40px;
+    background: linear-gradient(135deg, var(--accent-cyan) 0%, var(--accent-purple) 50%, var(--accent-pink) 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
   }
@@ -382,28 +807,51 @@
   .slide-final .takeaway-list {
     list-style: none;
     text-align: left;
-    max-width: 850px;
+    max-width: 950px;
     margin: 0 auto;
   }
 
   .slide-final .takeaway-list li {
-    font-size: 22px;
+    font-size: 24px;
     color: var(--text-secondary);
-    padding: 16px 0;
+    padding: 20px 0;
     border-bottom: 1px solid rgba(255,255,255,0.05);
     display: flex;
     align-items: flex-start;
-    gap: 16px;
-    line-height: 1.5;
+    gap: 20px;
+    line-height: 1.6;
   }
 
   .slide-final .takeaway-list li .tk-num {
     color: var(--accent-purple);
-    font-family: 'JetBrains Mono', monospace;
-    font-weight: 600;
-    font-size: 18px;
+    font-family: 'Outfit', 'JetBrains Mono', monospace;
+    font-weight: 700;
+    font-size: 20px;
     flex-shrink: 0;
-    margin-top: 2px;
+    margin-top: 4px;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 8px;
+    background: rgba(168,85,247,0.06);
+  }
+
+  .slide-final .qa-badge {
+    display: inline-block;
+    padding: 14px 40px;
+    border: 1px solid rgba(168,85,247,0.3);
+    border-radius: 100px;
+    font-family: 'Outfit', sans-serif;
+    font-size: 22px;
+    color: var(--accent-purple);
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    margin-top: 52px;
+    backdrop-filter: blur(8px);
+    background: rgba(168,85,247,0.04);
   }
 
   /* ===== PROGRESS BAR ===== */
@@ -412,77 +860,84 @@
     top: 0; left: 0;
     height: 3px;
     background: linear-gradient(90deg, var(--accent-blue), var(--accent-purple), var(--accent-cyan));
-    transition: width 0.4s ease;
+    transition: width 0.5s cubic-bezier(0.16, 1, 0.3, 1);
     z-index: 100;
+    box-shadow: 0 0 12px rgba(79,140,255,0.3);
   }
 
   /* ===== NAV ===== */
   .slide-nav {
     position: fixed;
-    bottom: 30px;
+    bottom: 32px;
     left: 50%;
     transform: translateX(-50%);
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 18px;
     z-index: 100;
-    background: rgba(20,20,31,0.85);
-    backdrop-filter: blur(12px);
-    padding: 10px 24px;
+    background: rgba(12,12,20,0.8);
+    backdrop-filter: blur(20px);
+    padding: 12px 28px;
     border-radius: 100px;
-    border: 1px solid rgba(255,255,255,0.08);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
   }
 
   .slide-nav .nav-btn {
     background: none;
-    border: 1px solid rgba(255,255,255,0.15);
+    border: 1px solid rgba(255,255,255,0.12);
     color: var(--text-primary);
-    width: 36px; height: 36px;
+    width: 40px; height: 40px;
     border-radius: 50%;
     cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 16px;
-    transition: all 0.2s;
+    font-size: 18px;
+    transition: all 0.25s;
   }
 
   .slide-nav .nav-btn:hover {
-    background: rgba(255,255,255,0.1);
-    border-color: rgba(255,255,255,0.3);
+    background: rgba(255,255,255,0.08);
+    border-color: rgba(255,255,255,0.25);
+    transform: scale(1.05);
   }
 
   .slide-nav .slide-counter {
-    font-size: 16px;
+    font-size: 17px;
     color: var(--text-muted);
-    min-width: 60px;
+    min-width: 64px;
     text-align: center;
-    font-family: 'JetBrains Mono', monospace;
+    font-family: 'Outfit', 'JetBrains Mono', monospace;
+    font-weight: 500;
   }
 
   .slide-dots {
     display: flex;
-    gap: 6px;
+    gap: 7px;
   }
 
   .slide-dots .dot {
-    width: 6px; height: 6px;
+    width: 8px; height: 8px;
     border-radius: 50%;
-    background: rgba(255,255,255,0.15);
-    transition: all 0.3s;
+    background: rgba(255,255,255,0.12);
+    transition: all 0.35s cubic-bezier(0.16, 1, 0.3, 1);
     cursor: pointer;
   }
 
+  .slide-dots .dot:hover { background: rgba(255,255,255,0.3); }
+
   .slide-dots .dot.active {
     background: var(--accent-blue);
-    width: 20px;
-    border-radius: 3px;
+    width: 28px;
+    border-radius: 4px;
+    box-shadow: 0 0 10px rgba(79,140,255,0.4);
   }
 
-  .slide-dots .dot.day1.active { background: var(--day1-color); }
-  .slide-dots .dot.day2.active { background: var(--day2-color); }
-  .slide-dots .dot.day3.active { background: var(--day3-color); }
-  .slide-dots .dot.day4.active { background: var(--day4-color); }
+  .slide-dots .dot.day1.active { background: var(--day1-color); box-shadow: 0 0 10px rgba(79,140,255,0.4); }
+  .slide-dots .dot.day2.active { background: var(--day2-color); box-shadow: 0 0 10px rgba(168,85,247,0.4); }
+  .slide-dots .dot.day3.active { background: var(--day3-color); box-shadow: 0 0 10px rgba(34,211,238,0.4); }
+  .slide-dots .dot.day4.active { background: var(--day4-color); box-shadow: 0 0 10px rgba(251,146,60,0.4); }
 
   /* ===== HIGHLIGHT TEXT ===== */
   .hl-blue { color: var(--accent-blue); }
@@ -496,145 +951,47 @@
   code {
     font-family: 'JetBrains Mono', monospace;
     background: rgba(255,255,255,0.06);
-    padding: 2px 8px;
-    border-radius: 4px;
-    font-size: 16px;
-  }
-
-  /* ===== CUSTOM: VERSUS LAYOUT ===== */
-  .versus-grid {
-    display: grid;
-    grid-template-columns: 1fr 60px 1fr;
-    gap: 0;
-    width: 100%;
-    align-items: stretch;
-  }
-
-  .versus-divider {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 36px;
-    color: var(--text-muted);
-    font-weight: 300;
-  }
-
-  .versus-card {
-    background: var(--bg-card);
-    border: 1px solid rgba(255,255,255,0.06);
-    border-radius: 16px;
-    padding: 28px;
-    position: relative;
-    overflow: hidden;
-  }
-
-  .versus-card .phase-badge {
-    display: inline-block;
-    padding: 4px 14px;
-    border-radius: 100px;
-    font-size: 14px;
-    font-weight: 600;
-    margin-bottom: 16px;
-    letter-spacing: 0.5px;
-  }
-
-  .versus-card .vote-count {
-    font-size: 56px;
-    font-weight: 900;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-
-  .versus-card .vote-label {
-    font-size: 18px;
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-  }
-
-  .versus-card .vote-reasons {
-    list-style: none;
-    padding: 0;
-  }
-
-  .versus-card .vote-reasons li {
-    font-size: 16px;
-    color: var(--text-secondary);
-    padding: 6px 0;
-    padding-left: 16px;
-    position: relative;
-    line-height: 1.5;
-  }
-
-  .versus-card .vote-reasons li::before {
-    content: '';
-    position: absolute;
-    left: 0;
-    top: 14px;
-    width: 6px;
-    height: 6px;
-    border-radius: 50%;
-  }
-
-  .versus-before .vote-reasons li::before { background: var(--accent-orange); }
-  .versus-after .vote-reasons li::before { background: var(--accent-green); }
-
-  /* ===== CUSTOM: DEMO SLIDE ===== */
-  .demo-slide {
-    text-align: center;
-    background: radial-gradient(ellipse at 50% 40%, rgba(34,211,238,0.08) 0%, transparent 60%),
-                var(--bg-dark);
-  }
-
-  .demo-slide .demo-command {
-    background: var(--bg-surface);
-    border: 1px solid rgba(34,211,238,0.2);
-    border-radius: 12px;
-    padding: 20px 40px;
-    font-family: 'JetBrains Mono', monospace;
-    font-size: 20px;
-    color: var(--accent-cyan);
-    display: inline-block;
-    margin-top: 24px;
-  }
-
-  .demo-slide .demo-command .prompt {
-    color: var(--accent-green);
-  }
-
-  .demo-slide h2 {
-    font-size: 48px;
-    font-weight: 700;
-    margin-bottom: 16px;
-  }
-
-  .demo-slide .demo-sub {
-    font-size: 22px;
-    color: var(--text-secondary);
-    margin-bottom: 32px;
+    padding: 3px 10px;
+    border-radius: 6px;
+    font-size: 17px;
   }
 
   /* ===== RESPONSIVE ===== */
   @media (max-width: 1024px) {
-    .slide { padding: 40px; }
+    .slide { padding: 40px 50px; }
     .content-slide { padding: 40px 50px; }
-    .slide-title h1 { font-size: 42px; }
-    .day-header h2 { font-size: 32px; }
+    .slide-title h1 { font-size: 52px; }
+    .day-header h2 { font-size: 36px; }
+    .day-header .day-number { font-size: 140px; }
     .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+    .versus-grid { grid-template-columns: 1fr; gap: 20px; }
+    .versus-divider { transform: rotate(90deg); padding: 10px 0; }
   }
 </style>
 </head>
 <body>
 
+<!-- Animated Background -->
+<div class="bg-orbs">
+  <div class="orb orb-1"></div>
+  <div class="orb orb-2"></div>
+  <div class="orb orb-3"></div>
+</div>
+
+<!-- Grain Texture -->
+<div class="grain"></div>
+
+<!-- Progress Bar -->
 <div class="progress-bar" id="progressBar"></div>
 
 <div class="slides-container" id="slidesContainer">
 
   <!-- ==================== SLIDE 1: TITLE ==================== -->
   <div class="slide slide-title active" data-group="intro">
-    <div class="camp-badge">AI Tool Showcase</div>
-    <h1>Agent Arena</h1>
-    <p class="subtitle">AI 전문가 8명과 함께하는 의사결정 토론</p>
-    <div class="meta">
+    <div class="camp-badge anim" style="--d:100">AI Tool Showcase</div>
+    <h1 class="anim" style="--d:250">Agent Arena</h1>
+    <p class="subtitle anim" style="--d:400">AI 전문가 8명과 함께하는 의사결정 토론</p>
+    <div class="meta anim" style="--d:600">
       <span>2026.03.12</span>
       <span>원민호</span>
       <span>단위리더 모임</span>
@@ -642,104 +999,114 @@
   </div>
 
   <!-- ==================== SLIDE 2: PROBLEM HEADER ==================== -->
-  <div class="slide day-header" data-group="day1" style="background: radial-gradient(ellipse at 50% 30%, rgba(79,140,255,0.10) 0%, transparent 60%), var(--bg-dark)">
-    <div class="day-number" style="color:var(--day1-color)">?!</div>
-    <div class="day-label" style="color:var(--day1-color)">Problem</div>
-    <h2>정답이 하나가 아닌<br>의사결정의 순간들</h2>
-    <p class="day-meta">모든 팀에 있습니다</p>
+  <div class="slide day-header" data-group="day1">
+    <div class="day-number anim-scale" style="--d:0; color:var(--day1-color)">?!</div>
+    <div class="day-label anim" style="--d:200; color:var(--day1-color)">Problem</div>
+    <h2 class="anim" style="--d:350">정답이 하나가 아닌<br>의사결정의 순간들</h2>
+    <p class="day-meta anim" style="--d:500">모든 팀에 있습니다</p>
   </div>
 
   <!-- ==================== SLIDE 3: PROBLEM CONTENT ==================== -->
   <div class="slide content-slide" data-group="day1">
-    <div class="slide-header">
-      <div class="day-tag" style="background:rgba(79,140,255,0.12); color:var(--day1-color)">Problem</div>
+    <div class="slide-header anim" style="--d:50">
+      <div class="day-tag" style="background:rgba(79,140,255,0.10); color:var(--day1-color)">Problem</div>
       <h3>혼자 고민할 때 생기는 일</h3>
     </div>
     <div class="card-grid cols-3">
-      <div class="card">
+      <div class="card anim-scale" style="--d:150">
         <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <div class="card-glow" style="background:var(--accent-blue)"></div>
         <span class="card-icon">&#x1F507;</span>
         <h4>확증 편향</h4>
         <p>이미 마음속에 답이 있으면<br>그 답을 지지하는 정보만 보입니다</p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:300">
         <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <div class="card-glow" style="background:var(--accent-blue)"></div>
         <span class="card-icon">&#x1F441;</span>
         <h4>관점의 한계</h4>
         <p>기획자는 기획 관점, 개발자는 기술 관점 &mdash; 회의실에서 모든 관점이 나오진 않습니다</p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:450">
         <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <div class="card-glow" style="background:var(--accent-blue)"></div>
         <span class="card-icon">&#x23F3;</span>
         <h4>시간과 비용</h4>
         <p>8명의 전문가를 모아 3시간 토론하는 건<br>현실적으로 어렵습니다</p>
       </div>
     </div>
-    <div class="key-insight">
+    <div class="key-insight anim" style="--d:650">
       <div class="insight-label">핵심 문제</div>
       <p>혼자 고민하면 <span class="hl-blue">놓치는 관점</span>이 생기고, 여러 사람을 모으면 <span class="hl-blue">시간이 부족</span>합니다</p>
     </div>
   </div>
 
   <!-- ==================== SLIDE 4: ARENA HEADER ==================== -->
-  <div class="slide day-header" data-group="day2" style="background: radial-gradient(ellipse at 50% 30%, rgba(168,85,247,0.10) 0%, transparent 60%), var(--bg-dark)">
-    <div class="day-number" style="color:var(--day2-color)">8</div>
-    <div class="day-label" style="color:var(--day2-color)">Solution</div>
-    <h2>Agent Arena</h2>
-    <p class="day-meta">8명의 AI 전문가가 서로 반박하며 토론합니다</p>
+  <div class="slide day-header" data-group="day2">
+    <div class="day-number anim-scale" style="--d:0; color:var(--day2-color)">8</div>
+    <div class="day-label anim" style="--d:200; color:var(--day2-color)">Solution</div>
+    <h2 class="anim" style="--d:350">Agent Arena</h2>
+    <p class="day-meta anim" style="--d:500">8명의 AI 전문가가 서로 반박하며 토론합니다</p>
   </div>
 
   <!-- ==================== SLIDE 5: PERSONAS ==================== -->
   <div class="slide content-slide" data-group="day2">
-    <div class="slide-header">
-      <div class="day-tag" style="background:rgba(168,85,247,0.12); color:var(--day2-color)">Personas</div>
+    <div class="slide-header anim" style="--d:50">
+      <div class="day-tag" style="background:rgba(168,85,247,0.10); color:var(--day2-color)">Personas</div>
       <h3>8인의 전문가 페르소나</h3>
     </div>
     <div class="card-grid cols-4">
-      <div class="card">
+      <div class="card anim-scale" style="--d:100">
         <div class="card-accent" style="background:var(--accent-green)"></div>
+        <div class="card-glow" style="background:var(--accent-green)"></div>
         <span class="card-icon">&#x1F6E1;&#xFE0F;</span>
         <h4>옹호자</h4>
         <p>제안의 강점을 극대화<br><span class="hl-green">"왜 이것이 최선인가?"</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:180">
         <div class="card-accent" style="background:var(--accent-red)"></div>
+        <div class="card-glow" style="background:var(--accent-red)"></div>
         <span class="card-icon">&#x2694;&#xFE0F;</span>
         <h4>비판자</h4>
         <p>구조적 약점을 파고듦<br><span class="hl-red">"어디서 무너지는가?"</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:260">
         <div class="card-accent" style="background:var(--accent-cyan)"></div>
+        <div class="card-glow" style="background:var(--accent-cyan)"></div>
         <span class="card-icon">&#x1F464;</span>
         <h4>유저 대변인</h4>
         <p>실사용자/현장 관점<br><span class="hl-cyan">"현장에서 통하는가?"</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:340">
         <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <div class="card-glow" style="background:var(--accent-blue)"></div>
         <span class="card-icon">&#x2699;&#xFE0F;</span>
         <h4>기술 설계자</h4>
         <p>기술적 타당성 검증<br><span class="hl-blue">"구현 가능한가?"</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:420">
         <div class="card-accent" style="background:var(--accent-purple)"></div>
+        <div class="card-glow" style="background:var(--accent-purple)"></div>
         <span class="card-icon">&#x1F52D;</span>
         <h4>비전가</h4>
         <p>장기 방향성과 트렌드<br><span class="hl-purple">"5년 후에도 유효한가?"</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:500">
         <div class="card-accent" style="background:var(--accent-pink)"></div>
+        <div class="card-glow" style="background:var(--accent-pink)"></div>
         <span class="card-icon">&#x1F608;</span>
         <h4>품질 악마</h4>
         <p>리스크와 엣지케이스<br><span class="hl-pink">"최악의 시나리오는?"</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:580">
         <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <div class="card-glow" style="background:var(--accent-orange)"></div>
         <span class="card-icon">&#x1F4CA;</span>
         <h4>현실주의자</h4>
         <p>실행 가능성과 비용<br><span class="hl-orange">"지금 당장 되는가?"</span></p>
       </div>
-      <div class="card">
-        <div class="card-accent" style="background:var(--text-secondary)"></div>
+      <div class="card anim-scale" style="--d:660">
+        <div class="card-accent" style="background:var(--text-muted)"></div>
         <span class="card-icon">&#x2696;&#xFE0F;</span>
         <h4>종합자</h4>
         <p>의견을 수렴하고 정리<br>"어디서 합의하는가?"</p>
@@ -749,54 +1116,57 @@
 
   <!-- ==================== SLIDE 6: HOW IT WORKS ==================== -->
   <div class="slide content-slide" data-group="day2">
-    <div class="slide-header">
-      <div class="day-tag" style="background:rgba(168,85,247,0.12); color:var(--day2-color)">Process</div>
+    <div class="slide-header anim" style="--d:50">
+      <div class="day-tag" style="background:rgba(168,85,247,0.10); color:var(--day2-color)">Process</div>
       <h3>작동 방식: 3단계 토론</h3>
     </div>
-    <div class="flow-diagram">
-      <div class="flow-step" style="border-color:rgba(168,85,247,0.3)">
+    <div class="flow-diagram anim" style="--d:200">
+      <div class="flow-step" style="border-color:rgba(168,85,247,0.25)">
         <div class="step-icon">&#x1F4DD;</div>
         <div class="step-label">주제 입력</div>
         <div class="step-sub">명령어 한 줄</div>
       </div>
       <div class="flow-arrow">&#10132;</div>
-      <div class="flow-step" style="border-color:rgba(168,85,247,0.3)">
+      <div class="flow-step" style="border-color:rgba(168,85,247,0.25)">
         <div class="step-icon">&#x1F465;</div>
         <div class="step-label">8인 배정</div>
         <div class="step-sub">역할 자동 부여</div>
       </div>
       <div class="flow-arrow">&#10132;</div>
-      <div class="flow-step" style="border-color:rgba(52,211,153,0.3)">
+      <div class="flow-step" style="border-color:rgba(52,211,153,0.25)">
         <div class="step-icon">&#x1F4AC;</div>
         <div class="step-label">Phase 1</div>
         <div class="step-sub">독립 의견 제시</div>
       </div>
       <div class="flow-arrow">&#10132;</div>
-      <div class="flow-step" style="border-color:rgba(248,113,113,0.3)">
+      <div class="flow-step" style="border-color:rgba(248,113,113,0.25)">
         <div class="step-icon">&#x1F525;</div>
         <div class="step-label">Phase 2</div>
         <div class="step-sub">반박 토론 x3R</div>
       </div>
       <div class="flow-arrow">&#10132;</div>
-      <div class="flow-step" style="border-color:rgba(79,140,255,0.3)">
+      <div class="flow-step" style="border-color:rgba(79,140,255,0.25)">
         <div class="step-icon">&#x2705;</div>
         <div class="step-label">결론 도출</div>
         <div class="step-sub">추천안 + 액션</div>
       </div>
     </div>
     <div class="card-grid cols-3" style="margin-top: 20px;">
-      <div class="card">
+      <div class="card anim-scale" style="--d:400">
         <div class="card-accent" style="background:var(--accent-green)"></div>
+        <div class="card-glow" style="background:var(--accent-green)"></div>
         <h4>Phase 1: 독립 의견</h4>
         <p>서로의 의견을 모른 채 각자 분석<br><span class="hl-green">&#8594; 집단사고 방지</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:550">
         <div class="card-accent" style="background:var(--accent-red)"></div>
+        <div class="card-glow" style="background:var(--accent-red)"></div>
         <h4>Phase 2: 반박 토론</h4>
         <p>다른 사람의 논거를 직접 반박<br><span class="hl-red">&#8594; 숨은 가정을 무너뜨림</span></p>
       </div>
-      <div class="card">
+      <div class="card anim-scale" style="--d:700">
         <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <div class="card-glow" style="background:var(--accent-blue)"></div>
         <h4>Phase 3: 수렴</h4>
         <p>검증된 논거만 남겨 결론 도출<br><span class="hl-blue">&#8594; 구조적 합의</span></p>
       </div>
@@ -804,22 +1174,23 @@
   </div>
 
   <!-- ==================== SLIDE 7: DEMO HEADER ==================== -->
-  <div class="slide day-header" data-group="day3" style="background: radial-gradient(ellipse at 50% 30%, rgba(34,211,238,0.10) 0%, transparent 60%), var(--bg-dark)">
-    <div class="day-number" style="color:var(--day3-color)">&#9654;</div>
-    <div class="day-label" style="color:var(--day3-color)">Live Demo</div>
-    <h2>실제로 돌려보겠습니다</h2>
-    <p class="day-meta">M&S팀 &middot; 후속 영업 우선순위 결정</p>
+  <div class="slide day-header" data-group="day3">
+    <div class="day-number anim-scale" style="--d:0; color:var(--day3-color)">&#9654;</div>
+    <div class="day-label anim" style="--d:200; color:var(--day3-color)">Live Demo</div>
+    <h2 class="anim" style="--d:350">실제로 돌려보겠습니다</h2>
+    <p class="day-meta anim" style="--d:500">M&S팀 &middot; 후속 영업 우선순위 결정</p>
   </div>
 
   <!-- ==================== SLIDE 8: DEMO SETUP ==================== -->
   <div class="slide content-slide" data-group="day3">
-    <div class="slide-header">
-      <div class="day-tag" style="background:rgba(34,211,238,0.12); color:var(--day3-color)">Demo</div>
+    <div class="slide-header anim" style="--d:50">
+      <div class="day-tag" style="background:rgba(34,211,238,0.10); color:var(--day3-color)">Demo</div>
       <h3>시연 주제: 후속 영업 우선순위</h3>
     </div>
     <div class="card-grid cols-2">
-      <div class="card">
+      <div class="card anim-left" style="--d:200">
         <div class="card-accent" style="background:var(--accent-cyan)"></div>
+        <div class="card-glow" style="background:var(--accent-cyan)"></div>
         <h4>상황</h4>
         <ul>
           <li>4개 고객에게 제안 자료 전달 완료</li>
@@ -828,8 +1199,9 @@
           <li><strong>어디를 먼저 집중 공략할 것인가?</strong></li>
         </ul>
       </div>
-      <div class="card">
+      <div class="card anim-right" style="--d:200">
         <div class="card-accent" style="background:var(--accent-cyan)"></div>
+        <div class="card-glow" style="background:var(--accent-cyan)"></div>
         <h4>4개 옵션</h4>
         <ul>
           <li><span class="hl-cyan">A.</span> GS오토모티브</li>
@@ -839,7 +1211,7 @@
         </ul>
       </div>
     </div>
-    <div class="key-insight" style="border-color: rgba(34,211,238,0.15); background: linear-gradient(135deg, rgba(34,211,238,0.06), rgba(168,85,247,0.06));">
+    <div class="key-insight anim" style="--d:500; border-color:rgba(34,211,238,0.12); background:linear-gradient(135deg, rgba(34,211,238,0.05), rgba(168,85,247,0.05));">
       <div class="insight-label" style="color:var(--accent-cyan)">고객별로 규모 / 긴급도 / 기존관계 / 기술적합도가 모두 다릅니다</div>
       <p>8명의 전문가가 각각 다른 축으로 분석하면 어떤 결론이 나올까요?</p>
     </div>
@@ -847,34 +1219,46 @@
 
   <!-- ==================== SLIDE 9: DEMO SCREEN ==================== -->
   <div class="slide demo-slide" data-group="day3">
-    <h2>&#x1F3AC; 라이브 데모</h2>
-    <p class="demo-sub">Claude Code 터미널로 전환합니다</p>
-    <div class="demo-command">
-      <span class="prompt">$</span> /agent-arena "후속 영업 우선순위: GS오토모티브 vs 삼성SDS 물류 vs 피로세 vs 삼성디스플레이"
+    <h2 class="anim" style="--d:100">&#x1F3AC; 라이브 데모</h2>
+    <p class="demo-sub anim" style="--d:250">Claude Code 터미널로 전환합니다</p>
+    <div class="demo-terminal anim-scale" style="--d:400" id="demoTerminal">
+      <div class="scanline"></div>
+      <div class="demo-terminal-bar">
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <div class="dot"></div>
+        <span class="terminal-title">claude-code &mdash; agent-arena</span>
+      </div>
+      <div class="demo-terminal-body">
+        <div class="prompt-line">
+          <span class="prompt-char">$</span>
+          <span class="cmd-text" id="typingTarget"></span><span class="cursor-blink" id="cursor"></span>
+        </div>
+      </div>
     </div>
-    <p style="color:var(--text-muted); margin-top: 40px; font-size: 16px;">
-      * 8명의 에이전트가 독립적으로 의견을 제시하고, 3라운드에 걸쳐 서로 반박합니다
+    <p class="demo-footnote anim" style="--d:700">
+      8명의 에이전트가 독립적으로 의견을 제시하고, 3라운드에 걸쳐 서로 반박합니다
     </p>
   </div>
 
   <!-- ==================== SLIDE 10: EVIDENCE HEADER ==================== -->
-  <div class="slide day-header" data-group="day4" style="background: radial-gradient(ellipse at 50% 30%, rgba(251,146,60,0.10) 0%, transparent 60%), var(--bg-dark)">
-    <div class="day-number" style="color:var(--day4-color)">!</div>
-    <div class="day-label" style="color:var(--day4-color)">Evidence</div>
-    <h2>반박이 결론을 뒤집은 사례</h2>
-    <p class="day-meta">왜 3라운드가 필요한가</p>
+  <div class="slide day-header" data-group="day4">
+    <div class="day-number anim-scale" style="--d:0; color:var(--day4-color)">!</div>
+    <div class="day-label anim" style="--d:200; color:var(--day4-color)">Evidence</div>
+    <h2 class="anim" style="--d:350">반박이 결론을 뒤집은 사례</h2>
+    <p class="day-meta anim" style="--d:500">왜 3라운드가 필요한가</p>
   </div>
 
   <!-- ==================== SLIDE 11: REVERSAL CASE ==================== -->
   <div class="slide content-slide" data-group="day4">
-    <div class="slide-header">
-      <div class="day-tag" style="background:rgba(251,146,60,0.12); color:var(--day4-color)">Case Study</div>
+    <div class="slide-header anim" style="--d:50">
+      <div class="day-tag" style="background:rgba(251,146,60,0.10); color:var(--day4-color)">Case Study</div>
       <h3>뒤집힌 만장일치</h3>
     </div>
     <div class="versus-grid">
-      <div class="versus-card versus-before">
+      <div class="versus-card versus-before anim-left" style="--d:200">
         <div class="card-accent" style="background:var(--accent-orange)"></div>
-        <div class="phase-badge" style="background:rgba(251,146,60,0.15); color:var(--accent-orange)">Phase 1 &middot; 독립 의견</div>
+        <div class="phase-badge" style="background:rgba(251,146,60,0.12); color:var(--accent-orange)">Phase 1 &middot; 독립 의견</div>
         <div class="vote-count hl-orange">7 : 0</div>
         <div class="vote-label">전원 B안 추천</div>
         <ul class="vote-reasons">
@@ -884,10 +1268,12 @@
           <li>성장 기회가 압도적으로 보임</li>
         </ul>
       </div>
-      <div class="versus-divider">&#10132;</div>
-      <div class="versus-card versus-after">
+      <div class="versus-divider">
+        <div class="versus-arrow anim-scale" style="--d:600">&#10132;</div>
+      </div>
+      <div class="versus-card versus-after anim-right" style="--d:800">
         <div class="card-accent" style="background:var(--accent-green)"></div>
-        <div class="phase-badge" style="background:rgba(52,211,153,0.15); color:var(--accent-green)">Phase 3 &middot; 반박 후</div>
+        <div class="phase-badge" style="background:rgba(52,211,153,0.12); color:var(--accent-green)">Phase 3 &middot; 반박 후</div>
         <div class="vote-count hl-green">0 : 7</div>
         <div class="vote-label">전원 A안으로 수렴</div>
         <ul class="vote-reasons">
@@ -898,7 +1284,7 @@
         </ul>
       </div>
     </div>
-    <div class="key-insight">
+    <div class="key-insight anim" style="--d:1100">
       <div class="insight-label">교훈</div>
       <p><span class="hl-orange">반박 없이 결론을 내렸다면</span>, 정반대의 선택을 했을 것입니다</p>
     </div>
@@ -906,16 +1292,16 @@
 
   <!-- ==================== SLIDE 12: TEAM TOPICS ==================== -->
   <div class="slide content-slide" data-group="day4">
-    <div class="slide-header">
-      <div class="day-tag" style="background:rgba(251,146,60,0.12); color:var(--day4-color)">Your Turn</div>
+    <div class="slide-header anim" style="--d:50">
+      <div class="day-tag" style="background:rgba(251,146,60,0.10); color:var(--day4-color)">Your Turn</div>
       <h3>각 팀의 의사결정에 적용한다면?</h3>
     </div>
-    <table class="styled-table">
+    <table class="styled-table anim" style="--d:200">
       <thead>
         <tr>
-          <th style="width:18%">조직</th>
+          <th style="width:16%">조직</th>
           <th style="width:48%">주제</th>
-          <th style="width:34%">핵심 트레이드오프</th>
+          <th style="width:36%">핵심 트레이드오프</th>
         </tr>
       </thead>
       <tbody>
@@ -946,33 +1332,33 @@
         </tr>
       </tbody>
     </table>
-    <div class="quote-card" style="border-color:var(--day4-color); margin-top:20px;">
+    <div class="quote-card anim" style="--d:500; border-color:var(--day4-color); margin-top:24px;">
       <p>"우리 팀 주제도 넣어볼 수 있나요?" &mdash; <strong style="color:var(--accent-orange);">네, 가능합니다.</strong><br>주제만 입력하면 5분 안에 8명의 전문가가 토론을 시작합니다.</p>
     </div>
   </div>
 
   <!-- ==================== SLIDE 13: FINAL ==================== -->
   <div class="slide slide-final" data-group="summary">
-    <h2>Takeaways</h2>
+    <h2 class="anim" style="--d:100">Takeaways</h2>
     <ul class="takeaway-list">
-      <li>
+      <li class="anim" style="--d:250">
         <span class="tk-num">01</span>
         <span>Agent Arena는 <strong style="color:var(--text-primary)">코드 생성</strong> 도구가 아닙니다.<br><strong style="color:var(--accent-purple)">비즈니스 의사결정</strong>을 위한 AI 활용입니다.</span>
       </li>
-      <li>
+      <li class="anim" style="--d:400">
         <span class="tk-num">02</span>
         <span>핵심 가치는 <strong style="color:var(--accent-orange)">반박</strong>입니다.<br>초기 만장일치가 3라운드 후 완전히 뒤집힐 수 있습니다.</span>
       </li>
-      <li>
+      <li class="anim" style="--d:550">
         <span class="tk-num">03</span>
         <span>혼자 고민할 때 놓치기 쉬운 <strong style="color:var(--accent-cyan)">사각지대</strong>를<br>8명의 전문가가 채워줍니다.</span>
       </li>
-      <li>
+      <li class="anim" style="--d:700">
         <span class="tk-num">04</span>
         <span>관심 있으시면 언제든 연락 주세요.<br>각 팀의 <strong style="color:var(--accent-green)">실제 고민</strong>으로 함께 돌려보겠습니다.</span>
       </li>
     </ul>
-    <p style="color:var(--text-muted); margin-top:48px; font-size:18px;">Q&A</p>
+    <div class="qa-badge anim" style="--d:900">Q & A</div>
   </div>
 
 </div>
@@ -1012,17 +1398,36 @@
     dotsContainer.appendChild(dot);
   });
 
+  // Reset animations when leaving a slide
+  function resetSlideAnimations(slide) {
+    const anims = slide.querySelectorAll('.anim, .anim-scale, .anim-left, .anim-right');
+    anims.forEach(el => {
+      el.style.animation = 'none';
+      el.offsetHeight; // trigger reflow
+      el.style.animation = '';
+    });
+  }
+
   function goTo(index) {
     if (index < 0 || index >= total) return;
-    slides[current].classList.remove('active');
-    if (index > current) slides[current].classList.add('prev');
+    const prevSlide = slides[current];
+    prevSlide.classList.remove('active');
+    if (index > current) prevSlide.classList.add('prev');
 
     setTimeout(() => {
-      slides.forEach(s => { s.classList.remove('prev'); });
-    }, 500);
+      slides.forEach(s => s.classList.remove('prev'));
+    }, 700);
 
     current = index;
-    slides[current].classList.add('active');
+    const nextSlide = slides[current];
+
+    // Reset animations for fresh entrance
+    resetSlideAnimations(nextSlide);
+
+    nextSlide.classList.add('active');
+
+    // Trigger typing animation on demo slide (slide index 8)
+    if (current === 8) { startTyping(); }
 
     document.querySelectorAll('.slide-dots .dot').forEach((d, i) => {
       d.classList.toggle('active', i === current);
@@ -1058,6 +1463,34 @@
     const diff = touchStartX - e.changedTouches[0].clientX;
     if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
   });
+
+  // ===== TYPING ANIMATION =====
+  const cmdText = '/agent-arena "후속 영업 우선순위: GS오토모티브 vs 삼성SDS 물류 vs 피로세 vs 삼성디스플레이"';
+  let typingTimer = null;
+
+  function startTyping() {
+    const target = document.getElementById('typingTarget');
+    const cursor = document.getElementById('cursor');
+    if (!target) return;
+
+    // Clear previous
+    if (typingTimer) clearTimeout(typingTimer);
+    target.textContent = '';
+    cursor.style.display = 'inline-block';
+
+    let i = 0;
+    function type() {
+      if (i < cmdText.length) {
+        target.textContent += cmdText.charAt(i);
+        i++;
+        const delay = cmdText.charAt(i - 1) === ' ' ? 80 : (20 + Math.random() * 40);
+        typingTimer = setTimeout(type, delay);
+      }
+    }
+
+    // Start after terminal appears
+    typingTimer = setTimeout(type, 800);
+  }
 
   goTo(0);
 })();

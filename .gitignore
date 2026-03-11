@@ -50,5 +50,8 @@ htmlcov/
 .pytest_cache/
 .nyc_output/
 
+# Obsidian
+.obsidian/
+
 # Claude / OMC
 .omc/
