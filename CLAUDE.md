@@ -12,7 +12,11 @@ AI 관련 실험을 위한 작업 공간. 유저 환경에 적용하기 전에 �
 - `decisions/` — Agent Arena 토론 결과 및 의사결정 기록 (`YYYY-MM-DD-주제.md`)
 - `presentations/` — 발표 슬라이드(HTML) + 스크립트(MD) (`YYYY-MM-DD-제목.html`, `-script.md`)
 - `templates/` — 재사용 템플릿 (`slide-deck.html`: `{{TITLE}}` 플레이스홀더 치환하여 사용)
-- `research/readings/youtube/` — 유튜브 강의 자료 정리
+- `requirements/` — 요구사항 문서 (`YYYY-MM-DD-주제.md`)
+- `research/` — 리서치 자료
+  - `readings/youtube/` — 유튜브 강의 자료 정리
+  - `domain-model/` — 도메인 모델 문서 (원본 + readable 버전)
+  - `til/` — Today I Learned 기록 (`YYYY-MM-DD-주제.md`)
 
 ## Presentation 제작
 - 템플릿: `templates/slide-deck.html` 기반

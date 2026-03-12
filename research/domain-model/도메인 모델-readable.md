@@ -1,0 +1,4032 @@
+# 도메인 모델 정의 — 가독성 개선 버전
+
+---
+
+## Executive Summary
+
+이 문서는 **알람 시스템(Alarm System)**의 핵심 도메인 모델을 정의한다. 알람 시스템은 외부 데이터 소스(MQTT 등)로부터 메시지를 수신하고, 사전 정의된 조건을 평가하여, 조건 충족 시 알람을 발생시키고 관련 액션(알림, 웹훅 등)을 실행하는 시스템이다.
+
+**핵심 설계 원칙:**
+- **AlarmRule**(알람 룰)이 시스템의 중심이며, 모든 구성요소(조건, 액션, 정책)를 하나의 Aggregate로 소유한다
+- 알람은 **state(상태) 타입**과 **event(이벤트) 타입** 두 가지로 분류된다. state 타입은 Active → Acknowledged → Cleared 생명주기를 갖고, event 타입은 발생 즉시 완료된다
+- 알람의 발생/억제/복구/에스컬레이션은 모두 정책(Policy) 객체로 제어되며, 런타임 상태는 Redis에서 관리된다
+
+**문서 구성:**
+- **Section 2** — 도메인 객체 정의: 각 객체의 구조, 필드, 규칙, 검증 조건
+- **Section 3** — 도메인 규칙: 객체 간 관계, 상태 전이, 데이터 흐름, 정책 동작
+- **부록** — 런타임 인프라 상세, 예시 시나리오, 설계 결정 배경
+
+---
+
+## 목차
+
+**[Quick Reference](#quick-reference--전체-도메인-객체-요약)** | **[다이어그램](#도메인-객체-관계-다이어그램)**
+
+### Section 2: 도메인 객체 정의
+- [2.1 AlarmRule (알람 룰)](#21-alarmrule-알람-룰--aggregate-root) — Aggregate Root, 시스템 핵심
+- [2.2 AlarmRule 내부 구성요소](#22-alarmrule-내부-구성요소)
+  - 2.2.1 DataSource (데이터 소스) — 입력원 정의
+  - 2.2.2 Condition (조건) — 알람 발생 조건 트리
+  - 2.2.3 StreamControl (출력 제어) — 알람 발행 빈도/방식 제어
+  - 2.2.4 Action (액션) — 알람 발생 시 실행할 동작
+  - 2.2.5 RecoveryPolicy (복구 정책) — 알람 자동/수동 해제 조건
+  - 2.2.6 SuppressionPolicy (억제 정책) — 알람 발행 억제 조건
+  - 2.2.7 Escalation (에스컬레이션) — 미처리 알람 단계적 상향
+  - 2.2.8 GroupKeyConfig (그룹키 설정) — 와일드카드 룰 그룹 관리
+- [2.3 도메인 상수](#23-도메인-상수) — Severity (심각도 등급)
+- [2.4 독립 Entity](#24-독립-entity)
+  - 2.4.1 AlarmHistory (알람 이력) — 알람 발생/해제 기록
+  - 2.4.2 AlarmRuleVersion (룰 버전) — 설정 변경 이력 추적
+  - 2.4.3 ActionHistory (액션 이력) — 액션 실행 기록
+  - 2.4.4 Category (카테고리) — 알람 분류 체계
+- [2.5 Value Object](#25-value-object) — DryRunResult (모의 실행 결과)
+- [2.6 런타임 상태 객체](#26-런타임-상태-객체)
+  - 2.6.1 GroupAlarmState — 그룹별 알람 상태 (Redis)
+  - 2.6.2 SuppressionRuntimeState — 억제 런타임 상태 (Redis)
+
+### Section 3: 도메인 규칙
+- [3.1 객체 간 관계 & 참조 정책](#31-객체-간-관계--참조-정책) — 누가 누구를 소유/참조하는가
+- [3.2 상태 전이](#32-상태-전이) — 알람 객체의 생명주기
+- [3.3 데이터 흐름 (메시지 처리 파이프라인)](#33-데이터-흐름-메시지-처리-파이프라인) — 메시지 도착 후 처리 순서
+- [3.4 Suppression 판정](#34-suppression-판정) — 알람 발행 전 억제 여부 판정
+- [3.5 Deduplication & 대체 해제](#35-deduplication--대체-해제) — 활성 알람 존재 시 처리
+- [3.6 Recovery 동작 규칙](#36-recovery-동작-규칙) — Active 알람의 정상 복귀
+- [3.7 Escalation 동작 규칙](#37-escalation-동작-규칙) — 미처리 알람 후속 조치
+- [3.8 설정 변경 영향 정책](#38-설정-변경-영향-정책) — 운영 중 설정 변경의 영향
+- [3.9 정리(Cleanup) 트리거 규칙](#39-정리cleanup-트리거-규칙) — 언제 무엇을 정리하는가
+- [3.10 동시성 제어](#310-동시성-제어) — 동시 실행 시 정합성 보장
+
+### 부록
+- [A. 런타임 인프라 상세](#a-런타임-인프라-상세) — Redis, BullMQ, 구독 관리
+- [B. 예시 & 시나리오](#b-예시--시나리오) — 구체적 동작 예시
+- [C. 설계 결정 & 배경](#c-설계-결정--배경) — 왜 이렇게 설계했는가
+
+---
+
+## Quick Reference — 전체 도메인 객체 요약
+
+### 핵심 Aggregate
+
+| 객체 | 역할 | 핵심 필드 |
+|------|------|-----------|
+| **AlarmRule** | 알람 정의의 최상위 관리 단위. 모든 하위 객체를 소유 | alarmType, enabled, code, severityLevel, dataSources, condition, actions |
+
+### 내부 구성요소 (AlarmRule이 JSON으로 소유)
+
+| 객체 | 역할 | 핵심 필드 |
+|------|------|-----------|
+| **DataSource** | 데이터 수집 경로 정의 (MQTT 등) | alias, type, brokerUrl, topic, path |
+| **Condition** | 알람 발생 조건을 노드 트리로 정의 | evaluator, operator, children |
+| **StreamControl** | 조건 충족 후 출력 빈도/방식 제어 | operators[] (cooldown, debounce, batch 등) |
+| **Action** | 알람 발생 시 실행할 동작 (알림, 웹훅 등) | type, target, trigger, enabled |
+| **RecoveryPolicy** | 알람 자동/수동 해제 조건 (state 타입 전용) | type(auto/timeout/manual), timeoutSeconds |
+| **SuppressionPolicy** | 알람 발행 억제 조건 (정비모드, 스케줄 등) | maintenanceMode, schedule, manualOverride |
+| **Escalation** | 미처리 알람의 단계적 상향 (state 타입 전용) | steps[], enabled |
+| **GroupKeyConfig** | 와일드카드 룰의 그룹 키 관리 | keys[], unknownKeyPolicy, maxKeys |
+
+### 독립 Entity
+
+| 객체 | 역할 | 핵심 필드 |
+|------|------|-----------|
+| **AlarmHistory** | 알람 발생/해제 이력 레코드 | status, ruleId, groupKey, triggeredAt, clearedAt, clearType |
+| **AlarmRuleVersion** | 룰 설정 변경 이력 (스냅샷) | ruleId, version, snapshot, changedFields |
+| **ActionHistory** | 액션 실행 이력 | historyId, actionIndex, trigger, status, response |
+| **Category** | 알람의 정형 분류 (계층형) | name, parentId, depth |
+
+### 런타임 상태 (Redis)
+
+| 객체 | 역할 | 핵심 필드 |
+|------|------|-----------|
+| **GroupAlarmState** | 그룹별 알람 현재 상태 | status(normal/active/acknowledged), activeHistoryId, occurrenceCount |
+| **SuppressionRuntimeState** | 억제 런타임 상태 | maintenanceMode, manualOverride |
+
+### 도메인 상수 & VO
+
+| 객체 | 역할 |
+|------|------|
+| **Severity** | 심각도 등급: info < low < warning < high < critical < emergency |
+| **DryRunResult** | 룰 모의 실행 결과 (API 응답 전용) |
+
+---
+
+## 도메인 객체 관계 다이어그램
+
+### 전체 도메인 객체 관계도
+
+```mermaid
+classDiagram
+    class AlarmRule {
+        +number id
+        +string alarmType
+        +boolean enabled
+        +string code
+        +string severityLevel
+    }
+
+    class DataSource {
+        +string alias
+        +string type
+        +string topic
+    }
+
+    class Condition {
+        +string evaluator
+        +string operator
+    }
+
+    class StreamControl {
+        +Operator[] operators
+    }
+
+    class Action {
+        +string type
+        +string target
+        +string trigger
+    }
+
+    class RecoveryPolicy {
+        +string type
+        +number timeoutSeconds
+    }
+
+    class SuppressionPolicy {
+        +MaintenanceMode maintenanceMode
+        +Schedule schedule
+    }
+
+    class Escalation {
+        +Step[] steps
+        +boolean enabled
+    }
+
+    class GroupKeyConfig {
+        +string[] keys
+        +string unknownKeyPolicy
+    }
+
+    class Category {
+        +number id
+        +string name
+        +number parentId
+    }
+
+    class AlarmHistory {
+        +string status
+        +string groupKey
+        +string clearType
+    }
+
+    class AlarmRuleVersion {
+        +number version
+        +JSON snapshot
+    }
+
+    class ActionHistory {
+        +string trigger
+        +string status
+    }
+
+    class GroupAlarmState {
+        +string status
+        +number activeHistoryId
+    }
+
+    class SuppressionRuntimeState {
+        +boolean maintenanceMode
+        +boolean manualOverride
+    }
+
+    AlarmRule "1" *-- "1..*" DataSource : 소유 (JSON)
+    AlarmRule "1" *-- "1" Condition : 소유 (JSON)
+    AlarmRule "1" *-- "1..*" Action : 소유 (JSON)
+    AlarmRule "1" *-- "0..1" StreamControl : 소유 (JSON)
+    AlarmRule "1" *-- "0..1" RecoveryPolicy : 소유 (JSON)
+    AlarmRule "1" *-- "0..1" SuppressionPolicy : 소유 (JSON)
+    AlarmRule "1" *-- "0..1" Escalation : 소유 (JSON)
+    AlarmRule "1" *-- "0..1" GroupKeyConfig : 소유 (JSON)
+    AlarmRule "0..*" --> "0..1" Category : 분류 (FK)
+    AlarmRule "0..*" --> "0..1" AlarmRule : 상위룰 참조 (parentRuleId)
+    AlarmRule "1" --> "0..*" AlarmHistory : 생성
+    AlarmRule "1" --> "0..*" AlarmRuleVersion : 버전 이력
+    AlarmHistory "1" --> "0..*" ActionHistory : 액션 실행 기록
+    AlarmRule "1" ..> "0..*" GroupAlarmState : 런타임 상태 (Redis)
+    AlarmRule "1" ..> "0..*" SuppressionRuntimeState : 억제 상태 (Redis)
+```
+
+### 알람 생명주기 — state 타입 vs event 타입
+
+```mermaid
+stateDiagram-v2
+    state "state 타입 (상태 알람)" as StateType {
+        [*] --> Active : 조건 충족
+        Active --> Acknowledged : 운영자 확인
+        Active --> Cleared : auto 복구 / timeout / 수동 해제 / 대체 해제 / 설정 변경
+        Acknowledged --> Cleared : auto 복구 / timeout / 수동 해제 / 대체 해제 / 설정 변경
+        Cleared --> Active : 재발생 (새 AlarmHistory)
+        Cleared --> [*]
+
+        Active --> Active : 중복 병합 (ratedLevel 동일)
+        Acknowledged --> Acknowledged : 중복 병합 (ratedLevel 동일)
+    }
+
+    state "event 타입 (이벤트 알람)" as EventType {
+        [*] --> Fired : 조건 충족
+        Fired --> Done : 즉시 완료 (triggeredAt = clearedAt)
+        Done --> [*]
+    }
+```
+
+### 메시지 처리 파이프라인 개요
+
+```mermaid
+flowchart LR
+    A[메시지 수신] --> B[DataSource\n입력 게이트]
+    B --> C[Condition\n조건 평가]
+    C -->|충족| D[StreamControl\n출력 제어]
+    C -->|미충족| R[Recovery\n복구 판정]
+    D --> E[Suppression\n억제 판정]
+    E -->|통과| F[Deduplication\n중복 확인]
+    E -->|억제| X[발행 차단]
+    F -->|신규| G[AlarmHistory\n생성 + Action 실행]
+    F -->|중복| H[병합 또는\n대체 해제]
+```
+
+---
+
+# 도메인 모델 정의
+
+> 알람 시스템의 핵심 도메인 객체, 관계, 생명주기를 정의한다.
+
+---
+
+## 1. 용어 사전 (Ubiquitous Language)
+
+> 토큰 절약하기위해, 문서 교정 완료후 완성할 예정임.
+
+| 용어 | 영문 | 정의 |
+|------|------|------|
+| | | **── 룰 정의 ──** |
+| **알람 룰** | **AlarmRule** | 알람 정의 Aggregate Root (2.1 참조) |
+
+---
+
+## 2. 도메인 객체 정의
+
+> **서술 템플릿**: 각 도메인 객체는 유형에 따라 아래 항목을 순서대로 기술한다.
+>
+> **공통 항목** (모든 유형):
+> 1. **정의** — 객체의 역할과 설계 원칙
+> 2. **구조도** — 필드 트리 (ASCII)
+> 3. **Spec Table** — 필드별 타입·필수·제약·설명(필드 역할 요약. 변경 부수효과는 자체 규칙에 기술)
+>
+> **유형별 추가 항목**:
+>
+> | 유형 | 해당 객체 | 추가 항목 |
+> |------|-----------|-----------|
+> | **설정 객체** | AlarmRule, DataSource, Condition, StreamControl, Action, Category | 자체 규칙, Validation, 기본값 |
+> | **정책 객체** | RecoveryPolicy, SuppressionPolicy, Escalation, GroupKeyConfig | 동작 요약, Validation, 기본값 |
+> | **시스템 생성 레코드** | AlarmHistory | 자체 규칙 |
+> | **이력 레코드** | AlarmRuleVersion, ActionHistory | 생성·갱신 규칙 (해당 시) |
+> | **도메인 상수** | Severity | _(공통 3항목만)_ |
+> | **API 전용 VO** | DryRunResult | _(공통 3항목만)_ |
+> | **런타임 상태 객체** | GroupAlarmState, SuppressionRuntimeState | 동작 요약, 기본값(초기화) |
+>
+> **항목 정의**:
+> - **자체 규칙** — 이 객체의 계산·제약·정책·필드 변경 부수효과 요약. C1/C2 규칙은 인라인 요약 + 3장 forward reference
+> - **동작 요약** — 런타임 핵심 동작을 테이블(2-4행)로 요약하고, 하단에 3장 상세 링크를 명시
+> - **생성·갱신 규칙** — 레코드 생성 시점·조건, 갱신 필드, 타 객체와의 관계
+> - **Validation** — 저장/변경 시 검증 규칙 (V-코드 테이블)
+> - **기본값** — 미설정(null) 또는 각 설정 조합의 런타임 동작. 상태 전환 부수효과 미포함 (→ 동작 요약 또는 3장)
+> - **기본값(초기화)** — 런타임 상태의 초기화 시점·조건·기본 구조
+>
+> **Behavior 배치 기준 (C1/C2)**:
+> - C1: 타 객체 런타임 상태를 참조하는 규칙 → 3장에서 서술
+> - C2: 타 객체에 부수효과를 발생시키는 규칙 → 3장에서 서술
+>
+> **forward reference 인라인 요약 원칙**:
+> 모든 forward reference에는 한 줄 동작 요약을 인라인으로 병기한다.
+> 형식: `규칙명(핵심 동작 한 줄 요약) → 상세: X.Y절`
+
+---
+
+### 2.1 AlarmRule (알람 룰) — Aggregate Root
+
+> 알람 정의의 모든 구성요소(조건·액션·정책)를 소유하는 시스템 핵심 Aggregate.
+
+**설계 원칙:**
+- 모든 하위 객체는 룰이 직접 소유한다 **(Aggregate: AlarmRule)**
+- **AlarmRule 단일 레코드**가 알람 정의 전체를 보유한다
+
+#### 구조도
+
+```
+AlarmRule
+├── id: number (auto increment)
+├── alarmType: "state" | "event"
+├── enabled: boolean
+├── code: string
+├── name: string
+├── severityLevel: string
+├── description?: string
+├── categoryId?: number (FK → Category)
+├── tags?: string[]
+├── parentRuleId?: number (FK → AlarmRule)
+│
+├── dataSources: DataSource[] ──────── JSON
+├── condition: Condition ────────────── JSON
+├── actions: Action[] ──────────────── JSON
+├── streamControl?: StreamControl ──── JSON
+├── recovery?: RecoveryPolicy ────────── JSON
+├── suppression?: SuppressionPolicy ── JSON
+├── escalation?: Escalation ──────────── JSON
+├── groupKeyConfig?: GroupKeyConfig ── JSON
+│
+├── createdAt: timestamptz
+└── updatedAt: timestamptz
+```
+
+#### Spec Table
+
+| 필드                      | 타입                | 필수  | 제약                                                                              | 설명                                               |
+| ----------------------- | ----------------- | --- | ------------------------------------------------------------------------------- | ------------------------------------------------ |
+| id                      | number            | yes | auto increment, PK                                                              | —                                                |
+| alarmType               | string            | yes | `"state"` \| `"event"`, immutable                                               | 알람 분류 (자체 규칙 참조)                                 |
+| enabled                 | boolean           | yes | default: false                                                                  | 룰 활성화 여부 (자체 규칙 참조)                              |
+| code                    | string            | yes | max 50, unique                                                                  | 사용자 정의 코드 (UI 표시, API 식별자)                       |
+| name                    | string            | yes | max 200                                                                         | 표시명                                              |
+| severityLevel           | string            | yes | `"info"` \| `"low"` \| `"warning"` \| `"high"` \| `"critical"` \| `"emergency"` | 기본 심각도.                                          |
+| description             | string            | no  | max 2000                                                                        | 설명 텍스트                                           |
+| categoryId              | number            | no  | FK → Category, SET NULL on delete                                               | 알람룰의 정형 분류. 관리자가 사전 등록한 계층형 카테고리 중 선택 (2.4.4 참조) |
+| tags                    | string[]          | no  | max 20개, 각 항목 max 50, 룰 내 중복 불가. `null`과 `[]` 동일 취급 (태그 없음)                     | 운영자가 자유롭게 붙이는 비정형 라벨. 검색 필터, 임시 추적, 운영 메모 용도     |
+| parentRuleId            | number            | no  | FK → AlarmRule, SET NULL on delete                                              | 상위 알람 억제 참조 (FR-7.2). 검증: V-S1~V-S3              |
+| **[DataSource]**        |                   |     |                                                                                 |                                                  |
+| dataSources             | DataSource[]      | yes | JSON, 1~10개                                                                     | 데이터 소스 목록 (2.2.1 참조)                             |
+| **[Condition]**         |                   |     |                                                                                 |                                                  |
+| condition               | Condition         | yes | JSON                                                                            | 조건 컨테이너 + 노드 트리 (2.2.2 참조)                       |
+| **[Action]**            |                   |     |                                                                                 |                                                  |
+| actions                 | Action[]          | yes | JSON, 1~20개                                                                     | 액션 목록 (2.2.4 참조)                                 |
+| **[StreamControl]**     |                   |     |                                                                                 |                                                  |
+| streamControl           | StreamControl     | no  | JSON                                                                            | 출력 제어 (2.2.3 참조)                                 |
+| **[RecoveryPolicy]**    |                   |     |                                                                                 |                                                  |
+| recovery                | RecoveryPolicy    | no  | JSON, **state 타입 전용**                                                           | 복구 정책 (2.2.5 참조)                                 |
+| **[SuppressionPolicy]** |                   |     |                                                                                 |                                                  |
+| suppression             | SuppressionPolicy | no  | JSON                                                                            | 억제 정책 (2.2.6 참조)                                 |
+| **[Escalation]**        |                   |     |                                                                                 |                                                  |
+| escalation              | Escalation        | no  | JSON, **state 타입 전용**                                                           | 에스컬레이션 (2.2.7 참조)                                |
+| **[GroupKeyConfig]**    |                   |     |                                                                                 |                                                  |
+| groupKeyConfig          | GroupKeyConfig    | no  | JSON, 와일드카드 룰에서만 유효                                                             | 그룹 키 설정 (2.2.8 참조)                               |
+| **[Timestamp]**         |                   |     |                                                                                 |                                                  |
+| createdAt               | timestamptz       | yes | auto                                                                            | —                                                |
+| updatedAt               | timestamptz       | yes | auto                                                                            | —                                                |
+
+#### 자체 규칙
+
+- **alarmType별 동작 차이** (ISA-18.2 상태/이벤트 분류와 동일 개념):
+
+| 구분 | state (상태 알람) | event (이벤트 알람) |
+|------|-----------------|-------------------|
+| 생명주기 | Active → Acknowledged → Cleared | 발생 즉시 완료 |
+| AlarmHistory | status 전이 추적 | triggeredAt = clearedAt, clearType: "auto" |
+| RecoveryPolicy | 적용됨 | 무시됨 (해제할 상태가 없음) |
+| Escalation | 적용됨 | 무시됨 |
+| 활성 알람 목록 | 포함 | 미포함 (즉시 Cleared) |
+| 중복 병합 (FR-7.5) | occurrenceCount 증가 | 매번 새 이력 생성 |
+
+- **필드·기능 변경 부수효과:**
+
+| 대상 | 부수효과 | 참조 |
+|------|---------|------|
+| alarmType | immutable — 전환 시 AlarmHistory 정합성 파괴, AlarmRuleVersion 비교 무의미. 변경 필요 시 새 룰 생성 후 기존 비활성화 | — |
+| enabled | `false` → 구독 해제·런타임 정리. 정비 시 maintenanceMode(2.6.2) 사용 — 구독 유지·기존 알람 상태 보존. 활성화 시 구독+워밍업+상태초기화 | 3.2.4절, 3.9절 |
+| severityLevel | 변경 시 신규 발생분부터 적용, 기존 활성 알람에는 미반영. multiLevel 조건 사용 시 ratedLevel이 우선 | 2.3.1 |
+| parentRuleId | 변경 시 억제 관계 즉시 재평가. 상위 룰 Active 시 하위 전체 GroupKey 억제 | V-S1~V-S3, 3.4절 |
+
+- 런타임 제어 명령(수동 해제/acknowledge/일시 억제/전체 해제, ruleId+groupKey 지정) → 상세: **3.9.3절**
+- 룰 복제·내보내기/가져오기(enabled=false, 런타임 미복제, JSON 포맷) → 상세: **3.9.4절**
+
+#### Validation
+
+##### parentRuleId 검증 규칙
+
+> parentRuleId는 외부 엔티티 참조이므로 JSONB가 아닌 **AlarmRule 독립 컬럼** + **DB FK 제약**으로 관리한다. (why: JSONB 내부 값에는 FK 제약 불가)
+
+| 규칙 ID | 조건 | 위반 시 동작 | 비고 |
+|---------|------|:-----------:|------|
+| V-S1 | **(자기 참조 금지)** parentRuleId ≠ 자신의 ruleId | 거부 | 무한 루프 방지 |
+| V-S2 | **(순환 참조 금지)** parentRuleId 상위 체인 깊이 최대 5 | 거부 | **깊이 = 부모 링크 수** (A→B=1, A→B→C=2, …, 5=허용, 6=거부) |
+| V-S3 | **(타입 제한)** parentRuleId 대상이 event 타입 | 거부 | event 타입은 Active 상태 없어 억제 무의미 |
+
+---
+
+### 2.2 AlarmRule 내부 구성요소
+
+> AlarmRule이 소유하는 하위 객체들.
+
+---
+
+#### 2.2.1 DataSource (데이터 소스)
+
+> 조건 평가(Condition)에 공급할 데이터의 수집 경로·품질·속도를 정의하는 입력원 단위.
+
+**설계 원칙:**
+- `freshness`·`inputThrottle`(Input Control)은 조건 평가 **전** 입력 게이트, StreamControl(2.2.3)은 조건 충족 **후** 출력 게이트 — 관심사가 다르므로 DataSource 레벨에 배치한다.
+
+##### 구조도
+
+```
+DataSource
+├── alias: string
+├── type: "mqtt"
+│
+├── [MQTT]
+│   ├── brokerUrl: string
+│   ├── topic: string
+│   ├── path: string
+│   └── brokerOptions?: BrokerOptions
+│
+├── [FreshnessConfig]
+│   └── freshness?: FreshnessConfig
+│
+├── [InputThrottleConfig]
+│   └── inputThrottle?: InputThrottleConfig
+│
+└── description?: string
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| alias | string | yes | max 50, 룰 내 고유 | 조건에서 참조할 별칭. 소스 1개일 때 생략하면 `"default"` 자동 부여 |
+| type | string | yes | `"mqtt"` | 데이터 소스 유형 |
+| **[MQTT]** | | | | |
+| brokerUrl | string | yes | — | MQTT 브로커 주소 |
+| topic | string | yes | max 500 | MQTT 토픽 (고정 또는 와일드카드) |
+| path | string | yes | max 200 | 페이로드 값 추출 경로 **(path 문법 참조)** |
+| brokerOptions | BrokerOptions | no | — | QoS, 인증, TLS 등. **(A.4.2 BrokerOptions 참조)** |
+| **[FreshnessConfig]** | | | | (선택) |
+| freshness | FreshnessConfig | no | — | **데이터 신선도 제어** |
+| freshness.maxAgeSeconds | number | yes | 1~86400 | 캐시 유효 기간 (초) |
+| freshness.onExpired | string | yes | `"skip"` \| `"evaluate"` \| `"alarm"`, default: `"evaluate"` | 만료 시 동작 |
+| **[InputThrottleConfig]** | | | | (선택) |
+| inputThrottle | InputThrottleConfig | no | — | **입력 속도 제한** |
+| inputThrottle.maxMessagesPerSecond | number | yes | 1~10,000 | 초당 최대 처리 메시지 수 |
+| inputThrottle.onExcess | string | yes | `"drop"` \| `"sample"`, default: `"sample"` | 초과 시 동작 |
+| **[기타]** | | | | |
+| description | string | no | — | 설명 |
+
+**path 문법**
+
+MQTT 메시지(JSON)에서 조건 평가에 사용할 값을 추출하는 경로 표현식이다.
+
+```
+path       = segment ( "." segment )*
+segment    = bracket_key | identifier index?
+bracket_key = "[" quoted_string "]"
+identifier = [a-zA-Z_$] [a-zA-Z0-9_$-]*
+index      = "[" integer "]"
+integer    = [0-9]{1,2}               ── 0~99
+quoted_string = '"' <any char except '"'> '"'
+```
+
+| 지원 패턴 | 예시 | 비고 |
+|----------|------|------|
+| 단순 키 | `temperature` | — |
+| 중첩 키 (dot notation) | `sensor.data.temperature` | — |
+| 배열 인덱스 | `readings[0]` | — |
+| 배열+중첩 | `SAMKWANG_KOREA_REALTIME_A[0].S004` | — |
+| 특수 문자 키 (대괄호 표기) | `["data.point"].value` | `["key with space"].value` 등 |
+| 옵셔널 체이닝 | `data?.value` | JavaScript 동일 단락 평가. `data`가 null이면 `?.` 이후 전체 체인 null 반환 |
+| 와일드카드 배열 | `sensors[*].value` | **첫 번째 요소만 추출** (`sensors[0].value`와 동일). 배열 반환은 path_error |
+
+| path 제약 | 규칙 | 비고 |
+|-----------|------|------|
+| 중첩 깊이 | ≤ 10단계 | 실무 5단계 이상 드묾, 무제한은 DoS 벡터 |
+| 배열 인덱스 | 0~99 (양수만) | 음수 인덱스 미지원 |
+| 추출 결과 타입 | Number, String, Boolean, null | 객체/배열 반환 시 **path_error** |
+
+| 경로 미존재 시 | 동작 | 비고 |
+|---------------|------|------|
+| 런타임 | `null` 반환 → **조건 미충족** 처리 | 외부 시스템 의존이므로 에러 중단 시 전체 룰 정지 |
+| 드라이런 | `null` 반환 + `path_error` **경고** | 경로 오류를 사전 인지할 수 있도록 |
+
+##### 자체 규칙
+
+> DataSource는 AlarmRule 내부 객체이므로 자체 생명주기(상태 전이)가 없음.
+
+**소스-조건 참조 규칙 (alias)**
+
+Condition의 각 노드는 `alias`로 DataSource를 참조하여 값을 공급받는다.
+
+```
+DataSource[alias="temp"]  ──→  topic: "sensor/+/temperature", path: "value"
+DataSource[alias="humid"] ──→  topic: "sensor/+/humidity", path: "value"
+
+Condition:
+  temp > 25 AND humid > 70
+  ↑            ↑
+  alias로 참조   alias로 참조
+```
+
+**복합 DataSource 조합 규칙**
+
+- 룰에 복수 DataSource가 정의될 때, 각 소스의 와일드카드 여부로 전체 조합 유형을 결정한다.
+
+| 유형 | 구성 | 허용 | GroupKey 동작 | 시나리오 예시 |
+|------|------|------|-------------|-------------|
+| **A** | 고정만 | O | 모두 `"_default_"` | `room/01/temp` + `room/01/humidity` + `room/01/co2` |
+| **B** | 와일드카드만 (모두 동일 구조) | O | 동일 위치값으로 자동 매칭 | `chamber/+/temp` + `chamber/+/pressure` + `chamber/+/humidity` |
+| **C** | 와일드카드 2개 이상 중 구조 불일치 존재 | **X** | 매칭 불가 | `zone/+/temp` + `server/+/cpu` → 금지 |
+| **D** | 와일드카드(동일 구조) + 고정 혼합 | O | 고정소스를 모든 GroupKey에 **브로드캐스트** | `agv/+/sensor` + `agv/+/battery` + `agv/master/threshold` |
+
+> **동일 구조**: 모든 와일드카드 소스의 `+` 개수와 세그먼트 위치가 일치 (V-1). `#` 소스는 최대 1개, `+` 소스와 혼용 불가 (V-2).
+
+**Type B — 동일 구조 와일드카드 조합**
+
+- 산업 현장에서는 센서 종류별로 별도 토픽에 발행하는 패턴이 흔하다 (챔버별 온도·압력이 각각 별도 센서에서 발행, 층별 전력·조도가 다른 서브시스템에서 발행 등). 
+- 하나의 룰에서 복수 와일드카드 소스를 조합하여 동일 GroupKey끼리 평가한다.
+
+```
+DataSource[alias="temp"]  → sensor/+/temperature → GroupKey = "ROOM-A"
+DataSource[alias="humid"] → sensor/+/humidity    → GroupKey = "ROOM-A"
+DataSource[alias="co2"]   → sensor/+/co2         → GroupKey = "ROOM-A"
+
+→ 동일 GroupKey("ROOM-A")끼리 조건을 평가
+→ GroupKey가 다른 소스 간에는 조건 평가를 하지 않음
+```
+
+**Type C — 구조 불일치 금지**
+
+- 와일드카드 소스 간 `+` 구조가 다르면 GroupKey가 의미적으로 대응되지 않으므로 지원하지 않는다. (CEP 미적용)
+
+**Type D — 고정소스 브로드캐스트**
+
+```
+DataSource[alias="sensor"]  → agv/+/sensor         → GroupKey = "AGV-01"
+DataSource[alias="battery"] → agv/+/battery         → GroupKey = "AGV-01"
+DataSource[alias="master"]  → agv/master/threshold  → GroupKey = "_default_"
+
+→ master(고정)의 최신값은 모든 GroupKey(AGV-01, AGV-02, ...)에 공통 적용
+→ 와일드카드 소스끼리는 Type B 규칙으로 GroupKey 매칭
+→ 고정소스 미수신 시: warm-up 로직에 의해 해당 alias를 null 처리 → 조건 미충족
+```
+
+- DataSource 변경 정책(추가/제거/토픽 변경 시 구독 재구성+GroupKey 구조 변경 감지+일괄 해제) → 상세: **3.8.2절**
+- freshness onExpired 상세 동작(evaluate/skip/alarm, BullMQ 타이머 기반 만료 감지) → 상세: **3.8.2절**
+
+**inputThrottle — onExcess 동작**
+
+| onExcess | 동작 | 적합 시나리오 |
+|----------|------|-------------|
+| `sample` (기본) | **1초 텀블링 윈도우** 내 마지막 메시지만 유지. 윈도우 종료 시점에 마지막 메시지를 즉시 emit. 최신값으로 조건 평가 보장 | 최신값이 중요한 센서 데이터 |
+| `drop` | 초과 메시지 전부 버림. 처리된 메시지 수 메트릭만 기록 | 값 변화가 작고 빈도만 높을 때 |
+
+##### Validation
+
+**DataSource 저장 검증**
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-1 | **(와일드카드 구조 일치)** 복수 와일드카드 소스 시, 모든 `+` 개수와 세그먼트 위치가 동일해야 함 | 거부 | Type B 허용 조건, Type C 자동 방지 |
+| V-2 | **(# 혼용 금지)** `#` 소스는 룰 내 최대 1개, 다른 와일드카드(`+`) 소스와 혼용 불가 | 거부 | `#`는 가변 길이라 GroupKey 매칭 정의 불가 |
+| V-3 | **(중복 구독 금지)** alias가 달라도 topic이 같으면 거부 | 거부 | 불필요한 메모리 사용·혼선 |
+| V-4 | **(브로커 통일)** 복수 와일드카드 소스 간 brokerUrl이 동일해야 함 | 거부 | 다른 브로커 간 GroupKey 매칭 시점 동기화 불가 |
+
+**DataSource 변경 시 연쇄 검증**
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-7 | **(고아 참조 방지)** 모든 ConditionNode의 sourceAlias가 변경 후 DataSource.alias 목록에 존재해야 함 | 거부 | 고아 참조 방지 |
+| V-8 | **(조합 재검증)** DataSource 변경 후 V-1~V-4 재검증 수행 | 거부 | 조합 유형(Type A→D) 전환 가능 |
+
+**크로스 룰 오버랩 검증**
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-5 | **(토픽 오버랩)** 새 룰의 DataSource 토픽이 기존 활성 룰의 토픽과 와일드카드 오버랩 | 경고 | 의도적 중복 감시는 정상 시나리오, 저장 허용 |
+| V-6 | **(광범위 와일드카드)** `#` 단독 사용 또는 1세그먼트 prefix (`topic: "prefix/#"`) | 경고 | 성능·의미 양면에서 위험 |
+
+> 오버랩 관계 유형: 완전 일치(exact), 상위 포함(superset), 하위 포함(subset), 부분 오버랩(partial). 경고 내용과 반환 형식은 API 설계 문서에서 정의한다.
+
+**Input Control 검증**
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-F1 | **(신선도 범위)** freshness.maxAgeSeconds: 최소 1, 최대 86400 (24시간) | 거부 | 합리적 범위 |
+| V-F2 | **(단일 소스 신선도)** 단일 DataSource 룰에서 freshness 설정 | 경고 | 비교할 다른 소스 없음, onExpired=alarm은 예외적 용도 |
+| V-F3 | **(전체 skip 위험)** 모든 DataSource에 onExpired=skip 설정 | 경고 | 조건 평가 불가 상태 발생 가능 |
+| V-T1 | **(스로틀 범위)** inputThrottle.maxMessagesPerSecond: 최소 1, 최대 10,000 | 거부 | 합리적 범위 |
+| V-T2 | **(스로틀+집계 충돌)** inputThrottle + windowAggregation 동시 사용 | 경고 | 드랍된 메시지는 집계에 포함되지 않음 |
+
+**브로커 연결 검증**
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-B1 | **(인증 충돌)** 동일 brokerUrl에 서로 다른 인증/TLS 설정 존재 | 거부 | 하나의 TCP 연결에 이중 인증 불가 |
+| V-B2 | **(브로커 수 초과)** maxBrokers 초과 (DataSource + Action 고유 brokerUrl 합산) | 거부 | 연결 리소스 보호 |
+| V-B3 | **(브로커당 토픽 초과)** 고유 구독 토픽 수 L2 초과 (SystemConfig 참조) | 거부 | 단일 브로커 부하 방지 |
+| V-B4 | **(시스템 토픽 초과)** 고유 구독 토픽 수 L3 초과 (SystemConfig 참조) | 거부 | 시스템 리소스 보호 |
+
+##### 기본값
+
+- `freshness: null` → 신선도 검사 없음. 캐시된 값은 만료되지 않으며, 마지막 수신값으로 항상 평가한다.
+- `inputThrottle: null` → 입력 속도 제한 없음. 수신 메시지를 모두 처리한다 (시스템 하드리밋 A.4은 별도 적용).
+
+---
+
+#### 2.2.2 Condition / ConditionNode (조건) — 컨테이너 + 트리 구조
+
+> 알람 발생 여부를 판정하는 조건 트리. Condition(컨테이너)이 ConditionNode(리프·논리) 트리를 소유하며, 단일 진입점으로 단순~복합 조건을 통합 표현한다.
+
+**설계 원칙:**
+
+> 1. 조건 유형(simple, range, calculated 등)을 분리하면 "이 알람은 어떤 유형인가?"가 불분명해진다. 이를 해결하기 위해 **단일 트리 구조**로 통합한다.
+
+- **Condition = 컨테이너**: 조건 트리의 진입점. 노드가 아니며, `nodes` 배열로 ConditionNode를 보유한다
+- **단일 트리**: 단순 룰은 리프 1개, 복합 룰은 논리 연산자로 결합 — 모든 조건을 하나의 트리로 표현한다
+
+| 노드 종류 | 역할 |
+|-----------|------|
+| 리프 노드 | 평가식 — 실제 값을 비교. 모든 평가식은 동일한 구조 |
+| 분기 노드 | 논리 연산자 — AND, OR, NOT으로 리프를 결합 |
+
+- **UI 힌트 분리**: 평가 로직과 UI 표시 방식을 분리. 조건 트리 구조에서 UI가 자동으로 적절한 폼을 렌더링한다
+
+> 2. Condition 컨테이너 분리
+
+- 루트를 LogicNode로 강제하면 단순 룰(리프 1개)에서 children 최소 2 제약과 충돌
+- 컨테이너 분리로 `nodes` 최소 1 / `children` 최소 2가 독립 공존, 진입점은 항상 `condition.nodes`
+
+##### 구조도
+
+```
+Condition ────────────────── 조건 트리 진입점 (컨테이너)
+├── operator?: "AND" | "OR"
+├── nodes: ConditionNode[]
+└── metadata?: ConditionMetadata
+
+ConditionNode ───────────── 노드 공통 (추상)
+├── nodeType: "leaf" | "logic"
+└── metadata?: ConditionMetadata
+
+LogicNode extends ConditionNode ── 논리 연산자 노드
+├── nodeType: "logic"
+├── operator: "AND" | "OR" | "NOT"
+└── children: ConditionNode[]
+
+LeafNode extends ConditionNode ── 평가식 노드
+├── nodeType: "leaf"
+├── sourceAlias?: string
+├── evaluator: Evaluator
+├── negate: boolean
+└── severity?: Severity
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| **[Condition]** | | | | |
+| operator | string | no | `"AND"` \| `"OR"`, default: `"AND"` | nodes 2개 이상 시 유효. nodes 1개면 무시 |
+| nodes | ConditionNode[] | yes | 최소 1, 최대 10 | 조건 노드 배열. 빈 트리 금지 |
+| metadata | ConditionMetadata | no | — | `{ name?, description?, message? }` |
+| **[ConditionNode]** | | | | |
+| nodeType | string | yes | `"leaf"` \| `"logic"` | 노드 유형 |
+| metadata | ConditionMetadata | no | — | `{ name?, description?, message? }` |
+| **[LogicNode]** | | | | |
+| nodeType | string | yes | `"logic"` | — |
+| operator | string | yes | `"AND"` \| `"OR"` \| `"NOT"` | 논리 연산자 |
+| children | ConditionNode[] | yes | AND/OR: 최소 2 최대 10, NOT: 정확히 1 | 하위 노드 배열 |
+| **[LeafNode]** | | | | |
+| nodeType | string | yes | `"leaf"` | — |
+| sourceAlias | string | no | formula 외 **필수**, DataSource.alias에 존재 (V-7) | DataSource 참조 별칭. formula 타입은 생략 (수식 내에서 alias 직접 참조) |
+| evaluator | Evaluator | yes | 6개 타입 중 하나 | 평가식 (아래 상세) |
+| negate | boolean | yes | default: false | 결과 반전 (NOT 단축 표현) |
+| severity | Severity | no | — | 이 조건 충족 시 적용할 심각도. **2.3.1 Severity 타입 재사용** (`{ level, name, color?, icon? }`) |
+
+**Evaluator (평가식)**
+
+모든 리프 노드가 사용하는 통합 평가 인터페이스. **6개 타입**.
+
+| type | 용도 |
+|------|------|
+| `threshold` | 단순 비교 (범위 포함) |
+| `multiLevel` | 다단계 레벨 |
+| `stringMatch` | 문자열 매칭 |
+| `rateOfChange` | 변화율 감지 |
+| `formula` | 수식 (math.js) |
+| `dataQuality` | 데이터 품질 + 필드 검증 |
+
+**설계 근거 — Evaluator 타입:**
+- `range` → `threshold`에 흡수: `op`에 `between`/`notBetween` 추가로 범위 표현
+- `crossField` → `formula`에 흡수: `abs(temp - humid)` 같은 필드 간 연산은 수식으로 자연스럽게 표현
+- `stateCheck` → `dataQuality`에 흡수: `exists`, `isEmpty`, `isNull`은 데이터 품질 검증의 일종
+- `XOR` 논리 연산자 제거: AND/OR/NOT 조합으로 동치 표현 가능(`(A AND NOT B) OR (NOT A AND B)`). 복잡성 제거.
+
+**Evaluator 타입별 상세 제약**
+
+**공통 런타임 타입 불일치 처리:**
+
+| 상황 | 동작 | 근거 |
+|------|------|------|
+| 수신 값이 string (숫자 형태) | **number 자동 변환** 시도 (threshold, multiLevel, rateOfChange, formula) | IoT 센서가 `"25.3"` 형태로 발행하는 경우 흔함 |
+| 수신 값이 string (비숫자) | **조건 미충족** (null 취급) | 비교 불가 |
+| 수신 값이 boolean | **조건 미충족** (number 기대 타입), stringMatch는 `String()` 변환 | — |
+| 수신 값이 null/undefined | **조건 미충족** | 값 부재 감지는 dataQuality 사용 |
+
+**threshold 제약:**
+
+```
+threshold
+├── op: "gt" | "gte" | "lt" | "lte" | "eq" | "neq" | "between" | "notBetween"
+└── value: number | [number, number]
+```
+
+| 항목 | 규칙 | 근거 |
+|------|------|------|
+| op | 8개 enum 필수 | — |
+| value | `between`/`notBetween` → 배열(2개, min < max), 나머지 → number. NaN/Infinity 금지 | — |
+| between 경계 | **양쪽 포함 (closed)**: `between [30, 50]` = `30 ≤ x ≤ 50`. half-open 필요 시 `gte`+`lt` LogicNode 조합 또는 multiLevel 사용 | — |
+| notBetween 경계 | **양쪽 제외 (open)**: `notBetween [30, 50]` = `x < 30 OR x > 50`. between의 정확한 여집합 | — |
+
+**multiLevel 제약:**
+
+```
+multiLevel
+├── levels: LevelEntry[]
+│   ├── min?: number | null
+│   ├── max?: number | null
+│   ├── inclusive: "both" | "min" | "max" | "neither"
+│   └── severity: Severity
+│
+└── defaultSeverity?: Severity | null
+```
+
+| 항목 | 규칙 | 근거 |
+|------|------|------|
+| levels 개수 | **최소 2, 최대 6** | 1개면 threshold와 동일, 6은 severity 등급 수와 동일한 상한 |
+| 입력 값 타입 | **number만** | 범위 비교는 수치 연산. string/boolean 불가 |
+| min/max 동시 null | **금지** | 전 구간 매칭 → 의미 없음 |
+| min < max | **필수** (둘 다 존재 시) | min ≥ max면 빈 구간 |
+| NaN/Infinity | **금지** | JSON 미지원, null로 무한 표현 |
+| 범위 겹침 | **금지** (저장 시 검증) | 결정론적 매칭 보장 |
+| 범위 빈틈 | **허용** | 빈틈 = defaultSeverity 적용 구간 (정상) |
+| 정렬 | **min 오름차순 강제** (저장 시 자동 정렬) | 겹침 검증 단순화, UI 일관성 |
+| severity.level 중복 | **허용** | 동일 심각도를 여러 구간에 적용 가능 (예: 저온/고온 모두 warning) |
+| inclusive 겹침 | 인접 레벨 경계값이 동일하고 양쪽 모두 inclusive면 **에러** | 자동 조정은 사용자 의도와 다를 수 있으므로 명시 교정 |
+| null/undefined 입력 | **조건 미충족** (defaultSeverity 미적용) | "값 부재"와 "미매칭"은 다른 상황. 값 부재 감지는 dataQuality 사용 |
+| defaultSeverity 정상 구간 | 미매칭 시 `defaultSeverity` 적용. 없거나 `null`이면 알람 미발생 (= 정상) | — |
+
+**stringMatch 제약:**
+
+```
+stringMatch
+├── matchType: "eq" | "neq" | "in" | "notIn" | "contains" | "startsWith" | "regex"
+├── value?: string
+├── values?: string[]
+└── pattern?: string
+```
+
+| 항목 | 규칙 | 근거 |
+|------|------|------|
+| value | `eq`/`neq`/`contains`/`startsWith`에서 필수 | — |
+| values | `in`/`notIn`에서 필수, 최소 1 최대 100 | — |
+| pattern | `regex`에서 필수, **최대 500자**, 실행 타임아웃 100ms (ReDoS 방지). 타임아웃 발생 시: **조건 미충족 처리** + WARNING 로그. 반복 ReDoS 감지 시에도 자동 비활성화는 하지 않음 | — |
+| 입력 값 타입 | number/boolean → `String()` 변환 후 비교, null → 조건 미충족 | — |
+
+**rateOfChange 제약:**
+
+```
+rateOfChange
+├── mode: "absolute" | "percent"
+├── threshold: number
+├── op: "gt" | "gte" | "lt" | "lte"
+├── basis: "message" | "time"
+│
+├── [basis = "message"]
+│   └── lookback: number
+│
+└── [basis = "time"]
+    └── windowSeconds: number
+```
+
+| 항목 | 규칙 | 근거 |
+|------|------|------|
+| mode | 필수. absolute: `abs(현재 - 기준)`, percent: `abs(현재 - 기준) / abs(기준) × 100`. **부호 무관 (절대값 비교)** | — |
+| threshold | > 0, 필수 | — |
+| op | 필수. `eq`/`neq` 미지원 — 변화율이 정확히 특정 값인 경우는 실무상 무의미하며 부동소수점 비교 문제 발생 | — |
+| basis | 기본 `"message"` | — |
+| lookback | basis=message일 때. 기본 1, 최소 1, 최대 10. 직전 N번째 메시지 대비. **이전 메시지 부족 시(수신 이력 < lookback) 조건 미충족**. **값 히스토리 버퍼**: GroupKey별 독립 관리. 버퍼 크기 = 해당 룰 내 모든 rateOfChange evaluator의 최대 lookback 값. T3(메모리) — 서비스 재시작 시 유실, lookback 부족 기간 동안 미탐 허용 (warm-up 원칙과 일치) | — |
+| windowSeconds | basis=time일 때. 최소 1, 최대 3600. 최근 N초 이내 **시간순 가장 오래된 값**(윈도우 시작 시점에 가장 가까운 값) 대비. **윈도우 내 기준값 부재 시 조건 미충족** | — |
+| 입력 값 타입 | number. string 숫자 자동 변환, 비숫자 → 조건 미충족 | — |
+
+**formula 제약 (math.js 기반):**
+
+```
+formula
+├── expression: string
+├── op: "gt" | "gte" | "lt" | "lte" | "eq" | "neq"
+└── value: number
+```
+
+| 항목 | 규칙 | 근거 |
+|------|------|------|
+| expression | **최대 500자**, 필수 | — |
+| value | 비교 대상, 필수 | — |
+| 파서 | `math.compile()` 사용, `math.evaluate()` 직접 호출 금지 | scope 제한으로 안전성 확보 |
+| scope | DataSource alias 값만 주입 (alias → number 매핑) | 외부 변수 접근 차단 |
+| 차단 기능 | `import`, `createUnit`, `evaluate`, `parse`, `simplify`, `derivative`, `resolve` | 동적 코드 실행·시스템 접근 방지 |
+| 허용 범위 | math.js 내장 수학 함수·연산자·상수 (`abs`, `sqrt`, `pow`, `log`, `pi`, `e`, 삼각함수 등) | 별도 whitelist 불필요 — math.js가 수학 함수만 제공 |
+| 실행 타임아웃 | **100ms**. 타임아웃 발생 시: **조건 미충족 처리** + AlarmHistory.error에 `{ code: "FORMULA_TIMEOUT", message: "..." }` 기록 + WARNING 로그. 반복 타임아웃 시에도 룰 자동 비활성화는 하지 않음 (운영자 판단 영역) | 무한루프·과도 연산 방지 |
+| alias 참조 검증 | 저장 시 `math.parse(expression)` → 심볼 추출 → DataSource.alias 존재 확인 | 고아 참조 방지 |
+| 비숫자 alias 값 | 해당 alias를 **NaN** 처리 → 수식 결과 NaN → 조건 미충족 | math.js 규약: NaN 전파로 비교 연산 false |
+| sourceAlias | 생략. 수식 내에서 alias 직접 참조 (예: `"sqrt(pow(vibX, 2) + pow(vibY, 2))"`) | — |
+
+**dataQuality 제약:**
+
+```
+dataQuality
+├── checkType: "stuck" | "emptyPayload" | "physicalRange" | "negative" | "nanOrNull" | "spike" | "exists" | "isEmpty" | "isNull"
+└── params?: object
+```
+
+| checkType | params | 제약 |
+|-----------|--------|------|
+| `stuck` | `{ count: number }` | count: 최소 2, 최대 100. **동등성 판정**: number → **epsilon 비교** (`abs(a - b) < 1e-9`, 부동소수점 오차 허용), string → **strict equality** (`===`, 대소문자 구분) |
+| `emptyPayload` | — | params 불필요 |
+| `physicalRange` | `{ min: number, max: number }` | min < max. **양쪽 포함 (closed)**: `min ≤ x ≤ max`이면 정상, 범위 밖이면 조건 충족. threshold.between과 동일 규칙 |
+| `negative` | — | params 불필요. **0은 제외 (x < 0 만 조건 충족)** |
+| `nanOrNull` | — | params 불필요 |
+| `spike` | `{ threshold: number, mode: "absolute" \| "percent" }` | threshold > 0. **직전 값 대비 변화량**: absolute → `abs(현재 - 직전)`, percent → `abs(현재 - 직전) / abs(직전) × 100` |
+| `exists` | — | params 불필요 |
+| `isEmpty` | — | params 불필요 |
+| `isNull` | — | params 불필요 |
+
+##### 자체 규칙
+
+**심각도 결정 우선순위 (ratedLevel)**
+
+알람 발생 시 `AlarmHistory.ratedLevel`에 기록할 심각도는 다음 순서로 결정한다:
+
+```
+1. LeafNode.severity.level        ── 조건 노드에 지정된 심각도 (가장 구체적)
+2. multiLevel.levels[].severity.level ── 다단계 레벨 매칭 심각도
+```
+
+> 1, 2 모두 해당 없으면 `ratedLevel = null` → `ruleLevel`이 유효 심각도로 사용 (2.3.1 참조)
+
+**동작 규칙:**
+- 조건에서 심각도가 파생되면 → `ratedLevel`에 기록
+- 조건에서 심각도가 파생되지 않으면 → `ratedLevel = null`, `ruleLevel`이 대표 심각도로 사용
+- 복합 조건(AND/OR)에서 여러 리프가 충족되면 **가장 높은 심각도**를 `ratedLevel`에 기록
+- **multiLevel LeafNode에 LeafNode.severity를 동시 지정한 경우**: LeafNode.severity가 우선 (우선순위 1번). 이 조합은 저장 시 **경고** 반환 (의도 확인)
+- 대시보드/필터링 시 유효 심각도: `ratedLevel ?? ruleLevel`
+
+**설계 근거:**
+- evaluator는 순수한 평가 로직이므로, severity는 평가 결과에 대한 메타데이터로서 LeafNode 레벨에 두는 것이 관심사 분리에 적합
+- threshold, stringMatch, formula 등 모든 evaluator 타입에서 조건별 심각도 세분화가 가능해짐 (현재는 multiLevel만 가능)
+- `ratedLevel`이 null이면 "조건에서 별도 심각도를 파생하지 않았음"을 명시적으로 표현
+
+**NOT 노드 severity 결정 규칙:**
+- NOT 노드의 결과가 true일 때(= 내부 자식 조건이 false), 내부 자식 노드의 severity를 그대로 사용한다 (반전 없음)
+
+##### Validation
+
+**Condition 검증 규칙 (룰 저장 시)**
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-C1 | **(노드 수 제한)** Condition.nodes 최소 1, 최대 10 | 거부 | 빈 트리 금지, 과도한 복잡도 방지 |
+| V-C2 | **(자식 수 제한)** LogicNode children: AND/OR 최소 2 최대 10, NOT 정확히 1 | 거부 | 논리 연산자 정의 |
+| V-C3 | **(트리 복잡도 제한)** 조건 트리 최대 깊이 5, 최대 노드 수 30 | 거부 | 평가 비용·메모리 제한 |
+| V-C4 | **(소스 참조 필수)** LeafNode.sourceAlias: formula 외 필수, DataSource.alias에 존재 | 거부 | 고아 참조 방지 (V-7 동일) |
+| V-C5 | **(심볼 존재 검증)** formula.expression 내 심볼이 DataSource.alias에 모두 존재 | 거부 | 미정의 변수 방지 |
+| V-C6 | **(레벨 범위 정합)** multiLevel.levels 범위 겹침 금지, min 오름차순, min < max | 거부 | 결정론적 매칭 보장 |
+| V-C7 | **(패턴 안전성)** stringMatch.pattern 최대 500자, regex 컴파일 가능 | 거부 | ReDoS 방지 |
+| V-C8 | **(수식 구문 검증)** formula.expression 최대 500자, math.parse() 통과 | 거부 | 구문 오류 사전 차단 |
+
+---
+
+#### 2.2.3 StreamControl (출력 제어)
+
+> 조건 충족 **후** 알람 발행 전에 적용하는 출력 스트림 제어 파이프라인. 쿨다운·디바운스·윈도우 집계 등을 순서대로 조합한다.
+
+##### 구조도
+
+```
+StreamControl
+├── pipeline: StreamOperator[] ──── 순서대로 적용
+```
+
+##### Spec Table
+
+| type | 파라미터 | 설명 | 제약 | FR 참조 |
+|------|----------|------|------|---------|
+| `cooldown` | `(seconds)` | 발행 후 N초 억제 | seconds: 1–86400, 정수. **타이머 시작: 마지막 발행 시점**. Active → Cleared 전이 시에도 cooldown 타이머는 **유지** (3.9 매트릭스: Cleared 전이 시 StreamControl 타이머 "—(유지)"). 재발생(새 AlarmHistory) 시에도 이전 cooldown 타이머가 적용되어, cooldown 잔여 시간 내에는 새 알람도 억제 | FR-4.1 |
+| `deduplication` | `()` | 동일 값 억제 | 직전 발행 값과 동일하면 억제 | FR-4.2 |
+| `debounce` | `(seconds)` | N초 안정 후 발행 | seconds: 1–3600, 정수. **타이머 시작: 마지막 조건 충족 시점. 조건 충족 여부와 무관하게 모든 메시지 수신 시 리셋** — 조건이 충족된 상태에서 메시지가 계속 오면 타이머가 계속 리셋되어 발행이 지연됨. N초 동안 어떤 메시지도 수신되지 않아야 발행. sustainedDuration과의 차이: sustainedDuration은 조건 충족 상태가 N초 유지되면 발행(메시지 수신과 무관), debounce는 N초 동안 메시지 자체가 없어야 발행 | FR-4.3 |
+| `enrichPrevious` | `()` | 이전 값 첨부 | 이전 메시지의 값을 `previousValue`로 첨부 | FR-4.4 |
+| `consecutiveCount` | `(count)` | N회 연속 시 발행 | count: 2–100 (1이면 무의미). **조건 미충족 시 카운터 0으로 리셋**. Deduplication Check에서 occurrenceCount++로 중복 병합된 경우에도 **연속 카운트를 계속 유지**한다 (병합은 "이미 활성 알람이 있다"는 상태일 뿐, 조건 충족 연속성은 별개) | FR-4.5 |
+| `batch` | `(size)` | N건 모아서 발행 | size: 2–1000. **1MB 조기 flush**: 배치 누적 크기(JSON 직렬화 후 byte 수)가 1MB에 도달하면 size 미달이어도 **즉시 발행** (NFR-1.7 준수). 크기 측정: 각 메시지 추가 시 누적 byte 수 갱신 | FR-4.6 |
+| `windowAggregation` | `(windowSeconds, aggregation, threshold, op)` | 시간 윈도우 집계 | windowSeconds: 1–3600 / aggregation: avg·sum·min·max·count / threshold: NaN·Infinity 금지 / op: gt·gte·lt·lte. **count = 윈도우 내 조건 충족 횟수**. **텀블링 윈도우** (고정 구간, 겹침 없음): 첫 메시지 수신 시점 기준으로 windowSeconds 구간을 시작하고, 구간 종료 시 집계 결과를 threshold와 비교 후 다음 구간 시작. 윈도우 내 데이터 부족(1건 미만) 시 해당 윈도우 결과는 미충족 처리 | FR-4.7 |
+| `onStateChange` | `()` | 상태 변경 시만 발행 | 조건 결과(true/false)가 이전과 달라질 때만 통과 | FR-4.8 |
+| `sustainedDuration` | `(seconds)` | N초 지속 시 발행 | seconds: 1–86400. **타이머 시작: 조건 최초 충족 시점. 조건 미충족 시 리셋** | FR-5.1 |
+| `noMessageTimeout` | `(seconds)` | N초 무응답 시 발행 | seconds: 5–86400 (5초 미만은 네트워크 지터와 구분 불가). **타이머 시작: 첫 메시지 수신 시점** (첫 메시지 전에는 타이머 미동작 — warm-up 기간과 겹치므로 오탐 방지). 이후 **메시지 수신 시 리셋** | FR-5.2 |
+| `stateDwell` | `(seconds)` | 상태 N초 체류 시 발행 | seconds: 1–86400. **타이머 시작: 조건 결과가 변경된 시점. 상태 재변경 시 리셋** | FR-5.3 |
+
+pipeline 배열의 인덱스 순서가 곧 런타임 실행 순서이다. 시스템이 순서를 재배치하지 않으며, 저장 시 지정한 배치 그대로 실행한다.
+
+```
+예: pipeline = [ debounce(3s), consecutiveCount(3) ]
+  메시지 수신 → debounce(3초 안정 대기) → 통과 → consecutiveCount(3회 연속) → 통과 → 알람 발행
+```
+
+##### 자체 규칙
+
+**event 타입 적용 규칙**
+
+event 타입은 "발생 즉시 1회 기록"이 원칙이므로, **상태 의존 오퍼레이터는 no-op(통과)으로 동작**한다.
+
+- **양쪽 모두 적용**: `cooldown`(시간 기반 억제), `batch`(묶음 발행)
+- **event 시 no-op**: 나머지 9개 — 직전 값 비교·안정 대기·연속 횟수·상태 변경 등 연속 평가 전제 오퍼레이터. **no-op 구현: 파이프라인 구성 시 해당 오퍼레이터를 아예 제외** (인스턴스 미생성). alarmType은 immutable이므로 런타임 중 state↔event 전환이 발생하지 않아 동적 재구성 불필요
+
+> 저장 검증에서 event 타입 룰에 no-op 오퍼레이터를 포함해도 **거부하지 않는다** (경고만). 런타임에서 파이프라인 구성 시 제외하여 리소스를 절약한다.
+
+##### Validation
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-SC1 | **(파이프라인 길이)** `pipeline` 배열: 최소 1, 최대 5 | 거부 | 빈 파이프라인은 null로 저장, 5개 초과는 과도한 복잡도 |
+| V-SC2 | **(중복 금지)** 동일 type 오퍼레이터 중복 불가 | 거부 | 파라미터 조정으로 대응 |
+| V-SC3 | **(의미 중복 금지)** `debounce` + `sustainedDuration` 동시 사용 불가 | 거부 | 둘 다 "N초 유지 후 발행" |
+| V-SC4 | **(의미 중복 금지)** `deduplication` + `onStateChange` 동시 사용 불가 | 거부 | 둘 다 "변화 시에만 통과" |
+| V-SC5 | **(순서 제약)** `batch`는 pipeline 마지막 위치만 허용 | 거부 | batch 이후 오퍼레이터가 오면 묶음 해체 |
+| V-SC6 | **(파라미터 범위)** 각 오퍼레이터의 파라미터: Spec Table 제약 준수 | 거부 | 예: cooldown.seconds 1–86400 |
+| V-SC7 | **(event no-op)** event 타입 룰에 no-op 오퍼레이터 포함 시 | **경고** | 저장 허용, 런타임에서 제외 |
+
+##### 기본값
+
+- `streamControl: null` → 출력 제어 없음. 조건 충족 즉시 알람 발행.
+
+---
+
+#### 2.2.4 Action (액션)
+
+> 알람 발생 시 실행할 동작의 **발행 대상·방식을 사전 정의**하는 설정 단위. 메시지 콘텐츠 조립은 런타임 파이프라인 책임 (3.3 참조).
+
+##### 구조도
+
+```
+Action
+├── type: ActionType
+├── enabled: boolean
+├── retryPolicy?: RetryPolicy
+│
+├── [mqtt]
+│   └── mqtt?: MqttActionConfig
+│
+├── [email]
+│   └── email?: EmailActionConfig
+│
+├── [webhook]
+│   └── webhook?: WebhookActionConfig
+│
+├── [log]
+│   └── log?: LogActionConfig
+│
+└── [db] (파라미터 없음)
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| type | ActionType | yes | `'mqtt'` \| `'email'` \| `'webhook'` \| `'log'` \| `'db'` | 액션 종류 |
+| enabled | boolean | yes | — | 활성 여부 |
+| retryPolicy | RetryPolicy | no | 아래 RetryPolicy 참조 | 재시도 정책 (FR-8.7) |
+| **[MqttActionConfig]** | | | | |
+| mqtt | MqttActionConfig | no | type=`'mqtt'` 시 필수 | **MQTT 발행 설정** |
+| mqtt.brokerUrl | string | yes | — | MQTT 브로커 주소 |
+| mqtt.topic | string | yes | 플레이스홀더 지원 | 발행 토픽 패턴 |
+| mqtt.messageMode | string | yes | `'auto'` \| `'custom'`, default: `'auto'` | auto: 시스템 표준 AlarmMessage 자동 생성 / custom: 런타임 파이프라인 조립 메시지 |
+| mqtt.brokerOptions | BrokerOptions | no | — | QoS, 인증, TLS 등. DataSource.brokerOptions와 **동일 인터페이스 재사용**. 발행 전용 옵션(retain 등)은 메시지 레벨 설정이며 brokerOptions에 포함하지 않음. A.4.2 BrokerOptions 인터페이스 참조 |
+| **[EmailActionConfig]** | | | | |
+| email | EmailActionConfig | no | type=`'email'` 시 필수 | **이메일 발송 설정** |
+| email.to | (string \| number)[] | yes | 최대 50 | 수신자. string=이메일 주소, number=User PK. **User PK → 이메일 주소 resolve 시점: 발송 시점(최신 값)**. User의 이메일 변경 시 최신 주소로 발송. ActionHistory.request에는 **resolve된 이메일 주소**를 기록 (감사 추적용) |
+| email.cc | (string \| number)[] | no | 최대 20 | 참조 |
+| email.bcc | (string \| number)[] | no | 최대 20 | 숨은 참조 |
+| email.contentMode | string | yes | `'auto'` \| `'template'` \| `'manual'`, default: `'auto'` | 콘텐츠 구성 방식 (아래 상세) |
+| email.subject | string | no | 플레이스홀더 지원 | 제목 (template: 오버라이드, manual: 필수) |
+| email.body | string | no | 플레이스홀더 지원 | 본문 (template: 오버라이드, manual: 필수) |
+| email.templateConfigId | number | no | FK → SystemConfig | 메일 템플릿 레이아웃 (template 모드 필수, 다른 모드 선택) |
+| email.attachments | Attachment[] | no | 최대 5개, 개별 파일 최대 10MB | 첨부파일 설정 (모든 모드). `Attachment: { fileId: number (FK → File 엔티티), filename?: string (표시명 오버라이드) }`. File 엔티티 FK 참조 방식으로 통일. Base64 인라인/URL 방식은 미지원 |
+| email.smtpConfigId | number | no | FK → SystemConfig | SMTP 트랜스포트 (미지정 시 시스템 기본) |
+| **[WebhookActionConfig]** | | | | |
+| webhook | WebhookActionConfig | no | type=`'webhook'` 시 필수 | **웹훅 호출 설정** |
+| webhook.url | string | yes | HTTPS 필수, SSRF 방지 (V-A3) | 호출 URL |
+| webhook.method | string | yes | `'GET'` \| `'POST'`, default: `'POST'` | HTTP 메서드 |
+| webhook.headers | Record\<string, string\> | no | — | 커스텀 헤더 |
+| webhook.bodyTemplate | string | yes | 플레이스홀더 지원 | 요청 바디 템플릿 |
+| **[LogActionConfig]** | | | | |
+| log | LogActionConfig | no | type=`'log'` 시 필수 | **로그 기록 설정** |
+| log.level | string | yes | `'debug'` \| `'info'` \| `'warn'` \| `'error'` | 로그 레벨 |
+| **[db]** | | | | |
+| — | — | — | — | 파라미터 없음. AlarmHistory에 시스템 자동 기록 |
+
+> 플레이스홀더: mqtt.topic, webhook.bodyTemplate, email의 subject/body 등 모든 문자열 설정 필드에서 플레이스홀더를 사용할 수 있다.
+
+**email.contentMode 상세**
+
+| contentMode | subject / body | templateConfigId | 동작 |
+|-------------|---------------|-----------------|------|
+| `auto` | 무시 | 선택 (레이아웃용) | 시스템이 알람 정보 기반 자동 생성 |
+| `template` | 선택 (오버라이드) | **필수** (기본값 로드 원본) | 템플릿 기본값 사용, 오버라이드 가능 |
+| `manual` | **필수** | 선택 (레이아웃용) | 직접 지정. templateConfigId 있으면 body는 레이아웃 콘텐츠 영역에 삽입 |
+
+**RetryPolicy (재시도 정책, FR-8.7)**
+
+```
+RetryPolicy (선택 — 액션별 독립 설정)
+├── maxRetries: number
+├── intervalMs: number
+└── backoff: string
+```
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| maxRetries | number | yes | 1–5, default: 3 | 최대 재시도 횟수 |
+| intervalMs | number | yes | 1000–60000, default: 5000 | 재시도 간격 (ms) |
+| backoff | string | yes | `'fixed'` \| `'exponential'`, default: `'fixed'` | exponential: `intervalMs × 2^(attempt-1)` |
+
+- **적용 대상**: `email`, `webhook` 권장. `mqtt`, `log`, `db`는 선택적 (외부 네트워크 의존 액션 우선)
+- **미지정 시**: 시스템 기본값 적용 — `{ maxRetries: 3, intervalMs: 5000, backoff: "fixed" }`
+- **ActionHistory.retryCount**: 실제 재시도 횟수 기록 (0 = 첫 시도 성공)
+
+##### 자체 규칙
+
+해당 없음 — Action은 설정(템플릿)이며 독립 상태 전이 없음. 실행 결과는 ActionHistory(2.4.2)에 기록한다.
+
+**부분 실패 정책**: 
+- actions 배열의 각 액션은 **독립적으로 실행**된다. 일부 액션이 실패해도 나머지 액션 실행에 영향 없음. 
+- 성공한 액션의 결과는 롤백하지 않는다 (이메일 발송 취소 등 불가능). 
+- 실패한 액션은 해당 액션의 RetryPolicy에 따라 **개별 재시도**한다.
+- AlarmHistory.status에는 영향 없음 (active 유지) — 알람 발생 자체와 액션 실행은 분리된 관심사이다.
+
+##### Validation
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-A1 | **(액션 필수)** AlarmRule.actions: 최소 1개 | 거부 | 액션 없는 알람 무의미 |
+| V-A2 | **(수신자 제한)** email.to: 최소 1, 최대 50. cc/bcc 각 최대 20 | 거부 | 수신자 범위 제한 |
+| V-A3 | **(URL 보안)** webhook.url: HTTPS 필수, 프라이빗 IP 차단, 화이트리스트 대조 | 거부 | SSRF 방지 (NFR-4.6) |
+| V-A4 | **(재시도 횟수)** RetryPolicy.maxRetries: 1–5 | 거부 | 합리적 범위 |
+| V-A5 | **(재시도 간격)** RetryPolicy.intervalMs: 1000–60000 | 거부 | 합리적 범위 |
+
+---
+
+#### 2.2.5 RecoveryPolicy (복구 정책)
+
+> **state 타입 전용.** Active 상태의 알람을 정상(Cleared)으로 복귀시키는 판정 정책.
+
+##### 구조도
+
+```
+RecoveryPolicy
+├── enabled: boolean
+├── type: string
+│
+├── [auto]
+│   ├── recoveryThreshold?: number
+│   └── targetSeverity?: string | null
+│
+├── [timeout]
+│   └── timeoutSeconds: number
+│
+├── [manual] ── (파라미터 없음)
+│
+└── recoveryActions?: Action[]
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| enabled | boolean | yes | default: true | 복구 감시 활성 여부 |
+| type | string | yes | `'auto'` \| `'manual'` \| `'timeout'` | 복구 판정 방식 |
+| recoveryActions | Action[] | no | 최대 10개, 각 Action은 2.2.4 검증 적용 | 복구 시 실행할 별도 액션 |
+| **[auto]** | | | | 후속 메시지 수신마다 복구 조건 평가 |
+| recoveryThreshold | number | no | NaN/Infinity 금지 | 미지정: 역조건(알람 조건 false 전환) 복구. 지정: 히스테리시스(op 반전 비교) |
+| targetSeverity | string \| null | no | multiLevel 조건 전용 | 문자열: 현재 ratedLevel이 해당 severity **이하(낮은 쪽)**로 내려오면 해제. "이하" = severity 순서에서 더 낮은 방향 (`info(0) < low(1) < ... < emergency(5)`). 예: targetSeverity="warning"이면 현재 레벨이 info 또는 low로 내려와야 해제. null: 정상 구간(defaultSeverity=null, 알람 미발생 구간) 복귀 시 해제 |
+| **[timeout]** | | | | 경과 시 조건 재평가 없이 무조건 해제 |
+| timeoutSeconds | number | yes | 60–604800 (7일) | 타임아웃 시간 (초) |
+| **[manual]** | | | | Recovery Monitor 개입 없음. 운영자 명시적 해제만 허용 |
+
+**히스테리시스 비교 방향 규칙:**
+
+| 알람 조건 op | 복구 비교 | 예시 |
+|------------|---------|------|
+| `gt` / `gte` | `lte recoveryThreshold` | 알람 `> 90` → 복구 `≤ 70` |
+| `lt` / `lte` | `gte recoveryThreshold` | 알람 `< 15` → 복구 `≥ 20` |
+
+**적용 가능 조합 (저장 검증):**
+
+| evaluator 타입 | recoveryThreshold | targetSeverity | 비고 |
+|---------------|:-:|:-:|------|
+| threshold (gt/gte/lt/lte) | O | - | 히스테리시스 가능 |
+| threshold (eq/neq/between/notBetween) | X | - | 역조건만 |
+| multiLevel | - | O | 목표 레벨 복귀 |
+| stringMatch | X | - | 역조건만 |
+| rateOfChange | X | - | 역조건만 |
+| formula | O | - | 수식 결과에 히스테리시스 |
+| dataQuality | X | - | 역조건만 |
+
+`O` = 설정 가능, `X` = 저장 검증에서 거부, `-` = 해당 없음
+
+**recoveryThreshold "연속 N회" 기준:**
+- recoveryThreshold의 "연속 N회" 판정은 inputThrottle 적용 후 실제 평가 횟수 기준이다 (sample 모드에서 드롭된 메시지는 카운트하지 않음)
+
+##### 동작 요약
+
+| 핵심 동작 | 설명 |
+|-----------|------|
+| 복구 감시 | 후속 메시지마다 조건 역전(auto) 또는 타이머 만료(timeout) 판정 |
+| 타이머 관리 | timeout 타입: BullMQ delayed job으로 자동 해제 |
+| enabled 전환 | true→false: 기존 타이머 즉시 취소 / false→true: Active 알람에 즉시 복구 감시 재개 |
+| manual | Recovery Monitor 개입 없음, 운영자 명시적 해제만 |
+
+> 상세 흐름도 및 규칙 → **3.6절** 참조
+
+##### Validation
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-R1 | **(액션 수 제한)** recoveryActions: 최대 10개, 각 Action은 2.2.4 타입별 검증 적용 | 거부 | 복구 시 액션 수 제한 |
+| V-R2 | **(타임아웃 범위)** timeoutSeconds: 최소 60, 최대 604800 | 거부 | 합리적 범위 |
+| V-R3 | **(유효 숫자)** recoveryThreshold: NaN/Infinity 금지 | 거부 | 유효 숫자만 허용 |
+| V-R4 | **(타입 제약)** targetSeverity: multiLevel 조건에서만 설정 가능 | 거부 | 다른 evaluator에서 의미 없음 |
+
+##### 기본값
+
+| recovery 필드 상태 | 런타임 동작 |
+|-------------------|-----------|
+| `null` (미설정) | **기본 auto** — 조건 역전 시 자동 해제 (ISA-18.2 기본) |
+| `{ enabled: false, ... }` | Recovery Monitor 미동작. 운영자 직접 해제 또는 설정 변경(config_changed)으로만 해제 가능. 설정값 보존. enabled 전환 효과는 동작 요약 참조 |
+| `{ enabled: true, type: "auto" }` | 조건 역전 시 자동 해제 |
+| `{ enabled: true, type: "auto", recoveryThreshold: 70 }` | 히스테리시스 |
+| `{ enabled: true, type: "auto", targetSeverity: null }` | multiLevel 정상 구간 복귀 시 해제 |
+| `{ enabled: true, type: "timeout", timeoutSeconds: 3600 }` | 1시간 후 무조건 해제 |
+| `{ enabled: true, type: "manual" }` | 수동 해제만 |
+
+---
+
+#### 2.2.6 SuppressionPolicy (억제 정책)
+
+> 알람 발행을 억제하는 조건·시간대·수동 제어의 정책 설정.
+
+**설계 원칙:**
+- 정책 설정(언제, 어떤 조건으로 억제할지)만 정의한다. 정비 모드·수동 억제처럼 운영 중 실시간 on/off하는 상태는 **런타임 상태**로 별도 관리하여, 전환 시 AlarmRule UPDATE와 AlarmRuleVersion 생성을 방지한다.
+- **적용 범위**: state/event 모두 적용. 단, Deduplication Check는 state 전용 (event는 매번 새 이력 생성)
+- **`suppression: null`**: 억제 없음 — Suppression Check를 건너뛴다
+
+##### 구조도
+
+```
+SuppressionPolicy
+├── schedule?: ScheduleRule
+│   ├── timezone: string
+│   ├── windows: ScheduleWindow[]
+│   ├── oneTimeWindows?: OneTimeWindow[]
+│   └── exemptSeverities?: SeverityLevel[]
+│
+└── manualOverride?: ManualOverrideConfig
+    └── maxDurationSeconds: number
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| **[ScheduleRule]** | | | | 시간대/정기점검 비활성화 (FR-7.3, FR-7.6) |
+| timezone | string | yes | IANA timezone (예: `"Asia/Seoul"`) | 모든 시간 해석의 기준 시간대 |
+| windows | ScheduleWindow[] | yes | 1–20개 | 반복 억제 시간 윈도우 |
+| **[ScheduleWindow]** | | | | |
+| dayOfWeek | number[] | yes | 각 원소 0–6 (0=일, 1=월, ..., 6=토), 최소 1개 | 적용 요일 (복수 지정 가능) |
+| startTime | string | yes | `"HH:mm"` (24시간 형식) | 억제 시작 시각 |
+| endTime | string | yes | `"HH:mm"` (24시간 형식). startTime과 동일 불가 | 억제 종료 시각 |
+| **[OneTimeWindow]** | | | | |
+| oneTimeWindows | OneTimeWindow[] | no | 최대 50개 **(과거+미래 합산)**. start < end 필수. 과거 윈도우 허용. **과거 윈도우 정리**: 매일 자정(timezone 기준) 배치로 종료 후 7일 경과한 윈도우를 자동 삭제. 정리 시 AlarmRuleVersion 미생성 (설정 변경이 아닌 자동 가비지 컬렉션) | 1회성 억제 윈도우 (FR-7.6 정기 점검) |
+| start | timestamptz | yes | — | 억제 시작 절대 시각 |
+| end | timestamptz | yes | — | 억제 종료 절대 시각 |
+| reason | string | no | 최대 200자 | 사유 (예: `"Q2 정기 PM"`, `"설비 교체 작업"`) |
+| **[기타]** | | | | |
+| exemptSeverities | SeverityLevel[] | no | 2.3.1의 6단계 값만 허용 | 억제 면제 심각도. 비교 대상: `ratedLevel ?? ruleLevel` (유효 심각도). **ratedLevel은 파이프라인 컨텍스트 객체를 통해 전달** — Condition Engine이 결정한 ratedLevel을 StreamControl → Suppression Check까지 컨텍스트에 실어 보낸다. windows와 oneTimeWindows 모두에 적용 |
+| **[ManualOverrideConfig]** | | | | 수동 일시 억제 정책 (FR-7.4) |
+| maxDurationSeconds | number | yes | 60–604800 (7일) | 최대 억제 지속 시간 (초) |
+
+**ScheduleWindow 시간 해석 규칙:**
+
+| 시나리오 | 해석 | 예시 |
+|---------|------|------|
+| `startTime < endTime` | 같은 날 시간 범위 | `"08:00"` ~ `"18:00"` → 오전 8시~오후 6시 억제 |
+| `startTime > endTime` | 자정 넘김 (야간 시간대). **dayOfWeek는 startTime의 요일만 의미**한다. 각 dayOfWeek를 독립적으로 적용: `dayOfWeek: [5, 6]` + `"22:00"~"06:00"` = 금22~토06 AND 토22~일06 (토06~토22는 억제 안 함) | `"22:00"` ~ `"06:00"` → 오후 10시~익일 오전 6시 억제 |
+| `dayOfWeek: [0, 6]` | 복수 요일 적용 | 일요일, 토요일 적용 |
+| 경계값 | **시작 포함, 종료 제외 (half-open)**: `[startTime, endTime)` | `"08:00"` ~ `"18:00"` → 08:00:00 억제 O, 18:00:00 억제 X |
+
+**OneTimeWindow 정기 점검 규칙 (FR-7.6):**
+
+| 항목 | 정책 | 근거 |
+|------|------|------|
+| 미래 윈도우 사전 등록 | 허용. start 도달 시 자동 억제 시작 | 정기 점검 사전 등록 |
+| 과거 윈도우 | 저장 허용, 런타임 무시 (이미 종료) | 이력 조회 용도. 별도 정리 배치로 주기적 삭제 가능 |
+| 윈도우 간 겹침 | 허용 (union으로 처리) | 시작/종료가 겹치는 복수 점검 가능 |
+| 점검 중 알람 상태 | 신규 알람만 억제. 기존 Active 알람의 Recovery/Escalation은 유지 | maintenanceMode와 동일 원칙 |
+
+##### 동작 요약
+
+| 핵심 동작 | 설명 |
+|-----------|------|
+| Suppression Check | 4단계 순서 평가: maintenanceMode → parentRuleId → schedule → manualOverride |
+| exemptSeverities | 면제 심각도 이상이면 억제 우회 |
+| manualOverride 자동 해제 | maxDurationSeconds 경과 시 자동 비활성 |
+| schedule 판정 | windows(반복) + oneTimeWindows(1회성) union 판정 |
+
+> 상세 흐름도 및 규칙 → **3.4절** 참조
+> 런타임 억제 상태 구조 → **2.6.2절** 참조
+> parentRuleId에 의한 상위 알람 억제 규칙(V-S1~V-S3, GroupKey 매핑) → **2.1 AlarmRule 참조**
+
+##### Validation
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-S1~V-S3 | **(부모 참조 검증)** parentRuleId 검증 — 2.1 AlarmRule Validation 참조 | 거부 | 동일 규칙, 중복 방지를 위해 원본 참조 |
+| V-S4 | **(윈도우 수 제한)** schedule.windows: 최소 1, 최대 20 | 거부 | 빈 스케줄 무의미, 과도한 윈도우 방지 |
+| V-S5 | **(수동 억제 기간)** manualOverride.maxDurationSeconds: 최소 60, 최대 604800 (7일) | 거부 | 합리적 범위 |
+| V-S6 | **(심각도 유효성)** schedule.exemptSeverities: 2.3.1의 SeverityLevel 6단계 값만 허용 | 거부 | 유효하지 않은 심각도 방지 |
+| V-S7 | **(요일 유효성)** schedule.windows[].dayOfWeek: 최소 1개, 각 원소 0–6, 중복 불가 | 거부 | 빈 요일 배열 무의미, 중복 혼란 방지 |
+| V-S8 | **(윈도우 길이)** schedule.windows[].startTime ≠ endTime | 거부 | 0분 윈도우 무의미 |
+| V-S9 | **(1회성 윈도우 제한)** schedule.oneTimeWindows: 최대 50개 | 거부 | 과도한 1회성 윈도우 방지 |
+| V-S10 | **(시간 순서)** schedule.oneTimeWindows[].start < end | 거부 | 시작이 종료보다 뒤면 무효 |
+| V-S11 | **(사유 길이)** schedule.oneTimeWindows[].reason: 최대 200자 | 거부 | 합리적 길이 |
+| V-S12 | **(시간대 유효성)** schedule.timezone: IANA timezone 데이터베이스에 존재하는 값 | 거부 | 잘못된 시간대 방지 |
+
+##### 기본값
+
+- `suppression: null` → 억제 없음. Suppression Check를 건너뛴다.
+
+---
+
+#### 2.2.7 Escalation (에스컬레이션)
+
+> **state 타입 전용.** 알람 처리 지연 시 단계별로 알림 대상을 상승시키는 정책.
+> 시간 경과에 따라 미확인(unacknowledged)·미해결(unresolved) 조건으로 순차 실행한다.
+
+- **`escalation: null`**: 에스컬레이션 없음 — Escalation Timer를 시작하지 않는다
+- **Acknowledge는 에스컬레이션을 중단하지 않는다.** 오직 Cleared 전이만 모든 남은 단계를 취소한다
+
+##### 구조도
+
+```
+Escalation
+├── enabled: boolean
+├── steps: EscalationStep[]
+│
+EscalationStep
+├── delaySeconds: number
+├── condition: string
+└── actions: Action[]
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| enabled | boolean | yes | — | 에스컬레이션 활성 여부 |
+| steps | EscalationStep[] | yes | 1–10개 | 에스컬레이션 단계 목록 |
+| **[EscalationStep]** | | | | |
+| delaySeconds | number | yes | 60–604800, 단조증가 (step[i] < step[i+1]) | AlarmHistory 생성 시점 기준 **누적** 시간 (절대 누적). 예: [300, 900, 1800] = 5분, 15분, 30분 |
+| condition | string | yes | `'unacknowledged'` \| `'unresolved'` | 실행 조건 (아래 매핑 참조) |
+| actions | Action[] | yes | 최소 1개, 2.2.4 Action 타입 재사용 | 에스컬레이션 시 실행할 액션. 플레이스홀더 사용 가능 |
+
+**condition 값별 AlarmHistory.status 매핑**
+
+| condition 값 | 에스컬레이션 실행 조건 | 스킵 조건 |
+|---|---|---|
+| `"unacknowledged"` | `status == "active"` | Acknowledged 또는 Cleared |
+| `"unresolved"` | `status IN ("active", "acknowledged")` | Cleared |
+
+**ActionHistory 기록**
+
+EscalationStep.actions 실행 결과는 **ActionHistory에 기록**한다. trigger 필드 상세는 2.4.2 참조.
+
+##### 동작 요약
+
+| 핵심 동작 | 설명 |
+|-----------|------|
+| Timer 시작 | AlarmHistory 생성 시 모든 step을 BullMQ delayed job으로 일괄 등록 |
+| Step 실행 판정 | 각 step 도달 시 condition(unacknowledged/unresolved) 재평가 |
+| Timer 취소 | Cleared 전이 시 모든 남은 step 즉시 취소 |
+| enabled 전환 | true→false: 기존 jobs 즉시 취소 / false→true: 신규 알람부터 적용 |
+
+> 상세 흐름도 및 규칙 → **3.6절** 참조
+> 런타임 상태(역할 분리) → **2.6.1절** 참조
+
+##### Validation
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-E1 | **(단계 수 제한)** steps 배열: 최소 1, 최대 10 | 거부 | 에스컬레이션 단계 범위 제한 |
+| V-E2 | **(지연 시간 범위)** delaySeconds: 최소 60, 최대 604800 (7일) | 거부 | 합리적 시간 범위 |
+| V-E3 | **(시간 순서)** steps 배열 내 delaySeconds 단조증가 (step[i] < step[i+1]) | 거부 | 절대 누적 시간 순서 보장 |
+| V-E4 | **(액션 필수)** EscalationStep.actions: 최소 1개 | 거부 | 액션 없는 단계 무의미 |
+
+##### 기본값
+
+| escalation 필드 상태 | 런타임 동작 |
+|---------------------|-----------|
+| `null` (미설정) | Escalation Timer 미시작 |
+| `{ enabled: false, ... }` | Timer 미시작. 설정값 보존, 재활성화 시 신규 알람부터 적용. enabled 전환 효과는 동작 요약 참조 |
+| `{ enabled: true, steps: [...] }` | AlarmHistory 생성 시 Escalation Timer 시작 |
+
+---
+
+#### 2.2.8 GroupKey / GroupKeyConfig (그룹 키)
+
+> 와일드카드 토픽에서 디바이스별 독립 상태를 식별하는 키. 하나의 AlarmRule이 N개 디바이스를 개별 추적·제어하기 위한 **필수 메커니즘**이다. GroupKey가 없으면 모든 디바이스가 동일 상태를 공유하여 독립 제어가 불가능하다.
+
+**설계 원칙:**
+- **GroupKeyConfig**는 와일드카드 룰에서 GroupKey를 사전 등록하고 관리하기 위한 설정이다. 고정 토픽 룰에서는 무시된다.
+
+##### 구조도
+
+```
+GroupKeyConfig
+├── unknownKeyPolicy: string
+├── maxKeys?: number
+└── keys?: GroupKeyEntry[]
+│
+GroupKeyEntry
+├── groupKey: string
+├── label?: string
+└── enabled: boolean
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| unknownKeyPolicy | string | yes | `"allow"` \| `"reject"` \| `"alert"`, default: `"allow"` | 미등록 GroupKey 수신 시 정책 (아래 매핑 참조) |
+| maxKeys | number | no | 1–100,000 | GroupKey 최대 개수 (메모리 보호). 미지정 시 시스템 하드리밋 50,000 적용 |
+| keys | GroupKeyEntry[] | no | — | 사전 등록 키 목록 |
+| **[GroupKeyEntry]** | | | | |
+| groupKey | string | yes | max 200 | GroupKey 값 |
+| label | string | no | max 200 | 표시명 (예: "1공장 A라인") |
+| enabled | boolean | yes | default: true | 알람 처리 활성 여부. false 시 조건 평가 자체를 스킵 |
+
+**unknownKeyPolicy 동작:**
+
+| 정책 | 미등록 GroupKey 메시지 수신 시 동작 |
+|------|------|
+| `allow` | 자동 등록 후 정상 처리 (기본값) |
+| `reject` | 메시지 무시, 조건 평가 스킵 |
+| `alert` | 자동 등록 + 정상 처리 + 미등록 키 감지 이벤트 발생. **이벤트 형태: 메트릭 증가 + WARNING 로그**. `alarm_groupkey_unknown_detected{ruleId, groupKey}` 카운터 메트릭을 증가시키고, `Unknown GroupKey detected: ruleId={id}, groupKey={key}` 로그를 출력한다. 별도 AlarmHistory는 생성하지 않음 |
+
+**GroupKeyEntry.enabled 동작:**
+- `enabled: false`인 GroupKey의 메시지는 **조건 평가 자체를 스킵**한다 (리소스 절약)
+- SuppressionPolicy와 다름: suppression은 조건 평가 후 발행만 억제하지만, enabled=false는 평가 자체를 하지 않음
+
+##### 자체 규칙
+
+**GroupKey 생성 규칙:**
+
+| 토픽 패턴 | GroupKey 생성 방식 | 예시 |
+|-----------|-------------------|------|
+| 고정 토픽 | `"_default_"` (예약어) | `sensor/room1/temp` → `"_default_"` |
+| 단일 `+` | 해당 위치의 실제 값 | `sensor/+/temp` 수신 `sensor/ROOM-A/temp` → `"ROOM-A"` |
+| 복수 `+` | 위치값을 `|` 로 결합 | `building/+/floor/+/hvac` 수신 `building/B1/floor/3F/hvac` → `"B1|3F"` |
+| `#` | 나머지 경로 전체 유지 | `warehouse/#` 수신 `warehouse/zone1/rack2` → `"zone1/rack2"` |
+
+**GroupKey 속성:**
+
+| 항목 | 규칙 |
+|------|------|
+| 타입 | `string`, 최대 200자 |
+| 예약어 | `"_default_"` — 고정 토픽 전용. 언더스코어 래핑으로 실제값 충돌 방지 |
+| 복수 `+` 구분자 | `|` (파이프) — `:` 는 실제 디바이스 ID에 흔하므로 회피 |
+| `#` 길이 초과 | 200자 초과 시 SHA-256 해시로 대체. **원본 매핑**: GroupAlarmState.metadata에 `{ originalGroupKey: "zone1/rack2/.../full/path" }` 저장. UI에서는 metadata의 원본 경로를 표시하고, GroupKeyConfig.keys 사전 등록 시에도 원본 경로로 등록 (시스템이 자동으로 해시 매핑) |
+| 추출 방식 | 토픽 패턴에서 `+`/`#` 위치를 자동 추출 (사용자 별도 지정 불필요) |
+
+**페이로드 기반 GroupKey 미지원:** 해당 환경에서는 MQTT 브릿지에서 토픽을 디바이스별로 재구성하는 것을 권장한다.
+
+**GroupKey 사용처:** 각 컴포넌트는 `GroupAlarmState`(2.6.1 참조)를 통해 GroupKey별 독립 상태에 접근한다.
+
+| 컴포넌트 | 역할 | 참조 상태 | 섹션 |
+|---------|------|----------|------|
+| Condition Engine | GroupKey별 독립 조건 평가 | `GroupAlarmState.status` | 2.2.2 |
+| StreamControl | GroupKey별 독립 타이머/카운터 | `GroupAlarmState.streamControlState` | 2.2.3 |
+| Deduplication Check | 동일 GroupKey의 미해결 알람 존재 여부 확인 | `GroupAlarmState.status IN ("active", "acknowledged")` | 3.5 |
+| RecoveryPolicy | GroupKey별 독립 복구 판정 | `GroupAlarmState.activeHistoryId` | 2.2.5 |
+| Escalation | GroupKey별 독립 에스컬레이션 타이머 | `GroupAlarmState.escalationState` | 2.2.7 |
+| AlarmHistory | `groupKey` 컬럼에 저장, 조회/필터링에 사용 | DB 저장 데이터 | 2.4.1 |
+| Placeholder | `{{groupKey}}` 템플릿 변수로 액션 메시지에 삽입 | 런타임 컨텍스트 | 2.2.4 |
+
+##### 설정 전환 규칙
+
+| 전환 항목 | 설명 |
+|-----------|------|
+| unknownKeyPolicy 전환 | allow→reject: 기존 Active 유지, 신규만 reject 등 |
+| maxKeys 하향 조정 | 기존 키/알람 유지, 신규 등록만 차단 |
+
+> 상세 전환 정책 → **3.8.3절** 참조
+
+##### Validation
+
+해당 없음 — GroupKey 생성/관리는 런타임 자동 처리.
+
+##### 기본값
+
+- `groupKeyConfig`가 null이면 모든 GroupKey를 자동 등록·처리한다 (`unknownKeyPolicy: "allow"`, `maxKeys: 시스템 하드리밋 적용`)
+- **maxKeys 시스템 하드리밋**: 미지정 시 시스템 기본값 50,000 적용 (NFR-1.4 ≥10,000 + 여유). 명시 지정 시 최소 1, 최대 100,000. 초과 시 미등록 GroupKey 메시지 무시 + 경고 로그. **시스템 전체 GroupKey 합산 제한**: 모든 룰의 활성 GroupKey 합산이 **500,000**을 초과하면 신규 GroupKey 자동 등록 차단 + CRITICAL 로그 + `alarm_groupkey_system_limit_reached` 메트릭.
+
+---
+
+### 2.3 도메인 상수
+
+> 독립 테이블 없이 코드 레벨에서 관리하는 시스템 상수.
+
+---
+
+#### 2.3.1 Severity (심각도)
+
+> 알람의 긴급도를 나타내는 6단계 고정 등급. 룰 대표 심각도(ruleLevel)와 조건 파생 심각도(ratedLevel)로 이원화하여 운영한다.
+
+별도 테이블 없이 **6단계 고정 enum**으로 관리한다. 우선순위(낮음 → 높음):
+
+```
+"info"(0) < "low"(1) < "warning"(2) < "high"(3) < "critical"(4) < "emergency"(5)
+```
+
+##### 구조도
+
+```
+Severity (JSON 객체 — LeafNode, multiLevel 내부에서 사용)
+├── level: string ──── "info" | "low" | "warning" | "high" | "critical" | "emergency"
+├── name: string ──── 표시명
+├── color: string ─── 표시 색상 (선택). **hex 형식 필수**: `#RRGGBB` (예: `"#FF0000"`)
+└── icon: string ──── 표시 아이콘 (선택). **Material Design Icons 식별자**: `mdi-` prefix (예: `"mdi-alert"`, `"mdi-information"`)
+```
+
+##### Spec Table
+
+- DB 컬럼(`severityLevel`, `ruleLevel`, `ratedLevel`)에는 level 문자열만 저장
+- JSON 내부(LeafNode, multiLevel)에는 `{ level, name, color, icon }` 객체로 표시 정보 포함
+- `exemptSeverities`는 level 문자열 배열(`string[]`)
+- 유효성 검증: 애플리케이션 레벨에서 6개 값 검증
+
+**심각도 2계층 구조**
+
+심각도는 **룰 대표값**과 **조건 파생값**의 2계층으로 운용된다.
+
+| 계층 | 필드 | 설명 | 예시 |
+|------|------|------|------|
+| **룰 대표 심각도** | `ruleLevel` | 모든 룰이 하나씩 갖는 기본값 (`AlarmRule.severityLevel` 복사) | 룰 자체가 "warning"급 |
+| **조건 파생 심각도** | `ratedLevel` | 조건별로 더 구체적인 심각도를 지정할 수 있음 (LeafNode.severity, multiLevel 구간별 severity). AlarmHistory에 기록됨. 파생되지 않으면 `null` | 온도>80이면 critical, 온도>60이면 warning |
+| **유효 심각도** | `ratedLevel ?? ruleLevel` | 조건에서 파생된 값이 있으면 우선, 없으면 룰 기본값으로 폴백 | 대시보드·필터링·알림 우선순위 판단 기준 |
+
+- 단순 룰은 `ruleLevel`만으로 충분하다
+- 조건별 세분화가 필요할 때만 `ratedLevel`이 활성화된다
+- 유효 심각도는 저장 컬럼이 아닌 **조회 시 계산값**(computed)이다
+
+---
+
+### 2.4 독립 Entity
+
+> AlarmRule과 FK 관계를 가지지만 별도 DB 테이블에 저장되는 독립 엔티티.
+
+---
+
+#### 2.4.1 AlarmHistory (알람 이력)
+
+> 조건 충족으로 실제 발생한 알람 인스턴스의 이력 레코드. state/event 통합 단일 테이블로 생명주기 전이·스냅샷을 기록한다.
+
+**설계 원칙:**
+- 활성/해제를 **단일 테이블**로 통합 관리한다. 근거 및 인덱스 전략 → **C.7절** 참조
+
+##### 구조도
+
+```
+AlarmHistory
+├── id: number (auto increment)
+├── ruleId: number (FK → AlarmRule)
+├── ruleCode: string
+├── ruleName: string
+├── alarmType: "state" | "event"
+│
+├── status: AlarmStatus
+├── ruleLevel: string
+├── ratedLevel?: string
+├── groupKey: string
+│
+├── [분류 스냅샷]
+├── categoryId?: number (FK → Category)
+├── categoryCode?: string
+├── categoryName?: string
+├── tags: string[]
+│
+├── [원본 데이터]
+├── sourceSnapshots: JSON
+│
+├── [평가 결과]
+├── evaluationResult: JSON
+├── triggerCondition: string
+├── message: string
+│
+├── [처리 성능]
+├── processingTimeMs: number
+│
+├── [에러]
+├── error?: JSON
+│
+├── [생명주기]
+├── triggeredAt: timestamptz
+├── createdAt: timestamptz
+├── acknowledgedAt?: timestamptz
+├── acknowledgedBy?: number (FK → User)
+├── acknowledgedByName?: string
+├── acknowledgeNote?: string
+├── clearedAt?: timestamptz
+├── clearType?: string
+├── clearedBy?: number (FK → User)
+├── clearedByName?: string
+├── clearNote?: string
+├── replacedHistoryId?: number (FK → AlarmHistory, 대체한 기존 이력 ID)
+├── durationMs?: number
+│
+├── [중복 병합]
+├── occurrenceCount: number
+├── lastOccurrenceAt: timestamptz
+│
+├── metadata: Record<string, any>
+└── escalationState?: JSON
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| id | number | yes | auto increment, PK | — |
+| ruleId | number | yes | FK → AlarmRule | 발생 원인 룰 |
+| ruleCode | string | yes | max 50 | AlarmRule.code 스냅샷 |
+| ruleName | string | yes | max 200 | AlarmRule.name 스냅샷 |
+| alarmType | string | yes | `"state"` \| `"event"` | AlarmRule.alarmType 복사 |
+| **[상태·심각도]** | | | | |
+| status | AlarmStatus | yes | `"active"` \| `"acknowledged"` \| `"cleared"` | 현재 생명주기 상태 |
+| ruleLevel | string | yes | SeverityLevel (2.3.1) | AlarmRule.severityLevel 복사 (룰 대표 심각도) |
+| ratedLevel | string | no | SeverityLevel (2.3.1), null → ruleLevel이 유효 | 조건 평가로 매겨진 심각도 |
+| groupKey | string | yes | max 200, 고정 토픽이면 `"_default_"` | 와일드카드 디바이스 식별자 (2.2.8 참조) |
+| **[분류 스냅샷]** | | | | 발생 시점의 카테고리·태그 정보. 룰의 분류 변경·카테고리 삭제와 무관하게 이력 추적 가능 |
+| categoryId | number | no | FK → Category, SET NULL on delete | 발생 시점의 카테고리 FK. JOIN 조회용 |
+| categoryCode | string | no | max 50 | 발생 시점의 Category.code 스냅샷. 카테고리 삭제 후에도 표시 가능 |
+| categoryName | string | no | max 200 | 발생 시점의 Category.name 스냅샷 |
+| tags | string[] | no | `null`과 `[]` 동일 취급 | 발생 시점의 AlarmRule.tags 스냅샷 |
+| **[sourceSnapshots]** | JSON | yes | 배열 | 트리거 시점의 소스별 데이터 스냅샷 (FR-2.4) |
+| ↳ alias | string | yes | max 50 | 데이터 소스 식별자 |
+| ↳ topic | string | yes | — | 실제 MQTT 토픽 |
+| ↳ value | number \| string \| boolean \| null | yes | — | 추출된 평가 입력값. path 추출 결과 타입 제약(2.2.1)과 동일 — JSONB 저장 시 타입 보존 |
+| ↳ payload | object | yes | 최대 **64KB** (JSON 직렬화 기준). 초과 시 최상위 키 3개까지만 보존하고 `_truncated: true` 플래그 추가 | 원본 메시지 페이로드 |
+| **[평가 결과]** | | | | |
+| evaluationResult | JSON | yes | — | 조건 평가 상세. **트리 구조**로 저장: 각 ConditionNode의 평가 결과를 조건 트리 구조에 대응하여 재귀적으로 기록한다. `{ nodeType, result: boolean, children?: [...] }` (LogicNode) 또는 `{ nodeType, result: boolean, evaluatorType, inputValue, computedValue, conditionDesc }` (LeafNode). 복합 조건(LogicNode 중첩) 시 노드별 결과를 트리 형태로 보존하여 디버깅/감사 추적 지원 |
+| triggerCondition | string | yes | — | 충족된 조건 요약 (사람이 읽을 수 있는 형태, UI 표시용) |
+| message | string | yes | — | 렌더링된 알람 메시지 |
+| **[처리 성능]** | | | | |
+| processingTimeMs | number | yes | — | 수신 → 평가 → INSERT 소요시간 (NFR-1.1). **Action 실행 시간은 미포함** — Action Executor는 AlarmHistory INSERT 후 **비동기**(BullMQ job)로 위임하여 NFR-1.1(≤500ms) 준수. Action 실패는 ActionHistory에 별도 기록 |
+| **[에러]** | | | | |
+| error | JSON | no | — | 평가/처리 실패 시 에러 정보 (NFR-5.4). `{ code: string, message: string, component?: string, stack?: string }`. DryRunError의 errorType/location 구조와 별도 — DryRunError는 API 응답 전용이고, AlarmHistory.error는 DB 저장 에러 기록용 |
+| **[생명주기]** | | | | |
+| triggeredAt | timestamptz | yes | — | 조건 충족 시각 (메시지 수신 시점 기준) |
+| createdAt | timestamptz | yes | auto | 레코드 생성 시각 (큐 처리 완료 시점) |
+| acknowledgedAt | timestamptz | no | — | 확인 시각 |
+| acknowledgedBy | number | no | FK → User | 확인 수행자 |
+| acknowledgedByName | string | no | — | 표시용 이름 복사 (User 삭제 후에도 표시 가능) |
+| acknowledgeNote | string | no | max 2000 | 확인 메모 |
+| clearedAt | timestamptz | no | — | 해제 시각 |
+| clearType | string | no | `"auto"` \| `"manual"` \| `"timeout"` \| `"replaced"` \| `"config_changed"` | 해제 유형 |
+| clearedBy | number | no | FK → User | 해제 수행자 (clearType=`"manual"` 시) |
+| clearedByName | string | no | — | 표시용 이름 복사 |
+| clearNote | string | no | max 2000 | 해제 사유/메모 |
+| replacedHistoryId | number | no | FK → AlarmHistory | 이 알람이 대체한 기존 AlarmHistory의 ID (FR-9.5). 새 알람 쪽에 기록하여 대체 이력 추적 |
+| durationMs | number | no | state 타입만 | Cleared 시점에 `clearedAt - triggeredAt` 계산 저장 |
+| **[중복 병합]** | | | | |
+| occurrenceCount | number | yes | default: 1, state 타입만 증가 | 중복 병합 발생 횟수 (FR-7.5) |
+| lastOccurrenceAt | timestamptz | yes | — | 마지막 발생 시각 |
+| **[기타]** | | | | |
+| metadata | Record\<string, any\> | no | 최대 깊이 3, 총 크기 10KB 이하. validation 없이 통과하되 크기 초과 시 거부 | 추가 컨텍스트. 인덱싱 대상 아님 — 검색은 별도 필터 컬럼 사용 |
+| **[escalationState]** | JSON | no | state 타입만 | 운영자 조회용 스냅샷. Step 실행/스킵 시마다 UPDATE (2.2.7 참조) |
+| ↳ currentStep | number | yes | — | 현재 에스컬레이션 단계 |
+| ↳ nextEscalationAt | timestamptz | yes | — | 다음 에스컬레이션 예정 시각 |
+
+
+##### 자체 규칙
+
+**alarmType별 기록 차이** (alarmType별 동작 차이 전체 → 2.1 자체 규칙 참조)**:**
+
+| 구분 | state | event |
+|------|-------|-------|
+| 생성 시 status | `"active"` | `"cleared"` |
+| clearedAt | 해제 시점에 기록 | `triggeredAt`과 동일 |
+| clearType | 해제 유형에 따라 결정 | `"auto"` |
+| durationMs | `clearedAt - triggeredAt` | `0` |
+| 활성 알람 목록 | 포함 | 미포함 (즉시 Cleared) |
+| 중복 병합 (FR-7.5) | occurrenceCount 증가 | 매번 새 이력 생성 |
+
+**중복 병합 규칙 (Deduplication Check, FR-7.5, state 타입 전용):**
+
+- 동일 AlarmRule + 동일 GroupKey에 미해결(Active/Acknowledged) AlarmHistory가 이미 존재하면, 새 AlarmHistory를 생성하지 않고 기존 이력의 필드를 갱신한다. 
+- 분기 판정 규칙, 갱신 필드 상세, StreamControl.deduplication과의 차이는 **3.5절** 참조.
+
+**ActionHistory와의 관계:**
+- AlarmHistory 1 : N ActionHistory. 알람 1건에 대해 복수의 액션(MQTT, 이메일, 웹훅 등)이 실행될 수 있다
+- 알람 목록 조회 시 액션 실행 결과가 필요하면 ActionHistory를 LEFT JOIN + GROUP BY로 집계한다. AlarmHistory에 별도 요약 필드를 두지 않는다
+- 조회 경로: `AlarmHistory.id` → `ActionHistory.alarmHistoryId` (알람별 액션 상세), `AlarmRule.id` → `ActionHistory.ruleId` (룰별 전체 액션 이력)
+
+**Lifecycle:** 상태 전이 전체 테이블·다이어그램은 **3.2절** 참조.
+
+**심각도 조회 필터 규칙:**
+
+| 필터 축 | 대상 컬럼 | 용도 | 예시 |
+|---------|----------|------|------|
+| **룰 대표 심각도** | `ruleLevel` | "이 룰은 원래 어떤 등급인가" — 룰 관리·정책 관점 | critical급 룰의 이력만 조회 |
+| **조건 파생 심각도** | `ratedLevel` | "실제로 어떤 심각도로 평가되었는가" — 발생 상황 관점 | warning으로 평가된 이력만 조회 |
+| **유효 심각도** | `COALESCE(ratedLevel, ruleLevel)` | 두 계층을 합산한 최종값 — 대시보드·알림 관점 | 유효 심각도 critical 이상만 조회 |
+
+---
+
+#### 2.4.2 ActionHistory (액션 실행 이력)
+
+> 알람 발생 시 실행된 각 액션의 실행 결과·상태를 개별 기록한다.
+
+**설계 원칙:**
+- 액션별 개별 기록으로 실패 추적·재시도 이력을 관리한다
+- `actionConfig` 스냅샷으로 실행 시점 설정을 보존한다
+- `log`/`db` 액션은 기록 대상에서 제외한다. 근거 → **C.8절** 참조
+
+##### 구조도
+
+```
+ActionHistory
+├── id: number (auto increment)
+├── alarmHistoryId: number (FK → AlarmHistory)
+├── ruleId: number (FK → AlarmRule)
+│
+├── trigger: string
+├── actionType: RecordableActionType
+├── actionConfig: JSON
+│
+├── status: string
+├── executedAt: timestamptz
+├── completedAt?: timestamptz
+├── durationMs?: number
+│
+├── request?: JSON
+├── response?: JSON
+├── errorMessage?: string
+│
+└── retryCount: number
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| id | number | yes | auto increment, PK | — |
+| alarmHistoryId | number | yes | FK → AlarmHistory | 연관된 알람 이력 |
+| ruleId | number | yes | FK → AlarmRule | 발생 원인 룰 |
+| **[실행 정보]** | | | | |
+| trigger | string | yes | `"alarm"` \| `"escalation"` \| `"recovery"` | 액션 실행 원인 (아래 **trigger 값** 참조) |
+| actionType | RecordableActionType | yes | `"mqtt"` \| `"email"` \| `"webhook"` | 기록 대상 액션 유형 (`log`/`db` 제외 — C.8절 참조) |
+| actionConfig | JSON | yes | — | 실행 시점 액션 설정 스냅샷 (아래 **마스킹 규칙** 참조) |
+| **[실행 결과]** | | | | |
+| status | string | yes | `"success"` \| `"failure"` \| `"timeout"` \| `"skipped"` | 실행 결과 상태 |
+| executedAt | timestamptz | yes | — | 실행 시작 시각 |
+| completedAt | timestamptz | no | — | 실행 완료 시각 |
+| durationMs | number | no | — | 실행 소요시간 |
+| **[디버깅]** | | | | |
+| request | JSON | no | — | 발송/호출한 요청 내용 (아래 **타입별 구조** 참조) |
+| response | JSON | no | 최대 **64KB** (초과 시 body truncation) | 수신한 응답 (아래 **타입별 구조** 참조) |
+| errorMessage | string | no | — | 에러 메시지 |
+| **[재시도]** | | | | |
+| retryCount | number | yes | default: 0 | 재시도 횟수 (0 = 첫 시도에 성공) |
+
+**trigger 값:**
+
+| 값 | 실행 원인 | 참조 |
+|------|----------|------|
+| `"alarm"` | 알람 발생 시 | — |
+| `"escalation"` | 에스컬레이션 단계 실행 시 | 2.2.7 |
+| `"recovery"` | 복구 시 recoveryActions 실행 | 2.2.5 |
+
+**actionConfig 마스킹 규칙:**
+
+Action 전체 구조(type + 타입별 파라미터 + retryPolicy)를 저장한다. 민감 정보는 마스킹 처리:
+
+| 대상 | 마스킹 형태 |
+|------|-----------|
+| SMTP 비밀번호 | `"***"` |
+| webhook Authorization 헤더 | `"Bearer ***"` |
+
+**request/response 타입별 구조:**
+
+| actionType | request | response |
+|------------|---------|----------|
+| `mqtt` | `{ topic, payload }` | `{ published: boolean }` |
+| `email` | `{ to: string[], cc?, bcc?, subject, bodyPreview }` | `{ accepted: string[], rejected?: string[] }` |
+| `webhook` | `{ url, method, headers, body }` | `{ statusCode, headers?, body? }` |
+
+
+---
+
+#### 2.4.3 AlarmRuleVersion (알람 룰 버전)
+
+> AlarmRule 설정이 **변경될 때마다** 전체 설정의 스냅샷을 버전으로 보관한다. (FR-1.5)
+
+##### 구조도
+
+```
+AlarmRuleVersion
+├── id: number (auto increment)
+├── ruleId: number (FK → AlarmRule)
+├── ruleCode: string
+│
+├── version: number
+├── versionLabel?: string
+│
+├── configSnapshot: JSON
+├── changeDescription?: string
+│
+├── [작성자 추적]
+├── authorType: string
+├── userId?: number (FK → User)
+├── authorName?: string
+│
+├── [버전 상태]
+├── isActive: boolean
+├── isLatest: boolean
+│
+└── createdAt: timestamptz
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| id | number | yes | auto increment, PK | — |
+| ruleId | number | yes | FK → AlarmRule | 대상 룰 |
+| ruleCode | string | yes | max 50 | AlarmRule.code 복사 (JOIN 없이 조회용) |
+| **[버전 식별]** | | | | |
+| version | number | yes | 룰별 자동 증가, 단조 증가 | 버전 번호 (1, 2, 3, ...) |
+| versionLabel | string | no | — | 사용자 정의 레이블 (예: "v2.0-야간모드") |
+| **[configSnapshot]** | JSON | yes | — | 변경 시점의 AlarmRule 전체 설정 스냅샷. Aggregate 경계 내 전체 상태를 자기 완결적으로 보관 |
+| ↳ (내부 구조) | | | **제외**: id, createdAt, updatedAt. **포함**: alarmType, enabled, code, name, severityLevel, description, categoryId, tags, parentRuleId, dataSources, condition, streamControl, recovery, actions, suppression, escalation, groupKeyConfig | AlarmRule의 모든 설정 필드를 그대로 저장. enabled 변경도 버전 생성 대상. FK 참조(categoryId, parentRuleId)는 ID 값을 그대로 저장 (스냅샷 시점의 참조) |
+| changeDescription | string | no | — | 변경 사유/설명 |
+| **[작성자 추적]** | | | | |
+| authorType | string | yes | `"manual"` \| `"ai"` \| `"system"` | 변경 주체 유형 (authorType 값 참조) |
+| userId | number | no | FK → User, SET NULL on delete | 변경 수행자 |
+| authorName | string | no | — | 표시용 이름 복사 (User 삭제 후에도 표시 가능) |
+| **[버전 상태]** | | | | |
+| isActive | boolean | yes | default: false, 룰당 1개만 true | 현재 AlarmRule에 실제 적용 중인 버전 |
+| isLatest | boolean | yes | default: true, 룰당 1개만 true | 가장 최근에 생성된 버전 |
+| **[Timestamp]** | | | | |
+| createdAt | timestamptz | yes | auto | — |
+
+**authorType 값:**
+
+| 값 | 의미 |
+|------|------|
+| `manual` | 사용자(운영자)에 의한 수동 변경 |
+| `ai` | AI 어시스턴트에 의한 변경 |
+| `system` | 시스템 자동 변경 (예: 마이그레이션, 일괄 업데이트) |
+
+**isActive vs isLatest:**
+
+| 필드 | 의미 | 예시 |
+|------|------|------|
+| `isActive` | 현재 AlarmRule에 **실제 적용 중**인 버전 | 롤백 후 v2가 active, v3는 비활성 |
+| `isLatest` | 가장 **최근에 생성된** 버전 | 시간순 최신. 항상 1개만 true |
+
+> 일반적으로 isActive와 isLatest는 동일한 버전을 가리키지만, 롤백 시 분리된다.
+
+##### 생성·갱신 규칙
+
+- 버전 관리(생성 시 v1, 변경 시 단일 트랜잭션, 롤백 시 새 버전) → 상세: **3.8.4절**
+
+---
+
+#### 2.4.4 Category (카테고리)
+
+> 관리자가 사전 정의하는 계층형 정형 분류 엔티티. 알람룰을 논리적으로 그루핑하여 트리 네비게이션, 필터링, 대시보드 통계에 활용한다. SI 범용 플랫폼 특성상 플랫폼은 트리 구조만 제공하고, 분류 내용은 고객이 자신의 산업·설비·조직 구조에 맞게 자유롭게 구성한다.
+
+##### 구조도
+
+```
+Category
+├── id: number (PK)
+├── code: string
+├── name: string
+├── parentId?: number (FK → Category)
+├── depth: number
+├── sortOrder: number
+├── description?: string
+├── metadata?: JSON
+├── createdAt: timestamptz
+└── updatedAt: timestamptz
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| id | number | yes | auto increment, PK | — |
+| code | string | yes | max 50, 전체 카테고리에서 unique, immutable | 시스템 식별자. 생성 후 변경 불가. |
+| name | string | yes | max 200 | 표시명. 변경 가능 |
+| parentId | number | no | FK → Category (self-referencing). null이면 루트 노드 | 상위 카테고리. 계층 구조의 부모 참조 |
+| depth | number | yes | 0 이상. 시스템 자동 계산 (`parent.depth + 1`). 최대 3단계 (0, 1, 2) | 계층 깊이 (루트 = 0). 조회 성능 최적화를 위한 비정규화 |
+| sortOrder | number (integer) | yes | default: 0. 동일 값 시 name 오름차순. **음수 허용** (우선 표시 항목에 활용). 연속 정수 미강제 (10, 20, 30 등 간격 허용 — 중간 삽입 시 기존 항목 reorder 불필요) | 같은 부모를 가진 형제 노드 내 정렬 순서. 오름차순 |
+| description | string | no | max 2000 | 설명 |
+| metadata | JSON | no | 최대 깊이 3, 총 크기 10KB 이하. 스키마 미강제 | 고객별 확장 필드. 인덱싱 미지원 — 검색은 code/name 컬럼 활용. 고객 SI 구축 시 필요에 따라 활용 |
+| createdAt | timestamptz | yes | auto | — |
+| updatedAt | timestamptz | yes | auto | — |
+
+**AlarmRule과의 관계:**
+
+```
+AlarmRule N : 1 Category (nullable FK)
+```
+
+- 하나의 룰은 하나의 카테고리에 속하거나, 미분류(null)
+- 카테고리는 선택 사항 — 모든 룰에 강제하지 않음
+
+**Tags와의 역할 구분:**
+
+Category와 Tags는 모두 알람룰의 논리적 그루핑을 제공하나 성격이 다르다.
+
+| | Category | Tags (AlarmRule.tags) |
+|---|----------|------|
+| 성격 | 조직 표준 정형 분류 | 운영 현장 비정형 라벨 |
+| 구조 | 계층형 트리 (parent-child) | 플랫 리스트 (string[]) |
+| 관리 주체 | 관리자가 사전 등록 | 운영자가 자유 입력 |
+| 룰당 개수 | 1개 (또는 미분류) | 여러 개 (max 20) |
+| 변경 영향 | 대시보드·리포트 구조에 영향 → 신중 | 영향 없음 → 자유 |
+| 대표 용도 | 트리 네비게이션, 대시보드 그룹핑, 리포트 축 | 검색 필터, 임시 추적, 운영 메모 |
+
+##### 자체 규칙
+
+> Category는 알람룰의 런타임 평가·발행에 영향을 주지 않는 분류 보조 엔티티이다.
+
+**조회 동작:**
+- AlarmRule 목록 화면에서 카테고리 트리를 좌측 패널로 제공. 선택한 카테고리 및 하위 카테고리에 속한 룰만 표시
+- AlarmHistory 조회 시 카테고리 기준 드릴다운 필터링
+- 대시보드에서 카테고리별 활성 알람 수, 발생 추이, 평균 응답 시간 통계 위젯
+
+**이력 스냅샷:**
+- AlarmHistory 생성 시 발생 시점의 카테고리 정보를 스냅샷으로 기록한다 (2.4.1 참조). 이후 룰의 카테고리가 변경되거나 카테고리가 삭제되어도 "발생 당시 어떤 분류였는가"를 추적할 수 있다
+
+**parentId 변경 시 처리:**
+
+| 변경 유형 | 동작 | 근거 |
+|----------|------|------|
+| 부모 변경 (이동) | depth 재계산 (자신 + 모든 하위 노드 일괄). 연결된 AlarmRule에 영향 없음 | 카테고리 이동은 트리 구조만 변경하며, 룰의 categoryId FK는 불변 |
+| 부모 삭제 (상위 노드 제거) | 하위 카테고리가 있으면 삭제 거부 (V-CAT3). 하위가 없으면 삭제 허용 | 하위 노드 고아 방지 |
+
+##### Validation
+
+| # | 규칙 | 위반 시 동작 | 비고 |
+|---|------|:---:|------|
+| V-CAT1 | **(코드 유일성)** code 전체 카테고리에서 unique | 거부 | 식별자 유일성 |
+| V-CAT2 | **(순환 참조 방지)** parentId 변경 시 자기 자신 또는 자신의 하위 노드를 부모로 지정 불가 | 거부 | 트리 무결성 |
+| V-CAT3 | **(하위 노드 보호)** 삭제 시 하위 카테고리(children) 존재 여부 확인 | 거부 (RESTRICT) | 하위 노드 먼저 삭제 또는 이동 필요 |
+| V-CAT4 | **(룰 연결 해제)** 삭제 시 연결된 AlarmRule.categoryId → SET NULL | 자동 처리 | 룰은 미분류 상태로 전환, 룰 자체는 영향 없음 |
+| V-CAT5 | **(코드 불변)** code 생성 후 변경 시도 | 거부 | code는 immutable |
+| V-CAT6 | **(깊이 제한)** 생성/이동 후 depth가 3 이상 (0, 1, 2만 허용) | 거부 | 하위 노드 포함 일괄 검증 |
+
+##### 기본값
+
+- 시스템 기본 카테고리 없음. 초기 상태는 빈 트리이며, 관리자가 필요에 따라 생성한다
+- AlarmRule.categoryId 미지정 시 미분류(null) 상태로 동작하며, 기능 제약 없음
+
+---
+
+### 2.5 Value Object
+
+> DB에 저장하지 않고, API 응답으로만 반환하는 객체.
+
+---
+
+#### 2.5.1 DryRunResult (드라이런 결과)
+
+> 실제 발행 없이 룰의 조건 평가·액션 출력을 시뮬레이션한 결과를 담는 API 응답 전용 Value Object.
+
+##### 구조도
+
+```
+DryRunResult
+├── ruleSnapshot: JSON
+├── testMessages: TestMessage[]
+├── evaluations: DryRunEvaluation[]
+├── actionPreviews: ActionPreview[]
+├── errors: DryRunError[]
+└── summary: DryRunSummary
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| ruleSnapshot | JSON | yes | AlarmRuleVersion.configSnapshot과 동일 포맷 (2.4.3) | 평가에 사용된 룰 설정 |
+| testMessages | TestMessage[] | yes | — | 입력 메시지들 |
+| evaluations | DryRunEvaluation[] | yes | — | 메시지별 평가 결과 |
+| actionPreviews | ActionPreview[] | yes | — | 액션 미리보기 (조건 충족 시) |
+| errors | DryRunError[] | yes | — | 설정/평가 오류 |
+| summary | DryRunSummary | yes | — | 전체 요약 |
+
+**TestMessage (테스트 입력 메시지)**
+
+```
+TestMessage
+├── topic: string
+├── payload: Record<string, any>
+├── timestamp?: timestamptz
+└── delayMs?: number
+```
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| topic | string | yes | — | MQTT 토픽 |
+| payload | Record\<string, any\> | yes | — | 메시지 페이로드 |
+| timestamp | timestamptz | no | 미지정 시 현재 시각 | 시뮬레이션 시각 |
+| delayMs | number | no | — | 이전 메시지와의 간격 (시퀀스 테스트용) |
+
+**시퀀스 테스트 시나리오:**
+- `delayMs`를 사용하여 메시지 간 시간 간격을 시뮬레이션한다
+- 변화율(rateOfChange), 연속횟수(consecutiveCount), 디바운스(debounce) 등 상태 의존 조건을 검증할 수 있다
+- 엔진은 메시지를 순서대로 처리하되, 실제 시간 경과 대신 `delayMs`/`timestamp`를 기준으로 시간 의존 로직을 평가한다
+
+**DryRunEvaluation (메시지별 평가 결과)**
+
+> AlarmHistory의 evaluationResult, sourceSnapshots와 **동일한 구조**를 재사용하여 일관성을 유지한다.
+
+```
+DryRunEvaluation
+├── messageIndex: number
+├── conditionMet: boolean
+│
+├── [평가 상세 — AlarmHistory와 동일 구조]
+├── sourceSnapshots: JSON
+├── evaluationResult: JSON
+├── triggerCondition: string
+├── ratedLevel?: string
+│
+├── [출력 제어 시뮬레이션]
+├── streamControlResult?: StreamControlResult
+│
+└── processingTimeMs: number
+```
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| messageIndex | number | yes | — | TestMessage 배열 내 인덱스 |
+| conditionMet | boolean | yes | — | 조건 충족 여부 |
+| **[평가 상세]** | | | | AlarmHistory(2.4.1)와 동일 구조 |
+| sourceSnapshots | JSON | yes | `[{ alias, topic, value, payload }]` | 값 추출 결과 |
+| evaluationResult | JSON | yes | — | 조건 평가 상세 (입력값, 계산값, 매칭 조건) |
+| triggerCondition | string | yes | — | 충족 조건 요약 (사람이 읽을 수 있는 형태) |
+| ratedLevel | string | no | SeverityLevel (2.3.1) | 조건 평가로 결정된 심각도 (미충족 또는 파생 없으면 null) |
+| **[streamControlResult]** | StreamControlResult | no | — | 출력 제어 시뮬레이션 결과 |
+| ↳ passed | boolean | yes | — | 최종 통과 여부 |
+| ↳ operatorResults | OperatorResult[] | yes | — | 오퍼레이터별 결과 |
+| &ensp;↳ type | string | yes | — | 오퍼레이터 타입 (cooldown, debounce 등) |
+| &ensp;↳ passed | boolean | yes | — | 이 오퍼레이터 통과 여부 |
+| &ensp;↳ reason | string | yes | — | 차단/통과 사유 (예: "cooldown: 남은 3초") |
+| processingTimeMs | number | yes | — | 평가 소요시간 |
+
+**ActionPreview (액션 미리보기)**
+
+> 조건 충족 시 각 액션이 실행했을 때의 **렌더링된 결과**를 반환한다. 실제 발송/호출은 하지 않는다.
+
+```
+ActionPreview
+├── actionIndex: number
+├── actionType: RecordableActionType
+├── enabled: boolean
+│
+├── [MQTT]
+├── renderedTopic?: string
+├── renderedMessage?: string
+│
+├── [Email]
+├── renderedSubject?: string
+├── renderedBody?: string
+├── recipients?: { to, cc, bcc }
+│
+├── [Webhook]
+├── renderedUrl?: string
+├── renderedHeaders?: Record<string, string>
+├── renderedBody?: string
+│
+└── placeholderBindings: Record<string, string>
+```
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| actionIndex | number | yes | — | Action 배열 내 인덱스 |
+| actionType | RecordableActionType | yes | `"mqtt"` \| `"email"` \| `"webhook"` | 액션 유형 |
+| enabled | boolean | yes | — | 액션 활성 여부 |
+| **[MQTT]** | | | | actionType=`"mqtt"` 시 |
+| renderedTopic | string | no | — | 렌더링된 토픽 |
+| renderedMessage | string | no | — | 렌더링된 메시지 |
+| **[Email]** | | | | actionType=`"email"` 시 |
+| renderedSubject | string | no | — | 렌더링된 제목 |
+| renderedBody | string | no | — | 렌더링된 본문 |
+| recipients | object | no | `{ to, cc, bcc }` | 수신자 목록 |
+| **[Webhook]** | | | | actionType=`"webhook"` 시 |
+| renderedUrl | string | no | — | 렌더링된 URL |
+| renderedHeaders | Record\<string, string\> | no | — | 렌더링된 헤더 |
+| renderedBody | string | no | — | 렌더링된 요청 본문 |
+| **[공통]** | | | | |
+| placeholderBindings | Record\<string, string\> | yes | — | 플레이스홀더별 바인딩 값 (디버깅용) |
+
+**DryRunError (에러 보고)**
+
+```
+DryRunError
+├── errorType: DryRunErrorType
+├── message: string
+├── location: ErrorLocation
+└── details?: Record<string, any>
+```
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| errorType | DryRunErrorType | yes | DryRunErrorType 참조 | 에러 유형 |
+| message | string | yes | — | 사람이 읽을 수 있는 에러 메시지 |
+| **[location]** | ErrorLocation | yes | — | 에러 발생 위치 |
+| ↳ component | string | yes | `"dataSource"` \| `"condition"` \| `"streamControl"` \| `"action"` \| `"rule"` | 컴포넌트 |
+| ↳ path | string | no | — | 세부 위치 (예: `"dataSources[0].path"`) |
+| ↳ sourceAlias | string | no | — | 관련 DataSource alias |
+| details | Record\<string, any\> | no | — | 추가 컨텍스트 |
+
+**DryRunErrorType:**
+
+| 값 | 의미 | 예시 |
+|------|------|------|
+| `config_error` | 룰 설정 구조 오류 | 필수 필드 누락, 타입 불일치, 유효하지 않은 evaluator type |
+| `path_error` | 값 추출 경로 오류 | 런타임에서는 null 반환으로 조건 미충족 처리되지만, 드라이런에서는 **경고**로 보고 (2.2.1 path 제약 참조) |
+| `expression_error` | 수식 파싱/평가 오류 | formula 구문 오류, 0으로 나누기, 미정의 변수 |
+| `evaluation_error` | 조건 평가 런타임 오류 | 예기치 않은 타입, 비교 불가 값 |
+
+**DryRunSummary (전체 요약)**
+
+```
+DryRunSummary
+├── totalMessages: number
+├── conditionMetCount: number
+├── conditionNotMetCount: number
+├── errorCount: number
+└── streamControlPassedCount: number
+```
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| totalMessages | number | yes | — | 입력 메시지 수 |
+| conditionMetCount | number | yes | — | 조건 충족 메시지 수 |
+| conditionNotMetCount | number | yes | — | 조건 미충족 메시지 수 |
+| errorCount | number | yes | — | 에러 발생 수 |
+| streamControlPassedCount | number | yes | StreamControl 미설정 시 conditionMetCount와 동일 | 조건 충족 후 StreamControl 파이프라인 통과 수 |
+
+---
+
+### 2.6 런타임 상태 객체
+
+> DB에 저장하지 않으나 도메인 핵심 상태를 관리하는 객체.
+
+#### 2.6.1 GroupAlarmState (그룹 알람 상태)
+
+AlarmRule 하나가 와일드카드 토픽으로 N개 디바이스를 모니터링할 때, 각 GroupKey별로 독립적인 런타임 상태를 관리한다.
+
+##### 구조도
+
+```
+AlarmRule 1 : N GroupAlarmState (런타임)
+
+GroupAlarmState
+├── groupKey: string
+├── status: "normal" | "active" | "acknowledged"
+├── lastTriggeredAt?: timestamptz
+├── lastClearedAt?: timestamptz
+├── occurrenceCount: number
+├── streamControlState: StreamControlState
+├── escalationState: EscalationRuntimeState
+└── activeHistoryId?: number
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 기본값 | 파생/갱신 로직 | 설명 |
+|------|------|--------|---------------|------|
+| groupKey | string | — | 사전 등록 또는 메시지 수신 시 추출 | 디바이스 식별자 (예: `"ROOM-A"`, `"B1\|3F"`) |
+| status | `"normal"` \| `"active"` \| `"acknowledged"` | `"normal"` | 이벤트에 의한 상태 전이 | 현재 알람 상태 |
+| lastTriggeredAt | timestamptz | `null` | active 전이 또는 중복 병합 시 갱신 | 마지막 알람 트리거 시각 |
+| lastClearedAt | timestamptz | `null` | Cleared 전이 시 갱신 | 마지막 알람 해제 시각 |
+| occurrenceCount | number | `0` | 중복 병합 시 +1 | 중복 알람 빈도 추적 |
+| streamControlState | object | `{}` | 오퍼레이터별 타이머/카운터 파생. Redis JSON 직렬화 | 출력 제어 타이머 상태 (2.2.3 참조) |
+| escalationState | `{ jobIds: string[], executedSteps: number[] }` | `{ jobIds: [], executedSteps: [] }` | 에스컬레이션 단계 실행 시 갱신 | BullMQ 타이머 제어 및 단계 추적 (2.2.7 참조) |
+| activeHistoryId | number \| null | `null` | 알람 생명주기에 따라 전이 | Active 상태의 AlarmHistory ID |
+
+##### 동작 요약
+
+| 핵심 동작 | 설명 |
+|-----------|------|
+| status 전이 | normal → active → acknowledged → normal |
+| occurrenceCount | 중복 병합 시 +1 증가, Cleared 시 0 리셋 |
+| activeHistoryId | 알람 생성 시 설정, Cleared 시 null |
+
+> 상세 전이 규칙 → **3.2.3절** 참조
+
+##### 기본값(초기화)
+
+- `groupKeyConfig.keys`에 사전 등록된 GroupKey → 룰 활성화 시 즉시 생성 (status: "normal")
+- 미등록 GroupKey → 메시지 수신 시 `unknownKeyPolicy`에 따라 자동 등록 또는 거부
+- 서비스 재시작 시 → AlarmHistory(DB) 활성 레코드 + `groupKeyConfig.keys`로부터 복원
+
+##### Escalation 런타임 상태 (역할 분리)
+
+| 저장소 | 필드 | 역할 |
+|--------|------|------|
+| DB (AlarmHistory) | `escalationState: { currentStep, nextEscalationAt }` | 운영자 조회용 스냅샷. Step 실행/스킵 시마다 UPDATE |
+| 런타임 (GroupAlarmState) | `escalationState: { jobIds, executedSteps }` | BullMQ 타이머 제어, 실행 이력 추적 |
+
+**DB ↔ 런타임 동기 시점:**
+
+| 이벤트 | DB (AlarmHistory) 갱신 | 런타임 (GroupAlarmState) 갱신 | 순서 |
+|--------|:---:|:---:|------|
+| AlarmHistory 생성 | `currentStep: 0`, `nextEscalationAt: 첫 Step 시각` | `jobIds: [등록된 BullMQ job IDs]`, `executedSteps: []` | DB INSERT → 런타임 초기화 → BullMQ job 등록 |
+| Step 실행 (조건 충족) | `currentStep++`, `nextEscalationAt: 다음 Step 시각` | `executedSteps에 stepIndex 추가` | DB UPDATE → 런타임 갱신 → ActionHistory INSERT |
+| Step 스킵 (조건 미충족) | `currentStep++`, `nextEscalationAt: 다음 Step 시각` | 변경 없음 | DB UPDATE → 런타임 확인 |
+| 모든 단계 완료 | `currentStep: steps.length`, `nextEscalationAt: null` | `jobIds 전체 제거` | |
+| Cleared 전이 | `escalationState` 유지 (이력 보존) | `escalationState` 초기화, 잔여 job 취소 | 런타임 정리 → DB status 갱신 |
+
+---
+
+#### 2.6.2 SuppressionRuntimeState (억제 런타임 상태)
+
+운영 중 실시간으로 변경되는 상태. AlarmRule 설정과 독립적으로 API를 통해 제어한다.
+
+##### 구조도
+
+```
+SuppressionRuntimeState (ruleId + groupKey 단위)
+├── maintenanceMode
+│   ├── active: boolean
+│   ├── activatedAt: timestamptz
+│   └── activatedBy: string
+│
+└── manualOverride
+    ├── active: boolean
+    ├── activatedAt: timestamptz
+    ├── activatedBy: string
+    └── expiresAt: timestamptz
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 기본값 | 파생/갱신 로직 | 설명 |
+|------|------|--------|---------------|------|
+| **[maintenanceMode]** | | | | 정비 모드 (FR-7.1) |
+| active | boolean | false | API 호출로 전환 | 정비 모드 활성 여부 |
+| activatedAt | timestamptz | — | active=true 시 기록 | 활성화 시각 |
+| activatedBy | string | — | active=true 시 기록 | 활성화 주체 |
+| **[manualOverride]** | | | | 수동 일시 억제 (FR-7.4) |
+| active | boolean | false | API 호출, expiresAt 경과 시 자동 해제 | 수동 억제 활성 여부 |
+| activatedAt | timestamptz | — | active=true 시 기록 | 활성화 시각 |
+| activatedBy | string | — | active=true 시 기록 | 활성화 주체 |
+| expiresAt | timestamptz | — | activatedAt + maxDurationSeconds | 만료 시각. BullMQ delayed job으로 자동 해제 |
+
+##### 동작 요약
+
+| 핵심 동작 | 설명 |
+|-----------|------|
+| maintenanceMode 전환 | API 호출로 활성/비활성, 명시적 해제만 허용 (자동 만료 없음) |
+| manualOverride 전환 | API 호출로 활성, maxDurationSeconds 경과 시 자동 해제 |
+| 적용 단위 | ruleId + groupKey (또는 `"*"` = 전체). `"*"` 적용 시 개별 설정 일괄 대체 |
+
+> 상세 전이 규칙 → **3.2.5절** 참조
+> 상세 판정 규칙 → **3.4절** 참조
+
+##### 기본값(초기화)
+
+- 서비스 재시작 시: Redis에서 복원. maintenanceMode는 명시적 해제까지 유지, manualOverride는 expiresAt 기준 만료 여부 재판정
+- maintenanceMode 해제: 운영자 명시적 API 호출만 허용 (자동 만료 없음). 해제 시 `active: false`, 감사 이력(`activatedAt`/`activatedBy`) 보존
+
+---
+
+## 3. 도메인 규칙
+
+> **구성 원칙**: "런타임에 일어나는 일을 빠짐없이 추적하려면 어떤 관점이 필요한가?"를 기준으로 섹션을 나눈다.
+> 3.3→3.4→3.5→3.6→3.7은 실제 런타임 처리 순서와 1:1 대응하며,
+> 3.8(설정 변경)·3.9(정리/제어)는 운영 시나리오를, 3.10(동시성)은 횡단 관심사를 커버한다.
+
+### 3.1 객체 간 관계 & 참조 정책 <!-- 목표: "누가 누구를 소유/참조하는가?" — 3장 전체의 전제 조건 -->
+
+```
+┌─────────────────────────────────────────────────────────────────────┐
+│                         AlarmRule (Aggregate Root)                   │
+│                         모든 하위 객체를 JSON으로 소유                  │
+│                                                                     │
+│  ┌──────────────┐         ┌────────────┐                           │
+│  │  AlarmRule    │── JSON → │ DataSource[] │ alias로 식별             │
+│  │              │         └──────┬─────┘                            │
+│  │  alarmType:  │                │ alias 참조                        │
+│  │  state|event │         ┌──────▼──────────────────┐               │
+│  │              │── JSON → │ Condition (컨테이너)     │               │
+│  │              │         │  ├─ operator? (AND/OR)   │               │
+│  │              │         │  └─ nodes[]              │               │
+│  │              │         │     ├─ LogicNode         │               │
+│  │              │         │     └─ LeafNode          │               │
+│  │              │         └─────────────────────────┘               │
+│  │              │                                                   │
+│  │              │         ┌────────────────┐                        │
+│  │              │── JSON → │ StreamControl  │ (선택)                  │
+│  │              │         │  └─ pipeline[] │                        │
+│  │              │         └────────────────┘                        │
+│  │              │                                                   │
+│  │              │         ┌────────────────┐                        │
+│  │              │── JSON → │ RecoveryPolicy │ (선택, state만)         │
+│  │              │         └────────────────┘                        │
+│  │              │                                                   │
+│  │              │         ┌────────┐                                │
+│  │              │── JSON → │ Action[] │ type별 파라미터                │
+│  │              │         └────────┘                                │
+│  │              │                                                   │
+│  │              │         ┌─────────────────────┐                   │
+│  │              │── JSON → │ SuppressionPolicy   │ (선택)             │
+│  │              │         └─────────────────────┘                   │
+│  │              │                                                   │
+│  │              │         ┌──────────────┐                          │
+│  │              │── JSON → │ Escalation   │ (선택, state만)           │
+│  │              │         │  └─ steps[]  │                          │
+│  │              │         └──────────────┘                          │
+│  │              │                                                   │
+│  │              │         ┌────────────────────┐                    │
+│  │              │── JSON → │ GroupKeyConfig     │ (선택, 와일드카드만) │
+│  │              │         │  └─ keys[]         │                    │
+│  │              │         └────────────────────┘                    │
+│  │              │                                                   │
+│  │              │── FK ──→ AlarmRule (parentRuleId, 선택)             │
+│  │              │         상위 알람 억제 (SET NULL)                    │
+│  └──────────────┘                                                   │
+└─────────────────────────────────────────────────────────────────────┘
+
+                          │ 조건 충족 시 생성                      │ 설정 변경 시 생성
+                          ▼                                      ▼
+               ┌─────────────────┐                    ┌────────────────────┐
+               │  AlarmHistory   │                    │ AlarmRuleVersion   │
+               │  (단일 테이블)   │                    │ (설정 변경 이력)    │
+               │  부분 인덱스:    │                    │                    │
+               │  status IN      │                    │ configSnapshot:    │
+               │  (active,ack)   │                    │  룰 전체 설정 스냅샷 │
+               │                 │                    │                    │
+               │  ruleId ────────│─── N:1 (SET NULL) →│ version, isActive, │
+               │  acknowledgedBy │─┐                  │ isLatest           │
+               │  clearedBy      │─┤                  │                    │
+               └────────┬────────┘ │                  │ ruleId ────────────│─── N:1 (CASCADE) ──→ AlarmRule
+               1:N │    │         │                  │ userId ────────────│─── N:1 (SET NULL) ──→ User
+                   │    │         │                  └────────────────────┘
+                   ▼    │         │ N:1
+               ┌─────────────────┐ │(SET NULL)
+               │ ActionHistory   │ │
+               │ (액션 실행 이력) │ │
+               │                 │ │
+               │ alarmHistoryId──│─│── FK (CASCADE) → AlarmHistory
+               │ ruleId ─────────│─│── N:1 (SET NULL) → AlarmRule
+               └─────────────────┘ │
+                                   │
+                                   ▼
+                            ┌──────────┐
+                            │   User   │
+                            └──────────┘
+
+               ┌──────────┐
+               │ Category │ (self-referencing: parentId → Category)
+               │          │
+               │ code     │  N:1 (nullable, SET NULL)
+               │ name     │◄────────── AlarmRule.categoryId
+               │ parentId │
+               └──────────┘  N:1 (nullable, SET NULL)
+                             ◄────────── AlarmHistory.categoryId
+
+
+※ DB 저장 객체만 표시. 런타임 상태(GroupAlarmState, SuppressionRuntimeState) -> 2.6절 참조
+※ DB 미저장 Value Object: DryRunResult -> 2.5.1 참조 
+※ 심각도 결정 (ratedLevel):
+    LeafNode.severity.level > multiLevel.severity.level > (없으면 ratedLevel=null, ruleLevel 사용)
+    복합 조건 시 충족된 레벨 중 최고값 채택 (2.2.2 참조)
+```
+
+#### 삭제 및 참조 정책
+
+> 도메인 객체 간 FK 삭제 정책과 그 근거를 명시한다.
+
+```
+AlarmRule 삭제 시:
+├── AlarmHistory.ruleId ──── SET NULL
+│   │  감사 이력 보존 (ruleCode, ruleName 스냅샷으로 원래 룰 식별 가능)
+│   │
+│   └── ActionHistory ────── CASCADE (AlarmHistory에 종속)
+│
+├── ActionHistory.ruleId ─── SET NULL
+│   감사 이력 보존 (actionConfig 스냅샷으로 당시 설정 확인 가능)
+│
+├── AlarmRuleVersion ─────── CASCADE
+│   버전 이력은 룰의 변경 이력이므로 함께 삭제
+│
+└── AlarmRule.parentRuleId (하위 룰) ── SET NULL (FK)
+    상위 룰 삭제 시 하위 룰의 parentRuleId가 자동 null
+
+Category 삭제 시:
+├── 하위 Category 존재 ──── RESTRICT (삭제 거부. 하위 먼저 삭제 또는 이동)
+├── AlarmRule.categoryId ── SET NULL (룰은 미분류 상태로 전환)
+└── AlarmHistory.categoryId ── SET NULL (categoryCode, categoryName 스냅샷으로 표시 유지)
+
+User 삭제 시:
+├── AlarmHistory.acknowledgedBy ── SET NULL (acknowledgedByName으로 표시 유지)
+├── AlarmHistory.clearedBy ─────── SET NULL (clearedByName으로 표시 유지)
+└── AlarmRuleVersion.userId ────── SET NULL (authorName으로 표시 유지)
+```
+
+> **SET NULL 공통 원칙**: 감사(audit) 성격의 이력 레코드는 원본이 삭제되어도 보존한다. 각 이력 테이블에는 발생 당시 컨텍스트의 스냅샷 필드(ruleCode, ruleName, acknowledgedByName 등)가 복사되어 있어 자기 완결적으로 추적 가능하다. CASCADE 삭제 시 규정 준수(compliance)에 위배될 수 있다.
+
+---
+
+### 3.2 상태 전이 <!-- 목표: "알람 객체의 생명주기는 어떻게 흘러가는가?" -->
+
+#### 3.2.1 state 타입 (상태 알람)
+
+```
+                    ┌─────────────────────────────────────────┐
+                    │                                         │
+                    ▼                                         │
+  [조건 충족] → ┌────────┐   운영자 확인   ┌──────────────┐    │
+               │ Active │──────────────→│ Acknowledged │    │
+               │ (활성)  │               │   (확인됨)    │    │
+               └───┬────┘               └──────┬───────┘    │
+                   │                           │             │
+                   │  ┌────────────────────────┘             │
+                   │  │                                      │
+                   ▼  ▼                                      │
+              ┌─────────┐                                    │
+              │ Cleared  │   동일 그룹 새 알람 발생 시          │
+              │ (해제됨) │   (재발생 시 새 AlarmHistory 생성)   │
+              └─────────┘──────────────────────────────────→─┘
+
+  해제 트리거:
+  ├── 자동 해제: 조건 역전 (RecoveryPolicy)
+  ├── 수동 해제: 운영자 명시적 해제
+  ├── 시간 기반 해제: 설정 시간 경과
+  ├── 대체 해제: 동일 그룹 새 알람이 기존을 대체
+  └── 설정 변경 해제: DataSource 변경으로 GroupKey 구조가 바뀔 때 (2.2.1 참조)
+```
+
+**상태 전이 규칙 (state):**
+
+| From | To | Trigger | clearType | 비고 |
+|---|---|---|---|---|
+| Active | Acknowledged | 운영자 확인 | — | acknowledgedBy, acknowledgedByName, note 기록 |
+| Active | Cleared | 복구 판정 (조건 역전) | `auto` | RecoveryPolicy 조건 충족 (2.2.5) |
+| Active | Cleared | 수동 해제 | `manual` | clearedBy, clearedByName, clearNote 기록 |
+| Active | Cleared | 타임아웃 해제 | `timeout` | RecoveryPolicy timeout 경과 |
+| Active | Cleared | 설정 변경 해제 | `config_changed` | DataSource 변경으로 GroupKey 구조 변경 시 (2.2.1) |
+| Active | Cleared | 대체 해제 | `replaced` | 동일 룰+그룹에서 ratedLevel 변경된 새 알람 발생 (FR-9.5) |
+| Acknowledged | Cleared | 복구 판정 (조건 역전) | `auto` | RecoveryPolicy 조건 충족 (2.2.5) |
+| Acknowledged | Cleared | 수동 해제 | `manual` | clearedBy, clearedByName, clearNote 기록 |
+| Acknowledged | Cleared | 타임아웃 해제 | `timeout` | RecoveryPolicy timeout 경과 |
+| Acknowledged | Cleared | 설정 변경 해제 | `config_changed` | DataSource 변경으로 GroupKey 구조 변경 시 (2.2.1) |
+| Acknowledged | Cleared | 대체 해제 | `replaced` | 동일 룰+그룹에서 ratedLevel 변경된 새 알람 발생 (FR-9.5) |
+| Active/Acknowledged | (변경 없음) | 중복 발생 (ratedLevel 동일) | — | occurrenceCount 증가, 새 이력 미생성 (FR-7.5) |
+| (없음 — 재발생) | Active | 조건 재충족 | — | 새 AlarmHistory 생성 (기존 Cleared 이력과 별개) |
+
+**금지 전이 (역방향):**
+
+| 전이 | 금지 근거 |
+|------|----------|
+| Acknowledged → Active | 확인 행위는 취소 불가. 알람 상태가 악화되면 대체 해제(replaced) 후 새 AlarmHistory 생성 |
+| Cleared → Active | 해제된 알람의 재활성화 불가. 조건 재충족 시 새 AlarmHistory 생성 (재발생 경로) |
+| Cleared → Acknowledged | 해제된 알람에 대한 확인 행위 무의미 |
+
+**원칙:** 
+- AlarmHistory의 상태는 **단방향 전진만 허용**한다 (Active → Acknowledged → Cleared). 
+- 역방향 전이가 필요한 시나리오는 모두 새 AlarmHistory 생성으로 해결한다.
+
+**제어 단위:** 
+- 모든 상태 전이는 **GroupKey 단위**로 수행된다.
+- 와일드카드 룰에서 특정 디바이스만 acknowledge/해제하려면 `ruleId` + `groupKey`로 대상을 지정한다 (2.6.1 GroupAlarmState 참조). 
+- 상태 전이 시 `GroupAlarmState.status`와 `AlarmHistory.status`가 동기화된다.
+
+##### Cleared 전이 공통 규칙
+
+모든 clearType에 공통으로 수행하는 절차:
+
+1. `AlarmHistory.status` → `"cleared"`, `clearedAt` 기록, `durationMs` 계산
+2. Escalation: 잔여 BullMQ delayed jobs 취소
+3. Recovery: timeout 타이머 취소 (해당 시)
+4. `GroupAlarmState`: `status` → `"normal"`, `activeHistoryId` → `null`, `escalationState` 초기화
+5. recoveryActions 실행 판정: 아래 clearType별 추가 동작 표 참조
+
+**clearType별 추가 동작:**
+
+| clearType | 추가 동작 | 비고 |
+|-----------|----------|------|
+| `auto` | recoveryActions 실행. **실패 시 Cleared 유지** — 해제가 더 중요하므로 롤백하지 않음. ActionHistory에 failure 기록 | 조건 역전에 의한 자연 복구 |
+| `timeout` | recoveryActions 실행. **실패 시 Cleared 유지** (auto와 동일) | 시간 경과에 의한 복구 |
+| `manual` | recoveryActions **미실행** | 운영자 판단에 의한 해제 |
+| `replaced` | recoveryActions **미실행**, 기존 알람에 대한 별도 해제 알림 Action도 **미실행** | 동일 룰+그룹에서 ratedLevel 변경된 새 알람이 기존을 대체 (FR-9.5). 새 AlarmHistory가 즉시 생성되어 새 알람의 actions가 실행되므로, 기존 알람의 해제 알림은 중복·혼선 유발 |
+| `config_changed` | recoveryActions **미실행** | 설정 변경에 의한 구조적 해제 |
+
+#### 3.2.2 event 타입 (이벤트 알람)
+
+```
+  [조건 충족] → ┌─────────┐
+               │ Cleared  │  즉시 완료 (triggeredAt = clearedAt, clearType: "auto")
+               │ (완료)   │  → 액션 실행 후 이력만 남김
+               └─────────┘
+```
+
+#### 3.2.3 GroupAlarmState 상태 전이
+
+> status 전이 및 연동 필드 갱신 규칙만 다룬다. (GroupAlarmState 정의 → 2.6.1절 참조)
+
+```
+                          중복 발생
+                        (occurrenceCount++)
+                          ┌──────┐
+                          │      │
+                          ▼      │
+  [조건 충족] → ┌────────────────┐    운영자 확인    ┌──────────────┐
+               │    active      │───────────────→│ acknowledged │
+               │                │                │              │
+               └───────┬────────┘                └──────┬───────┘
+                       │                                │
+                       │  ┌─────────────────────────────┘
+                       │  │  복구 판정 (RecoveryPolicy)
+                       ▼  ▼
+               ┌────────────────┐
+               │    normal      │  occurrenceCount → 0
+               │                │  activeHistoryId → null
+               └────────────────┘
+```
+
+**상태 전이 규칙 (state):**
+
+| 이벤트 | 전이 | 조건 |
+|--------|------|------|
+| 조건 충족 (알람 발생) | `"normal"` → `"active"` | Condition Engine 평가 결과 true |
+| 사용자 확인 | `"active"` → `"acknowledged"` | API를 통한 수동 확인 |
+| 복구 판정 | `"active"` \| `"acknowledged"` → `"normal"` | RecoveryPolicy 조건 충족 (2.2.5 참조) |
+
+**occurrenceCount 갱신 규칙:**
+
+| 이벤트 | 동작 | 근거 |
+|--------|------|------|
+| 중복 병합 (FR-7.5) | +1 증가 | 동일 GroupKey에서 이미 active 상태일 때 재발생 |
+| Cleared 전이 | `0`으로 리셋 | 새 알람 주기 시작 |
+
+**activeHistoryId 생명주기:**
+
+| 시점 | 값 | 근거 |
+|------|-----|------|
+| GroupAlarmState 초기 생성 | `null` | 아직 알람 미발생 |
+| AlarmHistory INSERT 직후 (신규 알람) | 생성된 AlarmHistory.id | 복구/에스컬레이션에서 대상 알람 참조 |
+| Deduplication 병합 시 | 변경 없음 (기존 ID 유지) | 동일 알람 인스턴스 |
+| Cleared 전이 시 | `null` | 활성 알람 없음 |
+
+#### 3.2.4 AlarmRule Lifecycle (룰 상태 전이)
+
+> AlarmRule의 enabled 상태 전이와 활성화/비활성화 절차를 다룬다. (AlarmRule 정의 → 2.1절 참조)
+
+**상태 머신:**
+
+| 현재 상태 | 트리거 | 다음 상태 | 조건 |
+|-----------|--------|-----------|------|
+| — | 룰 생성 | disabled | alarmType 결정 (immutable) |
+| disabled | `enabled = true` | enabled | — |
+| enabled | `enabled = false` | disabled | 활성 알람 존재 시 정책은 3.8.1절 참조 |
+
+**활성화 절차** (disabled → enabled):
+1. BrokerConnection refCount++ → 0→1이면 브로커 연결 생성
+2. SubscriptionEntry refCount++ → 0→1이면 MQTT subscribe
+3. WarmupState 생성 (status: "warming_up")
+4. GroupAlarmState 초기 생성 (status: "normal")
+
+**비활성화 절차** (enabled → disabled): → 3.9절 정리 트리거 참조 (9단계 순서 보장)
+
+#### 3.2.5 SuppressionRuntimeState 상태 전이
+
+> maintenanceMode / manualOverride 각각의 active 상태 전이와 생명주기를 다룬다. (SuppressionRuntimeState 정의 → 2.6.2절 참조)
+
+**상태 머신 — maintenanceMode:**
+
+```
+                API 활성화
+  ┌───────────┐──────────────→┌───────────┐
+  │  inactive │               │  active   │
+  │ (default) │←──────────────│ (정비 중)  │
+  └───────────┘  API 비활성화   └───────────┘
+                 (명시적 해제만)
+
+  ※ 자동 만료 없음 — 운영자가 명시적으로 해제해야 한다
+  ※ 룰 비활성화/삭제 시 초기화 (3.9절 매트릭스 참조)
+```
+
+| 현재 상태 | 트리거 | 다음 상태 | 조건 |
+|-----------|--------|-----------|------|
+| inactive | API 호출 (활성화) | active | `activatedAt`, `activatedBy` 기록 |
+| active | API 호출 (비활성화) | inactive | `active: false`. 감사 이력(`activatedAt`/`activatedBy`) 보존 |
+| active | 룰 비활성화 (`enabled→false`) | (제거) | SuppressionRuntimeState 초기화 (3.9절 9단계) |
+| active | 룰 삭제 | (제거) | Redis에서 완전 제거 (3.9.2절) |
+
+**상태 머신 — manualOverride:**
+
+```
+                  API 활성화
+  ┌───────────┐──────────────→┌───────────┐
+  │  inactive │               │  active   │
+  │ (default) │←──────────────│ (억제 중)  │
+  └───────────┘               └─────┬─────┘
+       ▲                            │
+       │   ┌────────────────────────┘
+       │   │
+       │   ├── API 비활성화 (수동 해제)
+       │   └── expiresAt 경과 (BullMQ delayed job 자동 해제)
+       │
+       └───────────────────────────────
+
+  ※ 룰 비활성화/삭제 시 초기화 (3.9절 매트릭스 참조)
+```
+
+| 현재 상태 | 트리거 | 다음 상태 | 조건 |
+|-----------|--------|-----------|------|
+| inactive | API 호출 (활성화) | active | `activatedAt`, `activatedBy` 기록. `expiresAt = activatedAt + maxDurationSeconds`. BullMQ delayed job 등록 |
+| active | API 호출 (비활성화) | inactive | `active: false`. BullMQ expiry job 취소 |
+| active | expiresAt 경과 | inactive | BullMQ delayed job 실행 → `active: false` 자동 전환 |
+| active | 룰 비활성화 (`enabled→false`) | (제거) | SuppressionRuntimeState 초기화 + BullMQ expiry job 취소 (3.9절 9단계) |
+| active | 룰 삭제 | (제거) | Redis에서 완전 제거 + BullMQ expiry job 취소 (3.9.2절) |
+
+**서비스 재시작 시 복원 (A.2 Phase 1):**
+
+| 상태 | 복원 동작 |
+|------|----------|
+| maintenanceMode active | Redis에서 로드 → 명시적 해제까지 유지 |
+| manualOverride active + expiresAt 미경과 | Redis에서 로드 → BullMQ expiry job 재등록 |
+| manualOverride active + expiresAt 경과 | 만료 처리 → `active: false` 전환 |
+
+**Suppression Check 영향 범위:**
+- Suppression은 **파이프라인 상류**(조건 충족 → AlarmHistory 생성 직전)에서만 동작한다
+- 이미 Active 상태인 알람의 Recovery Monitor / Escalation Timer에는 영향 없음
+- 즉, maintenanceMode 진입 후에도 기존 Active 알람의 Escalation은 계속 실행된다
+
+---
+
+### 3.3 데이터 흐름 (메시지 처리 파이프라인) <!-- 목표: "메시지가 도착하면 어떤 순서로 처리되는가?" -->
+
+> 런타임 메시지 처리 흐름만 다룬다. 룰 CRUD/버전 관리 흐름은 2.4.3, 3.1 참조.
+
+**① 공통 경로** (입력 → 조건 평가)
+
+```
+  [런타임]                       [드라이런 API]
+  MQTT Broker                   POST /dry-run
+      │                             │
+      │ 메시지 수신                   │ TestMessage[]
+      ▼                             │
+┌──────────────────┐                │
+│ Message Router   │    ┌───────────┴────────┐
+│ 토픽→룰 매핑      │    │ DryRun Adapter     │
+│                  │    │ 룰 로드 + 메시지 주입 │
+└────────┬─────────┘    └───────────┬────────┘
+         │                          │
+         ▼                          │
+┌──────────────────────────┐        │
+│ Input Control            │        │
+│ Freshness Gate: 유효기간  │        │
+│ Throttle Gate: 속도 제한  │        │
+│ (2.2.1 참조)              │        │
+└────────────┬─────────────┘        │
+             │                      │
+             └──────────┬───────────┘
+                        ▼ 공통 경로
+                      ┌──────────────────┐
+                      │ Value Extractor  │ path로 페이로드에서 값 추출 (2.2.1 참조)
+                      └────────┬─────────┘
+                               ▼
+                      ┌──────────────────┐
+                      │ Multi-Source     │ alias별 최신값 캐시 저장/갱신 (2.2.1 참조)
+                      │ Cache            │ 단일 소스 룰: 바이패스
+                      └────────┬─────────┘
+                               ▼
+                      ┌──────────────────┐
+                      │ GroupKey Resolver │ 토픽 패턴 → GroupKey 생성 (2.2.8 참조)
+                      │                  │ + 정책 적용: enabled/unknownKeyPolicy/maxKeys
+                      └────────┬─────────┘
+                               ▼
+                      ┌──────────────────┐
+                      │ WarmupState 확인 │ warm-up 중 → 조건 평가 스킵 (부록 A.2 참조)
+                      └────────┬─────────┘
+                               ▼
+                      ┌──────────────────┐
+                      │ Condition Engine │ ConditionNode 트리 평가 (GroupKey별 독립)
+                      │                  │ → ratedLevel 결정
+                      └────────┬─────────┘
+                               │ true / false
+                               ▼
+                          ── [DryRun?] ──
+                          │             │
+                       일반 경로    드라이런 경로
+                          ▼             ▼
+                         ②-A           ②-B
+```
+
+**②-A 일반 경로** (조건 충족 → 알람 발행 → 후속 처리)
+
+```
+         │ Condition = true
+         ▼
+┌──────────────────┐
+│ StreamControl    │ 출력 제어 파이프라인 적용 (2.2.3 참조)
+│                  │ GroupAlarmState.streamControlState 참조
+└────────┬─────────┘
+         │ 통과된 알람만
+         ▼
+┌──────────────────┐
+│ Suppression Check│ 4단계 순서 평가 (2.2.6 참조):
+│                  │ 1.정비모드 → 2.상위 알람 → 3.스케줄 → 4.수동억제
+└────────┬─────────┘
+         │ 억제되지 않은 알람만
+         ▼
+┌──────────────────┐
+│ Dedup Check      │ state: 미해결 알람 존재 시 occurrenceCount 증가 (새 이력 미생성)
+│                  │ event: 항상 통과
+└────────┬─────────┘
+         │ 신규 알람만
+         ▼
+┌──────────────────┐
+│ AlarmHistory 생성 │ + GroupAlarmState 상태 갱신
+│                  │ state → "active" / event → "cleared"
+└────────┬─────────┘
+         ▼
+┌──────────────────┐
+│ Action Executor  │ MQTT, 이메일 등 → ActionHistory 기록
+└────────┬─────────┘
+         ▼ (state 타입만)
+┌──────────────────┐
+│ Recovery Monitor │ 정상 복귀 감시 → Cleared 전이 (3.6 참조)
+└────────┬─────────┘
+         ▼ (state 타입만)
+┌──────────────────┐
+│ Escalation Timer │ 미처리 알람 단계적 알림 (3.7 참조)
+└──────────────────┘
+```
+
+**②-B 드라이런 경로** (조건 평가 결과 → API 응답)
+
+```
+         │ Condition 평가 결과
+         ▼
+┌──────────────────────────┐
+│ StreamControl (시뮬레이션) │ 각 오퍼레이터 통과/차단 여부 + 사유 기록
+└────────────┬─────────────┘
+             ▼
+┌──────────────────────────┐
+│ Action Preview Renderer  │ 플레이스홀더 렌더링 (실제 발송 없음)
+└────────────┬─────────────┘
+             ▼
+┌──────────────────────────┐
+│ DryRunResult 조립        │ evaluations + previews + errors + summary
+└────────────┬─────────────┘
+             ▼
+        API 응답 반환
+   (AlarmHistory 미생성)
+```
+
+**드라이런 경로 핵심 차이:**
+- **AlarmHistory 미생성**: 드라이런 결과는 DB에 기록하지 않는다 (FR-13.1.4)
+- **액션 미실행**: Action Executor를 호출하지 않고, Action Preview Renderer가 플레이스홀더만 렌더링한다
+- **출력 제어 시뮬레이션**: 실제 타이머/카운터 대신, TestMessage의 `delayMs`/`timestamp`를 기준으로 시간 의존 로직을 평가한다. **가상 시간 구현**: 각 오퍼레이터에 `now()` 함수를 주입(injection)하고, 첫 메시지의 timestamp(또는 현재 시각)를 기준 시각으로 설정한 뒤 delayMs 누적값을 더하여 가상 시각을 산출한다. setTimeout/BullMQ를 사용하지 않는 **동기 시뮬레이션** — 오퍼레이터는 주입된 now()로 즉시 판정
+- **Suppression/Recovery/Escalation 미적용**: 드라이런은 순수하게 조건 평가와 액션 미리보기만 수행한다
+- **Deduplication Check 바이패스**: 기존 AlarmHistory 존재 여부를 조회하지 않는다. 매 TestMessage마다 독립적으로 평가 결과를 생성한다
+
+**드라이런 격리 컨텍스트:**
+
+DryRun Adapter는 공통 경로(Value Extractor → Multi-Source Cache → GroupKey Resolver → WarmupState → Condition Engine) 진입 전에 **격리된 평가 컨텍스트**를 생성한다. 공통 경로의 상태 의존 컴포넌트가 런타임 상태를 오염시키지 않도록 아래 격리 규칙을 적용한다.
+
+| 컴포넌트 | 드라이런 격리 규칙 | 근거 |
+|---------|-----------------|------|
+| Multi-Source Cache | **임시 캐시 사용** — 런타임 캐시와 완전 분리. TestMessage 간 값은 임시 캐시에 누적되어 시퀀스 테스트를 지원하되, API 응답 반환 후 폐기 | 런타임 캐시 오염 방지. 시퀀스 테스트(첫 메시지 값이 두 번째 평가에 영향)는 의도된 동작 |
+| GroupKey Resolver | **정책 바이패스** — `unknownKeyPolicy`, `maxKeys`, `enabled` 검사를 건너뛴다. 토픽에서 GroupKey 추출만 수행 | 드라이런은 미등록 키로도 자유롭게 테스트할 수 있어야 함 |
+| WarmupState | **바이패스** — warm-up 상태와 무관하게 즉시 조건 평가 수행 | 드라이런의 목적은 룰 설정 검증이므로, warm-up에 의한 평가 스킵은 테스트 가치를 훼손 |
+
+---
+
+### 3.4 Suppression 판정 <!-- 목표: "알람 발행 전 억제 여부를 어떻게 판정하는가?" -->
+
+Suppression Check는 StreamControl 통과 **이후**, AlarmHistory 생성 **이전**에 실행된다. Deduplication은 억제가 아닌 **병합**이므로 별도 단계로 분리한다.
+
+```
+StreamControl 통과
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────┐
+│ Suppression Check (순서대로 평가, 하나라도 해당 시 억제)            │
+│                                                                  │
+│  1. maintenanceMode 활성? (런타임 상태 조회)                       │
+│     → 억제 (정비 중이므로 알람 불필요)                              │
+│                                                                  │
+│  2. parentRuleId의 알람이 현재 Active 또는 Acknowledged?            │
+│     → 자식 룰의 모든 GroupKey 억제 (2.1 GroupKey 매핑 규칙 참조)    │
+│                                                                  │
+│  3. schedule 시간대에 해당? (반복 윈도우 또는 1회성 윈도우)          │
+│     → 억제 (단, exemptSeverities에 포함된 심각도는 억제 면제)       │
+│                                                                  │
+│  4. manualOverride 활성? (런타임 상태 조회)                        │
+│     → 억제 (운영자가 일시 억제를 걸어둔 상태)                       │
+│                                                                  │
+│  ※ 1~4: 완전 차단 (AlarmHistory 미생성, 액션 미실행)               │
+└──────────────────────┬───────────────────────────────────────────┘
+                       │
+              ┌────────┴────────┐
+              │                 │
+         억제됨              통과
+              │                 │
+              ▼                 ▼
+     알람 미발행       ┌──────────────────────────────────────────────────┐
+     (AlarmHistory    │ Deduplication Check (별도 단계)                    │
+      미생성, 액션    │                                                    │
+      미실행)        │  동일 GroupKey의 미해결 AlarmHistory 존재?            │
+                     │  ├─ 예 + ratedLevel 동일:                           │
+                     │  │    중복 병합 (occurrenceCount++, 새 이력 미생성)  │
+                     │  ├─ 예 + ratedLevel 변경:                           │
+                     │  │    대체 해제 FR-9.5 (기존→Cleared, 새 이력 생성) │
+                     │  └─ 아니오:                                         │
+                     │       AlarmHistory 신규 생성                        │
+                     │                                                    │
+                     │  ※ 억제가 아닌 병합/대체 — 기존 이력을 갱신 또는    │
+                     │    대체하여 해제함                                   │
+                     └────────────────────────┬───────────────────────────┘
+                                              │
+                                              ▼
+                                        AlarmHistory 생성
+                                        → Action 실행
+                                        → Recovery/Escalation 시작
+```
+
+- **exemptSeverities**: schedule 억제(반복 윈도우 + 1회성 윈도우 모두) 시에만 적용. critical/emergency 등 고위험 알람은 야간/주말/정기 점검 중에도 억제하지 않는다. 값은 2.3.1의 SeverityLevel 6단계 중에서만 허용하며, 저장 시 유효성 검증한다
+- **manualOverride 자동 해제**: expiresAt 경과 시 BullMQ delayed job이 런타임 상태를 해제한다. 서비스 재시작 시에도 Redis의 expiresAt 기준으로 재등록
+- **schedule 판정 순서**: 반복 윈도우(windows) → 1회성 윈도우(oneTimeWindows) 순으로 평가. 하나라도 해당하면 억제 (exemptSeverities 면제 제외)
+
+**parentRuleId 억제 시 GroupKey 매핑 규칙:**
+
+| 조건 | 억제 동작 | 근거 |
+|------|----------|------|
+| 부모 룰에 미해결(Active 또는 Acknowledged) 알람이 **하나라도** 존재 | 자식 룰의 **모든 GroupKey** 억제 | 상위 장비 고장 시 하위 센서 전체 알람 불필요 |
+| 부모 룰에 미해결 알람 없음 | 억제 안 함 | — |
+
+- **근거**: 상위 알람 억제(FR-7.2)는 "상위 장비 고장 → 하위 센서 알람 불필요" 시나리오이므로, 상위에 문제가 있으면 하위 전체를 억제하는 것이 자연스럽다
+- **삭제 정책**: FK SET NULL — 상위 룰 삭제 시 하위 룰의 parentRuleId가 자동 null (3.1 참조)
+- **설계 결정 배경**: → C.6절 참조
+
+---
+
+### 3.5 Deduplication & 대체 해제 <!-- 목표: "이미 활성 알람이 있을 때 어떻게 되는가?" -->
+
+```
+  조건 충족 (state 타입)
+         │
+         ▼
+  동일 Rule + 동일 GroupKey에
+  미해결 알람(Active/Acknowledged) 존재?
+         │
+    ┌────┴────┐
+    │ NO      │ YES
+    ▼         ▼
+  새 AlarmHistory   ratedLevel 변경?
+  생성 (신규)        │
+                ┌───┴───┐
+                │ NO    │ YES
+                ▼       ▼
+          중복 병합     대체 해제 (replaced)
+          ┌──────┐     ┌──────────────────┐
+          │ count++ │   │ 1. 기존 → Cleared │
+          │ Action  │   │ 2. 새 History     │
+          │ 미실행  │   │ 3. State 갱신     │
+          └──────┘     │ 4. Action 실행    │
+                       └──────────────────┘
+```
+
+**Deduplication Check 분기 판정 규칙:**
+
+> ※ event 타입은 Deduplication Check를 건너뛴다 (매번 새 AlarmHistory 생성). 아래는 state 타입 전용.
+
+동일 GroupKey에 미해결 알람(Active 또는 Acknowledged)이 존재할 때의 처리:
+
+| 조건 | 동작 | 근거 |
+|------|------|------|
+| **동일 AlarmRule** + 동일 GroupKey + 미해결 존재 + **ratedLevel 동일** | `occurrenceCount++` (중복 병합, FR-7.5) | 같은 원인·같은 심각도의 반복 발생 → 기존 이력에 카운트 누적 |
+| **동일 AlarmRule** + 동일 GroupKey + 미해결 존재 + **ratedLevel 변경** | 대체 해제 (FR-9.5): 기존 AlarmHistory → Cleared (`clearType: "replaced"`), 새 AlarmHistory 생성 | 심각도가 달라진 알람은 새 이력으로 추적해야 운영자가 변화를 인지 가능 |
+| **다른 AlarmRule** + 동일 GroupKey | 별도 AlarmHistory 생성 | 서로 다른 룰은 독립 (온도 알람과 습도 알람은 별개) |
+
+**중복 병합 시 갱신 필드:**
+
+| 필드 | 갱신 | 규칙 |
+|------|:---:|------|
+| `occurrenceCount` | O | +1 |
+| `lastOccurrenceAt` | O | 현재 시각 |
+| `ratedLevel` | X | 변경 없음 (ratedLevel이 다르면 중복 병합이 아닌 대체 해제 경로로 분기, FR-9.5) |
+| `sourceSnapshots` | O | 최신 스냅샷으로 교체 |
+| `evaluationResult` | O | 최신 평가 결과로 교체 |
+| `message` | O | 최신 메시지로 교체 |
+| `triggeredAt` | X | 최초 발생 시각 유지 |
+| `status` | X | 변경 없음 |
+
+**중복 병합 시 Action 미실행 규칙:**
+중복 병합(`occurrenceCount++`) 시 Action은 실행하지 않는다. 동일 원인·동일 심각도의 반복 발생이므로, 매번 액션을 재실행하면 알림 폭주(notification storm)를 유발한다.
+
+**중복 병합 시 GroupAlarmState 동기 갱신:**
+
+| GroupAlarmState 필드 | 갱신 | 규칙 |
+|---------------------|:---:|------|
+| `occurrenceCount` | O | AlarmHistory와 동일하게 +1 |
+| `lastTriggeredAt` | O | 현재 시각 |
+| `status` | X | 변경 없음 (이미 "active" 또는 "acknowledged") |
+| `activeHistoryId` | X | 변경 없음 (기존 AlarmHistory ID 유지) |
+| `streamControlState` | X | 변경 없음 |
+| `escalationState` | X | 변경 없음 (기존 타이머 계속 실행) |
+
+**대체 해제(replaced) 절차 (FR-9.5):**
+
+동일 AlarmRule + 동일 GroupKey에서 미해결 알람이 존재하나 새로 평가된 `ratedLevel`이 기존과 다를 때 수행:
+
+1. 기존 AlarmHistory → Cleared 전이 (3.2.1 Cleared 전이 공통 규칙 적용)
+   - `clearType: "replaced"`, `clearedAt`: 현재 시각, `durationMs` 계산
+   - Escalation 잔여 jobs 취소, Recovery 타이머 취소
+   - recoveryActions **미실행**
+2. 새 AlarmHistory 생성
+   - 새 `ratedLevel` 반영, `occurrenceCount: 1`, `triggeredAt`: 현재 시각
+   - `replacedHistoryId`: 대체된 기존 AlarmHistory.id (추적용)
+3. GroupAlarmState 갱신
+   - `activeHistoryId` → 새 AlarmHistory.id
+   - `status` 유지 ("active")
+   - `occurrenceCount: 1`로 리셋
+   - `escalationState` 초기화 (새 AlarmHistory 기준으로 Escalation 재시작)
+4. 새 AlarmHistory에 대해 Action 실행 (알람 발생 액션)
+
+**트랜잭션 경계**: 
+- Step 1~3을 **단일 DB 트랜잭션**으로 묶는다 (기존 Cleared + 새 History INSERT + GroupAlarmState 갱신의 원자성 보장). 
+- Step 4(Action 실행)는 **별도 비동기**(BullMQ job)로 위임한다. 
+- Action 실패 시 AlarmHistory/GroupAlarmState는 롤백하지 않는다 — Action 실패는 ActionHistory에 failure로 기록될 뿐이다.
+
+> **판정 기준**: `ratedLevel`의 **strict equality** (`===`) 비교.
+- `null → "warning"` = 변경(대체 해제), `"warning" → null` = 변경(대체 해제), `null → null` = 동일(중복 병합). 
+- 비교 대상은 `ratedLevel` 자체이며, 유효 심각도(`ratedLevel ?? ruleLevel`)가 아니다. 
+- 동일 ratedLevel에서 evaluationResult 등 다른 필드만 달라진 경우는 중복 병합 경로로 처리된다.
+
+**Deduplication vs StreamControl.deduplication 차이:**
+
+| 구분 | StreamControl.deduplication | Deduplication Check |
+|------|---------------------------|-------------------------------|
+| 동작 계층 | 조건 평가 직후, Suppression Check 전 | Suppression Check 통과 후, AlarmHistory 생성 직전 |
+| 기준 | 직전 **조건 평가 결과값**이 동일하면 스트림에서 제거 | 동일 GroupKey에 **미해결(Active/Acknowledged) AlarmHistory**가 이미 존재하면 새 이력 미생성 |
+| 효과 | 값 변화 없으면 알람 자체를 발행하지 않음 | 이미 활성 알람이 있으면 occurrenceCount만 증가 |
+| 용도 | 센서 값 미변동 시 불필요한 재평가 결과 필터링 | 동일 알람 중복 이력 방지 (state 타입) |
+
+---
+
+### 3.6 Recovery 동작 규칙 <!-- 목표: "Active 알람은 어떻게 정상 복귀하는가?" -->
+
+Recovery Monitor는 AlarmHistory가 생성된 **이후**, Active 또는 Acknowledged 상태인 알람을 지속 감시한다.
+
+```
+-- RecoveryPolicy가 "설정"이고, Recovery Monitor는 그 설정에 따라 실행되는 "동작 흐름"을 가리키는 이름
+
+AlarmHistory 생성 (Active)
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────┐
+│ Recovery Monitor (상시 감시)                                      │
+│                                                                  │
+│  recovery == null 또는 (enabled: true, type: "auto"):             │
+│    후속 메시지 수신마다 복구 조건 평가                               │
+│    ├── recoveryThreshold 없음: 알람 조건 false 전환 → 해제         │
+│    ├── recoveryThreshold 있음: op 반전 비교 충족 → 해제             │
+│    └── targetSeverity 있음: 현재 레벨이 목표 이하(또는 정상) → 해제  │
+│                                                                  │
+│  enabled: true, type: "timeout":                                  │
+│    BullMQ delayed job 등록 (timeoutSeconds)                       │
+│    jobId: "recovery:{alarmHistoryId}" → 만료 시 무조건 해제        │
+│    먼저 해제되면 타이머 취소                                       │
+│                                                                  │
+│  enabled: true, type: "manual" 또는 enabled: false:                │
+│    Recovery Monitor 개입 없음 — 운영자 직접 해제만 (기본값 참조)│
+└──────────────────────┬───────────────────────────────────────────┘
+                       │ 복구 조건 충족 시
+                       ▼
+              AlarmHistory 상태 전이
+              ├── status → "cleared"
+              ├── clearType → "auto" 또는 "timeout" (manual, config_changed 등은 3.8~3.9 참조)
+              ├── clearedAt 기록
+              ├── durationMs 계산 (clearedAt - triggeredAt)
+              └── recoveryActions 실행 (정의된 경우)
+```
+
+- **초기화 vs 실행 분리**: Recovery Monitor는 **AlarmHistory 생성 시점에 초기화**(type별 감시 등록/타이머 설정)되고, **후속 메시지 수신 시점에 실행**(조건 재평가)된다. 즉, 생성 시점의 첫 메시지로는 복구 판정하지 않으며, 이후 수신되는 메시지부터 복구 조건을 평가한다
+- **감시 시점**: type이 "auto"이면 해당 룰의 DataSource에 새 메시지가 수신될 때마다 복구 조건을 평가한다. 별도 폴링이 아니라 메시지 수신 이벤트에 반응한다
+- **타이머 관리**: type이 "timeout"이면 AlarmHistory 생성 시점에 BullMQ delayed job을 등록하고, 해당 알람이 먼저 해제되면 job을 취소한다. Redis에 저장되므로 서비스 재시작 후에도 타이머가 유지된다
+- **Escalation과의 관계**: Recovery에 의해 Cleared로 전이되면 Escalation 타이머도 함께 취소된다
+- **warm-up 중 동작**: warm-up 기간에는 Recovery 재평가도 스킵된다 (warm-up 규칙 A.2 적용). 데이터 부재 상태에서 조건 false → auto 복구 오판 방지
+
+**recoveryThreshold "연속 N회" 기준:**
+recoveryThreshold의 "연속 N회"는 inputThrottle 적용 후 실제 평가 횟수 기준이다. sample 모드에서 드롭된 메시지는 카운트하지 않는다. 즉, 복구 판정은 실제로 조건 평가가 수행된 메시지에 대해서만 연속 횟수를 누적한다.
+
+**Recovery enabled 전환 효과:**
+
+| 전환 | 동작 | 근거 |
+|------|------|------|
+| enabled: true → false | 기존 Recovery 타이머(timeout) 즉시 취소. Recovery Monitor 감시 중단 | 설정값은 보존, 런타임만 정리 |
+| enabled: false → true | 기존 Active 알람에 대해 즉시 복구 감시 재개. timeout 타입이면 타이머 신규 등록 | 기존 Active 알람도 복구 대상에 포함 |
+
+---
+
+### 3.7 Escalation 동작 규칙 <!-- 목표: "미처리 알람에 어떤 후속 조치가 발생하는가?" -->
+
+Escalation Timer는 AlarmHistory가 생성된 **이후**, 알람이 Active 상태일 때 시작된다. 각 Step의 delaySeconds는 절대 누적(2.2.7 구조 정의 참조)이며, 해당 시각에 도달하면 condition을 재평가하여 액션을 실행한다.
+
+```
+AlarmHistory 생성 (Active)
+         │
+         ▼
+┌──────────────────────────────────────────────────────────────────┐
+│ Escalation Timer (BullMQ delayed jobs)                            │
+│                                                                  │
+│  Step 1: AlarmHistory 생성 + delaySeconds[0] 경과 시              │
+│  ├── condition 평가                                               │
+│  │   ├── "unacknowledged": status == "active"?                   │
+│  │   └── "unresolved": status IN ("active", "acknowledged")?     │
+│  ├── 조건 충족 → step.actions 실행 → ActionHistory 기록            │
+│  │                (trigger: "escalation")                        │
+│  │   actions 전부 실패 시: 해당 Step을 "실패" 마킹하고             │
+│  │   **다음 Step으로 진행** (Escalation 중단하지 않음).              │
+│  │   ActionHistory에 failure 기록. 재시도는 RetryPolicy 위임       │
+│  └── 조건 미충족 → 이 단계 스킵                                   │
+│  └── AlarmHistory.escalationState UPDATE                         │
+│                                                                  │
+│  Step 2: AlarmHistory 생성 + delaySeconds[1] 경과 시              │
+│  └── (동일한 조건 평가 → 액션 실행 → 상태 갱신 로직)                │
+│                                                                  │
+│  Step N: ...                                                      │
+│                                                                  │
+│  종료 조건:                                                       │
+│  ├── 모든 단계 완료                                               │
+│  └── 알람 Cleared 전이 → 남은 모든 BullMQ job 취소                 │
+└──────────────────────────────────────────────────────────────────┘
+```
+
+- **타이머 시작**: AlarmHistory 생성 시점에 모든 Step의 BullMQ delayed job을 한꺼번에 등록한다. 각 job의 delay는 해당 Step의 `delaySeconds * 1000`ms. Step 간 의존 없이 독립 스케줄링
+- **조건 재평가**: 각 단계 실행 시점에 AlarmHistory의 현재 status를 조회하여 조건을 판단한다. status 확인이 **실행 전 guard**로 동작하여 Recovery 타이머와의 race condition을 방지한다
+- **타이머 취소**: 알람이 Cleared로 전이되면 (Recovery, 수동 해제, 대체 해제 등) 남은 모든 에스컬레이션 단계의 BullMQ job을 취소한다
+- **서비스 재시작 시 복원**: BullMQ delayed job은 Redis에 저장되므로 재시작 후에도 타이머가 유지된다 (NFR-2.3)
+- **actions 조회 출처**: Escalation Step 실행 시 actions 설정은 **BullMQ job payload에 직렬화된 스냅샷**에서 가져온다. AlarmHistory 생성 시점에 모든 Step의 actions를 job payload에 포함하여 등록하므로, 이후 룰 설정이 변경되어도 기존 알람의 Escalation은 **등록 시점의 설정**으로 실행된다. 이는 3.8.1절의 "기존 알람의 Escalation 유지 (변경 전 설정으로 계속 실행)" 원칙과 일치한다
+
+**RecoveryPolicy timeout과의 역할 차이:**
+- Recovery `type: "timeout"` → 시간 경과 후 알람을 **Cleared로 해제** (상태 전이)
+- Escalation → 시간 경과 후 상위 담당자에게 **알림 전송** (상태 전이 없음, 알림만)
+- 둘은 동시에 동작할 수 있으며, Recovery timeout에 의해 Cleared되면 Escalation도 함께 종료된다
+- **동시 도달 시**: 실행 순서에 관계없이, 각 job은 실행 시점에 AlarmHistory.status를 재확인하는 **중복 실행 안전 설계**. Recovery job이 Cleared 전이를 수행한 후 Escalation job이 실행되면 Cleared 상태를 확인하고 스킵하며, 반대 순서여도 동일하게 동작한다
+
+**Escalation enabled 전환 효과:**
+
+| 전환 | 동작 | 근거 |
+|------|------|------|
+| enabled: true → false | 기존 BullMQ delayed jobs 즉시 취소. 진행 중인 Escalation 완전 중단 | 설정값은 보존, 런타임만 정리 |
+| enabled: false → true | **신규 알람부터** 적용. 기존 Active 알람에 대해서는 Escalation Timer 미시작 | 기존 알람의 발생 시점과 Step 시작 기준 시점이 불일치하므로 기존 알람에 적용 불가 |
+
+---
+
+### 3.8 설정 변경 영향 정책 <!-- 목표: "운영 중 설정을 바꾸면 기존 알람에 무슨 일이 생기는가?" -->
+
+#### 3.8.1 파라미터 변경 (활성 알람 영향)
+
+룰에 Active/Acknowledged 알람이 존재하는 상태에서 설정이 변경될 때의 동작을 정의한다.
+
+| 변경 항목 | 기존 Active 알람 영향 | 근거 |
+|----------|---------------------|------|
+| **threshold/비교값** 변경 | 기존 알람 유지, **신규 메시지부터** 변경된 조건 적용 | 기존 알람 재평가는 과거 데이터 부재로 불가 |
+| **StreamControl 파이프라인** 변경 | 기존 알람 유지, 스트림 상태 리셋 (카운터/타이머 초기화) | 파이프라인 변경 후 기존 상태는 무의미 |
+| **Escalation steps** 변경 | 기존 알람의 Escalation **유지** (변경 전 설정으로 계속 실행). steps 축소 시(예: 3단계→2단계) 이미 등록된 잔여 step의 BullMQ job도 **유지** — job payload에 actions가 직렬화되어 있으므로 룰 설정과 무관하게 등록 시점 기준으로 실행. Cleared 전이 시 일괄 취소 | 이미 등록된 BullMQ job은 변경 불가. 신규 알람부터 새 설정 적용 |
+| **Recovery type** 변경 | `auto→timeout`: 기존 auto 감시 유지 (변경 불가). `timeout→auto`: 기존 타이머 유지. 신규 알람부터 새 설정 적용. **enabled + type 동시 변경 시**: `enabled` 변경을 먼저 적용한다. 예: `{ enabled: true, type: "auto" }` → `{ enabled: false, type: "timeout" }`이면 enabled=false 적용(기존 Recovery 취소) 후 type 변경은 무시(비활성 상태이므로) | Recovery 중간 전환의 복잡성 회피 |
+| **severity 변경** | 기존 알람의 ruleLevel 유지 (스냅샷). 신규 알람부터 새 레벨 적용 | AlarmHistory.ruleLevel은 발생 시점 스냅샷 |
+| **DataSource 변경** (토픽/구조) | 기존 Active 알람 일괄 Cleared (`config_changed`). 전체 재초기화 (3.9 매트릭스 참조) | GroupKey 구조 변경 시 기존 상태 무효 |
+
+> **원칙**: 구조적 변경(DataSource, GroupKey)은 일괄 해제, 파라미터 변경(threshold, timing)은 기존 알람 유지 + 신규부터 적용.
+
+#### 3.8.2 DataSource 설정 변경 규칙
+
+생성 이후 DataSource의 추가·제거·토픽 변경은 **허용**한다. 단, 다음 연쇄 검증과 부수 처리를 수행한다.
+
+| Command | 선행 조건 | Effect | 비고 |
+|---------|-----------|--------|------|
+| DataSource 추가 | V-1~V-4 충족 | 구독 등록, 조합 유형 재평가 | — |
+| DataSource 제거 | V-7 충족 (고아 참조 없음) | 구독 해제, GroupKey 구조 변경 시 일괄 해제 | — |
+| topic 변경 | V-1~V-4, V-8 충족 | GroupKey 구조 변경 시 일괄 해제 | 아래 변경 감지표 참조 |
+| path만 변경 | — | 해제 불필요 (GroupKey 구조 불변) | — |
+
+**GroupKey 구조 변경 감지:**
+
+| 변경 유형 | 예시 | 부수 처리 |
+|----------|------|----------|
+| 와일드카드 → 고정 | `sensor/+/temp` → `sensor/room1/temp` | Active/Acknowledged 알람 일괄 해제 |
+| 고정 → 와일드카드 | `sensor/room1/temp` → `sensor/+/temp` | Active/Acknowledged 알람 일괄 해제 |
+| `+` 위치 변경 | `a/+/b/c` → `a/b/+/c` | Active/Acknowledged 알람 일괄 해제 |
+| `+` 개수 변경 | `a/+/b` → `a/+/b/+/c` | Active/Acknowledged 알람 일괄 해제 |
+| 토픽 경로만 변경 | `sensor/+/temp` → `device/+/temp` | Active/Acknowledged 알람 일괄 해제 |
+| path만 변경 | path: `temperature` → `temp` | 해제 불필요 (GroupKey 구조 불변) |
+
+**부수 처리 상세:**
+- **일괄 해제**: 해당 룰의 Active/Acknowledged 알람을 `clearType: "config_changed"`로 Cleared 전이. durationMs 계산, Escalation 타이머 취소 포함
+- **런타임 상태 초기화**: StreamControl의 GroupKey별 타이머/카운터(쿨다운, 디바운스, 연속카운트 등) 초기화
+- **AlarmRuleVersion 자동 생성**: DataSource 변경도 설정 변경이므로 버전 스냅샷 생성 (3.8.4 정책과 일치)
+
+**freshness — onExpired 동작:**
+
+| onExpired | 동작 | 적합 시나리오 |
+|-----------|------|-------------|
+| `evaluate` (기본) | 유효 기간 초과여도 마지막 수신값으로 조건 평가 | 소스 간 수신 빈도가 비슷하거나, stale 허용 가능 |
+| `skip` | 유효 기간 초과 시 해당 alias 값을 null 처리 → 조건 미충족 | 수신 빈도 차이가 큰 소스 조합. 오래된 값으로 오판 방지 |
+| `alarm` | 유효 기간 초과 시 해당 alias 값을 `null` 처리한 뒤 조건 트리 전체 재평가. `dataQuality` 노드가 있으면 해당 노드가 충족되어 알람 발생. 만료 감지: alias별 `maxAgeSeconds` 간격의 BullMQ delayed job으로 즉시 감지 | 데이터 수신 중단 감지 |
+
+#### 3.8.3 GroupKeyConfig 설정 변경 규칙
+
+**unknownKeyPolicy 전환 정책:**
+
+| 전환 | 기존 Active 알람 | 기존 GroupKey 상태 | 근거 |
+|------|:---:|------|------|
+| `allow` → `reject` | 기존 Active 알람 **유지** | 이미 등록된 GroupKey는 등록 상태 유지. 신규 미등록 키만 reject | 기존 알람 유실 방지 |
+| `reject` → `allow` | 영향 없음 | 이후 수신되는 미등록 키부터 자동 등록 | 자동 등록 재개, 기존 알람 영향 없음 |
+| `allow`/`reject` → `alert` | 영향 없음 | 미등록 키 감지 이벤트 추가 발생 | 미등록 키 모니터링 추가 |
+
+**maxKeys 하향 조정 정책:**
+
+maxKeys를 현재 활성 GroupKey 수보다 낮게 변경한 경우:
+- 기존 등록된 GroupKey와 해당 Active 알람은 **유지**한다 (기존 데이터 삭제 안 함)
+- 신규 미등록 GroupKey의 자동 등록만 차단한다
+- 운영자가 명시적으로 GroupKey를 개별 삭제/비활성화해야 감소 효과 발생
+
+#### 3.8.4 버전 관리 전략 (AlarmRuleVersion)
+
+> 모든 AlarmRule은 생성 시점부터 버전 이력을 갖는다. 이후 변경과 롤백도 새 버전 레코드로 기록하여 이력이 단절되지 않는다. version 번호는 항상 단조 증가한다.
+
+```
+AlarmRule 최초 생성 시:
+  1. AlarmRule 저장과 동시에 AlarmRuleVersion v1 자동 생성
+  2. version = 1, isActive = true, isLatest = true
+  3. authorType = system
+  4. changeDescription = "초기 버전"
+
+AlarmRule 설정 변경 시 (단일 DB 트랜잭션으로 수행 — 버전 생성 실패 시 설정 변경도 롤백):
+  1. 기존 최신 버전의 isLatest = false
+  2. 새 AlarmRuleVersion 생성 (version++, isLatest = true, isActive = true)
+  3. 이전 활성 버전의 isActive = false
+
+롤백 시:
+  1. 대상 버전의 configSnapshot을 AlarmRule에 반영
+  2. 새 AlarmRuleVersion 레코드를 생성하여 롤백 이력을 보존
+     (changeDescription: "v{N}에서 롤백", version = 현재 최대 + 1)
+  3. 새 레코드가 isActive = true, isLatest = true
+```
+
+---
+
+### 3.9 정리(Cleanup) 트리거 규칙 <!-- 목표: "언제 무엇을 정리하는가?" -->
+
+"언제 무엇을 정리하는가"를 트리거 × 대상으로 정의한다. Cleared 전이의 전체 절차는 3.2.1 Cleared 전이 공통 규칙 참조. `●` = 정리/취소, `—` = 유지, `△` = 영향 건만
+
+| 트리거 | GroupAlarmState | StreamControl 타이머 | Escalation Jobs | Recovery 타이머 | Suppression 상태 | MQTT 구독 | 값 버퍼 |
+|--------|:-:|:-:|:-:|:-:|:-:|:-:|:-:|
+| **Cleared 전이** | status→normal | — | ● 잔여 취소 | ● 취소 | — | — | — |
+| **룰 enabled→false** | ● 전체 초기화 | ● 전부 취소 | ● 전부 취소 | ● 취소 | ● 초기화 | ● 구독 해제 | ● 초기화 |
+| **룰 삭제** | ● 전체 제거 | ● 전부 취소 | ● 전부 취소 | ● 취소 | ● 제거 | ● 구독 해제 | ● 제거 |
+| **DataSource 변경** (GroupKey 구조 변경 시) | ● 해당 룰 전체 | ● 해당 룰 전체 | ● 해당 룰 전체 | ● 해당 룰 전체 | — | ● 재구독 | ● 초기화 |
+| **DataSource 변경** (path-only 변경) | — | — | — | — | — | — | — |
+| **Recovery enabled→false** | — | — | — | ● 즉시 취소 | — | — | — |
+| **Escalation enabled→false** | escalation 초기화 | — | ● 즉시 취소 | — | — | — | — |
+| **서비스 종료** | Redis 보존 | 종료 | BullMQ 보존 | BullMQ 보존 | Redis 보존 | 종료 | 종료 |
+
+**구독/연결/워밍업 정리 매트릭스 (부록 A.4 연동):**
+
+| 트리거 | SubscriptionEntry | BrokerConnection | WarmupState |
+|--------|:-:|:-:|:-:|
+| **Cleared 전이** | — | — | — |
+| **룰 enabled→false** | ● refCount-- (0이면 unsubscribe+제거) | ● refCount-- (0이면 연결 종료) | ● 제거 |
+| **룰 삭제** | ● refCount-- (0이면 unsubscribe+제거) | ● refCount-- (0이면 연결 종료) | ● 제거 |
+| **룰 enabled→true** | ● refCount++ (0→1이면 subscribe) | ● refCount++ (0→1이면 연결 생성) | ● 생성 (warming_up) |
+| **DataSource 변경** (토픽 변경) | ● 기존 토픽 refCount-- + 신규 토픽 refCount++ | ● 브로커 변경 시 동일 | ● 재생성 |
+| **DataSource 변경** (path-only 변경) | — | — | — |
+| **서비스 종료** | ● 전체 종료 | ● 전체 연결 종료 | ● 전체 종료 |
+
+**룰 enabled: true→false 전환 정리 순서** (순서 보장):
+
+1. SubscriptionEntry refCount-- → 0이면 MQTT unsubscribe (신규 메시지 유입 차단)
+2. BrokerConnection refCount-- → 0이면 연결 종료
+3. WarmupState 제거
+4. StreamControl 타이머 전부 취소 (쿨다운, 디바운스 등)
+5. Escalation BullMQ jobs 전부 취소
+6. Recovery 타이머 취소 (timeout 타입)
+7. 기존 Active 알람 → Cleared (`clearType: "config_changed"`, recoveryActions 미실행). **3.2.1 Cleared 전이 공통 규칙을 호출**하되, Escalation/Recovery 취소는 **재실행 안전(idempotent)**으로 구현 — 5~6단계에서 이미 취소된 job에 대해 재취소를 시도해도 오류 없이 무시
+8. SuppressionRuntimeState 초기화 (maintenanceMode, manualOverride)
+9. GroupAlarmState 전체 초기화
+
+**룰 삭제 정리 순서** (enabled→false 정리 수행 후 DB 삭제):
+
+1. 위 "enabled: true→false 전환 정리 순서" 1~9단계를 **동일하게 수행** (이미 비활성 상태라면 스킵)
+2. Redis에서 해당 ruleId의 GroupAlarmState, SuppressionRuntimeState **완전 제거** (초기화가 아닌 삭제)
+3. DB: AlarmRule DELETE → CASCADE/SET NULL 정책 적용 (3.1 참조)
+
+> 룰 삭제는 "비활성화 + 영구 제거"로 구성되며, 런타임 정리는 비활성화와 동일한 절차를 재사용한다. 차이점은 Redis 키의 **초기화**(비활성화) vs **삭제**(삭제)이다.
+
+**룰 enabled: false→true 전환 시:**
+- BrokerConnection refCount++ → 0→1이면 브로커 연결 생성
+- SubscriptionEntry refCount++ → 0→1이면 MQTT subscribe
+- WarmupState 생성 (status: "warming_up", 모든 alias의 firstReceivedAt: null)
+- GroupAlarmState는 초기 상태("normal")로 생성
+- 이전 Active 알람은 복원하지 않음 (이미 Cleared 처리됨)
+
+**Suppression Check 영향 범위:**
+- Suppression은 **파이프라인 상류**(조건 충족 → AlarmHistory 생성 직전)에서만 동작한다
+- 이미 Active 상태인 알람의 Recovery Monitor / Escalation Timer에는 영향 없음
+- 즉, maintenanceMode 진입 후에도 기존 Active 알람의 Escalation은 계속 실행된다
+- 근거: 이미 발생한 알람의 처리 지연 알림은 정비 모드와 무관. 정비 모드는 "신규 알람 발생 억제"이지 "기존 알람 대응 중단"이 아니다
+
+#### 3.9.2 룰 삭제 절차
+
+1. 위 "enabled: true→false 전환 정리 순서" 1~9단계를 **동일하게 수행** (이미 비활성 상태라면 스킵)
+2. Redis에서 해당 ruleId의 GroupAlarmState, SuppressionRuntimeState **완전 제거** (초기화가 아닌 삭제)
+3. DB: AlarmRule DELETE → CASCADE/SET NULL 정책 적용 (3.1 참조)
+
+> 룰 삭제는 "비활성화 + 영구 제거"로 구성되며, 런타임 정리는 비활성화와 동일한 절차를 재사용한다. 차이점은 Redis 키의 **초기화**(비활성화) vs **삭제**(삭제)이다.
+
+#### 3.9.3 런타임 제어 명령
+
+> 런타임에서 특정 디바이스를 제어할 때 `ruleId` + `groupKey` 조합으로 대상을 지정한다.
+
+| Command | 선행 조건 | Effect | 비고 |
+|---------|-----------|--------|------|
+| 수동 해제 (manual clear) | 활성 알람 존재 | 해당 GroupKey의 활성 알람 Cleared 전이 (`clearType: "manual"`) | `ruleId` + `groupKey` |
+| 확인 (acknowledge) | Active 상태 | 해당 GroupKey의 알람 Acknowledged 전이 | `ruleId` + `groupKey` |
+| 일시 억제 (maintenanceMode) | — | 해당 GroupKey의 알람 평가 중지 (SuppressionRuntimeState 갱신) | `ruleId` + `groupKey` |
+| 일시 억제 (manualOverride) | — | 해당 GroupKey의 알람 평가 중지 (maxDuration 경과 시 자동 해제) | `ruleId` + `groupKey` |
+| 전체 해제 | 활성 알람 존재 | 해당 룰의 모든 GroupKey 일괄 Cleared 전이 | `ruleId` + `"*"` |
+
+#### 3.9.4 룰 복제·내보내기/가져오기 정책
+
+**룰 복제 정책 (FR-1.4):**
+
+| 필드 | 처리 | 근거 |
+|------|------|------|
+| `id` | 새 ID 자동 생성 | 고유 식별자 |
+| `code` | 새 코드 자동 생성: `{원본code}-COPY-{seq}`. 원본 code를 `50 - 접미사 길이`로 truncation 후 결합 | 코드 유일성 보장 |
+| `name` | `"{원본name} (복사본)"` | 사용자가 이후 수정 |
+| `enabled` | `false` (비활성) | 복제 즉시 동작 방지 |
+| `alarmType` | 원본 값 복사 | immutable |
+| 설정 JSON 필드 | 원본 JSON **깊은 복사** | 설정 전체 복제 |
+| `parentRuleId` | `null` | 억제 관계는 명시적으로 재설정 필요 |
+| `version` | — (AlarmRuleVersion 미생성) | 복제는 "새 룰 생성"이며 변경 이력 아님 |
+
+> Validation: 복제 후 저장 전에 일반 룰 저장 검증을 동일하게 수행한다.
+
+**룰 내보내기/가져오기 정책 (FR-1.6):**
+
+| 항목 | 정책 | 근거 |
+|------|------|------|
+| 내보내기 형식 | AlarmRuleVersion.configSnapshot과 동일 JSON 구조 | 기존 스냅샷 구조 재사용 |
+| 내보내기 범위 | 설정 필드만 (시스템 필드 제외) | 다른 환경에서 가져오기 시 충돌 방지 |
+| 가져오기 동작 | "새 룰 생성"과 동일 (id/code 자동 생성, enabled=false) | 복제 정책과 동일한 안전 원칙 |
+| 가져오기 검증 | FK 컬럼 참조(categoryId, parentRuleId) 존재 여부 검증 → 미존재 시 null 처리 + 경고 반환 | 환경 간 참조 불일치 허용 |
+
+---
+
+### 3.10 동시성 제어 <!-- 목표: "동시 실행 시 정합성을 어떻게 보장하는가?" -->
+
+Deduplication Check와 GroupAlarmState 갱신은 동일 GroupKey에 대해 동시에 실행될 수 있다 (와일드카드 룰에서 복수 메시지가 동시 수신되거나, 룰 비활성화와 메시지 처리가 겹치는 경우).
+
+| Race Condition | 대응 전략 | 근거 |
+|---------------|----------|------|
+| 동일 GroupKey에 두 메시지 동시 도착 → Dedup Check 동시 실행 | **Redis 트랜잭션** (WATCH + MULTI/EXEC) — GroupAlarmState 읽기-판정-쓰기를 원자적으로 수행. 충돌 시 후발 메시지 **즉시 재시도 (최대 3회)**. 3회 초과 시 메시지 드랍 + ERROR 로그 + `alarm_dedup_conflict_dropped` 메트릭 증가 | optimistic locking으로 성능과 정합성 양립 |
+| Dedup 병합과 Cleared 전이 동시 발생 | **status guard** — 병합 전 AlarmHistory.status 재확인. Cleared 상태면 병합 대신 신규 생성 경로로 분기 | 3.7절 Escalation의 status guard와 동일 패턴 |
+| 룰 비활성화(enabled→false)와 in-flight 메시지 처리 | **구독 해제 선행** (3.9 정리 순서 1단계) — 구독 해제 후 도착하는 메시지는 ruleId 매핑 실패로 자연 무시. 이미 파이프라인에 진입한 메시지는 처리 완료 허용 | 강제 중단보다 자연 소진이 안전 |
+| replaced 해제와 중복 병합 동시 발생 | **ratedLevel 비교 원자성** — Dedup Check 내 ratedLevel 비교와 AlarmHistory 갱신을 단일 트랜잭션으로 수행 | 병합/대체 판정이 중간 상태에서 분기되는 것 방지 |
+
+---
+
+# 부록 
+
+---
+
+## A. 런타임 인프라 상세
+
+---
+
+### A.1 Tier 분류 & 런타임 상태 전체 목록
+
+#### Tier 분류
+
+저장 요건과 복원 방식에 따라 3개 Tier로 분류한다. 배정 기준: "유실 시 알람 누락 또는 오발행이 발생하는가?"
+
+| Tier | 저장 매체 | 복원 방식 | 유실 시 영향 |
+|------|----------|----------|-------------|
+| **T1 — 저장 필수** | Redis (Structured) | 서비스 재시작 시 Redis에서 직접 로드 | 알람 상태 손실 (누락/중복 위험) |
+| **T2 — 타이머 위임** | BullMQ/Redis | BullMQ 자체 복원 (Redis persistence) | 타이머 유실 → 에스컬레이션/복구 지연 |
+| **T3 — 휘발 허용** | Memory only | DB + 활성 룰 기반 재구축 | 첫 수 건 메시지 수신 후 자연 복구 |
+
+#### 런타임 상태 전체 목록
+
+| # | 상태명 | Tier | 스코프 | 정의 섹션 | 생성 시점 | 소멸 시점 |
+|---|--------|------|--------|----------|----------|----------|
+| 1 | GroupAlarmState | T1 | ruleId + groupKey | 2.6.1 | 룰 활성화 / 첫 메시지 | 룰 비활성화, GroupKey 제거 |
+| 2 | ┗ streamControlState | T1 | (부모 동일) | 2.2.3 | GroupAlarmState 생성 | DataSource 변경, 룰 비활성화 |
+| 3 | ┗ escalationState | T1+T2 ※ | (부모 동일) | 2.2.7 | AlarmHistory 생성 | Cleared 전이 |
+
+> ※ **T1+T2**: 상태 구조체(jobIds, executedSteps)는 T1(Redis)에 저장하고, 실제 타이머(BullMQ delayed jobs)는 T2에 위임하는 이중 저장.
+
+| # | 상태명 | Tier | 스코프 | 정의 섹션 | 생성 시점 | 소멸 시점 |
+|---|--------|------|--------|----------|----------|----------|
+| 4 | SuppressionRuntimeState | T1 | ruleId + groupKey (or `"*"`) | 2.6.2 | 운영자 API 호출 | 명시적 해제 / 자동 만료 |
+| 5 | Recovery Timeout Job | T2 | alarmHistoryId | 2.2.5 | AlarmHistory 생성 (timeout) | Cleared / 타이머 실행 |
+| 6 | Escalation Step Jobs | T2 | alarmHistoryId × step | 2.2.7 | AlarmHistory 생성 | Cleared (일괄 취소). ※ 3번 escalationState의 T2 구성요소 |
+| 7 | ManualOverride Expiry Job | T2 | ruleId + groupKey | 2.2.6 | manualOverride 활성화 | 타이머 실행 / 수동 해제 |
+| 8 | StreamControl 시간 타이머 | T2 | ruleId + groupKey × operator | 2.2.3 | 메시지 수신 | DataSource 변경, 룰 비활성화 |
+| 9 | MQTT 구독 레지스트리 | T3 | 전역 (topic → ruleId[]) | A.4 | 룰 활성화 | 룰 비활성화, 서비스 종료 |
+| 10 | 값 히스토리 버퍼 | T3 | ruleId + groupKey + leafNode | 2.2.2 | 첫 메시지 | 룰 비활성화, GroupKey 변경 |
+| 11 | 멀티소스 최신값 캐시 | T3 | ruleId + groupKey + alias | 2.2.1 | 첫 메시지 (alias별) | 룰 비활성화, GroupKey 변경 |
+| 12 | DryRun 시뮬레이션 | T3 | API 요청 스코프 | 2.5.1 | API 요청 | 응답 반환 |
+| 13 | SubscriptionEntry | T3 | 전역 (brokerUrl+topic → ruleId[]) | A.4 | 룰 활성화 | refCount=0 (구독 해제) |
+| 14 | BrokerConnection | T3 | 전역 (brokerUrl) | A.4 | 첫 구독/발행 등록 | refCount=0 (연결 종료) |
+| 15 | WarmupState | T3 | ruleId | A.2 | 룰 활성화 | warm-up 완료 또는 룰 비활성화 |
+
+---
+
+### A.2 서비스 시작/재시작 복원 순서
+
+의존관계를 고려한 단계적 복원 절차:
+
+```
+Phase 0: 인프라 연결
+  └─ Redis 연결 확인, BullMQ 워커 초기화
+
+Phase 1: T1 상태 로드 (Redis → Memory)
+  ├─ SuppressionRuntimeState 로드
+  │   └─ manualOverride.expiresAt 경과 여부 확인 → 만료된 건 정리
+  └─ GroupAlarmState 로드
+      ├─ 누락 시: DB(AlarmHistory Active 레코드) + groupKeyConfig.keys로 재구축
+      └─ streamControlState: 재구축 불가 — 초기 상태(모든 타이머/카운터 리셋)로 시작.
+         cooldown/debounce 등의 억제 상태가 초기화되므로, 재시작 직후 조건 충족 시
+         StreamControl을 통과하여 Deduplication Check에 도달할 수 있다. 이때:
+         - 기존 Active 알람 존재 → Dedup에서 occurrenceCount 병합 (새 AlarmHistory 미생성)
+         - 기존 Active 알람 없음 → 정상적 AlarmHistory 생성
+         즉, "일시적 중복"은 StreamControl 통과 이벤트의 증가를 의미하며,
+         AlarmHistory가 중복 생성되는 것은 아니다 (Dedup이 최종 방어선)
+
+Phase 2: T2 타이머 확인 (BullMQ 자체 복원)
+  ├─ BullMQ가 Redis에서 delayed jobs 자동 복원
+  ├─ GroupAlarmState.escalationState.jobIds와 실제 BullMQ job 존재 여부 교차 검증
+  └─ 불일치 시: 로그 경고 + 잔여 orphan job 정리
+
+Phase 3: T3 재구축
+  ├─ BrokerConnectionPool: 활성 룰의 고유 brokerUrl 수집 → 연결 생성
+  ├─ SubscriptionManager: 활성 룰 기반 토픽 구독 (refCount 계산, 오버랩 관계 구축)
+  ├─ WarmupState: 모든 활성 룰에 대해 warm-up 상태 생성 (status: "warming_up")
+  └─ 값 히스토리, 멀티소스 캐시: 첫 메시지 수신 시 자연 초기화 (warm-up 기간)
+```
+
+**Warm-up 상세 동작:**
+
+서비스 시작 또는 룰 활성화 후, 각 DataSource alias가 최소 1건의 메시지를 수신하기 전까지를 **warm-up 기간**이라 한다.
+
+> warm-up 기간 동안의 **미탐(false negative)**은 허용한다. 
+> 데이터 부재 상태에서 조건을 강제 평가하여 발생하는 **오탐(false positive)**은 허용하지 않는다. 
+> 근거: 오탐은 운영자에게 잘못된 행동을 유도하지만, 미탐은 데이터 수신 시 자연 해소된다.
+
+**재시작 후 기존 Active 알람과 warm-up 관계:**
+
+서비스 재시작 후 모든 활성 룰에 WarmupState가 생성되는데, 기존 Active 알람의 Recovery Monitor(type: auto)는 후속 메시지 수신마다 복구 조건을 재평가한다. 이 두 메커니즘의 우선순위:
+
+| 상태 | Recovery Monitor 동작 | 근거 |
+|------|---------------------|------|
+| warm-up 중 (일부/전체 alias 미수신) | **Recovery 재평가도 스킵** — warm-up 규칙 우선 | 데이터 부재 상태에서 조건 false → auto 복구 판정이 발생하면 오탐(잘못된 해제)이므로 warm-up 원칙("오탐 불허")과 일치 |
+| warm-up 완료 (모든 alias 수신) | 정상 Recovery 재평가 수행 | 충분한 데이터 확보 후 판정 |
+| Recovery type: timeout | **warm-up 영향 없음** — BullMQ 타이머는 데이터 수신과 무관하게 독립 실행 | timeout은 시간 기반이므로 warm-up과 무관 |
+
+**멀티소스 룰의 warm-up 동작:**
+
+| 상태 | 조건 평가 | 근거 |
+|------|----------|------|
+| 모든 alias가 최소 1건 수신 | 정상 평가 (warm-up 완료) | |
+| 일부 alias만 수신 | 미수신 alias를 **null 처리** → 해당 alias 참조 조건은 **미충족** | 오탐 방지 |
+| 어떤 alias도 미수신 | 조건 평가 **스킵** | 평가할 데이터 없음 |
+
+**Evaluator 타입별 warm-up 동작:**
+
+| Evaluator | warm-up 영향 | 동작 |
+|-----------|-------------|------|
+| threshold, multiLevel, stringMatch | 없음 — 단일 값만 필요 | 첫 메시지부터 평가 가능 |
+| rateOfChange | 이전 값 필요 | 첫 1건은 미충족. 2건째부터 정상 평가 |
+| formula (복수 alias) | 참조 alias 중 미수신 있으면 | 해당 alias를 NaN 처리 → 수식 결과 NaN → 미충족 |
+| dataQuality (staleCount) | 값 히스토리 필요 | lookback 버퍼가 채워질 때까지 미충족 |
+| windowAggregation (StreamControl) | 윈도우 버퍼 필요 | 윈도우 기간만큼 데이터 축적 후 첫 평가 |
+
+**Warm-up 추적 (alias별 수신 시점):**
+
+```
+WarmupState (런타임, T3 — 메모리)
+├── ruleId: number
+├── status: "warming_up" | "ready"
+├── aliasStates: Map<alias, {
+│     firstReceivedAt: timestamptz | null   ── 최초 수신 시점 (null = 미수신)
+│   }>
+├── startedAt: timestamptz                  ── warm-up 시작 시점
+└── completedAt: timestamptz | null         ── 모든 alias 수신 완료 시점
+```
+
+**MQTT Retained Message 처리 정책:**
+
+MQTT 구독 시 브로커가 전달하는 retained message(마지막 발행 값)의 처리 규칙:
+
+| 상황 | 처리 | 근거 |
+|------|------|------|
+| 룰 활성화/서비스 시작 직후 구독 시 수신되는 retained message | **warm-up 첫 메시지로 처리** (alias firstReceivedAt 기록, 캐시 저장) | 초기 상태 확보에 유용 |
+| warm-up 기간 중 retained message | 일반 메시지와 동일 처리 | MQTT 프로토콜에서 retained 여부 구분 불필요 |
+| warm-up 완료 후 retained message | 일반 메시지와 동일하게 조건 평가 | 브로커 재연결 시에도 동일 경로 |
+
+> MQTT 프로토콜의 retain 플래그는 메시지 수신 시 구분 가능하나, 알람 엔진에서는 **retain 여부에 관계없이 동일 경로**로 처리한다. Retained message는 구독 직후 브로커가 전달하는 "현재 상태 스냅샷"으로, warm-up 기간 단축에 기여한다.
+
+| 이벤트 | 로그 레벨 | 내용 |
+|--------|----------|------|
+| warm-up 시작 | INFO | `Rule #{id} warm-up started. Awaiting aliases: [temp, humid]` |
+| alias 수신 | DEBUG | `Rule #{id} alias "temp" first received.` |
+| warm-up 완료 | INFO | `Rule #{id} warm-up completed in {N}ms. All aliases received.` |
+| warm-up 30초 초과 | WARNING | `Rule #{id} warm-up incomplete after 30s. Missing: [humid]` |
+
+**메트릭:**
+
+```
+alarm_rule_warmup_active         ── warm-up 중인 룰 수 (gauge)
+alarm_rule_warmup_duration_ms    ── warm-up 소요 시간 (histogram)
+```
+
+---
+
+### A.3 Redis 키 네이밍 규칙
+
+구현 시 키 충돌 방지 및 디버깅 용이성을 위한 컨벤션:
+
+```
+alarm:state:{ruleId}:{groupKey}                   → GroupAlarmState (T1)
+alarm:suppression:{ruleId}:{groupKey}              → SuppressionRuntimeState (T1)
+alarm:job:recovery:{alarmHistoryId}                → Recovery Timeout (T2, BullMQ job name)
+alarm:job:escalation:{alarmHistoryId}:{stepIndex}  → Escalation Step (T2)
+alarm:job:override-expiry:{ruleId}:{groupKey}      → ManualOverride Expiry (T2)
+alarm:broker:{brokerUrlHash8}                      → BrokerConnection 상태 (선택적 — 모니터링용)
+```
+
+> ※ `groupKey`에 `"*"`(전체 적용)을 사용할 경우, Redis 키에서는 `__ALL__`로 치환하여 패턴 문자 충돌을 방지한다.
+> ※ `brokerUrlHash8`은 brokerUrl의 SHA-256 앞 8자리.
+
+---
+
+### A.4 구독 관리 및 브로커 연결 정책
+
+#### A.4.1 SubscriptionManager (구독 관리자)
+
+브로커에 대한 실제 MQTT 구독은 **토픽 단위로 1회만** 수행하고, 수신된 메시지를 관련 룰들에 내부 fan-out한다. 동일 토픽을 여러 룰이 감시하는 것은 정상 시나리오이다.
+
+```
+SubscriptionManager (전역 싱글턴)
+
+subscriptionRegistry: Map<compositeKey, SubscriptionEntry>
+
+compositeKey = brokerUrl + ":" + topic
+
+SubscriptionEntry
+├── brokerUrl: string
+├── topic: string
+├── refCount: number               ── 참조 룰 수
+├── ruleIds: Set<number>            ── 참조 룰 목록
+├── mqttSubscription: handle        ── 실제 MQTT 구독 핸들
+└── overlapInfo: OverlapEntry[]     ── 오버랩 관계 추적
+```
+
+**구독 생명주기:**
+
+| 이벤트 | 동작 |
+|--------|------|
+| 룰 활성화 → DataSource 토픽 등록 | refCount++ → 0→1이면 **실제 MQTT subscribe** |
+| 룰 비활성화/삭제 → 토픽 해제 | refCount-- → 1→0이면 **실제 MQTT unsubscribe** + SubscriptionEntry 제거 |
+| refCount가 0이 된 후 | BrokerConnectionPool의 해당 브로커 refCount도 감소 → **0이면 연결 종료** |
+| refCount > 0인 상태에서 메시지 수신 | ruleIds 전체에 fan-out (MessageRouter 경유) |
+
+**크로스 룰 동일 토픽 정책:**
+
+| 사안 | 정책 | 근거 |
+|------|------|------|
+| 룰 A, B가 동일 brokerUrl + 동일 topic 구독 | **허용** (refCount 기반 공유, 실제 구독 1회) | 브로커 부하 최소화 |
+| 다른 brokerUrl + 동일 topic | 각 브로커별 별도 구독 | 물리적으로 다른 브로커 |
+
+**와일드카드 오버랩 메시지 중복 제거:**
+
+와일드카드 오버랩 시 브로커가 동일 메시지를 복수 구독에 전달할 수 있다. SubscriptionManager가 `(brokerUrl, actualTopic, payload hash)` 기준으로 짧은 시간 윈도우(100ms) 내 중복을 감지하여 **각 룰에 1회만 전달**한다.
+
+**오버랩 추적:**
+
+어떤 룰 설정에 의해 오버랩이 발생하는지 런타임에서 추적한다.
+
+```
+OverlapEntry
+├── overlappingTopic: string       ── 오버랩 대상 토픽
+├── overlappingRuleIds: number[]   ── 오버랩 대상 룰
+├── relation: "exact" | "superset" | "subset" | "partial"
+└── detectedAt: timestamptz
+```
+
+| 추적 시점 | 동작 |
+|-----------|------|
+| 룰 활성화 시 | 기존 활성 구독과 오버랩 관계 계산 → overlapInfo에 기록 |
+| 룰 비활성화/삭제 시 | 관련 overlapInfo 정리 |
+| 운영 API | `GET /alarm-rules/{id}/subscription-info` → 해당 룰의 구독 상태 + 오버랩 관계 조회 |
+
+#### A.4.2 BrokerConnectionPool (브로커 연결 풀)
+
+brokerUrl 단위로 MQTT 연결을 풀링하는 **전역 싱글턴**. DataSource(구독)와 Action(발행)의 연결을 통합 관리한다.
+
+##### 구조도
+
+```
+BrokerConnectionPool
+├── connections: Map<string, BrokerConnection>
+├── maxBrokers: number
+└── connectionTimeout: number
+
+BrokerConnection
+├── brokerUrl: string
+├── client: MqttClient
+├── clientId: string
+├── status: BrokerConnectionStatus
+├── refCount: number
+│
+├── lastConnectedAt?: timestamptz
+├── lastErrorAt?: timestamptz
+├── retryCount: number
+│
+└── options: BrokerOptions
+```
+
+##### Spec Table
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| **[BrokerConnectionPool]** | | | | |
+| connections | Map\<string, BrokerConnection\> | yes | — | brokerUrl → 연결 인스턴스 매핑 |
+| maxBrokers | number | yes | 1–50, default: 20 | 최대 고유 브로커 수. DataSource + Action 고유 brokerUrl 합산 |
+| connectionTimeout | number | yes | 5000–120000, default: 30000 | 연결 타임아웃 (ms) |
+| **[BrokerConnection]** | | | | |
+| brokerUrl | string | yes | — | MQTT 브로커 주소 (연결 풀 키) |
+| client | MqttClient | yes | — | MQTT 클라이언트 인스턴스 |
+| clientId | string | yes | 자동 생성, 사용자 지정 불가 | `octopus-alarm-{instanceId}-{brokerUrlHash8}` |
+| status | BrokerConnectionStatus | yes | 4개 enum (아래 상태 전이 참조) | `"connecting"` \| `"connected"` \| `"disconnected"` \| `"error"` |
+| **[참조 관리]** | | | | |
+| refCount | number | yes | ≥ 0, default: 0 | DataSource(구독) + Action(발행) 합산 참조 수. 0이면 연결 종료 대상 |
+| **[연결 추적]** | | | | |
+| lastConnectedAt | timestamptz | no | — | 마지막 성공 연결 시각 |
+| lastErrorAt | timestamptz | no | — | 마지막 에러 발생 시각 |
+| retryCount | number | yes | ≥ 0, default: 0 | 연속 재연결 실패 횟수. 연결 성공 시 0으로 리셋 |
+| **[옵션]** | | | | |
+| options | BrokerOptions | yes | — | 병합된 옵션 (인증/TLS/QoS/keepAlive). 병합 전략은 BrokerOptions 병합 규칙 참조 |
+
+**BrokerOptions 인터페이스 (DataSource.brokerOptions, Action.mqtt.brokerOptions 공통):**
+
+```
+BrokerOptions
+├── [인증]
+│   ├── username?: string
+│   ├── password?: string
+│   ├── ca?: string
+│   ├── cert?: string
+│   ├── key?: string
+│   └── rejectUnauthorized?: boolean
+│
+├── [메시지]
+│   └── qos?: 0 | 1 | 2
+│
+└── [연결]
+    ├── keepAlive?: number
+    └── reconnectPeriod?: number
+```
+
+| 필드 | 타입 | 필수 | 제약 | 설명 |
+|------|------|------|------|------|
+| **[인증]** | | | | V-B1 동일성 검증 대상 |
+| username | string | no | — | MQTT 인증 사용자명 |
+| password | string | no | — | MQTT 인증 비밀번호 |
+| ca | string | no | PEM 형식 | CA 인증서 |
+| cert | string | no | PEM 형식 | 클라이언트 인증서 |
+| key | string | no | PEM 형식 | 클라이언트 키 |
+| rejectUnauthorized | boolean | no | default: true | 미인증 서버 거부 여부 |
+| **[메시지]** | | | | |
+| qos | 0 \| 1 \| 2 | no | default: 1 | 구독/발행 QoS |
+| **[연결]** | | | | |
+| keepAlive | number | no | default: 60 | Keep-alive 간격 (초) |
+| reconnectPeriod | number | no | default: 1000 | 재연결 간격 (ms) |
+
+##### 상태 전이
+
+```
+                                   CONNACK 성공
+  refCount 0→1     ┌────────────┐──────────────→┌───────────┐
+  ─────────────→   │ connecting │               │ connected │
+                   └──────┬─────┘←──────────────└─────┬─────┘
+                          │   재연결 (백오프)            │
+                          │                           │ 네트워크 단절
+                          │                           │ keepAlive 만료
+                   ┌──────▼─────┐              ┌──────▼────────┐
+                   │   error    │              │ disconnected  │
+                   └──────┬─────┘              └───────┬───────┘
+                          │ 재연결 (백오프)               │ 재연결
+                          └──────────────────────────→ connecting
+
+  종료: 어떤 상태에서든 refCount→0 시 연결 종료 + 풀 제거
+```
+
+| From | To | Trigger | 동작 |
+|------|-----|---------|------|
+| — | `connecting` | refCount 0→1 | TCP 연결 시도 시작 |
+| `connecting` | `connected` | MQTT CONNACK 성공 | `lastConnectedAt` 기록, `retryCount` → 0 |
+| `connecting` | `error` | 타임아웃 또는 CONNACK 거부 | `lastErrorAt` 기록, `retryCount++` |
+| `connected` | `disconnected` | 네트워크 단절, 브로커 종료, keepAlive 만료 | `lastErrorAt` 기록 |
+| `disconnected` | `connecting` | 자동 재연결 (지수 백오프) | `retryCount++` |
+| `error` | `connecting` | 자동 재연결 (지수 백오프) | `retryCount++` |
+| `*` | — (제거) | refCount→0 | 연결 종료 + 풀 제거 |
+
+**금지 전이:** `connected`→`connecting` (반드시 `disconnected` 경유), `disconnected`/`error`→`connected` (반드시 `connecting` 경유)
+
+**연결 풀링:**
+
+| 사안 | 정책 | 근거 |
+|------|------|------|
+| 동일 brokerUrl (DataSource↔Action 포함) | **커넥션 1개 공유** (구독+발행 겸용, refCount 기반) | MQTT 단일 연결에서 양방향 가능 |
+| refCount 0→1 | 신규 연결 생성 | |
+| refCount 1→0 | **연결 종료 + 풀에서 제거** | 미사용 브로커 연결이 좀비로 남지 않도록 |
+| maxBrokers 초과 시 | 룰 저장 **거부** (V-B2) | 사전 방어 |
+| 동일 brokerUrl에 서로 다른 인증/TLS 설정 | 룰 저장 **거부** (V-B1) | 하나의 TCP 연결에 이중 인증 불가 |
+
+**brokerOptions 병합 전략 (동일 brokerUrl 공유 시):**
+
+인증/TLS는 V-B1에서 동일성을 강제하나, QoS·keepAlive 등 비인증 옵션은 룰마다 다를 수 있다.
+
+| 옵션 카테고리 | 병합 규칙 | 근거 |
+|-------------|----------|------|
+| 인증 (username/password, clientCert) | **동일 필수** (V-B1) | TCP 연결 레벨 설정 |
+| TLS (ca, rejectUnauthorized 등) | **동일 필수** (V-B1) | TCP 연결 레벨 설정 |
+| QoS (subscribe) | 참조 룰 중 **최대값** 채택 | 낮은 QoS는 높은 QoS의 부분집합 |
+| keepAlive | 참조 룰 중 **최소값** 채택 | 더 짧은 keepAlive가 연결 안정성 보장 |
+| 기타 (reconnectPeriod 등) | **최초 연결 생성 시 값 고정** (이후 참조 룰의 값 무시) | 연결 중 옵션 변경 불가 |
+
+**재연결:**
+
+| 사안 | 정책 | 근거 |
+|------|------|------|
+| 연결 실패/끊김 | 지수 백오프 재시도 (1s → 2s → 4s → ... → 최대 60s). **full jitter 적용**: 실제 대기 시간 = `random(0, backoff)`. 멀티 인스턴스 배포 시 thundering herd 방지. 최대 60s 도달 후 계속 `random(0, 60s)` 고정 | NFR-2.4 충족 |
+| 재시도 상한 | **무한 재시도**. 10회 연속 실패 시 WARNING 로그 + 메트릭 | 산업 환경 네트워크 단절은 일시적. 알람 누락 방지(NFR-2.1) 우선 |
+| 장기 불능 (5분 이상) | 해당 브로커 참조 룰을 **degraded** 마킹. 헬스체크에 노출 (NFR-5.5) | 운영자 인지. 복구 시 자동 정상화 |
+
+**brokerOptions 기본값:**
+
+| 항목 | 기본값 | 비고 |
+|------|--------|------|
+| QoS (subscribe) | **1** (at least once) | 알람 누락 방지(NFR-2.1). QoS 0은 유실 가능, QoS 2는 과도한 오버헤드 |
+| QoS (publish) | **1** | Action별 개별 지정 가능 (메시지 레벨) |
+| clean session (MQTT 3.1.1) / clean start (MQTT 5.0) | **false** | 재연결 시 세션 유지. 브로커가 미수신 메시지를 큐잉 |
+| keepAlive | **60초** | |
+| connectTimeout | **30초** | |
+
+**클라이언트 식별자 (clientId) 규칙:**
+
+MQTT 브로커는 동일 clientId의 두 클라이언트 연결 시 기존 연결을 킥아웃한다. 따라서 시스템이 자동 생성하여 충돌을 방지한다.
+
+```
+clientId 형식:
+  octopus-alarm-{instanceId}-{brokerUrlHash8}
+
+예시:
+  octopus-alarm-prod01-a3f8c2b1
+
+instanceId: 환경변수 또는 hostname에서 파생 (멀티 인스턴스 배포 시 구분)
+brokerUrlHash8: brokerUrl의 SHA-256 앞 8자리
+```
+
+| 사안 | 정책 | 근거 |
+|------|------|------|
+| clientId 자동 생성 | 사용자 지정 불가 | clientId 충돌 방지 |
+| 멀티 인스턴스 배포 | instanceId로 구분되므로 동일 브로커에 복수 인스턴스 연결 가능 | NFR-3.6 수평 확장 |
+| clean session = false + 고정 clientId | 재연결 시 세션 복원 → 미수신 메시지 수신 가능 | NFR-2.4 |
+
+**구독/발행 장애 격리:**
+
+| 사안 | 정책 | 근거 |
+|------|------|------|
+| Action 발행 실패 | Action의 RetryPolicy(2.2.4) 적용. DataSource 수신에 **영향 없음**. **재연결 중(connecting/disconnected/error) Action 발행 시**: 큐잉하지 않고 **RetryPolicy에 위임** — 첫 시도를 즉시 실패(ActionHistory에 failure 기록)로 처리하고, RetryPolicy의 재시도 간격 중에 연결이 복구되면 다음 시도에서 성공 | NFR-2.5 장애 전파 방지 |
+| DataSource 브로커 연결 실패 | 재연결 정책 적용. 다른 브로커의 Action 발행에 **영향 없음** | 격리 |
+| 동일 브로커의 연결 자체 실패 | 구독+발행 모두 중단 → 재연결 정책 적용 → 복구 시 구독 자동 복원 + 미발행 Action은 RetryPolicy 재시도 | 동일 연결 공유이므로 동시 영향은 불가피 |
+
+**브로커 수 카운팅:** DataSource + Action의 **고유 brokerUrl 합산**이 maxBrokers에 적용된다.
+
+#### A.4.3 구독 리밋
+
+3단계 제한 체계로 구독 리소스를 보호한다.
+
+| 레벨 | 제한 | 기본값 | 설정 가능 범위 | 초과 시 동작 |
+|------|------|--------|---------------|-------------|
+| L1 | 룰당 DataSource 수 | 10 | 1~10 (고정) | 룰 저장 거부 |
+| L2 | 브로커당 고유 구독 토픽 수 | 500 | 100~2,000 | 룰 저장 거부 (V-B3). **카운팅 기준: 물리적 구독 단위** (브로커에 실제 subscribe하는 토픽 문자열 기준). `sensor/+/temp`와 `sensor/room1/temp`는 별도 토픽으로 카운트 (와일드카드 오버랩 관계와 무관) |
+| L3 | 시스템 전체 고유 구독 토픽 수 | 5,000 | 1,000~10,000 | 룰 저장 거부 (V-B4). L2와 동일 물리적 구독 단위 카운팅 |
+
+**"고유 구독 토픽" 카운팅:**
+
+| 케이스 | 카운트 | 이유 |
+|--------|--------|------|
+| Rule A, B가 동일 broker + 동일 topic | **1** | SubscriptionManager에서 공유 |
+| Rule A, B가 서로 다른 topic | **2** | 별도 구독 |
+| Rule A(broker-A), B(broker-B)가 동일 topic | **2** | 다른 브로커는 별도 구독 |
+
+#### A.4.4 시스템 레벨 입력 보호 (하드리밋)
+
+DataSource 레벨 inputThrottle(2.2.1)과 무관하게, 시스템 전체를 보호하는 하드리밋이다.
+
+| 보호 레벨 | 제한 | 동작 | 근거 |
+|-----------|------|------|------|
+| 토픽당 | 초당 10,000 msg | 초과분 drop + WARNING 로그. **"토픽당" = 구독 패턴 단위** (`sensor/+/temp` 패턴으로 수신되는 모든 실제 토픽 합산). 개별 실제 토픽별 추적은 비용 과다이므로 구독 패턴 레벨에서 제한 | 단일 토픽 폭주가 전체 시스템 마비 방지 |
+| 룰당 | 초당 5,000 msg | 초과분 drop + WARNING 로그 | 복수 DataSource 합산 기준 |
+| 시스템 전체 | 초당 50,000 msg | 초과분 drop + CRITICAL 로그 + 메트릭 | NFR-1.2(≥1,000 msg/s)의 50배 여유. 비정상 상황 감지 |
+
+**메트릭 (NFR-5.3 연동):**
+
+```
+alarm_subscriptions_active_total{broker_url}                    ── 브로커별 활성 구독 수
+alarm_subscriptions_active_total                                ── 시스템 전체 활성 구독 수
+alarm_subscription_overlap_count{rule_id, broker_url}           ── 오버랩 관계 수
+alarm_input_messages_total{broker_url, topic, rule_id}          ── 수신 총량
+alarm_input_messages_dropped_total{broker_url, topic, rule_id}  ── 드랍 수량
+alarm_input_throttle_active{rule_id}                            ── DataSource 쓰로틀 활성 여부
+alarm_broker_connection_status{broker_url}                      ── 브로커 연결 상태
+alarm_rule_warmup_active                                        ── warm-up 중인 룰 수
+alarm_rule_warmup_duration_ms                                   ── warm-up 소요 시간
+alarm_suppression_total{rule_id, reason}                        ── 억제 건수 (reason: maintenance/parent/schedule/manual_override)
+alarm_suppression_active{rule_id, type}                         ── 현재 활성 억제 상태 (type: maintenance_mode/manual_override/schedule)
+```
+
+---
+
+## B. 예시 & 시나리오
+
+### B.1 Condition 조합 예시
+
+**단순 룰 (S001: 온도 > 25°C)**
+
+```json
+{
+  "dataSources": [
+    { "alias": "default", "type": "mqtt", "topic": "DVI/ELP/ELP001", "path": "temperature" }
+  ],
+  "condition": {
+    "nodes": [
+      {
+        "nodeType": "leaf",
+        "sourceAlias": "default",
+        "evaluator": { "type": "threshold", "op": "gt", "value": 25 },
+        "metadata": { "name": "클린룸 온도 초과", "message": "온도 {{value}}°C가 25°C를 초과했습니다" }
+      }
+    ]
+  }
+}
+```
+
+**복합 룰 + 조건별 심각도 (온도 > 25 AND 습도 > 70)**
+
+```json
+{
+  "dataSources": [
+    { "alias": "temp", "type": "mqtt", "topic": "sensor/room1/temperature", "path": "value" },
+    { "alias": "humid", "type": "mqtt", "topic": "sensor/room1/humidity", "path": "value" }
+  ],
+  "condition": {
+    "operator": "AND",
+    "nodes": [
+      {
+        "nodeType": "leaf",
+        "sourceAlias": "temp",
+        "evaluator": { "type": "threshold", "op": "gt", "value": 25 },
+        "severity": { "level": "warning", "name": "온도 초과" }
+      },
+      {
+        "nodeType": "leaf",
+        "sourceAlias": "humid",
+        "evaluator": { "type": "threshold", "op": "gt", "value": 70 },
+        "severity": { "level": "critical", "name": "복합 고온다습" }
+      }
+    ]
+  }
+}
+```
+
+> 두 조건 모두 충족 시 더 높은 `"critical"`이 AlarmHistory.ratedLevel에 기록된다.
+
+**3단계 레벨 (S016: 습도 정상/주의/위험)**
+
+```json
+{
+  "dataSources": [
+    { "alias": "default", "type": "mqtt", "topic": "cleanroom/zone1/humidity", "path": "value" }
+  ],
+  "condition": {
+    "nodes": [
+      {
+        "nodeType": "leaf",
+        "sourceAlias": "default",
+        "evaluator": {
+          "type": "multiLevel",
+          "levels": [
+            { "min": null, "max": 30, "inclusive": "max", "severity": { "level": "warning", "name": "저습 주의" } },
+            { "min": 60, "max": 80, "inclusive": "both", "severity": { "level": "warning", "name": "고습 주의" } },
+            { "min": 80, "max": null, "inclusive": "min", "severity": { "level": "critical", "name": "고습 위험" } }
+          ],
+          "defaultSeverity": null
+        }
+      }
+    ]
+  }
+}
+```
+
+> `defaultSeverity: null` → 30~60% 범위(어떤 레벨에도 매칭 안 됨)는 알람 미발생 = 정상
+
+**필드 간 연산 (S026: 상단-하단 온도 편차 > 3°C)**
+
+```json
+{
+  "dataSources": [
+    { "alias": "top", "type": "mqtt", "topic": "furnace/001/temperature", "path": "upper" },
+    { "alias": "bottom", "type": "mqtt", "topic": "furnace/001/temperature", "path": "lower" }
+  ],
+  "condition": {
+    "nodes": [
+      {
+        "nodeType": "leaf",
+        "evaluator": {
+          "type": "formula",
+          "expression": "abs(top - bottom)",
+          "op": "gt",
+          "value": 3
+        },
+        "metadata": { "name": "상하단 온도 편차", "message": "편차 {{value}}°C가 3°C를 초과했습니다" }
+      }
+    ]
+  }
+}
+```
+
+> formula 타입은 sourceAlias를 생략하고 수식 내에서 alias(top, bottom)를 직접 참조한다.
+
+**고급 복합 논리 — evaluator 타입 혼합 (S081: (상태='ERROR' AND 배터리<10%) OR (위치코드 contains 'RESTRICTED' AND 속도>0))**
+
+```json
+{
+  "dataSources": [
+    { "alias": "status", "type": "mqtt", "topic": "agv/001/status", "path": "state" },
+    { "alias": "battery", "type": "mqtt", "topic": "agv/001/status", "path": "battery" },
+    { "alias": "location", "type": "mqtt", "topic": "agv/001/position", "path": "code" },
+    { "alias": "speed", "type": "mqtt", "topic": "agv/001/position", "path": "speed" }
+  ],
+  "condition": {
+    "nodes": [
+      {
+        "nodeType": "logic",
+        "operator": "OR",
+        "children": [
+          {
+            "nodeType": "logic",
+            "operator": "AND",
+            "children": [
+              {
+                "nodeType": "leaf",
+                "sourceAlias": "status",
+                "evaluator": { "type": "stringMatch", "matchType": "eq", "value": "ERROR" }
+              },
+              {
+                "nodeType": "leaf",
+                "sourceAlias": "battery",
+                "evaluator": { "type": "threshold", "op": "lt", "value": 10 }
+              }
+            ]
+          },
+          {
+            "nodeType": "logic",
+            "operator": "AND",
+            "children": [
+              {
+                "nodeType": "leaf",
+                "sourceAlias": "location",
+                "evaluator": { "type": "stringMatch", "matchType": "contains", "value": "RESTRICTED" }
+              },
+              {
+                "nodeType": "leaf",
+                "sourceAlias": "speed",
+                "evaluator": { "type": "threshold", "op": "gt", "value": 0 }
+              }
+            ]
+          }
+        ]
+      }
+    ]
+  }
+}
+```
+
+> stringMatch와 threshold를 하나의 트리에서 AND/OR로 조합한 예시. 각 LeafNode는 자신의 sourceAlias와 evaluator 타입에 따라 독립 평가되며, LogicNode가 boolean 결과만 결합하므로 타입 혼합에 의한 간섭이 없다.
+
+---
+
+### B.2 StreamControl 파이프라인 예시 & 오퍼레이터 선택 기준
+
+#### 오퍼레이터 선택 기준
+
+| 상황 | 권장 오퍼레이터 |
+|------|---------------|
+| 동일 알람이 짧은 시간 반복 → 시간 기반 억제 | `cooldown` |
+| 값이 변하지 않는 한 재알람 불필요 → 값 기반 억제 | `deduplication` |
+| 센서가 임계값 근처에서 진동 (25.1→24.9→25.1) | `debounce` (안정 후 발행) |
+
+#### 파이프라인 예시
+
+**S061: AND 조건 + 3초 안정 후 발행:**
+
+```json
+{
+  "streamControl": {
+    "pipeline": [
+      { "type": "debounce", "seconds": 3 }
+    ]
+  }
+}
+```
+
+**S092: multiLevel 조건 + 5초 안정 + 3회 연속 동일 심각도 시:**
+
+```json
+{
+  "streamControl": {
+    "pipeline": [
+      { "type": "debounce", "seconds": 5 },
+      { "type": "consecutiveCount", "count": 3 }
+    ]
+  }
+}
+```
+
+---
+
+### B.3 Escalation 시나리오 매핑
+
+| 시나리오 | 설정 | 동작 |
+|---------|------|------|
+| 기본 3단계 | steps: [{300, unack}, {900, unack}, {1800, unresolved}] | 5분 팀장 → 15분 관리자 → 30분 긴급 |
+| 처리 지연 알림 | steps: [{3600, unresolved}] | Acknowledge 후 1시간 미해결 시 관리자 |
+| 즉시 + 후속 | steps: [{60, unack}, {600, unresolved}] | 1분 미확인 시 즉시 알림 → 10분 미해결 시 상위 |
+
+---
+
+## C. 설계 결정 & 배경
+
+### C.1 Action 설계 결정
+
+- **Action = 룰 정의 시점의 설정(템플릿)**이며 실행 인스턴스가 아니다. 실행 시점에 결정되는 값(치환 결과, 실제 발송 내용)은 포함하지 않는다
+- `mqtt`: messageMode로 시스템 표준 vs 파이프라인 조립 메시지 선택. brokerUrl 필수. qos는 brokerOptions 내부, retain은 시스템 레벨 정책으로 관리
+- `email`: 수신 대상 / 콘텐츠 / 레이아웃 / 첨부 / 발송 설정의 5개 관심사 분리. contentMode 3단계(auto/template/manual). 수신자에 int(User PK) 지원
+- `webhook`: method를 GET/POST로 제한 (PUT/DELETE/PATCH는 알람 알림 용도에 부적합). SSRF 방지는 V-A3
+- `log`: 로그 내용은 시스템이 알람 컨텍스트 기반 자동 생성
+- `db`: 변경 없음
+
+---
+
+### C.2 AlarmHistory 필드 설계 근거
+
+| 필드 | 근거 |
+|------|------|
+| sourceSnapshots | 복수 데이터 소스(FR-2.4) 대응. 소스별 alias, 실제 토픽, 추출값, 원본 페이로드를 배열로 기록하여 트리거 데이터 완전 추적 |
+| evaluationResult | 구조화된 평가 결과. `triggerCondition`(사람용 요약)과 역할 분리 — 디버깅/감사 활용 |
+| processingTimeMs | 메시지 수신 → 이력 INSERT까지의 서버 처리 소요시간. NFR-1.1(≤ 500ms) 준수 모니터링, Prometheus 메트릭(NFR-5.3)과 함께 병목 분석 |
+| error | 조건 평가 오류, 수식 실행 실패 등 런타임 에러 기록 (NFR-5.4 구조화 로그) |
+| durationMs | state 타입에서 Cleared 시점에 `clearedAt - triggeredAt` 계산 저장. 통계/대시보드에서 빈번히 사용하므로 캐싱 |
+| triggeredAt vs createdAt | BullMQ 큐 지연으로 조건 충족 시점과 INSERT 시점이 분리될 수 있다. 구분하지 않으면 알람 타임라인 오판 가능 |
+
+---
+
+### C.3 AlarmMessage 시스템 표준 구조체
+
+messageMode: 'auto' 시 자동 생성되는 표준 메시지 구조:
+
+```json
+{
+  "type": "alarm",
+  "version": "1.0",
+  "ruleId": 123,
+  "ruleCode": "TEMP-HIGH-001",
+  "ruleName": "고온 알람",
+  "alarmType": "state",
+  "severityLevel": "high",
+  "ratedLevel": "critical",
+  "groupKey": "ROOM-A",
+  "status": "active",
+  "message": "온도 27.3°C — 임계값 25°C 초과",
+  "triggeredAt": "2026-03-07T10:30:00Z",
+  "sourceSnapshots": [
+    { "alias": "default", "topic": "sensor/ROOM-A/temp", "value": 27.3 }
+  ],
+  "evaluationResult": {
+    "conditionType": "threshold",
+    "result": true,
+    "inputValues": { "default": 27.3 }
+  },
+  "occurrenceCount": 1,
+  "metadata": {}
+}
+```
+
+> `messageMode: 'custom'` 시 위 구조를 따르지 않으며, 런타임 파이프라인이 조립한 임의 JSON이 발행된다.
+
+---
+
+### C.4 DryRunResult 설계 결정
+
+- **DB 미저장**: 드라이런은 개발/검증 단계의 일시적 활동이므로, AlarmHistory에 기록하면 운영 데이터가 오염된다. 결과는 API 응답으로만 반환한다
+- **AlarmHistory와 동일 구조 재사용**: `sourceSnapshots`, `evaluationResult`, `triggerCondition`은 AlarmHistory와 동일한 구조를 사용한다. 드라이런에서 검증한 결과가 실제 알람 발생 시에도 동일한 형태로 기록되므로, "드라이런에서 본 것과 실제가 다르다" 문제를 방지한다
+- **ruleSnapshot 포함**: 미저장 룰 테스트(FR-13.1.2)를 지원하기 위해, 평가에 사용된 룰 설정을 응답에 포함한다. 저장된 룰 테스트 시에도 "현재 저장 상태의 어떤 설정으로 평가했는지" 명확히 한다
+
+### C.5 StreamControl cooldown — Cleared 후 retain 설계 결정
+
+**문제**: StreamControl의 cooldown 타이머가 알람 Cleared 전이 후에도 잔존해야 하는가?
+
+**결정**: cooldown 타이머는 Cleared 전이 후에도 **유지(retain)**한다.
+
+**근거**:
+- cooldown은 "일정 시간 내 알람 재발행 억제"가 목적이다. Cleared 직후 동일 조건이 재충족되어 알람이 재발행되면 알림 폭주(notification storm)가 발생할 수 있다
+- 해제 후에도 cooldown 잔여 시간 동안은 재발행을 억제함으로써, 경계값 근처에서 반복되는 flapping 알람을 방지한다
+- cooldown 타이머는 `GroupAlarmState.streamControlState`에 `lastEmittedAt`으로 기록되며, Cleared 전이의 정리 대상에서 **제외**된다 (3.9 정리 매트릭스의 StreamControl 타이머 열에서 Cleared 전이 = `—`)
+- 룰 비활성화(enabled→false) 시에는 cooldown 포함 전체 StreamControl 타이머를 초기화한다
+
+### C.6 parentRuleId 억제의 GroupKey 전체 억제
+
+**문제**: 부모 룰에 Active 알람이 발생했을 때, 자식 룰의 억제 범위를 어떻게 정해야 하는가?
+
+**결정**: 자식 룰의 모든 GroupKey를 억제한다.
+
+**근거**:
+- 상위 알람 억제(FR-7.2)의 핵심 시나리오는 "상위 장비(예: 전원 설비) 고장 → 하위 센서(예: 온도, 습도, 압력) 알람 불필요"이다. 이 경우 상위 문제가 있으면 하위 전체가 영향을 받는 것이 자연스럽다
+- GroupKey 구조가 부모·자식 간에 다를 수 있으므로(부모는 고정 토픽, 자식은 와일드카드 등), 1:1 매핑은 보편적으로 적용할 수 없다
+- critical/emergency급 알람 과억제 리스크는 `exemptSeverities`(3.4절)로 완화 가능
+
+---
+
+### C.7 AlarmHistory 단일 테이블 설계 결정
+
+**문제**: 활성 알람과 해제된 알람을 분리 테이블로 관리할지, 단일 테이블로 통합할지?
+
+**결정**: 활성/해제를 **단일 테이블**로 통합 관리한다.
+
+**근거**:
+- Active→Acknowledged→Cleared가 하나의 연속적 생명주기이므로, 분리 시 상태 전이마다 INSERT+DELETE 트랜잭션이 필요해 불필요한 복잡도가 발생한다
+- 중복 병합(FR-7.5), 대체 해제(FR-9.5) 모두 같은 테이블 내에서 처리하는 것이 자연스럽다
+- 활성 알람 조회 성능(NFR-1.5)은 `WHERE status IN ('active','acknowledged')` **부분 인덱스**로 확보한다
+
+---
+
+### C.8 ActionHistory log/db 제외 설계 결정
+
+**문제**: ActionHistory에 모든 액션 유형을 기록할지, 일부를 제외할지?
+
+**결정**: `log`/`db` 액션은 기록 대상에서 **제외**한다.
+
+**근거**:
+- `log`는 로컬 로거 호출이라 실패 추적 실익이 없다
+- `db`는 AlarmHistory 생성 자체이므로 자기 참조 모순이 발생한다
+
