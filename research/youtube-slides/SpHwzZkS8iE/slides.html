@@ -1,0 +1,2444 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>입력부터 성과까지. Obsidian으로 완성하는 AI 시대 지식관리 워크플로우\!</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Noto Sans KR', sans-serif;
+            background: #0f0f0f;
+            color: #e1e1e1;
+        }
+        .header {
+            background: #1a1a2e;
+            padding: 2rem 1rem;
+            text-align: center;
+            border-bottom: 2px solid #7c83ff;
+        }
+        .header h1 {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #fff;
+        }
+        .header .meta {
+            font-size: 0.85rem;
+            color: #aaa;
+            margin-bottom: 0.5rem;
+        }
+        .header a {
+            color: #7c83ff;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        .header a:hover { text-decoration: underline; }
+        .container {
+            max-width: 960px;
+            margin: 2rem auto;
+            padding: 0 1rem;
+        }
+        .slide {
+            background: #1e1e1e;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            overflow: hidden;
+            box-shadow: 0 2px 12px rgba(0,0,0,0.4);
+            transition: transform 0.2s;
+        }
+        .slide:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 4px 20px rgba(124, 131, 255, 0.15);
+        }
+        .slide-image {
+            position: relative;
+            background: #000;
+        }
+        .slide-image img {
+            width: 100%;
+            display: block;
+        }
+        .timestamp {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.75);
+            color: #7c83ff;
+            padding: 4px 10px;
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: 'JetBrains Mono', 'Fira Code', monospace;
+            font-weight: 600;
+        }
+        .slide-text {
+            padding: 1.2rem 1.5rem;
+        }
+        .slide-text p {
+            font-size: 1rem;
+            line-height: 1.8;
+            color: #d4d4d4;
+        }
+        .stats {
+            text-align: center;
+            color: #666;
+            padding: 2rem;
+            font-size: 0.85rem;
+        }
+        .toc {
+            background: #1a1a1a;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+        }
+        .toc h2 {
+            font-size: 1rem;
+            color: #7c83ff;
+            margin-bottom: 1rem;
+        }
+        .toc-list {
+            list-style: none;
+            max-height: 300px;
+            overflow-y: auto;
+        }
+        .toc-list li {
+            padding: 0.3rem 0;
+        }
+        .toc-list a {
+            color: #aaa;
+            text-decoration: none;
+            font-size: 0.85rem;
+        }
+        .toc-list a:hover { color: #7c83ff; }
+        .toc-list .ts {
+            color: #7c83ff;
+            font-family: monospace;
+            margin-right: 0.5rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h1>입력부터 성과까지. Obsidian으로 완성하는 AI 시대 지식관리 워크플로우\!</h1>
+        <div class="meta">Brian&#x27;s Brain Trinity | 2026-02-21 | 43:07</div>
+        <a href="https://www.youtube.com/watch?v=SpHwzZkS8iE" target="_blank">YouTube에서 보기 &rarr;</a>
+    </div>
+    <div class="container">
+        <div class="toc">
+            <h2>목차 (231개 슬라이드)</h2>
+            <ul class="toc-list">
+                <li><a href="#slide-0"><span class="ts">00:00</span>노트테이킹 마스터의 마지막 강 제 3강에 오신 것을 환영합니다. 어 저희가 이제 1강에서는 좋은 기록이 왜 ...</a></li>
+                <li><a href="#slide-1"><span class="ts">00:10</span>알아봤고요. 2강에서는 그 좋은 기록을 실제로 하는 방법들에 대해서 알아봤습니다. 이제 마지막으로 3강에서는...</a></li>
+                <li><a href="#slide-2"><span class="ts">00:22</span>만들어 낼 수 있는지 특히 이제 AI와의 활용의 관점에서 어떻게 할 수 있을지에 대해서 좀 알아보는 시간을 ...</a></li>
+                <li><a href="#slide-3"><span class="ts">00:34</span>시작을 하겠습니다. 예. 저희가 지금까지 기록이 중요하고 그리고 기록을 잘 모으는 방법에 대해서 알아봤죠. ...</a></li>
+                <li><a href="#slide-4"><span class="ts">00:44</span>관찰을 하고 우리가 좋은 아이디어를 얻어서 기록으로 남겨 놨어요. 우리 머리에 있는 무의식을 의식화시켜서 많...</a></li>
+                <li><a href="#slide-5"><span class="ts">00:56</span>활용되어야 합니다. 어 저희가 이제 어 첫 강에서도 말씀을 드렸죠.이 이 기록은 결국에는 다양한 형태로 저장...</a></li>
+                <li><a href="#slide-6"><span class="ts">01:06</span>한다라는 것을 말씀을 드렸습니다. 예를 들어서 우리가 수업 시간에 필기를 한 것을 그니까 열심히 집중을 해서...</a></li>
+                <li><a href="#slide-7"><span class="ts">01:17</span>뭐 자격증 시험을 보거나 아니면 지필고사에서 중간 기말에서 좋은 점수를 받기 위해서 활용을 해야죠. 그리고 ...</a></li>
+                <li><a href="#slide-8"><span class="ts">01:29</span>데이트 때 여자친구나 남자 친구에게 기억을 남기기 위해서 또게를 기획할 때 활용을 해야 되죠. 네. 이렇게 ...</a></li>
+                <li><a href="#slide-9"><span class="ts">01:40</span>있는 것입니다. 어, 이것을 좀 더 그 거시적인 관점에서 좀 설명을 드리면요. 제가 첫 강에서 그런 내용을 ...</a></li>
+                <li><a href="#slide-10"><span class="ts">01:51</span>것은 어, 시간, 현재, 과거, 그리고 미래의 관점에서 현재 어떤 시점을 잘 가치 있게 활용을 해서 뭔가 남...</a></li>
+                <li><a href="#slide-11"><span class="ts">02:01</span>두는 거라고 했습니다. 다시 말씀드리자면이 현재라는 것은 내 머릿속에 있는 어떤 시간의 그 블록 단위라고 생...</a></li>
+                <li><a href="#slide-12"><span class="ts">02:12</span>여러분들께서 지금이 강의를 뭐 30분에서 1한시간 듣기로 마음을 먹었다 그러면은 그때도 하나의 타임블록 현재...</a></li>
+                <li><a href="#slide-13"><span class="ts">02:24</span>뭐 어 친구들하고 좋은 시간을 보냈다 그러면은 처음과 끝에 그때도 어떤 타임블록 그것도 어떤 현재라고 볼 수...</a></li>
+                <li><a href="#slide-14"><span class="ts">02:35</span>두는게 결국에는 지식을 남기고 기록을 남기는 거죠. 그 시간에 대해서 내 가치 있게 활용을 했으면은 가치를 ...</a></li>
+                <li><a href="#slide-15"><span class="ts">02:47</span>남겨 둔다고 했어요. 근데 우리가 제가 1강에서 말씀드렸던 것처럼 미래 어떤 시간이 다가올 때 결국에는 그거...</a></li>
+                <li><a href="#slide-16"><span class="ts">02:58</span>드리면은 우리가 이강에서 말했던 것처럼 특정한이 시간대 안에서 우리가 그 시간 동안에이 외부 세계에서의 다양...</a></li>
+                <li><a href="#slide-17"><span class="ts">03:10</span>시그널을 분해를 해서 받아들였어요. 그리고 그 당시에 그 시간 동안의 경험을 감각 기억을 통해서 추출을 하고...</a></li>
+                <li><a href="#slide-18"><span class="ts">03:21</span>부딪혀 가지고 새로운 생각들 인사이트를 뽑았죠. 그죠? 그리고 그 어떤 특정한 시간에 동안에 우리가 느낀 어...</a></li>
+                <li><a href="#slide-19"><span class="ts">03:34</span>거라고 했잖아요. 그렇죠? 그러면 그 시간 동안에 우리가 다양한 저장의 방법론들을 통해서이 시간을 제일 가치...</a></li>
+                <li><a href="#slide-20"><span class="ts">03:46</span>같은 거 말하기를 통해서 뽑아내기도 하고요. 타이핑을 통해서 아니면 내가 메모장이나 아니면은 뭐 갤럭시 탭을...</a></li>
+                <li><a href="#slide-21"><span class="ts">03:57</span>발견하는 거라고 내가 제가 말씀을 드렸습니다. 그 시간 동안에 내가 좋은 감정을 느낀 것들은 긍정적인 감정을...</a></li>
+                <li><a href="#slide-22"><span class="ts">04:08</span>잠재적인 가치를 뽑아낸 거라고 말씀을 드렸습니다. 그러면 가치를 발견했으면은 우리가 그것을 활용을 해야 되죠...</a></li>
+                <li><a href="#slide-23"><span class="ts">04:20</span>활용할 수 있는지를 좀 다뤄보고자 합니다. 그러면 우리가 무엇을 해야 되냐면요. 목표가 있어야 합니다. 우리...</a></li>
+                <li><a href="#slide-24"><span class="ts">04:31</span>지식을 추출을 하게 되면은 그것을 나중에 활용을 할 수가 없어요.이 목표라는 것은 무엇일까요? 목표와 목적은...</a></li>
+                <li><a href="#slide-25"><span class="ts">04:44</span>지금은 해결이 된 건데 나중에 더 좋은 집으로 이사가기, 내 삶의 가치를 높이기 위해서 내가 어떤 문제를 해...</a></li>
+                <li><a href="#slide-26"><span class="ts">04:55</span>필요할까요? 나중에 자녀 양육을 생각을 했을 때 어떤 지역 선정이 제일 중요할까에 대한 그런 정보들이 필요할...</a></li>
+                <li><a href="#slide-27"><span class="ts">05:07</span>생각을 해야 되겠죠. 그러면은 내가 이런 목표를 정할 수가 있겠죠. 그죠? 더 좋은 집이라고 하면 그 좋은 ...</a></li>
+                <li><a href="#slide-28"><span class="ts">05:17</span>이사가 나중에 자녀를 양육하기 위한 더 좋은 환경에 집으로 이사가는 것. 우리 가족이 더욱더 편리하고 행복한...</a></li>
+                <li><a href="#slide-29"><span class="ts">05:29</span>지직을 모을 것이고요. 무슨 기업으로 취업하기. 어, 제가 취업을 하기 위해서는 어떤 것들이 필요할까요? 요...</a></li>
+                <li><a href="#slide-30"><span class="ts">05:39</span>디스크립션으로 요즘 수요가 있는지 이런 것도 이제 정보가 필요하겠죠. 그리고 거기에 맞춰서 내가 행동을 해서...</a></li>
+                <li><a href="#slide-31"><span class="ts">05:51</span>목표가 생겨날 수도 있습니다. 내가 예를 들어서 인터넷에서 뭐 어 인스타에서 이쁜 카페를 찾았어요. 근데 이...</a></li>
+                <li><a href="#slide-32"><span class="ts">06:02</span>그 과정에서 내가 목표가 생겨날 수도 있습니다. 어 내가 이거를 크리스마스 때 내 여자 친구에게 좋은 경험을...</a></li>
+                <li><a href="#slide-33"><span class="ts">06:12</span>되겠다. 그 정보를 수집을 하면서 어 이렇게 써야 되겠다라는 목표가 생길 수도 있고요. 아니면 내가 목표를 ...</a></li>
+                <li><a href="#slide-34"><span class="ts">06:24</span>근데 결국에 말씀드리고 싶은 것은이 지식이라는 것은 내가 수집을 한다는 거 자체가 어떤 잠재적 가치를 느끼는...</a></li>
+                <li><a href="#slide-35"><span class="ts">06:35</span>나의 목적이나 목표를 달성을 하기 위해서 내가 어 이거는 쓸 쓸 만하다. 가치가 있다라는 걸 느끼기 때문에 ...</a></li>
+                <li><a href="#slide-36"><span class="ts">06:46</span>목표가 애초에 이제 먼저 정의를 할 수도 있고요. 아니면은 그 지식을 수집을 하면서 어 내가 이것을 위해서 ...</a></li>
+                <li><a href="#slide-37"><span class="ts">06:56</span>수집을 할 수도 있죠. 근데 이런 목표가 생기면은 목적 있는 수집이 일어나게 됩니다. 목적이 있는 수집이 말...</a></li>
+                <li><a href="#slide-38"><span class="ts">07:08</span>이사가기 위한 그런 요건들 예를 들어서 뭐 정부에서 지원해 주는 다양한 뭐 주거 프로그램이라든지 지원 프로그...</a></li>
+                <li><a href="#slide-39"><span class="ts">07:20</span>수집이 일어납니다. 이전 영상에서 우리가 결국에는 노트를 하기 위해서 내가 그 지식을 수집하기로 결정을 하면...</a></li>
+                <li><a href="#slide-40"><span class="ts">07:30</span>공명 어떤 감정을 적으라고 말씀을 드렸는데요.이 비슷한 용어가이 티아고포르트이 세컨드 브레인이라는 책에서도 ...</a></li>
+                <li><a href="#slide-41"><span class="ts">07:41</span>티아고프로테이 세컨드 브레인이라는 것은 제가 이제 이전에 다른 시리즈에서 이제 생각을 수집하다 세컨드 브레인...</a></li>
+                <li><a href="#slide-42"><span class="ts">07:53</span>무엇을 이야기를 하냐면 우리가이 지식이라는 것이 결국에는 마음속에서 공명하는 것을 수집을 해야 된다라고 말을...</a></li>
+                <li><a href="#slide-43"><span class="ts">08:03</span>어떤 대상을 보고 아 너무 좋다. 어떤 가치가 느껴진다라고 느끼는 것 자체가 내가 마음속에 울림이 느껴져요....</a></li>
+                <li><a href="#slide-44"><span class="ts">08:15</span>수집할 것인가는 내 마음속에 공명을 무조건 메모하라라고 이야기를 하고요. 내가 그것을 수집하기 무엇을 수집할...</a></li>
+                <li><a href="#slide-45"><span class="ts">08:25</span>상위의 해결하고 싶은 문제 지금 내가 어떤 문제를 해결해야 하는가를 적어 보라고 합니다. 의 마음 속에서는 ...</a></li>
+                <li><a href="#slide-46"><span class="ts">08:37</span>것들이 있는가? 이런 것들을 이야기를 해요. 근데 생각을 해 보면은 우리가이 목표라는 것 자체가 결국에는 해...</a></li>
+                <li><a href="#slide-47"><span class="ts">08:49</span>해결함으로써 우리의 삶의 어떤 가치 그니까 문제를 해결하기 전과 후 문제를 해결했었을 때 그 문제라는 것 자...</a></li>
+                <li><a href="#slide-48"><span class="ts">08:59</span>나아가고 싶은데 현재랑 내가 가고 싶은 방향이랑 괴리를 느끼는 거죠. 결국 현재 나의 수준이랑 내가 앞으로 ...</a></li>
+                <li><a href="#slide-49"><span class="ts">09:11</span>해결함으로써 나의 삶의 어떤 가치를 업그레이드시켜 주기 위한 그런게 아니면은 애초의 문제가 아니에요. 그렇죠...</a></li>
+                <li><a href="#slide-50"><span class="ts">09:22</span>자체가 어떤 해결해야 될 문제를 말을 하는 거고요. 그 문제를 해결함으로써 문제를 해결한 후에는 나의 삶의 ...</a></li>
+                <li><a href="#slide-51"><span class="ts">09:33</span>목표이자 해결해야 될 문제입니다. 그 문제를 해결하면서 나의 삶의 가치도 업그레이드가 되겠죠. 근데 그러면 ...</a></li>
+                <li><a href="#slide-52"><span class="ts">09:45</span>문제를 해결하는데 도움이 되는 정보와 지식들을 수집을 하게 됩니다. 우리가 목표를 정하면은 그것을 바탕으로 ...</a></li>
+                <li><a href="#slide-53"><span class="ts">09:56</span>되는게 목표를 정하게 되면은 우리 머릿속에서 어 망상 활성계 RAS Ricular activation 시스템...</a></li>
+                <li><a href="#slide-54"><span class="ts">10:08</span>어떤 거냐면 그런 거 있잖아요. 내가 어떤 목표를 해결해야지라고 느끼는 순간 우리가 몰입을 하게 되는 그런 ...</a></li>
+                <li><a href="#slide-55"><span class="ts">10:19</span>여러분들이 어떤 게임을 하면서 몰입을 하게 됐던 그 게임에 빠져들게 되었던 그런 그 경험이 있으실 겁니다. ...</a></li>
+                <li><a href="#slide-56"><span class="ts">10:30</span>오버워치를 했었었는데요. 오버워치를 하는 그 판하늘 와중에는 내가 그 게임을 이겨야 되겠다. 내 팀원들하고 ...</a></li>
+                <li><a href="#slide-57"><span class="ts">10:40</span>협력을 해서 그것을 이겨야 되겠다.라고 하는 그런 목표가 생기면서 어떻게 전략적으로 움직여야 할까? 나는 어...</a></li>
+                <li><a href="#slide-58"><span class="ts">10:52</span>해야 되겠다라고 전략을 세우게 되고요. 그것을 위해서 내가 어떻게 해야 될까라고 하는 집중력이 발생을 하게 ...</a></li>
+                <li><a href="#slide-59"><span class="ts">11:02</span>하게 되면은 내가 주변에 있던 것도 차단을 하게 됩니다. 나에게 그 목표를 이루기 위해서 그 주변에 불필요한...</a></li>
+                <li><a href="#slide-60"><span class="ts">11:14</span>활성계라고 합니다. 어떤 목표를 정해서 내가 그것에만 집중을 하게 되는 것들을 말이죠. 근데 이게 우리가 게...</a></li>
+                <li><a href="#slide-61"><span class="ts">11:25</span>이게 딱 발생하게 된다고 하는데요. 내가 예를 들어서 더 좋은 집으로 이사가기라는 목표가 있어요. 그리고 이...</a></li>
+                <li><a href="#slide-62"><span class="ts">11:35</span>그것에만 집중을 해서 그것과 관련된 정보와 지식들을 수집하게 되거든요. 몰입을 하게 돼요. 여러분들도 과제가...</a></li>
+                <li><a href="#slide-63"><span class="ts">11:47</span>안 하게 되는데 내가 언제까지 그 과제를 해야 된다 갈등에 불이 떨어졌을 때 몰입하게 되는 그런 경험이 있으...</a></li>
+                <li><a href="#slide-64"><span class="ts">11:58</span>되고이 문제를 해결을 하기 위해서 두 분해가 활성화되고 그거에 필요한 것만 수집을 하게 되잖아요. 지식을 수...</a></li>
+                <li><a href="#slide-65"><span class="ts">12:09</span>어 무엇을 해야 되겠어라는 어떤 문 창의적으로 해결해야 될 문제를 생각을 하게 되고 그 목표를 정하게 되면은...</a></li>
+                <li><a href="#slide-66"><span class="ts">12:20</span>수 있게 되는 거죠. 그리고 좀 더 나아가서 제가 방금 말씀드린 어떤 주어진 기한 내 과제를 하는 예시 말고...</a></li>
+                <li><a href="#slide-67"><span class="ts">12:32</span>세우게 되면요. 기한이 없더라도 내가 그 관련된 정보를 탁 발견을 하게 되었을 때 머릿속에서 이거다라고 하는...</a></li>
+                <li><a href="#slide-68"><span class="ts">12:45</span>내가 목표를 정게 되면은 어떤 정보와 지식이 나에게 도움이 되는지 딱 알아차릴 수가 있어요. 그런 경험들을 ...</a></li>
+                <li><a href="#slide-69"><span class="ts">12:56</span>여러분들께서 모두 다 경험을 해 보셨을 겁니다. 그래서 어떤 건지 아실 거예요. 그래서 우리가 결국에는 목표...</a></li>
+                <li><a href="#slide-70"><span class="ts">13:06</span>해결하기 위해서 나에게 갇치는 정보와 지식들을 된다라는 것을 말씀을 드렸잖아요. 그러면은 이거를 수집을 해서...</a></li>
+                <li><a href="#slide-71"><span class="ts">13:17</span>고려해 봤을 때 어떻게 해야 될까, 어떤 식으로 우리가 수집을 해야 될까라는 것을 제가 보여 드리려고 합니다...</a></li>
+                <li><a href="#slide-72"><span class="ts">13:29</span>제가 보여 드릴 거예요. 목표를 정하고 그 관련된 정보와 지식들을 모으게 될 겁니다. 앞으로 여러분들이 이제...</a></li>
+                <li><a href="#slide-73"><span class="ts">13:40</span>생산성을 높이는 것을 고려를 해서 그 수집을 할 때 꼭 이런 식으로 이런 프로세스로 수집을 해 주시면은 매우...</a></li>
+                <li><a href="#slide-74"><span class="ts">13:52</span>드렸는데요.이 목표를 정할 때는이 세 가지 요인들을 내용을 채워 넣어서 나의 노트에 추가를 해 주면은 매우 ...</a></li>
+                <li><a href="#slide-75"><span class="ts">14:03</span>거죠. 최초 기획을 적어야 되는데요. 이것은 내가 뭘 해야지라는 목표를 정하자마자 머릿속에서 느껴지는 그 반...</a></li>
+                <li><a href="#slide-76"><span class="ts">14:16</span>담아 보세요. 첫 번째로는 내가 어떤 목표 어이 문서가 아니라이 문제를 해결함으로써 내가 전달하고 싶은 핵심...</a></li>
+                <li><a href="#slide-77"><span class="ts">14:28</span>싶은 문제가 뭐고 이것을 통해서 나에게 어떤 가치를 주는지 그 가치를 줘야 된 대상이 내가 아니어도 됩니다....</a></li>
+                <li><a href="#slide-78"><span class="ts">14:40</span>어떤 뭐 유튜브 영상을 만드는데 어떤 독자들이 있을 거잖아요. 그죠? 그 사람들을 생각해도 독적 아니죠. 구...</a></li>
+                <li><a href="#slide-79"><span class="ts">14:53</span>어떤 전달한 가치가 어 나를 위한 것일 수도 있어요. 그렇죠? 아니면은 이걸 문제를 해결함으로써 사랑하는 사...</a></li>
+                <li><a href="#slide-80"><span class="ts">15:04</span>해결하려고 하는지 문제를 정의를 해서 적어놓는게 중요하고요. 그다음에는 그 대상에 대해서도 고민을 하면은 되...</a></li>
+                <li><a href="#slide-81"><span class="ts">15:15</span>굳이 타켓도 안 적어도 돼요. 왜냐면 나는 내가 누군지 알고 있다라는 과정하에 내가 그 해결을 하고자 하는 ...</a></li>
+                <li><a href="#slide-82"><span class="ts">15:28</span>어떤 가치를 전달할 수 있는지를 고민을 해서 기억을 하면 좋습니다. 예를 들어서이 강연을 통해서 여러분들께 ...</a></li>
+                <li><a href="#slide-83"><span class="ts">15:39</span>여러분들이 그 잘 활용을 해서 기록을 좀 더욱더 가치 있게 하기 위한 이런 가치를 전달드리고 싶은 거예요. ...</a></li>
+                <li><a href="#slide-84"><span class="ts">15:49</span>할 때 학부생일 수도 있고요. 아니면은 대학원생일 수도 있는데 이것들을 통해서 어떤 마음가짐을 가져야 하는지...</a></li>
+                <li><a href="#slide-85"><span class="ts">15:59</span>될 건지를 고민을 많이 해서 여기다가 적어 놓을 겁니다. 그리고이 타켓을 대상으로이 목표를 이제 콘텐츠를 전...</a></li>
+                <li><a href="#slide-86"><span class="ts">16:10</span>건가? 뭐 그분들이 어떤 가치를 가져가고 어떤 핵심 메시지를 교훈을 얻어 가면은 성공인가라는 생각을 가지게 ...</a></li>
+                <li><a href="#slide-87"><span class="ts">16:21</span>저 같은 경우에는 여러분들께서이 성공 요인이이 강의를 통해서 지식을 더욱 더 기록을 하는 것을 훨씬 더 가치...</a></li>
+                <li><a href="#slide-88"><span class="ts">16:32</span>받아들이고 전략적으로 활용을 해야 되겠다라는이 마음가짐이 저에게는 성공적인 강연이 될 거 같거든요. 그래서 ...</a></li>
+                <li><a href="#slide-89"><span class="ts">16:43</span>이렇게 적어 놓을 겁니다. 네. 이따가 보여 드릴 거예요. 그러면은이 최초의 기획을 이런 목표, 타켓, 그리...</a></li>
+                <li><a href="#slide-90"><span class="ts">16:53</span>요소로 담아두면은 어떤 효과가 있냐면요. 최초에 큰 그림을 잡히게 됩니다. 그래서 우리가 그다음에 이제 이어...</a></li>
+                <li><a href="#slide-91"><span class="ts">17:04</span>위해서 어떤 내용이 있어야 되잖아요. 그것을 해결하기 위해서 어떤 내용들, 어떤 메시지, 어떠한 순서대로 가...</a></li>
+                <li><a href="#slide-92"><span class="ts">17:16</span>지식들이 포함돼 있는가? 내 머릿속에 생각나는 그런 구조가 있습니다. 1강, 2강, 3강을 제가 그 목표와 ...</a></li>
+                <li><a href="#slide-93"><span class="ts">17:27</span>내용들이 있었어요. 그러면 그 흐름을 일단 그 최초 기획과 함께이 기회관 안에 적어 놓는 겁니다. 큰 내용과...</a></li>
+                <li><a href="#slide-94"><span class="ts">17:37</span>좋겠는지.이 뼈대를 일단 내가 쭉 접고요. 네. 그리고이 각각의 섹션별로 그것과 관련된 노트들을 열심히 연결...</a></li>
+                <li><a href="#slide-95"><span class="ts">17:47</span>붙이는 겁니다. 그렇게 해서 지식들을 연결을 해서 우리가 목표로 하는 것은 그 문제를 해결하기 위한 나만의 ...</a></li>
+                <li><a href="#slide-96"><span class="ts">17:59</span>있습니다. 기회관이라고 볼 수가 있겠죠. 내가 어떤 문제를 해결하고 싶었는지 반짝이는 그 순간에 열심히 담아...</a></li>
+                <li><a href="#slide-97"><span class="ts">18:10</span>두 번째로는 그것과 해결하기 위한 다양한 아웃라인을 이제 내용들을 갖다 넣어서 구조를 짜고 세 번째로는 그거...</a></li>
+                <li><a href="#slide-98"><span class="ts">18:22</span>연결시키는 거.이 이 세 가지 단계를 통해서 결국에는이 아웃라인을 만들어야 합니다.이 아웃라인을 일단 만드는...</a></li>
+                <li><a href="#slide-99"><span class="ts">18:33</span>이것을 어떻게 AI랑 함께 활용할 수 있을지를 보여 드릴게요. 제가 이제 보여 드리고 싶은 예시는 뭐냐면요....</a></li>
+                <li><a href="#slide-100"><span class="ts">18:43</span>프로세스를 거쳤는지에 대해서 한번 큰 그림을 보여 드리려고 합니다. 어 일단은요. 제가이 강의 요청을 받았을</a></li>
+                <li><a href="#slide-101"><span class="ts">18:54</span>거잖아요. 최초로 제가 요청을 받았던 것이 있어요. 음. 문자로 그리고 통화로 받은 내용을 가지고 와서 이렇...</a></li>
+                <li><a href="#slide-102"><span class="ts">19:05</span>일단은 이제 요청을 하신 분들께서 뭐라고 요청을 주셨는지를 이렇게 말씀을 주셨고요. 그리고 제가 이것을 보고...</a></li>
+                <li><a href="#slide-103"><span class="ts">19:17</span>세부적인 내용을 갖다 붙이겠습니다. 제가 이전 영상에서 보여 드렸던 것처럼 저는 STT로 한번 이걸 보여 드...</a></li>
+                <li><a href="#slide-104"><span class="ts">19:30</span>오케이. 지금 내가 하고 싶은 것은이 노트테이킹 마스터라는 강의안을 짜고 싶은데 일단은 요청을 받았던 것은이...</a></li>
+                <li><a href="#slide-105"><span class="ts">19:43</span>어 공부를 넘어 평생 좋은 습관으로 만드는 법에 대해서 이제 만들고 싶어. 근데 이제 나는 여기서 넣어야 한...</a></li>
+                <li><a href="#slide-106"><span class="ts">19:54</span>기록의 중요성 이게 왜 중요한지 내용이 꼭 들어가야 할 할 거 같고 그리고 이것들을 AI 시대에서 어떻게 활...</a></li>
+                <li><a href="#slide-107"><span class="ts">20:07</span>해서 꼭 내용을 추가를 해야 될 것 같다는 생각이 들어. 어, 근데 여기서 명확하게 하고 싶은 것은 AI 시...</a></li>
+                <li><a href="#slide-108"><span class="ts">20:17</span>이것을 기록해 두는 것이 나다음을 기록하고 그리고 더 나아가서 인간다음 인간만이 할 수 있는 것이기 때문에 ...</a></li>
+                <li><a href="#slide-109"><span class="ts">20:29</span>넣고 싶고 그리고 더 나아가서 이것들을 어 토대로 어떻게 담아낼 수 있는지 이것을 위한 브레인노트 템플릿</a></li>
+                <li><a href="#slide-110"><span class="ts">20:39</span>템플릿화 시킬 수 있는 것과 그리고 AI까지 활용을함으로써 이게 나의 어 어떤 경쟁력까지 담을 수 있는 걸로...</a></li>
+                <li><a href="#slide-111"><span class="ts">20:50</span>시켜야 될 거 같아. 네. 이렇게 의식의 흐름 대로 예. 제가 얘를 받자마자 일단은 지금 생각나는 어떤 내용...</a></li>
+                <li><a href="#slide-112"><span class="ts">21:02</span>저는 얘를 가지고 이제 어떻게 할 거냐면요. 일단은 어이 내용 안에 결국에는 첫 최초 기획이 들어</a></li>
+                <li><a href="#slide-113"><span class="ts">21:12</span>있다라고 저는 생각을 합니다. 그래서 얘를 어 다시 제가 클로드 재미나이를 한번 써 볼게요. 재미나이를 열어...</a></li>
+                <li><a href="#slide-114"><span class="ts">21:23</span>노트를 만들어서요. 제가 옵시디언으로 기록을 했는데 얘를 갖다 넣어 가지고 어 지금 첨부된이 파일은 노트테이...</a></li>
+                <li><a href="#slide-115"><span class="ts">21:35</span>최초 기획 그리고 나의 생각들이 담아져 있는 거야. 이것을 바탕으로 세 가지로 정리를 해죠. 첫 번째로는 목...</a></li>
+                <li><a href="#slide-116"><span class="ts">21:46</span>문제를 해결하고 싶은지. 두 번째로는 타켓. 나는이 강의를 통해서 어떤 사람들, 어떤 어뭐 어떤 문제를 해결...</a></li>
+                <li><a href="#slide-117"><span class="ts">21:58</span>내용을 전달하고 싶은지 그리고 마지막으로 이것이 성공적으로 전달이 되었을 때 사람들이 어떤 메시지를 테이크어...</a></li>
+                <li><a href="#slide-118"><span class="ts">22:09</span>아웃라인을 발전시켜 줘. 네. 이렇게 넣을 수가 있겠죠. 제가 한 것은 결국에는 제가 어 처음에 어 대학적으...</a></li>
+                <li><a href="#slide-119"><span class="ts">22:20</span>그리고 제가 거기에 의식의 흐름대로 막 갖다 붙인 것을 가지고 얘한테 어 재미난 아이한테 넣고 그리고 내가 ...</a></li>
+                <li><a href="#slide-120"><span class="ts">22:31</span>있는지 맥락을 추가로 주면은 얘가 정리를 잘 해 줄 겁니다. 네. 그래서 요청 사항을 잘 분석을 해서 어떻게...</a></li>
+                <li><a href="#slide-121"><span class="ts">22:42</span>한번 살펴보겠습니다. 네. 얘가 저는 세 가지 강의로 나눠서 진행을 하고 있는데요. 음. 산부작 강의 요청 ...</a></li>
+                <li><a href="#slide-122"><span class="ts">22:54</span>반영이 되었을 거고요. 그래서 강의 목표는 이런 거고 타켓은 이런 거고 이런 것들이 들어가야 한다. 네. 제...</a></li>
+                <li><a href="#slide-123"><span class="ts">23:06</span>요청상 자체는 세부적으로 어떤 방식으로 나아가야 되는지에 대한 그 세부적인 것들을 이제 구조화돼서 넣진 않고...</a></li>
+                <li><a href="#slide-124"><span class="ts">23:18</span>이렇게 담아낸 것들만 넣었죠. 근데 얘가 지금 보면은 지금 산부작 강의 시리즈랑 비슷하게 이렇게 풀어줬어요....</a></li>
+                <li><a href="#slide-125"><span class="ts">23:29</span>나의 기록이 유일한 무기인가? 평생 서머는 템플릿과 리포트 시험 정복하는 방법. 지금 강연 내용과 조금은 다...</a></li>
+                <li><a href="#slide-126"><span class="ts">23:39</span>그것은 같죠? 그러면은 얘를 다시 제가 어떻게 할 거냐면요. 이렇게 넣을게요. 제가 다시 어이 초집이이 내용...</a></li>
+                <li><a href="#slide-127"><span class="ts">23:50</span>이제 강의 아니고요. 이거를 바탕으로 저는 저희 생각들을 조금 발전을 시켜 나갈 거예요. 강의 하나를 이렇게...</a></li>
+                <li><a href="#slide-128"><span class="ts">24:00</span>1강, 2강, 3강 이렇게 어어 만들어서 아 그러면은 내가 어 어떤 부분에서 이게 중요한 거 같은지를 일단은...</a></li>
+                <li><a href="#slide-129"><span class="ts">24:12</span>할게요. 네. 저희 제가 방금까지 한 거는이 첫 번째 부분을 한 겁니다. 그렇죠? 음.이 목표 정하는 것을 ...</a></li>
+                <li><a href="#slide-130"><span class="ts">24:23</span>가지고 편집을 위한 큰 뼈대를 정해야 돼요. 제가 재미나이를 이용해서 이렇게 한번 확장을 진행을 하였습니다....</a></li>
+                <li><a href="#slide-131"><span class="ts">24:34</span>제가 생각했었을 때 이게 어떤 내용들이 들어가야 되는지 일단은 머리에서 생각이 나는 대로 열심히 적어 보겠습...</a></li>
+                <li><a href="#slide-132"><span class="ts">24:46</span>내가 넣고 싶은 것은 우리가 어, 메모와 기록을 통해서 어, 이거 일단 기존에 사람들이 알고 있는 메모와 기...</a></li>
+                <li><a href="#slide-133"><span class="ts">24:58</span>그리고 이것과 관련해서 그 중요성 그리고 왜 메모와 기록을 해야 되는지 그리고 왜 AI 시대 기록을 해야 되...</a></li>
+                <li><a href="#slide-134"><span class="ts">25:10</span>추가할 수 있는 내용이 어 그래서 이제 AI 시대 특히 더 중요한게 생산성하고 컨텍스트 엔지니어링이라는 그 ...</a></li>
+                <li><a href="#slide-135"><span class="ts">25:21</span>같아. 어 그래서 왜냐면 컨텍스트 엔지니어링 시대에서도 매우 중요한게 우리가 AI 시대에 어떤 지식과 정보를...</a></li>
+                <li><a href="#slide-136"><span class="ts">25:32</span>활용한 생산성이 완전 달라질 수 있기 때문에이 내용도 꼭 들어가야 되고 어 그래서 결국에는 이게 기록의 중요...</a></li>
+                <li><a href="#slide-137"><span class="ts">25:42</span>기록이 무엇일까에 대해서 이야기를 할 건데 이때 말을 하고 싶은 것은 결국에서선 기억이 하나 추가화 되었을 ...</a></li>
+                <li><a href="#slide-138"><span class="ts">25:52</span>되었죠. 그러면 얘를 또 이렇게 해 볼게요. 네. 이렇게 갔다 이렇게 갖다 붙여 놓고 예. 이렇게도 하겠습니...</a></li>
+                <li><a href="#slide-139"><span class="ts">26:04</span>내용을 토대로이 1강의 내용을 조금 더 구체화시켜 줄래? 네. 이렇게 입력을 하면은 제가 준이 아이디어를 토...</a></li>
+                <li><a href="#slide-140"><span class="ts">26:16</span>맞게 얘가 일단은 발전을 시켜 줄 겁니다. 여기 보면은 고민을 하고 있는게 전체적인 강의의 구조를 짜고 세부...</a></li>
+                <li><a href="#slide-141"><span class="ts">26:28</span>완전 서사를 짜고 어 이렇게 하고 있다. 이렇게 만들었죠. 그러면은 제가 일단 어 얘를 한번 이렇게 갖다 넣...</a></li>
+                <li><a href="#slide-142"><span class="ts">26:40</span>모르겠지만 와 나의 기록이 유일무의한 무기인가? 어 이렇게 하면은 제가 그럼 여기 안에서 제가 이제 관련된 ...</a></li>
+                <li><a href="#slide-143"><span class="ts">26:53</span>갖다 넣어도 될 거 같아요. 그래서 저는 저 같은 경우는 예를 들어서 평생 메모 관련된 내용이 있을 겁니다....</a></li>
+                <li><a href="#slide-144"><span class="ts">27:03</span>보자면 평생 메모 제가 꺼진 기록도 다시 보자. 생각의 본질을 담는 좋은 노트 전략 이거를 이렇게 넣었었거든...</a></li>
+                <li><a href="#slide-145"><span class="ts">27:14</span>해서 얘를 가지고 관련된 노트를 관련된 노트를 여기다가 추가를 할 수 있고요. 그리고 좀 더 나아가서 우린 ...</a></li>
+                <li><a href="#slide-146"><span class="ts">27:25</span>있다. 예. 얘도 이렇게 갖다 넣을 수가 있어요. 그리고 AI 시대에 꼭 필요한 것 이것에 대해서는 제가 컨...</a></li>
+                <li><a href="#slide-147"><span class="ts">27:36</span>있거든요. 그러면은 컨텍스트 엔지니어링이라는 것을 검색을 해서 관련된 노트들을 이제 넣어 볼게요. 컨텍스트 ...</a></li>
+                <li><a href="#slide-148"><span class="ts">27:47</span>많이 있습니다. 어, 제가 실제로 작성했던 이런 노트가 있고요.이 복사를 해서 음, 얘를 여기다가 갖다 넣겠...</a></li>
+                <li><a href="#slide-149"><span class="ts">27:59</span>실제로 작성한이 노트 다시 네. 이것들을 링크를 복사를 해서 다시 여기다가 갖다 넣어 볼게요. 이렇게 이제 ...</a></li>
+                <li><a href="#slide-150"><span class="ts">28:10</span>제가 느낌표를 넣어서음이 실제로 노트 내용을 이렇게 띄울 수가 있습니다. 이게 관련된 노트도 연결을</a></li>
+                <li><a href="#slide-151"><span class="ts">28:20</span>해 주고요.음 생각나는 노트 텍스트. 네. 이렇게 연결도 해 주고요. 네. 그러면 좋은 기록이 무엇인가 해서...</a></li>
+                <li><a href="#slide-152"><span class="ts">28:32</span>기록해야 한다.이 내용에서도 제가 쓸 수 있는게 있거든요. 방문어. 예. 기록 생 감정. 어, 이런 노트도 ...</a></li>
+                <li><a href="#slide-153"><span class="ts">28:43</span>넣어서 쓸 수가 있죠. 물론이 초안 자체는 AI가 좀 추천을 해 준 거긴 한데 여기 안에서 이제 들어가는 기...</a></li>
+                <li><a href="#slide-154"><span class="ts">28:53</span>안에 실제로 들어갈이 메모 자체는 제 실제 기록을 바탕으로 이제 진행을 할 거예요. 그래서 얘가이 아웃라인에...</a></li>
+                <li><a href="#slide-155"><span class="ts">29:05</span>이러면서 얘가 관련된 노트를 이렇게 내용을이 뽑아 줍니다. 어 이거는 다 제기로 제 지식을 기반으로 이제 진...</a></li>
+                <li><a href="#slide-156"><span class="ts">29:16</span>가지고 나의 이런 그 아웃라인 안에 이렇게 나의 노트도 넣으면서 진행이 가능합니다. 이거를 PDF로 내보내기...</a></li>
+                <li><a href="#slide-157"><span class="ts">29:27</span>내보내기를함으로써 저희가이 내용들을 다 하나의 덩어리처럼 활용을 할 수가 있습니다. 해서 제가 예를 들어서 ...</a></li>
+                <li><a href="#slide-158"><span class="ts">29:40</span>PDF로 내보내기를 하면은 저희가 어떠한 방식으로 하게요. 제가 지금까지이 기록들을 어 제가 이제 아이디어를...</a></li>
+                <li><a href="#slide-159"><span class="ts">29:51</span>자체를 어 이렇게 하나의 노 하나의 파일로 이렇게 아웃풋이 되게 됩니다.음 이러면은 어떻게 보면은 나의 아웃...</a></li>
+                <li><a href="#slide-160"><span class="ts">30:03</span>거예요. 그래서 우리가 이제 뭐를 했냐면 결국은이 아웃라인의 실제 예시를 제가 보여 드린 거고요.이 아웃라인...</a></li>
+                <li><a href="#slide-161"><span class="ts">30:14</span>들어가 있죠. 제가 어떤 것들을 했냐면 나는 어떠한 강연을 하고 싶고 누구를 대상으로 어떤 메시지를 전달을 ...</a></li>
+                <li><a href="#slide-162"><span class="ts">30:25</span>내가의 논리적 구성 어떤 내용들이 포함되어야 하는지에 대한 내용도 넣어 가지고 확장을 시켰죠. 그리고 거기 ...</a></li>
+                <li><a href="#slide-163"><span class="ts">30:36</span>재료들을 넣어 가지고 확장을 시켰어요. 이게 결국에는 우리 지식 관리에서는 Moc 맵업 컨텐츠라고 말을 합니...</a></li>
+                <li><a href="#slide-164"><span class="ts">30:49</span>MC라고 할 수가 있고요. 우리가 결국에는 어떤 걸 할 수 있냐면이 MOC 자체를 AI한테 넣어서 써 달라라...</a></li>
+                <li><a href="#slide-165"><span class="ts">30:59</span>재료들이 다 들어 있습니다. 나의 목표 기회 그리고 나의 어떤 논리적인 구성이라든지 재료들이 다 들어었기 때...</a></li>
+                <li><a href="#slide-166"><span class="ts">31:11</span>아랜을 제공을 해 주죠. 근데 제일 중요한 것은 이런 텍스트 구조된 것이 있어야 우리가 어떤 형태로도 만들 ...</a></li>
+                <li><a href="#slide-167"><span class="ts">31:22</span>있잖아요. 예를 들어서 그거를 텍스트 구조된 것을 바탕으로 보고서나 글도 작성을 할 수가 있고요. 그리고 그...</a></li>
+                <li><a href="#slide-168"><span class="ts">31:32</span>만들어 주겠죠. 네. 이거를 한번 제가 보여 드릴게요. 어, 예를 들어서 제가 재미나이를 또 열어서 어, 일...</a></li>
+                <li><a href="#slide-169"><span class="ts">31:42</span>음.이 이 아웃라인을 갖다 돌어서 다음과 같이 또 어 그 큰 맥락을 제시할 수가 있겠죠. 이것은 지금 노트테...</a></li>
+                <li><a href="#slide-170"><span class="ts">31:53</span>관련된 내용이냐 첨부된 PDF 파일을 어 바탕으로 내가 어떠한 목적에 강의를 만들려고 하는 건지 파악을 해서...</a></li>
+                <li><a href="#slide-171"><span class="ts">32:05</span>15살 슬라이드짜리 프레젠테이션을 기획을 해 줄래? 네. 이렇게 제가 입력을 하였습니다. 그러면은이 PDF ...</a></li>
+                <li><a href="#slide-172"><span class="ts">32:15</span>아웃라인과 나의 논리적 구조 이런 것들이 어 도와드릴 수 없습니다라고 되어 있는데요. 실제로 도와줄 수 있어...</a></li>
+                <li><a href="#slide-173"><span class="ts">32:27</span>아니고 어떤 텍스트 형태의 아웃라인으로 구조된 걸로 좀 더 발전을 시켜 줘라고 하면은 좀 더 잘 될 겁니다....</a></li>
+                <li><a href="#slide-174"><span class="ts">32:37</span>요즘 최근 들어서 얘가 PDF로 만들어 줘라고 하면은 얘가 PPT로 만들어 줘라고 하면은 잘 안 되더라고요....</a></li>
+                <li><a href="#slide-175"><span class="ts">32:49</span>얘가 뭘 만들어지는 것을 보실 수가 있겠죠. 네. 음. 네. PDF 핵심 내용을 알려 달라라고 했는데 네. ...</a></li>
+                <li><a href="#slide-176"><span class="ts">33:01</span>보겠습니다.이 내용을 바탕으로 해줘. 원래 잘하는데 오늘따라 촬영하는이 시점에 따라서 뭔가 재미나애가 잘 어...</a></li>
+                <li><a href="#slide-177"><span class="ts">33:11</span>어떤 일인지 모르겠습니다. 네. 일단이 PDF를 갖다 넣으면은 얘가 분석을 해 줄 거. 네. 일단은 프레젠테...</a></li>
+                <li><a href="#slide-178"><span class="ts">33:23</span>프레젠테이션의 흐름을 보고 프레젠테이션을 만들고 마지막 아웃라인을 만들고 있다. 예. 이렇게 해 볼게요. 원...</a></li>
+                <li><a href="#slide-179"><span class="ts">33:34</span>그래서 PDF를 바탕으로 파악한 1강의 핵심 내용은 단가 같습니다. 관점에 천양 외 정립 예 좋은 기록의 재...</a></li>
+                <li><a href="#slide-180"><span class="ts">33:46</span>활용을 해서 이렇게 슬라이드를 만들 거예요. 예. 이거를 보면은 되게 어 내가 생각을 했던 아이디어나 흐름이...</a></li>
+                <li><a href="#slide-181"><span class="ts">33:58</span>여러분들이 엄청나게 예, 재미를 어, 엄청나게 어, 감탄을 하실 수가 있을 겁니다. 일단 하고 싶은게이 내용...</a></li>
+                <li><a href="#slide-182"><span class="ts">34:10</span>싶어. 어, HTML로 만들어 줄래? 예. 또 안 된다라고 설마 어, 제공을 할 수도 있을 것 같습니다. 네...</a></li>
+                <li><a href="#slide-183"><span class="ts">34:21</span>네. 저희가 어 이제 캔버스라는 기능을 이용해서 아마도 인포그래픽의 형식으로 만들어 줄 것 같습니다. 네. ...</a></li>
+                <li><a href="#slide-184"><span class="ts">34:33</span>인포그래퍼로 만들어 달라라고 요청을 하면은 또 다른 인포그래퍼 형태로 만들 수가 있는 거고요. 아니면 이걸 ...</a></li>
+                <li><a href="#slide-185"><span class="ts">34:44</span>넣기를 해서 열어 달라라고 했는데 제가 이거를 캔버스로 만들어 달라고 한번 해 볼게요. 그러면은 바로 웹에서...</a></li>
+                <li><a href="#slide-186"><span class="ts">34:56</span>때문이죠. 아니 캔버스로 작성해 줘.음 그러면은 얘가네 원래 잘할 수 있습니다. 네. 그러면은 이거를 이제 ...</a></li>
+                <li><a href="#slide-187"><span class="ts">35:08</span>파일로 저장을 하다 보면은 얘가 그 실제로 어떤 어 파워포인트 같은 16대9 프레젠테이션 형태로 만들어 줘야...</a></li>
+                <li><a href="#slide-188"><span class="ts">35:18</span>보여 드리고 싶었던 거는 뭐냐면요. 우리가 기존에 어떤 지식이 있으면은 제가 이렇게 목표를 강의 요지 및 종...</a></li>
+                <li><a href="#slide-189"><span class="ts">35:30</span>목표를 정해서 대학의 요구상을 제가 정리를 했고요. 거기다가 제가 이제 텍스트로 입력한 내용 자체를 이렇게 ...</a></li>
+                <li><a href="#slide-190"><span class="ts">35:40</span>합니다. 그리고이 내용을 토대로 아웃라인도 써 주고요. 와 관련된 노트들을 연결시키면은 이것들을 잘 가지고 ...</a></li>
+                <li><a href="#slide-191"><span class="ts">35:51</span>수가 있습니다. 제가 지금까지 보여 드렸던 것이 결국에는 입력 방식으로 우리의 생각을 끄집어 내서 이것들을 ...</a></li>
+                <li><a href="#slide-192"><span class="ts">36:01</span>텍스트로 구조한 것을 만들었으면은 우리가 이것을 어 재미나예 제가 이제 예시해서는 잘 안 됐지만 실제로는 1...</a></li>
+                <li><a href="#slide-193"><span class="ts">36:13</span>뭐 클로드한테 넣어 가지고 HTML 발표 내용을 만들어 달라라고도 할 수도 있는 거고요. 아니면은 이거를 바...</a></li>
+                <li><a href="#slide-194"><span class="ts">36:23</span>넣으면은 이제 파워포인트로도 실제로 만들어지게 다른 AI를 틀어 볼게요. 클로드를 열어서 어이 내용을 토대로...</a></li>
+                <li><a href="#slide-195"><span class="ts">36:34</span>16대가 슬라이드로 이렇게 하고이 내용을 한번 넣어 볼게요. 제 예면은 조금 더 잘 만들어질 것 같은데 결국...</a></li>
+                <li><a href="#slide-196"><span class="ts">36:45</span>만들어 줄 겁니다. 한번 살펴보겠습니다. 이따가 그 전에 좀 말씀을 드리면은 하여튼 우리가 이런 그 텍스트 ...</a></li>
+                <li><a href="#slide-197"><span class="ts">36:57</span>형태로도 변형을 할 수 있다라는 장점이 있어요. 그래서 앞으로 여러분들이 하셔야 되는 것은 내가 기획 및 편...</a></li>
+                <li><a href="#slide-198"><span class="ts">37:07</span>재료를 넣을 건지 기획법의 편집이 있으면은 이게 결국엔 나의 생각의 집합제이거든요. 얘를 AI한테 넣어야 합...</a></li>
+                <li><a href="#slide-199"><span class="ts">37:17</span>휴먼킹이라는 것이 결국에는 내가 외부에서 어 어떤 노이즈에서 시그널을 분리를 해 가지고 이것을 경험을 하으면...</a></li>
+                <li><a href="#slide-200"><span class="ts">37:29</span>다양한 채 가지 sttt 그리고 dtt 방식으로 담아내서 노트 해 가지고 이것을 잘게 쪼개서 MOC로 만들어...</a></li>
+                <li><a href="#slide-201"><span class="ts">37:40</span>A한테 넣어야 한다라는 것을 저는 말씀을 드리고 싶어요. 이렇게함으로써 우리가 그 인간이 사고를 해서 확장도...</a></li>
+                <li><a href="#slide-202"><span class="ts">37:53</span>수 있는 방향으로 활용할 수가 있겠죠. 한번 볼게요. 네. 얘가 일단 16대 9의 비율로 뭔가 만들어지고 있...</a></li>
+                <li><a href="#slide-203"><span class="ts">38:04</span>보도록 하겠습니다. 네. 이제 거의 마지막입니다. 네. 어, 제가 이번 시간에 보여 드리려고 했던 것은 이제...</a></li>
+                <li><a href="#slide-204"><span class="ts">38:15</span>잘 이제 생성이 되고 이제 잘 만들어져야 하는데이 15 슬라이드 중에서 13 슬라이드가 만들어졌어요. 다 만...</a></li>
+                <li><a href="#slide-205"><span class="ts">38:26</span>것은 우리가 이제 AI 시대에 어떻게 입력이 되는지에 따라서 그 아웃풋도 달라진다라는 이제 기본적인 과정에 ...</a></li>
+                <li><a href="#slide-206"><span class="ts">38:37</span>우리의 생각을 뽑아내게 되면은 훨씬 더 좋은 아웃풋을 이제 뽑아낼 수 있다라는 것을 말씀을 드리고 싶었습니다...</a></li>
+                <li><a href="#slide-207"><span class="ts">38:48</span>훨씬 더 중요한 것은 우리가 프롬트가 들어가는게 중요하다는 것을 이미 다 알고 있는데 이제 think킹 모델...</a></li>
+                <li><a href="#slide-208"><span class="ts">38:58</span>하는 것보다 우리가 실제로 어떤 생각을 해서 갖다 놓고 어떠한 식으로 하느냐에 따라서 내가 더욱더 단 시간 ...</a></li>
+                <li><a href="#slide-209"><span class="ts">39:09</span>결과을 얻어냈는데 그 생산성하고 직결된다라는 것을 말씀을 드리고 싶어요. 네. 그래서 결국에는 우리가 어 지...</a></li>
+                <li><a href="#slide-210"><span class="ts">39:20</span>말씀을 드렸죠. 예. 그럼 한번 보겠습니다. [웃음] 네. 제가 텍스트를 넣어 가지고 노트테이킹 마스터 1강...</a></li>
+                <li><a href="#slide-211"><span class="ts">39:32</span>있습니다. 그렇다면 AI 시대는 우리 인간은 왜 그리고 무엇을 기록해야 할까요? 네. 지금 좀 잘랐네요. G...</a></li>
+                <li><a href="#slide-212"><span class="ts">39:43</span>됩니다. 컨텍스트 엔지니어링도 매우 중요합니다. 어 여기서는 나의 경험과 생각이 발견한 문제 이런 것들을 입...</a></li>
+                <li><a href="#slide-213"><span class="ts">39:53</span>기록을 해야 됩니다.네 하여튼 나의 그 기억 자체와 팩터 감정도 같이 기록을 해 주세요. 지금 좀 잘리긴 했...</a></li>
+                <li><a href="#slide-214"><span class="ts">40:04</span>가지고 어떤 노트들을 이용해야 되는지 이렇게 해 줬기 때문에 어 단번에 이런 어 내용이 나왔습니다. 물론 지...</a></li>
+                <li><a href="#slide-215"><span class="ts">40:16</span>그거는 여러 번 시도를 통해서 제가 애초에 그렇게 잘리지 말라라고 이렇게 입력을 했했었어야 됐는데 이게 잘 ...</a></li>
+                <li><a href="#slide-216"><span class="ts">40:27</span>어떤 목표를 정했을 때 이렇게 나의 STT 같은 이런 소프트웨어나 기술을 통해서 그 액키스를 뽑아낼 수가 있...</a></li>
+                <li><a href="#slide-217"><span class="ts">40:38</span>있다는 것도 보여 드렸습니다. 네. 제가 이번 세강 동안에 여러분들께 전달드리고 싶었던 목표가 세 가지가 있...</a></li>
+                <li><a href="#slide-218"><span class="ts">40:51</span>저장해 놓는게 아니라 우리 인생에서도 기록의 진정한 의미와 가치가 있고 AI 시대에서도 훨씬 더 잘 활용하면...</a></li>
+                <li><a href="#slide-219"><span class="ts">41:02</span>여러분들은 이제 잠재적인 가치를 기록을 잘 활용을함으로써 나를 위해서 생성할 수 있는 그런 경험을 하셨으면 ...</a></li>
+                <li><a href="#slide-220"><span class="ts">41:12</span>가셨으면 좋겠습니다. 첫 번째로는 생성입니다. 나의 지식을 활용하여 갇치는 결과물을 생성하는 경험을 하셨으면...</a></li>
+                <li><a href="#slide-221"><span class="ts">41:23</span>강의를 만들기 위해서 이런 식으로 노트를 입력을 하였는데 이런 초안이 나왔다라고 하는 새로운 콘텐츠를 생성을...</a></li>
+                <li><a href="#slide-222"><span class="ts">41:35</span>방금 보여 드린 것처럼 나의 기록을 직접 이용을 하고 그리고 내가 그동안에 모아놓던 기록을 갖다 붙임으로써 ...</a></li>
+                <li><a href="#slide-223"><span class="ts">41:46</span>내용을 크게 입력을 안 하고 뭔가 초환을 만들어 냈어요. 네. 그래서 나의 이런 생각을 갖다 넣는 것 자체가...</a></li>
+                <li><a href="#slide-224"><span class="ts">41:57</span>높여 주기 바라입니다. 그리고 마지막으로 어 이러한 방식으로 나의 생각을 기록을함으로써 결국에는 나의 성작을...</a></li>
+                <li><a href="#slide-225"><span class="ts">42:09</span>그 가치 있는 것을 기록을 해 둬 가지고 나의 다른 가치를 가져다 주기 위해서 쓰기도 했지만 그 기록을 하고...</a></li>
+                <li><a href="#slide-226"><span class="ts">42:19</span>대화함으로써 내가 더 성장할 수 있는 그런 재료로 활용할 수 있는 그 가능성을 보셨으면 좋겠습니다. 여러분이...</a></li>
+                <li><a href="#slide-227"><span class="ts">42:31</span>여러분들께서이 노트라는 것, 기록이라는 거 자체를 다시 한번 생각을 하고 평생 기록을 같이 있게 활용할 수 ...</a></li>
+                <li><a href="#slide-228"><span class="ts">42:42</span>AI 시대 대체대 대체 불가능한 인력으로 어떻게 보면은 좀 거듭나셨으면 좋겠습니다. AI 시대에 기록을 활용...</a></li>
+                <li><a href="#slide-229"><span class="ts">42:53</span>끄집어내서 AI랑 함께 협업을 해서 꼭 같이 있고 세상에 새로운 영역을 가져다 주는 지식을 새로 많이 만들어...</a></li>
+                <li><a href="#slide-230"><span class="ts">43:04</span>세시간 동안에 수고하였습니다. 감사합니다.</a></li>
+            </ul>
+        </div>
+        <div class="slide" id="slide-0">
+            <div class="slide-image">
+                <img src="images/frame_0000_00-00.jpg" alt="00:00" loading="lazy">
+                <span class="timestamp">00:00</span>
+            </div>
+            <div class="slide-text">
+                <p>노트테이킹 마스터의 마지막 강 제 3강에 오신 것을 환영합니다. 어 저희가 이제 1강에서는 좋은 기록이 왜 중요한지 좋은 기록이란 무엇인지</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-1">
+            <div class="slide-image">
+                <img src="images/frame_0001_00-10.jpg" alt="00:10" loading="lazy">
+                <span class="timestamp">00:10</span>
+            </div>
+            <div class="slide-text">
+                <p>알아봤고요. 2강에서는 그 좋은 기록을 실제로 하는 방법들에 대해서 알아봤습니다. 이제 마지막으로 3강에서는 우리 좋은 기록들을 어떻게 좋은 성과로 어떻게 좋은 결과물로</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-2">
+            <div class="slide-image">
+                <img src="images/frame_0002_00-22.jpg" alt="00:22" loading="lazy">
+                <span class="timestamp">00:22</span>
+            </div>
+            <div class="slide-text">
+                <p>만들어 낼 수 있는지 특히 이제 AI와의 활용의 관점에서 어떻게 할 수 있을지에 대해서 좀 알아보는 시간을 가질 예정입니다. 일단은 이제 이전 강하고 좀 연결해서 설명을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-3">
+            <div class="slide-image">
+                <img src="images/frame_0003_00-34.jpg" alt="00:34" loading="lazy">
+                <span class="timestamp">00:34</span>
+            </div>
+            <div class="slide-text">
+                <p>시작을 하겠습니다. 예. 저희가 지금까지 기록이 중요하고 그리고 기록을 잘 모으는 방법에 대해서 알아봤죠. 그러면 우리가 지금 그림에서 보신 바와 같이 세상을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-4">
+            <div class="slide-image">
+                <img src="images/frame_0004_00-44.jpg" alt="00:44" loading="lazy">
+                <span class="timestamp">00:44</span>
+            </div>
+            <div class="slide-text">
+                <p>관찰을 하고 우리가 좋은 아이디어를 얻어서 기록으로 남겨 놨어요. 우리 머리에 있는 무의식을 의식화시켜서 많은 가치를 이렇게 남겨 놨습니다. 그럼 어떻게 할해야 할까요? 결국에는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-5">
+            <div class="slide-image">
+                <img src="images/frame_0005_00-56.jpg" alt="00:56" loading="lazy">
+                <span class="timestamp">00:56</span>
+            </div>
+            <div class="slide-text">
+                <p>활용되어야 합니다. 어 저희가 이제 어 첫 강에서도 말씀을 드렸죠.이 이 기록은 결국에는 다양한 형태로 저장이 되기도 하지만 우리가 활용이 되어야</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-6">
+            <div class="slide-image">
+                <img src="images/frame_0006_01-06.jpg" alt="01:06" loading="lazy">
+                <span class="timestamp">01:06</span>
+            </div>
+            <div class="slide-text">
+                <p>한다라는 것을 말씀을 드렸습니다. 예를 들어서 우리가 수업 시간에 필기를 한 것을 그니까 열심히 집중을 해서 우리가들은 것을 결국에는 나중에</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-7">
+            <div class="slide-image">
+                <img src="images/frame_0007_01-17.jpg" alt="01:17" loading="lazy">
+                <span class="timestamp">01:17</span>
+            </div>
+            <div class="slide-text">
+                <p>뭐 자격증 시험을 보거나 아니면 지필고사에서 중간 기말에서 좋은 점수를 받기 위해서 활용을 해야죠. 그리고 인스타에서 찾은 이쁜 카페를 결국에는 내가 저장해 둔 것을 다음에</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-8">
+            <div class="slide-image">
+                <img src="images/frame_0008_01-29.jpg" alt="01:29" loading="lazy">
+                <span class="timestamp">01:29</span>
+            </div>
+            <div class="slide-text">
+                <p>데이트 때 여자친구나 남자 친구에게 기억을 남기기 위해서 또게를 기획할 때 활용을 해야 되죠. 네. 이렇게 우리가 이렇게 모은 지식들을 활용을 해야 제 가치를 잘 발휘할 수</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-9">
+            <div class="slide-image">
+                <img src="images/frame_0009_01-40.jpg" alt="01:40" loading="lazy">
+                <span class="timestamp">01:40</span>
+            </div>
+            <div class="slide-text">
+                <p>있는 것입니다. 어, 이것을 좀 더 그 거시적인 관점에서 좀 설명을 드리면요. 제가 첫 강에서 그런 내용을 말씀드렸잖아요. 우리가 결국에는이 지식을 수집하고 기록한다는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-10">
+            <div class="slide-image">
+                <img src="images/frame_0010_01-51.jpg" alt="01:51" loading="lazy">
+                <span class="timestamp">01:51</span>
+            </div>
+            <div class="slide-text">
+                <p>것은 어, 시간, 현재, 과거, 그리고 미래의 관점에서 현재 어떤 시점을 잘 가치 있게 활용을 해서 뭔가 남겨</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-11">
+            <div class="slide-image">
+                <img src="images/frame_0011_02-01.jpg" alt="02:01" loading="lazy">
+                <span class="timestamp">02:01</span>
+            </div>
+            <div class="slide-text">
+                <p>두는 거라고 했습니다. 다시 말씀드리자면이 현재라는 것은 내 머릿속에 있는 어떤 시간의 그 블록 단위라고 생각하면 돼요. 예를 들어서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-12">
+            <div class="slide-image">
+                <img src="images/frame_0012_02-12.jpg" alt="02:12" loading="lazy">
+                <span class="timestamp">02:12</span>
+            </div>
+            <div class="slide-text">
+                <p>여러분들께서 지금이 강의를 뭐 30분에서 1한시간 듣기로 마음을 먹었다 그러면은 그때도 하나의 타임블록 현재라고 볼 수도 있고요. 여러분들께서 이제 친구들하고 아니면</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-13">
+            <div class="slide-image">
+                <img src="images/frame_0013_02-24.jpg" alt="02:24" loading="lazy">
+                <span class="timestamp">02:24</span>
+            </div>
+            <div class="slide-text">
+                <p>뭐 어 친구들하고 좋은 시간을 보냈다 그러면은 처음과 끝에 그때도 어떤 타임블록 그것도 어떤 현재라고 볼 수 있겠죠. 그 시간을 내가 몰입을 해서 잘 사용을 했고 좋은 가치를 남겨</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-14">
+            <div class="slide-image">
+                <img src="images/frame_0014_02-35.jpg" alt="02:35" loading="lazy">
+                <span class="timestamp">02:35</span>
+            </div>
+            <div class="slide-text">
+                <p>두는게 결국에는 지식을 남기고 기록을 남기는 거죠. 그 시간에 대해서 내 가치 있게 활용을 했으면은 가치를 발견했으면은 그거를 그냥 기록으로 남겨 놓는 것입니다. 네. 지식을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-15">
+            <div class="slide-image">
+                <img src="images/frame_0015_02-47.jpg" alt="02:47" loading="lazy">
+                <span class="timestamp">02:47</span>
+            </div>
+            <div class="slide-text">
+                <p>남겨 둔다고 했어요. 근데 우리가 제가 1강에서 말씀드렸던 것처럼 미래 어떤 시간이 다가올 때 결국에는 그거를 재활령할 수 있다라고 말씀을 드렸죠. 다시 한번 더 말씀을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-16">
+            <div class="slide-image">
+                <img src="images/frame_0016_02-58.jpg" alt="02:58" loading="lazy">
+                <span class="timestamp">02:58</span>
+            </div>
+            <div class="slide-text">
+                <p>드리면은 우리가 이강에서 말했던 것처럼 특정한이 시간대 안에서 우리가 그 시간 동안에이 외부 세계에서의 다양한 노이즈에서 우리에게 의미 있는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-17">
+            <div class="slide-image">
+                <img src="images/frame_0017_03-10.jpg" alt="03:10" loading="lazy">
+                <span class="timestamp">03:10</span>
+            </div>
+            <div class="slide-text">
+                <p>시그널을 분해를 해서 받아들였어요. 그리고 그 당시에 그 시간 동안의 경험을 감각 기억을 통해서 추출을 하고 우리 머릿속에서 우리가 이미 알고 있는 것과 이렇게 클래시를 해서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-18">
+            <div class="slide-image">
+                <img src="images/frame_0018_03-21.jpg" alt="03:21" loading="lazy">
+                <span class="timestamp">03:21</span>
+            </div>
+            <div class="slide-text">
+                <p>부딪혀 가지고 새로운 생각들 인사이트를 뽑았죠. 그죠? 그리고 그 어떤 특정한 시간에 동안에 우리가 느낀 어떤 감정들이 우리가 느낀 어떤 가치, 잠재적 가치를 이제 뽑아내는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-19">
+            <div class="slide-image">
+                <img src="images/frame_0019_03-34.jpg" alt="03:34" loading="lazy">
+                <span class="timestamp">03:34</span>
+            </div>
+            <div class="slide-text">
+                <p>거라고 했잖아요. 그렇죠? 그러면 그 시간 동안에 우리가 다양한 저장의 방법론들을 통해서이 시간을 제일 가치 있게 감정을 뽑아낼 수 있겠죠. ST</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-20">
+            <div class="slide-image">
+                <img src="images/frame_0020_03-46.jpg" alt="03:46" loading="lazy">
+                <span class="timestamp">03:46</span>
+            </div>
+            <div class="slide-text">
+                <p>같은 거 말하기를 통해서 뽑아내기도 하고요. 타이핑을 통해서 아니면 내가 메모장이나 아니면은 뭐 갤럭시 탭을 통해서 뽑아냈어요. 그죠? 이거는 결국에는 우리가 잠재적인 가치를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-21">
+            <div class="slide-image">
+                <img src="images/frame_0021_03-57.jpg" alt="03:57" loading="lazy">
+                <span class="timestamp">03:57</span>
+            </div>
+            <div class="slide-text">
+                <p>발견하는 거라고 내가 제가 말씀을 드렸습니다. 그 시간 동안에 내가 좋은 감정을 느낀 것들은 긍정적인 감정을 느낀 것들은 나에게 어떤 용도나 나중에 활용되기 위한 방식으로</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-22">
+            <div class="slide-image">
+                <img src="images/frame_0022_04-08.jpg" alt="04:08" loading="lazy">
+                <span class="timestamp">04:08</span>
+            </div>
+            <div class="slide-text">
+                <p>잠재적인 가치를 뽑아낸 거라고 말씀을 드렸습니다. 그러면 가치를 발견했으면은 우리가 그것을 활용을 해야 되죠. 이번 영상에서는 우리가 그 가치를 뽑아 놓은 것들을 어떻게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-23">
+            <div class="slide-image">
+                <img src="images/frame_0023_04-20.jpg" alt="04:20" loading="lazy">
+                <span class="timestamp">04:20</span>
+            </div>
+            <div class="slide-text">
+                <p>활용할 수 있는지를 좀 다뤄보고자 합니다. 그러면 우리가 무엇을 해야 되냐면요. 목표가 있어야 합니다. 우리가 어떤 지식을 추출을 해 가지고 기록을 했는데 목표가 없는 상태에서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-24">
+            <div class="slide-image">
+                <img src="images/frame_0024_04-31.jpg" alt="04:31" loading="lazy">
+                <span class="timestamp">04:31</span>
+            </div>
+            <div class="slide-text">
+                <p>지식을 추출을 하게 되면은 그것을 나중에 활용을 할 수가 없어요.이 목표라는 것은 무엇일까요? 목표와 목적은 결국에는 어떤 문제 해결하는 거랑 비슷합니다. 예를 들어서 저는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-25">
+            <div class="slide-image">
+                <img src="images/frame_0025_04-44.jpg" alt="04:44" loading="lazy">
+                <span class="timestamp">04:44</span>
+            </div>
+            <div class="slide-text">
+                <p>지금은 해결이 된 건데 나중에 더 좋은 집으로 이사가기, 내 삶의 가치를 높이기 위해서 내가 어떤 문제를 해결을 해야 돼요. 지금보다 더 좋은 집으로 이사 가라면은 저 같은 경우는 뭐 어떤 지식들이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-26">
+            <div class="slide-image">
+                <img src="images/frame_0026_04-55.jpg" alt="04:55" loading="lazy">
+                <span class="timestamp">04:55</span>
+            </div>
+            <div class="slide-text">
+                <p>필요할까요? 나중에 자녀 양육을 생각을 했을 때 어떤 지역 선정이 제일 중요할까에 대한 그런 정보들이 필요할 것이고요. 아니면은 내가 더 좋은 집이라고 하면 그 주변의 환경도</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-27">
+            <div class="slide-image">
+                <img src="images/frame_0027_05-07.jpg" alt="05:07" loading="lazy">
+                <span class="timestamp">05:07</span>
+            </div>
+            <div class="slide-text">
+                <p>생각을 해야 되겠죠. 그러면은 내가 이런 목표를 정할 수가 있겠죠. 그죠? 더 좋은 집이라고 하면 그 좋은 애의 기준은 다르긴 해요. 내가 정의를 하겠죠. 더 좋은 집으로</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-28">
+            <div class="slide-image">
+                <img src="images/frame_0028_05-17.jpg" alt="05:17" loading="lazy">
+                <span class="timestamp">05:17</span>
+            </div>
+            <div class="slide-text">
+                <p>이사가 나중에 자녀를 양육하기 위한 더 좋은 환경에 집으로 이사가는 것. 우리 가족이 더욱더 편리하고 행복한 거. 이렇게 문제를 정의하고 그것을 제가 해결하기 위해서 수많은 정보</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-29">
+            <div class="slide-image">
+                <img src="images/frame_0029_05-29.jpg" alt="05:29" loading="lazy">
+                <span class="timestamp">05:29</span>
+            </div>
+            <div class="slide-text">
+                <p>지직을 모을 것이고요. 무슨 기업으로 취업하기. 어, 제가 취업을 하기 위해서는 어떤 것들이 필요할까요? 요즘 어떤 기업들이 어떠한 JD 조합</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-30">
+            <div class="slide-image">
+                <img src="images/frame_0030_05-39.jpg" alt="05:39" loading="lazy">
+                <span class="timestamp">05:39</span>
+            </div>
+            <div class="slide-text">
+                <p>디스크립션으로 요즘 수요가 있는지 이런 것도 이제 정보가 필요하겠죠. 그리고 거기에 맞춰서 내가 행동을 해서 내가 원하는 지식을 수집할 수가 있겠죠. 지식을 수집하는 와중에 그런</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-31">
+            <div class="slide-image">
+                <img src="images/frame_0031_05-51.jpg" alt="05:51" loading="lazy">
+                <span class="timestamp">05:51</span>
+            </div>
+            <div class="slide-text">
+                <p>목표가 생겨날 수도 있습니다. 내가 예를 들어서 인터넷에서 뭐 어 인스타에서 이쁜 카페를 찾았어요. 근데 이쁜 카페 사진을 수집을 하면서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-32">
+            <div class="slide-image">
+                <img src="images/frame_0032_06-02.jpg" alt="06:02" loading="lazy">
+                <span class="timestamp">06:02</span>
+            </div>
+            <div class="slide-text">
+                <p>그 과정에서 내가 목표가 생겨날 수도 있습니다. 어 내가 이거를 크리스마스 때 내 여자 친구에게 좋은 경험을 선사해 주기 위해서 그 정보를 써야</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-33">
+            <div class="slide-image">
+                <img src="images/frame_0033_06-12.jpg" alt="06:12" loading="lazy">
+                <span class="timestamp">06:12</span>
+            </div>
+            <div class="slide-text">
+                <p>되겠다. 그 정보를 수집을 하면서 어 이렇게 써야 되겠다라는 목표가 생길 수도 있고요. 아니면 내가 목표를 정해 놓고 그 관련된 정보를 수집할 수도 있습니다.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-34">
+            <div class="slide-image">
+                <img src="images/frame_0034_06-24.jpg" alt="06:24" loading="lazy">
+                <span class="timestamp">06:24</span>
+            </div>
+            <div class="slide-text">
+                <p>근데 결국에 말씀드리고 싶은 것은이 지식이라는 것은 내가 수집을 한다는 거 자체가 어떤 잠재적 가치를 느끼는게 결국에는 이거를 활용을 해서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-35">
+            <div class="slide-image">
+                <img src="images/frame_0035_06-35.jpg" alt="06:35" loading="lazy">
+                <span class="timestamp">06:35</span>
+            </div>
+            <div class="slide-text">
+                <p>나의 목적이나 목표를 달성을 하기 위해서 내가 어 이거는 쓸 쓸 만하다. 가치가 있다라는 걸 느끼기 때문에 수집을 하게 되는 것입니다. 애초에 수집할 때부터 말이죠. 이렇게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-36">
+            <div class="slide-image">
+                <img src="images/frame_0036_06-46.jpg" alt="06:46" loading="lazy">
+                <span class="timestamp">06:46</span>
+            </div>
+            <div class="slide-text">
+                <p>목표가 애초에 이제 먼저 정의를 할 수도 있고요. 아니면은 그 지식을 수집을 하면서 어 내가 이것을 위해서 쓸 수 있겠네라고 생각이 들어서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-37">
+            <div class="slide-image">
+                <img src="images/frame_0037_06-56.jpg" alt="06:56" loading="lazy">
+                <span class="timestamp">06:56</span>
+            </div>
+            <div class="slide-text">
+                <p>수집을 할 수도 있죠. 근데 이런 목표가 생기면은 목적 있는 수집이 일어나게 됩니다. 목적이 있는 수집이 말이죠. 더 좋은 집으로 이사가기라는 목표를 적으면은이 더 좋은 집으로</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-38">
+            <div class="slide-image">
+                <img src="images/frame_0038_07-08.jpg" alt="07:08" loading="lazy">
+                <span class="timestamp">07:08</span>
+            </div>
+            <div class="slide-text">
+                <p>이사가기 위한 그런 요건들 예를 들어서 뭐 정부에서 지원해 주는 다양한 뭐 주거 프로그램이라든지 지원 프로그램 같은 것들을 제가 찾아보겠죠. 네. 그래서 목적이는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-39">
+            <div class="slide-image">
+                <img src="images/frame_0039_07-20.jpg" alt="07:20" loading="lazy">
+                <span class="timestamp">07:20</span>
+            </div>
+            <div class="slide-text">
+                <p>수집이 일어납니다. 이전 영상에서 우리가 결국에는 노트를 하기 위해서 내가 그 지식을 수집하기로 결정을 하면서 내 머릿속에서 생각나는 그</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-40">
+            <div class="slide-image">
+                <img src="images/frame_0040_07-30.jpg" alt="07:30" loading="lazy">
+                <span class="timestamp">07:30</span>
+            </div>
+            <div class="slide-text">
+                <p>공명 어떤 감정을 적으라고 말씀을 드렸는데요.이 비슷한 용어가이 티아고포르트이 세컨드 브레인이라는 책에서도 사용이 되고 있습니다.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-41">
+            <div class="slide-image">
+                <img src="images/frame_0041_07-41.jpg" alt="07:41" loading="lazy">
+                <span class="timestamp">07:41</span>
+            </div>
+            <div class="slide-text">
+                <p>티아고프로테이 세컨드 브레인이라는 것은 제가 이제 이전에 다른 시리즈에서 이제 생각을 수집하다 세컨드 브레인 강연에서도 말씀을 드렸습니다. 근데 그 영상에서도</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-42">
+            <div class="slide-image">
+                <img src="images/frame_0042_07-53.jpg" alt="07:53" loading="lazy">
+                <span class="timestamp">07:53</span>
+            </div>
+            <div class="slide-text">
+                <p>무엇을 이야기를 하냐면 우리가이 지식이라는 것이 결국에는 마음속에서 공명하는 것을 수집을 해야 된다라고 말을 합니다.이 공명하는 것 자체가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-43">
+            <div class="slide-image">
+                <img src="images/frame_0043_08-03.jpg" alt="08:03" loading="lazy">
+                <span class="timestamp">08:03</span>
+            </div>
+            <div class="slide-text">
+                <p>어떤 대상을 보고 아 너무 좋다. 어떤 가치가 느껴진다라고 느끼는 것 자체가 내가 마음속에 울림이 느껴져요. 그러면은 세운드 브레인에서 이야기를 하는게 결국에는 무엇을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-44">
+            <div class="slide-image">
+                <img src="images/frame_0044_08-15.jpg" alt="08:15" loading="lazy">
+                <span class="timestamp">08:15</span>
+            </div>
+            <div class="slide-text">
+                <p>수집할 것인가는 내 마음속에 공명을 무조건 메모하라라고 이야기를 하고요. 내가 그것을 수집하기 무엇을 수집할 것을 정하기 위한 기준으로 내가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-45">
+            <div class="slide-image">
+                <img src="images/frame_0045_08-25.jpg" alt="08:25" loading="lazy">
+                <span class="timestamp">08:25</span>
+            </div>
+            <div class="slide-text">
+                <p>상위의 해결하고 싶은 문제 지금 내가 어떤 문제를 해결해야 하는가를 적어 보라고 합니다. 의 마음 속에서는 지금 어떤 문제를 해결을 하고 싶은가, 해결해야 될 과제들이 어떤</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-46">
+            <div class="slide-image">
+                <img src="images/frame_0046_08-37.jpg" alt="08:37" loading="lazy">
+                <span class="timestamp">08:37</span>
+            </div>
+            <div class="slide-text">
+                <p>것들이 있는가? 이런 것들을 이야기를 해요. 근데 생각을 해 보면은 우리가이 목표라는 것 자체가 결국에는 해결해야 될 문제랑도 관련이 있습니다. 우리가이 어떤 목표 자체가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-47">
+            <div class="slide-image">
+                <img src="images/frame_0047_08-49.jpg" alt="08:49" loading="lazy">
+                <span class="timestamp">08:49</span>
+            </div>
+            <div class="slide-text">
+                <p>해결함으로써 우리의 삶의 어떤 가치 그니까 문제를 해결하기 전과 후 문제를 해결했었을 때 그 문제라는 것 자체가 우리가 더 나은 방향으로</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-48">
+            <div class="slide-image">
+                <img src="images/frame_0048_08-59.jpg" alt="08:59" loading="lazy">
+                <span class="timestamp">08:59</span>
+            </div>
+            <div class="slide-text">
+                <p>나아가고 싶은데 현재랑 내가 가고 싶은 방향이랑 괴리를 느끼는 거죠. 결국 현재 나의 수준이랑 내가 앞으로 나아가고 싶은 거랑 정과 후 어떤 차이를 느끼고 싶어서 그리고 그것을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-49">
+            <div class="slide-image">
+                <img src="images/frame_0049_09-11.jpg" alt="09:11" loading="lazy">
+                <span class="timestamp">09:11</span>
+            </div>
+            <div class="slide-text">
+                <p>해결함으로써 나의 삶의 어떤 가치를 업그레이드시켜 주기 위한 그런게 아니면은 애초의 문제가 아니에요. 그렇죠? 그래서이 목표를 설정하는 것</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-50">
+            <div class="slide-image">
+                <img src="images/frame_0050_09-22.jpg" alt="09:22" loading="lazy">
+                <span class="timestamp">09:22</span>
+            </div>
+            <div class="slide-text">
+                <p>자체가 어떤 해결해야 될 문제를 말을 하는 거고요. 그 문제를 해결함으로써 문제를 해결한 후에는 나의 삶의 어떤 가치를 가지고 업그레이드가 되는 것이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-51">
+            <div class="slide-image">
+                <img src="images/frame_0051_09-33.jpg" alt="09:33" loading="lazy">
+                <span class="timestamp">09:33</span>
+            </div>
+            <div class="slide-text">
+                <p>목표이자 해결해야 될 문제입니다. 그 문제를 해결하면서 나의 삶의 가치도 업그레이드가 되겠죠. 근데 그러면 그 목표를 기반으로 날 삶을 업그레이드를 시켜 주기 위한 잠재적 가치들 그</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-52">
+            <div class="slide-image">
+                <img src="images/frame_0052_09-45.jpg" alt="09:45" loading="lazy">
+                <span class="timestamp">09:45</span>
+            </div>
+            <div class="slide-text">
+                <p>문제를 해결하는데 도움이 되는 정보와 지식들을 수집을 하게 됩니다. 우리가 목표를 정하면은 그것을 바탕으로 이제 지식을 수집을 하게 되고 그렇게 해야</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-53">
+            <div class="slide-image">
+                <img src="images/frame_0053_09-56.jpg" alt="09:56" loading="lazy">
+                <span class="timestamp">09:56</span>
+            </div>
+            <div class="slide-text">
+                <p>되는게 목표를 정하게 되면은 우리 머릿속에서 어 망상 활성계 RAS Ricular activation 시스템이라는게 발동하게 된대요.이 이 RAS라는게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-54">
+            <div class="slide-image">
+                <img src="images/frame_0054_10-08.jpg" alt="10:08" loading="lazy">
+                <span class="timestamp">10:08</span>
+            </div>
+            <div class="slide-text">
+                <p>어떤 거냐면 그런 거 있잖아요. 내가 어떤 목표를 해결해야지라고 느끼는 순간 우리가 몰입을 하게 되는 그런 경험들을 여러분들 하셨을 거예요. 제일 대표적인 얘기가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-55">
+            <div class="slide-image">
+                <img src="images/frame_0055_10-19.jpg" alt="10:19" loading="lazy">
+                <span class="timestamp">10:19</span>
+            </div>
+            <div class="slide-text">
+                <p>여러분들이 어떤 게임을 하면서 몰입을 하게 됐던 그 게임에 빠져들게 되었던 그런 그 경험이 있으실 겁니다. 내가 게임을 하면서 저는 롤은 안 하고 저</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-56">
+            <div class="slide-image">
+                <img src="images/frame_0056_10-30.jpg" alt="10:30" loading="lazy">
+                <span class="timestamp">10:30</span>
+            </div>
+            <div class="slide-text">
+                <p>오버워치를 했었었는데요. 오버워치를 하는 그 판하늘 와중에는 내가 그 게임을 이겨야 되겠다. 내 팀원들하고 함께</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-57">
+            <div class="slide-image">
+                <img src="images/frame_0057_10-40.jpg" alt="10:40" loading="lazy">
+                <span class="timestamp">10:40</span>
+            </div>
+            <div class="slide-text">
+                <p>협력을 해서 그것을 이겨야 되겠다.라고 하는 그런 목표가 생기면서 어떻게 전략적으로 움직여야 할까? 나는 어떠한 영웅을 해서 내가 어떤 역할을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-58">
+            <div class="slide-image">
+                <img src="images/frame_0058_10-52.jpg" alt="10:52" loading="lazy">
+                <span class="timestamp">10:52</span>
+            </div>
+            <div class="slide-text">
+                <p>해야 되겠다라고 전략을 세우게 되고요. 그것을 위해서 내가 어떻게 해야 될까라고 하는 집중력이 발생을 하게 됩니다. 그렇게 게임에 몰입을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-59">
+            <div class="slide-image">
+                <img src="images/frame_0059_11-02.jpg" alt="11:02" loading="lazy">
+                <span class="timestamp">11:02</span>
+            </div>
+            <div class="slide-text">
+                <p>하게 되면은 내가 주변에 있던 것도 차단을 하게 됩니다. 나에게 그 목표를 이루기 위해서 그 주변에 불필요한 것들을 차단을 하게 되는데요. 그게 우리의 망상</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-60">
+            <div class="slide-image">
+                <img src="images/frame_0060_11-14.jpg" alt="11:14" loading="lazy">
+                <span class="timestamp">11:14</span>
+            </div>
+            <div class="slide-text">
+                <p>활성계라고 합니다. 어떤 목표를 정해서 내가 그것에만 집중을 하게 되는 것들을 말이죠. 근데 이게 우리가 게임 아니라 해결해야 될 창의적 문제, 창의적인 문제 해결도</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-61">
+            <div class="slide-image">
+                <img src="images/frame_0061_11-25.jpg" alt="11:25" loading="lazy">
+                <span class="timestamp">11:25</span>
+            </div>
+            <div class="slide-text">
+                <p>이게 딱 발생하게 된다고 하는데요. 내가 예를 들어서 더 좋은 집으로 이사가기라는 목표가 있어요. 그리고 이게 기한이 별로 없어요. 그러면은 내가 다른 것들을 다 해치우고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-62">
+            <div class="slide-image">
+                <img src="images/frame_0062_11-35.jpg" alt="11:35" loading="lazy">
+                <span class="timestamp">11:35</span>
+            </div>
+            <div class="slide-text">
+                <p>그것에만 집중을 해서 그것과 관련된 정보와 지식들을 수집하게 되거든요. 몰입을 하게 돼요. 여러분들도 과제가 얼마 안 남았을 때 그니까 너무 마음에 여유가 있으면은 우리가 몰입을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-63">
+            <div class="slide-image">
+                <img src="images/frame_0063_11-47.jpg" alt="11:47" loading="lazy">
+                <span class="timestamp">11:47</span>
+            </div>
+            <div class="slide-text">
+                <p>안 하게 되는데 내가 언제까지 그 과제를 해야 된다 갈등에 불이 떨어졌을 때 몰입하게 되는 그런 경험이 있으시잖아요. 그것을 위해서 필요한 정보와 지식만 수집을 하게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-64">
+            <div class="slide-image">
+                <img src="images/frame_0064_11-58.jpg" alt="11:58" loading="lazy">
+                <span class="timestamp">11:58</span>
+            </div>
+            <div class="slide-text">
+                <p>되고이 문제를 해결을 하기 위해서 두 분해가 활성화되고 그거에 필요한 것만 수집을 하게 되잖아요. 지식을 수집하는 이것도 마찬가지입니다. 내가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-65">
+            <div class="slide-image">
+                <img src="images/frame_0065_12-09.jpg" alt="12:09" loading="lazy">
+                <span class="timestamp">12:09</span>
+            </div>
+            <div class="slide-text">
+                <p>어 무엇을 해야 되겠어라는 어떤 문 창의적으로 해결해야 될 문제를 생각을 하게 되고 그 목표를 정하게 되면은 그것과 관련된 지식과 정보를 수집할</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-66">
+            <div class="slide-image">
+                <img src="images/frame_0066_12-20.jpg" alt="12:20" loading="lazy">
+                <span class="timestamp">12:20</span>
+            </div>
+            <div class="slide-text">
+                <p>수 있게 되는 거죠. 그리고 좀 더 나아가서 제가 방금 말씀드린 어떤 주어진 기한 내 과제를 하는 예시 말고도 내가 예를 들어서 어 뭐 좋은 집으로 이사를 가야 되겠다라는 목표를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-67">
+            <div class="slide-image">
+                <img src="images/frame_0067_12-32.jpg" alt="12:32" loading="lazy">
+                <span class="timestamp">12:32</span>
+            </div>
+            <div class="slide-text">
+                <p>세우게 되면요. 기한이 없더라도 내가 그 관련된 정보를 탁 발견을 하게 되었을 때 머릿속에서 이거다라고 하는 그런 마음의 공명 울림이 느끼게 되어서 그것을 수집하게 됩니다. 네.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-68">
+            <div class="slide-image">
+                <img src="images/frame_0068_12-45.jpg" alt="12:45" loading="lazy">
+                <span class="timestamp">12:45</span>
+            </div>
+            <div class="slide-text">
+                <p>내가 목표를 정게 되면은 어떤 정보와 지식이 나에게 도움이 되는지 딱 알아차릴 수가 있어요. 그런 경험들을 많이 제가 더 예시를 안 들어도</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-69">
+            <div class="slide-image">
+                <img src="images/frame_0069_12-56.jpg" alt="12:56" loading="lazy">
+                <span class="timestamp">12:56</span>
+            </div>
+            <div class="slide-text">
+                <p>여러분들께서 모두 다 경험을 해 보셨을 겁니다. 그래서 어떤 건지 아실 거예요. 그래서 우리가 결국에는 목표를 정하게 되면은 결국에는 그것을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-70">
+            <div class="slide-image">
+                <img src="images/frame_0070_13-06.jpg" alt="13:06" loading="lazy">
+                <span class="timestamp">13:06</span>
+            </div>
+            <div class="slide-text">
+                <p>해결하기 위해서 나에게 갇치는 정보와 지식들을 된다라는 것을 말씀을 드렸잖아요. 그러면은 이거를 수집을 해서 AI까지 활용하기 위한 것을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-71">
+            <div class="slide-image">
+                <img src="images/frame_0071_13-17.jpg" alt="13:17" loading="lazy">
+                <span class="timestamp">13:17</span>
+            </div>
+            <div class="slide-text">
+                <p>고려해 봤을 때 어떻게 해야 될까, 어떤 식으로 우리가 수집을 해야 될까라는 것을 제가 보여 드리려고 합니다. 일단은 이론적인 것을 보여 드리고요. 이것을 실제로 하는 예시를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-72">
+            <div class="slide-image">
+                <img src="images/frame_0072_13-29.jpg" alt="13:29" loading="lazy">
+                <span class="timestamp">13:29</span>
+            </div>
+            <div class="slide-text">
+                <p>제가 보여 드릴 거예요. 목표를 정하고 그 관련된 정보와 지식들을 모으게 될 겁니다. 앞으로 여러분들이 이제 AI까지 어 활용해서 나의 어떤</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-73">
+            <div class="slide-image">
+                <img src="images/frame_0073_13-40.jpg" alt="13:40" loading="lazy">
+                <span class="timestamp">13:40</span>
+            </div>
+            <div class="slide-text">
+                <p>생산성을 높이는 것을 고려를 해서 그 수집을 할 때 꼭 이런 식으로 이런 프로세스로 수집을 해 주시면은 매우 도움이 많이 될 겁니다. 첫 번째로는 아까 이제 목표를 정한다라고 말씀을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-74">
+            <div class="slide-image">
+                <img src="images/frame_0074_13-52.jpg" alt="13:52" loading="lazy">
+                <span class="timestamp">13:52</span>
+            </div>
+            <div class="slide-text">
+                <p>드렸는데요.이 목표를 정할 때는이 세 가지 요인들을 내용을 채워 넣어서 나의 노트에 추가를 해 주면은 매우 유용합니다. 거기에 이제 최초 기획인</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-75">
+            <div class="slide-image">
+                <img src="images/frame_0075_14-03.jpg" alt="14:03" loading="lazy">
+                <span class="timestamp">14:03</span>
+            </div>
+            <div class="slide-text">
+                <p>거죠. 최초 기획을 적어야 되는데요. 이것은 내가 뭘 해야지라는 목표를 정하자마자 머릿속에서 느껴지는 그 반짝반짝 거리는 것들이 있을 거예요. 이게 하고 싶었던 이유들 있잖아요. 그것들을 다음과 같은 방식으로 한번</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-76">
+            <div class="slide-image">
+                <img src="images/frame_0076_14-16.jpg" alt="14:16" loading="lazy">
+                <span class="timestamp">14:16</span>
+            </div>
+            <div class="slide-text">
+                <p>담아 보세요. 첫 번째로는 내가 어떤 목표 어이 문서가 아니라이 문제를 해결함으로써 내가 전달하고 싶은 핵심 메시지 아니면 어떤 가치를 전달하고 싶은지 내가 왜 하게 되었고 해결하고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-77">
+            <div class="slide-image">
+                <img src="images/frame_0077_14-28.jpg" alt="14:28" loading="lazy">
+                <span class="timestamp">14:28</span>
+            </div>
+            <div class="slide-text">
+                <p>싶은 문제가 뭐고 이것을 통해서 나에게 어떤 가치를 주는지 그 가치를 줘야 된 대상이 내가 아니어도 됩니다. 내가 예를 들어서 누군가에게 어떤 뭐 제품을 만들어야지 아니면은</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-78">
+            <div class="slide-image">
+                <img src="images/frame_0078_14-40.jpg" alt="14:40" loading="lazy">
+                <span class="timestamp">14:40</span>
+            </div>
+            <div class="slide-text">
+                <p>어떤 뭐 유튜브 영상을 만드는데 어떤 독자들이 있을 거잖아요. 그죠? 그 사람들을 생각해도 독적 아니죠. 구독자들이나 시청자들을 생각을 해도 되고요. 아니면은 그 문제를 해결하는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-79">
+            <div class="slide-image">
+                <img src="images/frame_0079_14-53.jpg" alt="14:53" loading="lazy">
+                <span class="timestamp">14:53</span>
+            </div>
+            <div class="slide-text">
+                <p>어떤 전달한 가치가 어 나를 위한 것일 수도 있어요. 그렇죠? 아니면은 이걸 문제를 해결함으로써 사랑하는 사람들로 영향을 줄 수가 있는 거고요. 그래서 내가 어떤 것을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-80">
+            <div class="slide-image">
+                <img src="images/frame_0080_15-04.jpg" alt="15:04" loading="lazy">
+                <span class="timestamp">15:04</span>
+            </div>
+            <div class="slide-text">
+                <p>해결하려고 하는지 문제를 정의를 해서 적어놓는게 중요하고요. 그다음에는 그 대상에 대해서도 고민을 하면은 되게 좋습니다. 나를 위한 거면은 이거를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-81">
+            <div class="slide-image">
+                <img src="images/frame_0081_15-15.jpg" alt="15:15" loading="lazy">
+                <span class="timestamp">15:15</span>
+            </div>
+            <div class="slide-text">
+                <p>굳이 타켓도 안 적어도 돼요. 왜냐면 나는 내가 누군지 알고 있다라는 과정하에 내가 그 해결을 하고자 하는 문제가 나 내가 아니라 타인에 대한 거면은 그 분들이 무엇을 필요로 하고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-82">
+            <div class="slide-image">
+                <img src="images/frame_0082_15-28.jpg" alt="15:28" loading="lazy">
+                <span class="timestamp">15:28</span>
+            </div>
+            <div class="slide-text">
+                <p>어떤 가치를 전달할 수 있는지를 고민을 해서 기억을 하면 좋습니다. 예를 들어서이 강연을 통해서 여러분들께 전달드리고자 하는 가치가이 기록을이 꺼진 기록을 다시 보고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-83">
+            <div class="slide-image">
+                <img src="images/frame_0083_15-39.jpg" alt="15:39" loading="lazy">
+                <span class="timestamp">15:39</span>
+            </div>
+            <div class="slide-text">
+                <p>여러분들이 그 잘 활용을 해서 기록을 좀 더욱더 가치 있게 하기 위한 이런 가치를 전달드리고 싶은 거예요. 그러면 저는 이거 자체를 이제 기획을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-84">
+            <div class="slide-image">
+                <img src="images/frame_0084_15-49.jpg" alt="15:49" loading="lazy">
+                <span class="timestamp">15:49</span>
+            </div>
+            <div class="slide-text">
+                <p>할 때 학부생일 수도 있고요. 아니면은 대학원생일 수도 있는데 이것들을 통해서 어떤 마음가짐을 가져야 하는지 어떻게 가치가 전달이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-85">
+            <div class="slide-image">
+                <img src="images/frame_0085_15-59.jpg" alt="15:59" loading="lazy">
+                <span class="timestamp">15:59</span>
+            </div>
+            <div class="slide-text">
+                <p>될 건지를 고민을 많이 해서 여기다가 적어 놓을 겁니다. 그리고이 타켓을 대상으로이 목표를 이제 콘텐츠를 전달한다면 어떤 기준에서 이게 성공일</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-86">
+            <div class="slide-image">
+                <img src="images/frame_0086_16-10.jpg" alt="16:10" loading="lazy">
+                <span class="timestamp">16:10</span>
+            </div>
+            <div class="slide-text">
+                <p>건가? 뭐 그분들이 어떤 가치를 가져가고 어떤 핵심 메시지를 교훈을 얻어 가면은 성공인가라는 생각을 가지게 되겠죠. 예를 들어서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-87">
+            <div class="slide-image">
+                <img src="images/frame_0087_16-21.jpg" alt="16:21" loading="lazy">
+                <span class="timestamp">16:21</span>
+            </div>
+            <div class="slide-text">
+                <p>저 같은 경우에는 여러분들께서이 성공 요인이이 강의를 통해서 지식을 더욱 더 기록을 하는 것을 훨씬 더 가치게 느껴서 좀 더 삶에 진지하게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-88">
+            <div class="slide-image">
+                <img src="images/frame_0088_16-32.jpg" alt="16:32" loading="lazy">
+                <span class="timestamp">16:32</span>
+            </div>
+            <div class="slide-text">
+                <p>받아들이고 전략적으로 활용을 해야 되겠다라는이 마음가짐이 저에게는 성공적인 강연이 될 거 같거든요. 그래서 그런 것들을 생각을 해서 제가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-89">
+            <div class="slide-image">
+                <img src="images/frame_0089_16-43.jpg" alt="16:43" loading="lazy">
+                <span class="timestamp">16:43</span>
+            </div>
+            <div class="slide-text">
+                <p>이렇게 적어 놓을 겁니다. 네. 이따가 보여 드릴 거예요. 그러면은이 최초의 기획을 이런 목표, 타켓, 그리고 성공 요인이라는 세 가지</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-90">
+            <div class="slide-image">
+                <img src="images/frame_0090_16-53.jpg" alt="16:53" loading="lazy">
+                <span class="timestamp">16:53</span>
+            </div>
+            <div class="slide-text">
+                <p>요소로 담아두면은 어떤 효과가 있냐면요. 최초에 큰 그림을 잡히게 됩니다. 그래서 우리가 그다음에 이제 이어서야 되는 것은 아웃라인을 잡아야 돼요. 음. 내가 이것을 해결을 하기</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-91">
+            <div class="slide-image">
+                <img src="images/frame_0091_17-04.jpg" alt="17:04" loading="lazy">
+                <span class="timestamp">17:04</span>
+            </div>
+            <div class="slide-text">
+                <p>위해서 어떤 내용이 있어야 되잖아요. 그것을 해결하기 위해서 어떤 내용들, 어떤 메시지, 어떠한 순서대로 가면은 그것을 해결하기 위한 정보들과</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-92">
+            <div class="slide-image">
+                <img src="images/frame_0092_17-16.jpg" alt="17:16" loading="lazy">
+                <span class="timestamp">17:16</span>
+            </div>
+            <div class="slide-text">
+                <p>지식들이 포함돼 있는가? 내 머릿속에 생각나는 그런 구조가 있습니다. 1강, 2강, 3강을 제가 그 목표와 타켓과 성공 요인을 최초의 기획을 해결하기 위해 제 머릿속에서 어떤</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-93">
+            <div class="slide-image">
+                <img src="images/frame_0093_17-27.jpg" alt="17:27" loading="lazy">
+                <span class="timestamp">17:27</span>
+            </div>
+            <div class="slide-text">
+                <p>내용들이 있었어요. 그러면 그 흐름을 일단 그 최초 기획과 함께이 기회관 안에 적어 놓는 겁니다. 큰 내용과 흐름과 어떤 요소들이 포함되 있으면</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-94">
+            <div class="slide-image">
+                <img src="images/frame_0094_17-37.jpg" alt="17:37" loading="lazy">
+                <span class="timestamp">17:37</span>
+            </div>
+            <div class="slide-text">
+                <p>좋겠는지.이 뼈대를 일단 내가 쭉 접고요. 네. 그리고이 각각의 섹션별로 그것과 관련된 노트들을 열심히 연결을 시켜서 일단 갖다</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-95">
+            <div class="slide-image">
+                <img src="images/frame_0095_17-47.jpg" alt="17:47" loading="lazy">
+                <span class="timestamp">17:47</span>
+            </div>
+            <div class="slide-text">
+                <p>붙이는 겁니다. 그렇게 해서 지식들을 연결을 해서 우리가 목표로 하는 것은 그 문제를 해결하기 위한 나만의 아웃라인을 만드는 거예요.이 아웃라인에는 결국에는 두 가지가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-96">
+            <div class="slide-image">
+                <img src="images/frame_0096_17-59.jpg" alt="17:59" loading="lazy">
+                <span class="timestamp">17:59</span>
+            </div>
+            <div class="slide-text">
+                <p>있습니다. 기회관이라고 볼 수가 있겠죠. 내가 어떤 문제를 해결하고 싶었는지 반짝이는 그 순간에 열심히 담아두고 정리를 하는 것. 첫 번째.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-97">
+            <div class="slide-image">
+                <img src="images/frame_0097_18-10.jpg" alt="18:10" loading="lazy">
+                <span class="timestamp">18:10</span>
+            </div>
+            <div class="slide-text">
+                <p>두 번째로는 그것과 해결하기 위한 다양한 아웃라인을 이제 내용들을 갖다 넣어서 구조를 짜고 세 번째로는 그거 관련된 지식들을 제가 생각나는 것들을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-98">
+            <div class="slide-image">
+                <img src="images/frame_0098_18-22.jpg" alt="18:22" loading="lazy">
+                <span class="timestamp">18:22</span>
+            </div>
+            <div class="slide-text">
+                <p>연결시키는 거.이 이 세 가지 단계를 통해서 결국에는이 아웃라인을 만들어야 합니다.이 아웃라인을 일단 만드는 제가 실제 예시를 보여 줄게요. 예시를 보여 드린 다음에 그리고 나서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-99">
+            <div class="slide-image">
+                <img src="images/frame_0099_18-33.jpg" alt="18:33" loading="lazy">
+                <span class="timestamp">18:33</span>
+            </div>
+            <div class="slide-text">
+                <p>이것을 어떻게 AI랑 함께 활용할 수 있을지를 보여 드릴게요. 제가 이제 보여 드리고 싶은 예시는 뭐냐면요. 실제로이 강의를 만들 때 제가 어떠한</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-100">
+            <div class="slide-image">
+                <img src="images/frame_0100_18-43.jpg" alt="18:43" loading="lazy">
+                <span class="timestamp">18:43</span>
+            </div>
+            <div class="slide-text">
+                <p>프로세스를 거쳤는지에 대해서 한번 큰 그림을 보여 드리려고 합니다. 어 일단은요. 제가이 강의 요청을 받았을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-101">
+            <div class="slide-image">
+                <img src="images/frame_0101_18-54.jpg" alt="18:54" loading="lazy">
+                <span class="timestamp">18:54</span>
+            </div>
+            <div class="slide-text">
+                <p>거잖아요. 최초로 제가 요청을 받았던 것이 있어요. 음. 문자로 그리고 통화로 받은 내용을 가지고 와서 이렇게 일단 적어 놓을 겁니다.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-102">
+            <div class="slide-image">
+                <img src="images/frame_0102_19-05.jpg" alt="19:05" loading="lazy">
+                <span class="timestamp">19:05</span>
+            </div>
+            <div class="slide-text">
+                <p>일단은 이제 요청을 하신 분들께서 뭐라고 요청을 주셨는지를 이렇게 말씀을 주셨고요. 그리고 제가 이것을 보고 제가 어떠한 니즈가 있었는지</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-103">
+            <div class="slide-image">
+                <img src="images/frame_0103_19-17.jpg" alt="19:17" loading="lazy">
+                <span class="timestamp">19:17</span>
+            </div>
+            <div class="slide-text">
+                <p>세부적인 내용을 갖다 붙이겠습니다. 제가 이전 영상에서 보여 드렸던 것처럼 저는 STT로 한번 이걸 보여 드리겠습니다. 일단은 지금 이런 것들을 하면 좋을 것 같고요.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-104">
+            <div class="slide-image">
+                <img src="images/frame_0104_19-30.jpg" alt="19:30" loading="lazy">
+                <span class="timestamp">19:30</span>
+            </div>
+            <div class="slide-text">
+                <p>오케이. 지금 내가 하고 싶은 것은이 노트테이킹 마스터라는 강의안을 짜고 싶은데 일단은 요청을 받았던 것은이 기록 자체를 다르게 보고 기록 자체를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-105">
+            <div class="slide-image">
+                <img src="images/frame_0105_19-43.jpg" alt="19:43" loading="lazy">
+                <span class="timestamp">19:43</span>
+            </div>
+            <div class="slide-text">
+                <p>어 공부를 넘어 평생 좋은 습관으로 만드는 법에 대해서 이제 만들고 싶어. 근데 이제 나는 여기서 넣어야 한다고 생각을 하는 것은 어 크게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-106">
+            <div class="slide-image">
+                <img src="images/frame_0106_19-54.jpg" alt="19:54" loading="lazy">
+                <span class="timestamp">19:54</span>
+            </div>
+            <div class="slide-text">
+                <p>기록의 중요성 이게 왜 중요한지 내용이 꼭 들어가야 할 할 거 같고 그리고 이것들을 AI 시대에서 어떻게 활용을 해야 되는지까지 어 좀 고려를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-107">
+            <div class="slide-image">
+                <img src="images/frame_0107_20-07.jpg" alt="20:07" loading="lazy">
+                <span class="timestamp">20:07</span>
+            </div>
+            <div class="slide-text">
+                <p>해서 꼭 내용을 추가를 해야 될 것 같다는 생각이 들어. 어, 근데 여기서 명확하게 하고 싶은 것은 AI 시대에 어, 사고를 하고 생각을 하고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-108">
+            <div class="slide-image">
+                <img src="images/frame_0108_20-17.jpg" alt="20:17" loading="lazy">
+                <span class="timestamp">20:17</span>
+            </div>
+            <div class="slide-text">
+                <p>이것을 기록해 두는 것이 나다음을 기록하고 그리고 더 나아가서 인간다음 인간만이 할 수 있는 것이기 때문에 어, 경쟁력이 매우 필요한 거다. 그래서 기록이 중요하다라는 내용도</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-109">
+            <div class="slide-image">
+                <img src="images/frame_0109_20-29.jpg" alt="20:29" loading="lazy">
+                <span class="timestamp">20:29</span>
+            </div>
+            <div class="slide-text">
+                <p>넣고 싶고 그리고 더 나아가서 이것들을 어 토대로 어떻게 담아낼 수 있는지 이것을 위한 브레인노트 템플릿</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-110">
+            <div class="slide-image">
+                <img src="images/frame_0110_20-39.jpg" alt="20:39" loading="lazy">
+                <span class="timestamp">20:39</span>
+            </div>
+            <div class="slide-text">
+                <p>템플릿화 시킬 수 있는 것과 그리고 AI까지 활용을함으로써 이게 나의 어 어떤 경쟁력까지 담을 수 있는 걸로 활용할 수 있다. 이런 내용을 포함을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-111">
+            <div class="slide-image">
+                <img src="images/frame_0111_20-50.jpg" alt="20:50" loading="lazy">
+                <span class="timestamp">20:50</span>
+            </div>
+            <div class="slide-text">
+                <p>시켜야 될 거 같아. 네. 이렇게 의식의 흐름 대로 예. 제가 얘를 받자마자 일단은 지금 생각나는 어떤 내용들을 이렇게 갖다 넣었고요. 이제</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-112">
+            <div class="slide-image">
+                <img src="images/frame_0112_21-02.jpg" alt="21:02" loading="lazy">
+                <span class="timestamp">21:02</span>
+            </div>
+            <div class="slide-text">
+                <p>저는 얘를 가지고 이제 어떻게 할 거냐면요. 일단은 어이 내용 안에 결국에는 첫 최초 기획이 들어</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-113">
+            <div class="slide-image">
+                <img src="images/frame_0113_21-12.jpg" alt="21:12" loading="lazy">
+                <span class="timestamp">21:12</span>
+            </div>
+            <div class="slide-text">
+                <p>있다라고 저는 생각을 합니다. 그래서 얘를 어 다시 제가 클로드 재미나이를 한번 써 볼게요. 재미나이를 열어서 새로운 노트를 만듭니다. 새로운</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-114">
+            <div class="slide-image">
+                <img src="images/frame_0114_21-23.jpg" alt="21:23" loading="lazy">
+                <span class="timestamp">21:23</span>
+            </div>
+            <div class="slide-text">
+                <p>노트를 만들어서요. 제가 옵시디언으로 기록을 했는데 얘를 갖다 넣어 가지고 어 지금 첨부된이 파일은 노트테이킹 마스터라는 강연을 만들기 위한 나의</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-115">
+            <div class="slide-image">
+                <img src="images/frame_0115_21-35.jpg" alt="21:35" loading="lazy">
+                <span class="timestamp">21:35</span>
+            </div>
+            <div class="slide-text">
+                <p>최초 기획 그리고 나의 생각들이 담아져 있는 거야. 이것을 바탕으로 세 가지로 정리를 해죠. 첫 번째로는 목표. 내가 이것을 통해서 어떤</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-116">
+            <div class="slide-image">
+                <img src="images/frame_0116_21-46.jpg" alt="21:46" loading="lazy">
+                <span class="timestamp">21:46</span>
+            </div>
+            <div class="slide-text">
+                <p>문제를 해결하고 싶은지. 두 번째로는 타켓. 나는이 강의를 통해서 어떤 사람들, 어떤 어뭐 어떤 문제를 해결하고 싶고 이것을 누구에게 어떤</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-117">
+            <div class="slide-image">
+                <img src="images/frame_0117_21-58.jpg" alt="21:58" loading="lazy">
+                <span class="timestamp">21:58</span>
+            </div>
+            <div class="slide-text">
+                <p>내용을 전달하고 싶은지 그리고 마지막으로 이것이 성공적으로 전달이 되었을 때 사람들이 어떤 메시지를 테이크어웨이 할 수 있는지 이런 것들 기반으로 나의 최초 기회관과</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-118">
+            <div class="slide-image">
+                <img src="images/frame_0118_22-09.jpg" alt="22:09" loading="lazy">
+                <span class="timestamp">22:09</span>
+            </div>
+            <div class="slide-text">
+                <p>아웃라인을 발전시켜 줘. 네. 이렇게 넣을 수가 있겠죠. 제가 한 것은 결국에는 제가 어 처음에 어 대학적으로부터 요청을 받은 내용과</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-119">
+            <div class="slide-image">
+                <img src="images/frame_0119_22-20.jpg" alt="22:20" loading="lazy">
+                <span class="timestamp">22:20</span>
+            </div>
+            <div class="slide-text">
+                <p>그리고 제가 거기에 의식의 흐름대로 막 갖다 붙인 것을 가지고 얘한테 어 재미난 아이한테 넣고 그리고 내가 어떤 주제로 지금 이걸 진행하고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-120">
+            <div class="slide-image">
+                <img src="images/frame_0120_22-31.jpg" alt="22:31" loading="lazy">
+                <span class="timestamp">22:31</span>
+            </div>
+            <div class="slide-text">
+                <p>있는지 맥락을 추가로 주면은 얘가 정리를 잘 해 줄 겁니다. 네. 그래서 요청 사항을 잘 분석을 해서 어떻게 커리큘럼을 이제 적어 줄 건지</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-121">
+            <div class="slide-image">
+                <img src="images/frame_0121_22-42.jpg" alt="22:42" loading="lazy">
+                <span class="timestamp">22:42</span>
+            </div>
+            <div class="slide-text">
+                <p>한번 살펴보겠습니다. 네. 얘가 저는 세 가지 강의로 나눠서 진행을 하고 있는데요. 음. 산부작 강의 요청 것이 이렇게 나와 있으니까 얘가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-122">
+            <div class="slide-image">
+                <img src="images/frame_0122_22-54.jpg" alt="22:54" loading="lazy">
+                <span class="timestamp">22:54</span>
+            </div>
+            <div class="slide-text">
+                <p>반영이 되었을 거고요. 그래서 강의 목표는 이런 거고 타켓은 이런 거고 이런 것들이 들어가야 한다. 네. 제가 어 그 일단은이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-123">
+            <div class="slide-image">
+                <img src="images/frame_0123_23-06.jpg" alt="23:06" loading="lazy">
+                <span class="timestamp">23:06</span>
+            </div>
+            <div class="slide-text">
+                <p>요청상 자체는 세부적으로 어떤 방식으로 나아가야 되는지에 대한 그 세부적인 것들을 이제 구조화돼서 넣진 않고 제가 실제로 ST를 통해서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-124">
+            <div class="slide-image">
+                <img src="images/frame_0124_23-18.jpg" alt="23:18" loading="lazy">
+                <span class="timestamp">23:18</span>
+            </div>
+            <div class="slide-text">
+                <p>이렇게 담아낸 것들만 넣었죠. 근데 얘가 지금 보면은 지금 산부작 강의 시리즈랑 비슷하게 이렇게 풀어줬어요. 그죠? 산부작 강의 제한을 Y 왜</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-125">
+            <div class="slide-image">
+                <img src="images/frame_0125_23-29.jpg" alt="23:29" loading="lazy">
+                <span class="timestamp">23:29</span>
+            </div>
+            <div class="slide-text">
+                <p>나의 기록이 유일한 무기인가? 평생 서머는 템플릿과 리포트 시험 정복하는 방법. 지금 강연 내용과 조금은 다르긴 하지만 결국에는 저희 이제 큰</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-126">
+            <div class="slide-image">
+                <img src="images/frame_0126_23-39.jpg" alt="23:39" loading="lazy">
+                <span class="timestamp">23:39</span>
+            </div>
+            <div class="slide-text">
+                <p>그것은 같죠? 그러면은 얘를 다시 제가 어떻게 할 거냐면요. 이렇게 넣을게요. 제가 다시 어이 초집이이 내용에 추가를 합니다. 그러면 얘가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-127">
+            <div class="slide-image">
+                <img src="images/frame_0127_23-50.jpg" alt="23:50" loading="lazy">
+                <span class="timestamp">23:50</span>
+            </div>
+            <div class="slide-text">
+                <p>이제 강의 아니고요. 이거를 바탕으로 저는 저희 생각들을 조금 발전을 시켜 나갈 거예요. 강의 하나를 이렇게 제가 이제 만든다라는 가정 하에</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-128">
+            <div class="slide-image">
+                <img src="images/frame_0128_24-00.jpg" alt="24:00" loading="lazy">
+                <span class="timestamp">24:00</span>
+            </div>
+            <div class="slide-text">
+                <p>1강, 2강, 3강 이렇게 어어 만들어서 아 그러면은 내가 어 어떤 부분에서 이게 중요한 거 같은지를 일단은 이제 두 번째 어 아 다시</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-129">
+            <div class="slide-image">
+                <img src="images/frame_0129_24-12.jpg" alt="24:12" loading="lazy">
+                <span class="timestamp">24:12</span>
+            </div>
+            <div class="slide-text">
+                <p>할게요. 네. 저희 제가 방금까지 한 거는이 첫 번째 부분을 한 겁니다. 그렇죠? 음.이 목표 정하는 것을 쓸 했어요. 그렇죠? 두 번째로 이제이어서 제가 하는 것은 이것을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-130">
+            <div class="slide-image">
+                <img src="images/frame_0130_24-23.jpg" alt="24:23" loading="lazy">
+                <span class="timestamp">24:23</span>
+            </div>
+            <div class="slide-text">
+                <p>가지고 편집을 위한 큰 뼈대를 정해야 돼요. 제가 재미나이를 이용해서 이렇게 한번 확장을 진행을 하였습니다. 음, 그리고이 대화를 통해서 구절을 한번 시켰고요. 이제는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-131">
+            <div class="slide-image">
+                <img src="images/frame_0131_24-34.jpg" alt="24:34" loading="lazy">
+                <span class="timestamp">24:34</span>
+            </div>
+            <div class="slide-text">
+                <p>제가 생각했었을 때 이게 어떤 내용들이 들어가야 되는지 일단은 머리에서 생각이 나는 대로 열심히 적어 보겠습니다. 이것도 제가 ST를 이용해 볼게요. 어, 일단 1강에서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-132">
+            <div class="slide-image">
+                <img src="images/frame_0132_24-46.jpg" alt="24:46" loading="lazy">
+                <span class="timestamp">24:46</span>
+            </div>
+            <div class="slide-text">
+                <p>내가 넣고 싶은 것은 우리가 어, 메모와 기록을 통해서 어, 이거 일단 기존에 사람들이 알고 있는 메모와 기록에 대한 내용들을 갖다 넣고 싶고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-133">
+            <div class="slide-image">
+                <img src="images/frame_0133_24-58.jpg" alt="24:58" loading="lazy">
+                <span class="timestamp">24:58</span>
+            </div>
+            <div class="slide-text">
+                <p>그리고 이것과 관련해서 그 중요성 그리고 왜 메모와 기록을 해야 되는지 그리고 왜 AI 시대 기록을 해야 되는지에 대해서 어, 이런 구조로 넣고 싶어. 네. 여기서 제가 이제</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-134">
+            <div class="slide-image">
+                <img src="images/frame_0134_25-10.jpg" alt="25:10" loading="lazy">
+                <span class="timestamp">25:10</span>
+            </div>
+            <div class="slide-text">
+                <p>추가할 수 있는 내용이 어 그래서 이제 AI 시대 특히 더 중요한게 생산성하고 컨텍스트 엔지니어링이라는 그 구조까지 포함이 되어야 할 거</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-135">
+            <div class="slide-image">
+                <img src="images/frame_0135_25-21.jpg" alt="25:21" loading="lazy">
+                <span class="timestamp">25:21</span>
+            </div>
+            <div class="slide-text">
+                <p>같아. 어 그래서 왜냐면 컨텍스트 엔지니어링 시대에서도 매우 중요한게 우리가 AI 시대에 어떤 지식과 정보를 넣느냐에 따라서 이게 AI를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-136">
+            <div class="slide-image">
+                <img src="images/frame_0136_25-32.jpg" alt="25:32" loading="lazy">
+                <span class="timestamp">25:32</span>
+            </div>
+            <div class="slide-text">
+                <p>활용한 생산성이 완전 달라질 수 있기 때문에이 내용도 꼭 들어가야 되고 어 그래서 결국에는 이게 기록의 중요성에 대해서 나온 내용이 나온 다음에 좋은</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-137">
+            <div class="slide-image">
+                <img src="images/frame_0137_25-42.jpg" alt="25:42" loading="lazy">
+                <span class="timestamp">25:42</span>
+            </div>
+            <div class="slide-text">
+                <p>기록이 무엇일까에 대해서 이야기를 할 건데 이때 말을 하고 싶은 것은 결국에서선 기억이 하나 추가화 되었을 때 감정을 기록해야 된다라는 내용도 넣고 싶어. 네. 이렇게 또 추가가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-138">
+            <div class="slide-image">
+                <img src="images/frame_0138_25-52.jpg" alt="25:52" loading="lazy">
+                <span class="timestamp">25:52</span>
+            </div>
+            <div class="slide-text">
+                <p>되었죠. 그러면 얘를 또 이렇게 해 볼게요. 네. 이렇게 갔다 이렇게 갖다 붙여 놓고 예. 이렇게도 하겠습니다. 다음은 1강의 내용을 내가 아웃라인에서 정리를 한 건데이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-139">
+            <div class="slide-image">
+                <img src="images/frame_0139_26-04.jpg" alt="26:04" loading="lazy">
+                <span class="timestamp">26:04</span>
+            </div>
+            <div class="slide-text">
+                <p>내용을 토대로이 1강의 내용을 조금 더 구체화시켜 줄래? 네. 이렇게 입력을 하면은 제가 준이 아이디어를 토대로 조금 더 예,이 전체 맥락에</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-140">
+            <div class="slide-image">
+                <img src="images/frame_0140_26-16.jpg" alt="26:16" loading="lazy">
+                <span class="timestamp">26:16</span>
+            </div>
+            <div class="slide-text">
+                <p>맞게 얘가 일단은 발전을 시켜 줄 겁니다. 여기 보면은 고민을 하고 있는게 전체적인 강의의 구조를 짜고 세부적인 요소들을 아웃라인을 시켜서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-141">
+            <div class="slide-image">
+                <img src="images/frame_0141_26-28.jpg" alt="26:28" loading="lazy">
+                <span class="timestamp">26:28</span>
+            </div>
+            <div class="slide-text">
+                <p>완전 서사를 짜고 어 이렇게 하고 있다. 이렇게 만들었죠. 그러면은 제가 일단 어 얘를 한번 이렇게 갖다 넣어 볼게요. 네. 얘를 이렇게 갖다 놓고 이거를 쓸지 안 쓸지는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-142">
+            <div class="slide-image">
+                <img src="images/frame_0142_26-40.jpg" alt="26:40" loading="lazy">
+                <span class="timestamp">26:40</span>
+            </div>
+            <div class="slide-text">
+                <p>모르겠지만 와 나의 기록이 유일무의한 무기인가? 어 이렇게 하면은 제가 그럼 여기 안에서 제가 이제 관련된 정 노트들이 생각이 나으면은 여기다가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-143">
+            <div class="slide-image">
+                <img src="images/frame_0143_26-53.jpg" alt="26:53" loading="lazy">
+                <span class="timestamp">26:53</span>
+            </div>
+            <div class="slide-text">
+                <p>갖다 넣어도 될 거 같아요. 그래서 저는 저 같은 경우는 예를 들어서 평생 메모 관련된 내용이 있을 겁니다. 네. 자, 예를 들어서이 쓰고 싶은 저의 지식 자체를 좀 넣어</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-144">
+            <div class="slide-image">
+                <img src="images/frame_0144_27-03.jpg" alt="27:03" loading="lazy">
+                <span class="timestamp">27:03</span>
+            </div>
+            <div class="slide-text">
+                <p>보자면 평생 메모 제가 꺼진 기록도 다시 보자. 생각의 본질을 담는 좋은 노트 전략 이거를 이렇게 넣었었거든요. 얘를 넣어야 되겠다</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-145">
+            <div class="slide-image">
+                <img src="images/frame_0145_27-14.jpg" alt="27:14" loading="lazy">
+                <span class="timestamp">27:14</span>
+            </div>
+            <div class="slide-text">
+                <p>해서 얘를 가지고 관련된 노트를 관련된 노트를 여기다가 추가를 할 수 있고요. 그리고 좀 더 나아가서 우린 기억 기역 기억을 기록을 오해하고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-146">
+            <div class="slide-image">
+                <img src="images/frame_0146_27-25.jpg" alt="27:25" loading="lazy">
+                <span class="timestamp">27:25</span>
+            </div>
+            <div class="slide-text">
+                <p>있다. 예. 얘도 이렇게 갖다 넣을 수가 있어요. 그리고 AI 시대에 꼭 필요한 것 이것에 대해서는 제가 컨텍스트 엔지니어링과 관련된 기록들</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-147">
+            <div class="slide-image">
+                <img src="images/frame_0147_27-36.jpg" alt="27:36" loading="lazy">
+                <span class="timestamp">27:36</span>
+            </div>
+            <div class="slide-text">
+                <p>있거든요. 그러면은 컨텍스트 엔지니어링이라는 것을 검색을 해서 관련된 노트들을 이제 넣어 볼게요. 컨텍스트 엔지니어링.음 음, 내용들이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-148">
+            <div class="slide-image">
+                <img src="images/frame_0148_27-47.jpg" alt="27:47" loading="lazy">
+                <span class="timestamp">27:47</span>
+            </div>
+            <div class="slide-text">
+                <p>많이 있습니다. 어, 제가 실제로 작성했던 이런 노트가 있고요.이 복사를 해서 음, 얘를 여기다가 갖다 넣겠습니다. 컨텍스트 엔지니어링이 매우 중요하다. 관련해서는 제가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-149">
+            <div class="slide-image">
+                <img src="images/frame_0149_27-59.jpg" alt="27:59" loading="lazy">
+                <span class="timestamp">27:59</span>
+            </div>
+            <div class="slide-text">
+                <p>실제로 작성한이 노트 다시 네. 이것들을 링크를 복사를 해서 다시 여기다가 갖다 넣어 볼게요. 이렇게 이제 하고 여기다가 이제 필요하면은</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-150">
+            <div class="slide-image">
+                <img src="images/frame_0150_28-10.jpg" alt="28:10" loading="lazy">
+                <span class="timestamp">28:10</span>
+            </div>
+            <div class="slide-text">
+                <p>제가 느낌표를 넣어서음이 실제로 노트 내용을 이렇게 띄울 수가 있습니다. 이게 관련된 노트도 연결을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-151">
+            <div class="slide-image">
+                <img src="images/frame_0151_28-20.jpg" alt="28:20" loading="lazy">
+                <span class="timestamp">28:20</span>
+            </div>
+            <div class="slide-text">
+                <p>해 주고요.음 생각나는 노트 텍스트. 네. 이렇게 연결도 해 주고요. 네. 그러면 좋은 기록이 무엇인가 해서 내가 무엇을 할 수 있을까? 감정을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-152">
+            <div class="slide-image">
+                <img src="images/frame_0152_28-32.jpg" alt="28:32" loading="lazy">
+                <span class="timestamp">28:32</span>
+            </div>
+            <div class="slide-text">
+                <p>기록해야 한다.이 내용에서도 제가 쓸 수 있는게 있거든요. 방문어. 예. 기록 생 감정. 어, 이런 노트도 제가 생각이 나 가지고 이렇게 끼어</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-153">
+            <div class="slide-image">
+                <img src="images/frame_0153_28-43.jpg" alt="28:43" loading="lazy">
+                <span class="timestamp">28:43</span>
+            </div>
+            <div class="slide-text">
+                <p>넣어서 쓸 수가 있죠. 물론이 초안 자체는 AI가 좀 추천을 해 준 거긴 한데 여기 안에서 이제 들어가는 기본적인 논리 구조나 이런 것들은 제가 제시를 한 거고 그리고 여기</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-154">
+            <div class="slide-image">
+                <img src="images/frame_0154_28-53.jpg" alt="28:53" loading="lazy">
+                <span class="timestamp">28:53</span>
+            </div>
+            <div class="slide-text">
+                <p>안에 실제로 들어갈이 메모 자체는 제 실제 기록을 바탕으로 이제 진행을 할 거예요. 그래서 얘가이 아웃라인에서 제가이 느낌표를 앞에 넣으면은 나와</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-155">
+            <div class="slide-image">
+                <img src="images/frame_0155_29-05.jpg" alt="29:05" loading="lazy">
+                <span class="timestamp">29:05</span>
+            </div>
+            <div class="slide-text">
+                <p>이러면서 얘가 관련된 노트를 이렇게 내용을이 뽑아 줍니다. 어 이거는 다 제기로 제 지식을 기반으로 이제 진행을 하는 거죠. 이렇게 진행을 해</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-156">
+            <div class="slide-image">
+                <img src="images/frame_0156_29-16.jpg" alt="29:16" loading="lazy">
+                <span class="timestamp">29:16</span>
+            </div>
+            <div class="slide-text">
+                <p>가지고 나의 이런 그 아웃라인 안에 이렇게 나의 노트도 넣으면서 진행이 가능합니다. 이거를 PDF로 내보내기를 해요. PDF PDF를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-157">
+            <div class="slide-image">
+                <img src="images/frame_0157_29-27.jpg" alt="29:27" loading="lazy">
+                <span class="timestamp">29:27</span>
+            </div>
+            <div class="slide-text">
+                <p>내보내기를함으로써 저희가이 내용들을 다 하나의 덩어리처럼 활용을 할 수가 있습니다. 해서 제가 예를 들어서 노트이킹 마스터 1강 개요 이렇게 넣겠습니다.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-158">
+            <div class="slide-image">
+                <img src="images/frame_0158_29-40.jpg" alt="29:40" loading="lazy">
+                <span class="timestamp">29:40</span>
+            </div>
+            <div class="slide-text">
+                <p>PDF로 내보내기를 하면은 저희가 어떠한 방식으로 하게요. 제가 지금까지이 기록들을 어 제가 이제 아이디어를 넣어 가지고이 기록들 전체</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-159">
+            <div class="slide-image">
+                <img src="images/frame_0159_29-51.jpg" alt="29:51" loading="lazy">
+                <span class="timestamp">29:51</span>
+            </div>
+            <div class="slide-text">
+                <p>자체를 어 이렇게 하나의 노 하나의 파일로 이렇게 아웃풋이 되게 됩니다.음 이러면은 어떻게 보면은 나의 아웃라인과 기회관이 다 들어 있는 건데 얘를 이제 활용을 할</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-160">
+            <div class="slide-image">
+                <img src="images/frame_0160_30-03.jpg" alt="30:03" loading="lazy">
+                <span class="timestamp">30:03</span>
+            </div>
+            <div class="slide-text">
+                <p>거예요. 그래서 우리가 이제 뭐를 했냐면 결국은이 아웃라인의 실제 예시를 제가 보여 드린 거고요.이 아웃라인 안에는 세 가지가 있죠. 일단은 나의 목표와 기획 이런 것들이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-161">
+            <div class="slide-image">
+                <img src="images/frame_0161_30-14.jpg" alt="30:14" loading="lazy">
+                <span class="timestamp">30:14</span>
+            </div>
+            <div class="slide-text">
+                <p>들어가 있죠. 제가 어떤 것들을 했냐면 나는 어떠한 강연을 하고 싶고 누구를 대상으로 어떤 메시지를 전달을 하고 싶다. 이거를 넣었고요. 그리고 저도 STT로 한번 더 한 거지만</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-162">
+            <div class="slide-image">
+                <img src="images/frame_0162_30-25.jpg" alt="30:25" loading="lazy">
+                <span class="timestamp">30:25</span>
+            </div>
+            <div class="slide-text">
+                <p>내가의 논리적 구성 어떤 내용들이 포함되어야 하는지에 대한 내용도 넣어 가지고 확장을 시켰죠. 그리고 거기 안에서 관련된 노트들을 연결을 시켜 가지고 저의 아이디어나 저의 지식의</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-163">
+            <div class="slide-image">
+                <img src="images/frame_0163_30-36.jpg" alt="30:36" loading="lazy">
+                <span class="timestamp">30:36</span>
+            </div>
+            <div class="slide-text">
+                <p>재료들을 넣어 가지고 확장을 시켰어요. 이게 결국에는 우리 지식 관리에서는 Moc 맵업 컨텐츠라고 말을 합니다. 어, 내가 만들고 싶은 지식에 대한 내 머릿속에 지도를 펼쳐낸 거예요. 네. 그래서 이거를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-164">
+            <div class="slide-image">
+                <img src="images/frame_0164_30-49.jpg" alt="30:49" loading="lazy">
+                <span class="timestamp">30:49</span>
+            </div>
+            <div class="slide-text">
+                <p>MC라고 할 수가 있고요. 우리가 결국에는 어떤 걸 할 수 있냐면이 MOC 자체를 AI한테 넣어서 써 달라라고 하면 여기 안에 AI가 이제 뭐 어떤 내용을 작성하기에 모든</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-165">
+            <div class="slide-image">
+                <img src="images/frame_0165_30-59.jpg" alt="30:59" loading="lazy">
+                <span class="timestamp">30:59</span>
+            </div>
+            <div class="slide-text">
+                <p>재료들이 다 들어 있습니다. 나의 목표 기회 그리고 나의 어떤 논리적인 구성이라든지 재료들이 다 들어었기 때문에 얘를 넣으면 내가 어떤 형태이든지간에 텍스트로 구조화할해된</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-166">
+            <div class="slide-image">
+                <img src="images/frame_0166_31-11.jpg" alt="31:11" loading="lazy">
+                <span class="timestamp">31:11</span>
+            </div>
+            <div class="slide-text">
+                <p>아랜을 제공을 해 주죠. 근데 제일 중요한 것은 이런 텍스트 구조된 것이 있어야 우리가 어떤 형태로도 만들 수</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-167">
+            <div class="slide-image">
+                <img src="images/frame_0167_31-22.jpg" alt="31:22" loading="lazy">
+                <span class="timestamp">31:22</span>
+            </div>
+            <div class="slide-text">
+                <p>있잖아요. 예를 들어서 그거를 텍스트 구조된 것을 바탕으로 보고서나 글도 작성을 할 수가 있고요. 그리고 그거를 토대로 우리가 프레젠테이션 만들어 달라 하면은 프레젠테이션도</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-168">
+            <div class="slide-image">
+                <img src="images/frame_0168_31-32.jpg" alt="31:32" loading="lazy">
+                <span class="timestamp">31:32</span>
+            </div>
+            <div class="slide-text">
+                <p>만들어 주겠죠. 네. 이거를 한번 제가 보여 드릴게요. 어, 예를 들어서 제가 재미나이를 또 열어서 어, 일단은 얘를 갖다 넣을게요.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-169">
+            <div class="slide-image">
+                <img src="images/frame_0169_31-42.jpg" alt="31:42" loading="lazy">
+                <span class="timestamp">31:42</span>
+            </div>
+            <div class="slide-text">
+                <p>음.이 이 아웃라인을 갖다 돌어서 다음과 같이 또 어 그 큰 맥락을 제시할 수가 있겠죠. 이것은 지금 노트테이킹 마스터라는 강의 일감과</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-170">
+            <div class="slide-image">
+                <img src="images/frame_0170_31-53.jpg" alt="31:53" loading="lazy">
+                <span class="timestamp">31:53</span>
+            </div>
+            <div class="slide-text">
+                <p>관련된 내용이냐 첨부된 PDF 파일을 어 바탕으로 내가 어떠한 목적에 강의를 만들려고 하는 건지 파악을 해서이 어 PDF 내용을 바탕으로 어</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-171">
+            <div class="slide-image">
+                <img src="images/frame_0171_32-05.jpg" alt="32:05" loading="lazy">
+                <span class="timestamp">32:05</span>
+            </div>
+            <div class="slide-text">
+                <p>15살 슬라이드짜리 프레젠테이션을 기획을 해 줄래? 네. 이렇게 제가 입력을 하였습니다. 그러면은이 PDF 안에 나의</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-172">
+            <div class="slide-image">
+                <img src="images/frame_0172_32-15.jpg" alt="32:15" loading="lazy">
+                <span class="timestamp">32:15</span>
+            </div>
+            <div class="slide-text">
+                <p>아웃라인과 나의 논리적 구조 이런 것들이 어 도와드릴 수 없습니다라고 되어 있는데요. 실제로 도와줄 수 있어요. 어 일단은 네가 슬라이드로 만드는게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-173">
+            <div class="slide-image">
+                <img src="images/frame_0173_32-27.jpg" alt="32:27" loading="lazy">
+                <span class="timestamp">32:27</span>
+            </div>
+            <div class="slide-text">
+                <p>아니고 어떤 텍스트 형태의 아웃라인으로 구조된 걸로 좀 더 발전을 시켜 줘라고 하면은 좀 더 잘 될 겁니다.음</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-174">
+            <div class="slide-image">
+                <img src="images/frame_0174_32-37.jpg" alt="32:37" loading="lazy">
+                <span class="timestamp">32:37</span>
+            </div>
+            <div class="slide-text">
+                <p>요즘 최근 들어서 얘가 PDF로 만들어 줘라고 하면은 얘가 PPT로 만들어 줘라고 하면은 잘 안 되더라고요. 네. 그래서 아웃라인 있는 상태에서 만들어 줘라고 하면은</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-175">
+            <div class="slide-image">
+                <img src="images/frame_0175_32-49.jpg" alt="32:49" loading="lazy">
+                <span class="timestamp">32:49</span>
+            </div>
+            <div class="slide-text">
+                <p>얘가 뭘 만들어지는 것을 보실 수가 있겠죠. 네. 음. 네. PDF 핵심 내용을 알려 달라라고 했는데 네. PDF 내용이 다시 올리고 해</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-176">
+            <div class="slide-image">
+                <img src="images/frame_0176_33-01.jpg" alt="33:01" loading="lazy">
+                <span class="timestamp">33:01</span>
+            </div>
+            <div class="slide-text">
+                <p>보겠습니다.이 내용을 바탕으로 해줘. 원래 잘하는데 오늘따라 촬영하는이 시점에 따라서 뭔가 재미나애가 잘 어 맥락을 이해를 못 하는 거 같아요.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-177">
+            <div class="slide-image">
+                <img src="images/frame_0177_33-11.jpg" alt="33:11" loading="lazy">
+                <span class="timestamp">33:11</span>
+            </div>
+            <div class="slide-text">
+                <p>어떤 일인지 모르겠습니다. 네. 일단이 PDF를 갖다 넣으면은 얘가 분석을 해 줄 거. 네. 일단은 프레젠테이션 구조를 만들고 그리고이 컨텐트를 바탕으로 구조를 더 짜고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-178">
+            <div class="slide-image">
+                <img src="images/frame_0178_33-23.jpg" alt="33:23" loading="lazy">
+                <span class="timestamp">33:23</span>
+            </div>
+            <div class="slide-text">
+                <p>프레젠테이션의 흐름을 보고 프레젠테이션을 만들고 마지막 아웃라인을 만들고 있다. 예. 이렇게 해 볼게요. 원래 한 번에 잘 나오는데 오늘따라 재미난 아이가 잘 안 되는 거 같아.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-179">
+            <div class="slide-image">
+                <img src="images/frame_0179_33-34.jpg" alt="33:34" loading="lazy">
+                <span class="timestamp">33:34</span>
+            </div>
+            <div class="slide-text">
+                <p>그래서 PDF를 바탕으로 파악한 1강의 핵심 내용은 단가 같습니다. 관점에 천양 외 정립 예 좋은 기록의 재정이 이러면서 제가 준 내용들과 노트들을 바탕으로 얘가 그 내용들을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-180">
+            <div class="slide-image">
+                <img src="images/frame_0180_33-46.jpg" alt="33:46" loading="lazy">
+                <span class="timestamp">33:46</span>
+            </div>
+            <div class="slide-text">
+                <p>활용을 해서 이렇게 슬라이드를 만들 거예요. 예. 이거를 보면은 되게 어 내가 생각을 했던 아이디어나 흐름이 포함되어 있다라는 것을 느끼면서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-181">
+            <div class="slide-image">
+                <img src="images/frame_0181_33-58.jpg" alt="33:58" loading="lazy">
+                <span class="timestamp">33:58</span>
+            </div>
+            <div class="slide-text">
+                <p>여러분들이 엄청나게 예, 재미를 어, 엄청나게 어, 감탄을 하실 수가 있을 겁니다. 일단 하고 싶은게이 내용을 내가 어, 인포 그래픽을 만들고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-182">
+            <div class="slide-image">
+                <img src="images/frame_0182_34-10.jpg" alt="34:10" loading="lazy">
+                <span class="timestamp">34:10</span>
+            </div>
+            <div class="slide-text">
+                <p>싶어. 어, HTML로 만들어 줄래? 예. 또 안 된다라고 설마 어, 제공을 할 수도 있을 것 같습니다. 네. 아니네요. 잘인지를 하네요.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-183">
+            <div class="slide-image">
+                <img src="images/frame_0183_34-21.jpg" alt="34:21" loading="lazy">
+                <span class="timestamp">34:21</span>
+            </div>
+            <div class="slide-text">
+                <p>네. 저희가 어 이제 캔버스라는 기능을 이용해서 아마도 인포그래픽의 형식으로 만들어 줄 것 같습니다. 네. 이렇게 어 텍스트 슬라이드가 있는데 얘를 바탕으로 저는 HTML과</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-184">
+            <div class="slide-image">
+                <img src="images/frame_0184_34-33.jpg" alt="34:33" loading="lazy">
+                <span class="timestamp">34:33</span>
+            </div>
+            <div class="slide-text">
+                <p>인포그래퍼로 만들어 달라라고 요청을 하면은 또 다른 인포그래퍼 형태로 만들 수가 있는 거고요. 아니면 이걸 바탕으로 내가 보고서를 써 줘. 이러면은 보고서도 만들어 주겠죠. 네. 네. 결국에는 얘를 복사 붙여</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-185">
+            <div class="slide-image">
+                <img src="images/frame_0185_34-44.jpg" alt="34:44" loading="lazy">
+                <span class="timestamp">34:44</span>
+            </div>
+            <div class="slide-text">
+                <p>넣기를 해서 열어 달라라고 했는데 제가 이거를 캔버스로 만들어 달라고 한번 해 볼게요. 그러면은 바로 웹에서 이것을 이제 실행할 수가 있기</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-186">
+            <div class="slide-image">
+                <img src="images/frame_0186_34-56.jpg" alt="34:56" loading="lazy">
+                <span class="timestamp">34:56</span>
+            </div>
+            <div class="slide-text">
+                <p>때문이죠. 아니 캔버스로 작성해 줘.음 그러면은 얘가네 원래 잘할 수 있습니다. 네. 그러면은 이거를 이제 하나의 HTML</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-187">
+            <div class="slide-image">
+                <img src="images/frame_0187_35-08.jpg" alt="35:08" loading="lazy">
+                <span class="timestamp">35:08</span>
+            </div>
+            <div class="slide-text">
+                <p>파일로 저장을 하다 보면은 얘가 그 실제로 어떤 어 파워포인트 같은 16대9 프레젠테이션 형태로 만들어 줘야 합니다. 네. 근데 제가 일단</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-188">
+            <div class="slide-image">
+                <img src="images/frame_0188_35-18.jpg" alt="35:18" loading="lazy">
+                <span class="timestamp">35:18</span>
+            </div>
+            <div class="slide-text">
+                <p>보여 드리고 싶었던 거는 뭐냐면요. 우리가 기존에 어떤 지식이 있으면은 제가 이렇게 목표를 강의 요지 및 종합 정리 어 이런 강의를 만드는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-189">
+            <div class="slide-image">
+                <img src="images/frame_0189_35-30.jpg" alt="35:30" loading="lazy">
+                <span class="timestamp">35:30</span>
+            </div>
+            <div class="slide-text">
+                <p>목표를 정해서 대학의 요구상을 제가 정리를 했고요. 거기다가 제가 이제 텍스트로 입력한 내용 자체를 이렇게 알 아 아 아웃라인화시켜 주기도</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-190">
+            <div class="slide-image">
+                <img src="images/frame_0190_35-40.jpg" alt="35:40" loading="lazy">
+                <span class="timestamp">35:40</span>
+            </div>
+            <div class="slide-text">
+                <p>합니다. 그리고이 내용을 토대로 아웃라인도 써 주고요. 와 관련된 노트들을 연결시키면은 이것들을 잘 가지고 와서이 내용들을 반영한 그 파워포인트를 훨씬 더 빠르게 만들</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-191">
+            <div class="slide-image">
+                <img src="images/frame_0191_35-51.jpg" alt="35:51" loading="lazy">
+                <span class="timestamp">35:51</span>
+            </div>
+            <div class="slide-text">
+                <p>수가 있습니다. 제가 지금까지 보여 드렸던 것이 결국에는 입력 방식으로 우리의 생각을 끄집어 내서 이것들을 텍스트로 구조화된 것을 만들었어요.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-192">
+            <div class="slide-image">
+                <img src="images/frame_0192_36-01.jpg" alt="36:01" loading="lazy">
+                <span class="timestamp">36:01</span>
+            </div>
+            <div class="slide-text">
+                <p>텍스트로 구조한 것을 만들었으면은 우리가 이것을 어 재미나예 제가 이제 예시해서는 잘 안 됐지만 실제로는 15 슬라이드 내용을 좌탕으로 제가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-193">
+            <div class="slide-image">
+                <img src="images/frame_0193_36-13.jpg" alt="36:13" loading="lazy">
+                <span class="timestamp">36:13</span>
+            </div>
+            <div class="slide-text">
+                <p>뭐 클로드한테 넣어 가지고 HTML 발표 내용을 만들어 달라라고도 할 수도 있는 거고요. 아니면은 이거를 바탕으로 제가 동영상을 만들어 달라고 할 수도 있는 거고 감마 같은 곳에</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-194">
+            <div class="slide-image">
+                <img src="images/frame_0194_36-23.jpg" alt="36:23" loading="lazy">
+                <span class="timestamp">36:23</span>
+            </div>
+            <div class="slide-text">
+                <p>넣으면은 이제 파워포인트로도 실제로 만들어지게 다른 AI를 틀어 볼게요. 클로드를 열어서 어이 내용을 토대로 인포그래픽 HTML로 만들어 줘.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-195">
+            <div class="slide-image">
+                <img src="images/frame_0195_36-34.jpg" alt="36:34" loading="lazy">
+                <span class="timestamp">36:34</span>
+            </div>
+            <div class="slide-text">
+                <p>16대가 슬라이드로 이렇게 하고이 내용을 한번 넣어 볼게요. 제 예면은 조금 더 잘 만들어질 것 같은데 결국에는이 텍스트 내용을 토대로 뭔가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-196">
+            <div class="slide-image">
+                <img src="images/frame_0196_36-45.jpg" alt="36:45" loading="lazy">
+                <span class="timestamp">36:45</span>
+            </div>
+            <div class="slide-text">
+                <p>만들어 줄 겁니다. 한번 살펴보겠습니다. 이따가 그 전에 좀 말씀을 드리면은 하여튼 우리가 이런 그 텍스트 형태의 MC 아웃라인을 만들면은 이거를 토대로 우리가 어떤</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-197">
+            <div class="slide-image">
+                <img src="images/frame_0197_36-57.jpg" alt="36:57" loading="lazy">
+                <span class="timestamp">36:57</span>
+            </div>
+            <div class="slide-text">
+                <p>형태로도 변형을 할 수 있다라는 장점이 있어요. 그래서 앞으로 여러분들이 하셔야 되는 것은 내가 기획 및 편집음 내가 어떤 부분을 이제 확정을 시켜 나갈 건지 어떤</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-198">
+            <div class="slide-image">
+                <img src="images/frame_0198_37-07.jpg" alt="37:07" loading="lazy">
+                <span class="timestamp">37:07</span>
+            </div>
+            <div class="slide-text">
+                <p>재료를 넣을 건지 기획법의 편집이 있으면은 이게 결국엔 나의 생각의 집합제이거든요. 얘를 AI한테 넣어야 합니다. 이거를 조금 더 풀어내면은이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-199">
+            <div class="slide-image">
+                <img src="images/frame_0199_37-17.jpg" alt="37:17" loading="lazy">
+                <span class="timestamp">37:17</span>
+            </div>
+            <div class="slide-text">
+                <p>휴먼킹이라는 것이 결국에는 내가 외부에서 어 어떤 노이즈에서 시그널을 분리를 해 가지고 이것을 경험을 하으면은 얘를 기억을 갖고 있으면은 얘를</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-200">
+            <div class="slide-image">
+                <img src="images/frame_0200_37-29.jpg" alt="37:29" loading="lazy">
+                <span class="timestamp">37:29</span>
+            </div>
+            <div class="slide-text">
+                <p>다양한 채 가지 sttt 그리고 dtt 방식으로 담아내서 노트 해 가지고 이것을 잘게 쪼개서 MOC로 만들어 가지고이 MC 아웃라인을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-201">
+            <div class="slide-image">
+                <img src="images/frame_0201_37-40.jpg" alt="37:40" loading="lazy">
+                <span class="timestamp">37:40</span>
+            </div>
+            <div class="slide-text">
+                <p>A한테 넣어야 한다라는 것을 저는 말씀을 드리고 싶어요. 이렇게함으로써 우리가 그 인간이 사고를 해서 확장도 하고요. 그리고 우리가 어 AI의 생각과 인간의 생각을 같이 협업을 할</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-202">
+            <div class="slide-image">
+                <img src="images/frame_0202_37-53.jpg" alt="37:53" loading="lazy">
+                <span class="timestamp">37:53</span>
+            </div>
+            <div class="slide-text">
+                <p>수 있는 방향으로 활용할 수가 있겠죠. 한번 볼게요. 네. 얘가 일단 16대 9의 비율로 뭔가 만들어지고 있다. 만들어 주면은이 내용을 한번 우리가 실행을 시켜서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-203">
+            <div class="slide-image">
+                <img src="images/frame_0203_38-04.jpg" alt="38:04" loading="lazy">
+                <span class="timestamp">38:04</span>
+            </div>
+            <div class="slide-text">
+                <p>보도록 하겠습니다. 네. 이제 거의 마지막입니다. 네. 어, 제가 이번 시간에 보여 드리려고 했던 것은 이제 완벽하게 보여 드리려면은이 HTML이</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-204">
+            <div class="slide-image">
+                <img src="images/frame_0204_38-15.jpg" alt="38:15" loading="lazy">
+                <span class="timestamp">38:15</span>
+            </div>
+            <div class="slide-text">
+                <p>잘 이제 생성이 되고 이제 잘 만들어져야 하는데이 15 슬라이드 중에서 13 슬라이드가 만들어졌어요. 다 만들어지면은 어떻게 생겼는지 한번 보겠습니다. 제가 말씀드리고 싶었던</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-205">
+            <div class="slide-image">
+                <img src="images/frame_0205_38-26.jpg" alt="38:26" loading="lazy">
+                <span class="timestamp">38:26</span>
+            </div>
+            <div class="slide-text">
+                <p>것은 우리가 이제 AI 시대에 어떻게 입력이 되는지에 따라서 그 아웃풋도 달라진다라는 이제 기본적인 과정에 우리가 애초에 입력하는 것이 금덩이고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-206">
+            <div class="slide-image">
+                <img src="images/frame_0206_38-37.jpg" alt="38:37" loading="lazy">
+                <span class="timestamp">38:37</span>
+            </div>
+            <div class="slide-text">
+                <p>우리의 생각을 뽑아내게 되면은 훨씬 더 좋은 아웃풋을 이제 뽑아낼 수 있다라는 것을 말씀을 드리고 싶었습니다. 네. 이게 AI 시대에</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-207">
+            <div class="slide-image">
+                <img src="images/frame_0207_38-48.jpg" alt="38:48" loading="lazy">
+                <span class="timestamp">38:48</span>
+            </div>
+            <div class="slide-text">
+                <p>훨씬 더 중요한 것은 우리가 프롬트가 들어가는게 중요하다는 것을 이미 다 알고 있는데 이제 think킹 모델이랑 리즈닝 모델이 나오면서 우리가 그냥 뭐뭐를 해 줘 이렇게</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-208">
+            <div class="slide-image">
+                <img src="images/frame_0208_38-58.jpg" alt="38:58" loading="lazy">
+                <span class="timestamp">38:58</span>
+            </div>
+            <div class="slide-text">
+                <p>하는 것보다 우리가 실제로 어떤 생각을 해서 갖다 놓고 어떠한 식으로 하느냐에 따라서 내가 더욱더 단 시간 이내 우리가 원하는 어떤 생산적인</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-209">
+            <div class="slide-image">
+                <img src="images/frame_0209_39-09.jpg" alt="39:09" loading="lazy">
+                <span class="timestamp">39:09</span>
+            </div>
+            <div class="slide-text">
+                <p>결과을 얻어냈는데 그 생산성하고 직결된다라는 것을 말씀을 드리고 싶어요. 네. 그래서 결국에는 우리가 어 지식을 잘 뽑아내 가지고 저장해 두는게 중요하다라는 것을 여러분</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-210">
+            <div class="slide-image">
+                <img src="images/frame_0210_39-20.jpg" alt="39:20" loading="lazy">
+                <span class="timestamp">39:20</span>
+            </div>
+            <div class="slide-text">
+                <p>말씀을 드렸죠. 예. 그럼 한번 보겠습니다. [웃음] 네. 제가 텍스트를 넣어 가지고 노트테이킹 마스터 1강 하면은 혹시 저장 강박이 있나요? 어 우리들은 기록을 오해하고</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-211">
+            <div class="slide-image">
+                <img src="images/frame_0211_39-32.jpg" alt="39:32" loading="lazy">
+                <span class="timestamp">39:32</span>
+            </div>
+            <div class="slide-text">
+                <p>있습니다. 그렇다면 AI 시대는 우리 인간은 왜 그리고 무엇을 기록해야 할까요? 네. 지금 좀 잘랐네요. GI 해야 됩니다. 나쁜 예는 이거고 좋은 예는 어 구체적으로 해야</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-212">
+            <div class="slide-image">
+                <img src="images/frame_0212_39-43.jpg" alt="39:43" loading="lazy">
+                <span class="timestamp">39:43</span>
+            </div>
+            <div class="slide-text">
+                <p>됩니다. 컨텍스트 엔지니어링도 매우 중요합니다. 어 여기서는 나의 경험과 생각이 발견한 문제 이런 것들을 입력을 해야 되고요. 현재는 나의 컨텍스트를 만들기 위해 생각하면</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-213">
+            <div class="slide-image">
+                <img src="images/frame_0213_39-53.jpg" alt="39:53" loading="lazy">
+                <span class="timestamp">39:53</span>
+            </div>
+            <div class="slide-text">
+                <p>기록을 해야 됩니다.네 하여튼 나의 그 기억 자체와 팩터 감정도 같이 기록을 해 주세요. 지금 좀 잘리긴 했지만 그 제가 이렇게 입력한 것을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-214">
+            <div class="slide-image">
+                <img src="images/frame_0214_40-04.jpg" alt="40:04" loading="lazy">
+                <span class="timestamp">40:04</span>
+            </div>
+            <div class="slide-text">
+                <p>가지고 어떤 노트들을 이용해야 되는지 이렇게 해 줬기 때문에 어 단번에 이런 어 내용이 나왔습니다. 물론 지금은 조금 AI 오류가 있어 가지고 슬라이드가 잘리긴 했어요. 네.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-215">
+            <div class="slide-image">
+                <img src="images/frame_0215_40-16.jpg" alt="40:16" loading="lazy">
+                <span class="timestamp">40:16</span>
+            </div>
+            <div class="slide-text">
+                <p>그거는 여러 번 시도를 통해서 제가 애초에 그렇게 잘리지 말라라고 이렇게 입력을 했했었어야 됐는데 이게 잘 안 됐죠. 네. 그래도 여러분들께서 지금까지 경험을 하신 걸 보면은 내가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-216">
+            <div class="slide-image">
+                <img src="images/frame_0216_40-27.jpg" alt="40:27" loading="lazy">
+                <span class="timestamp">40:27</span>
+            </div>
+            <div class="slide-text">
+                <p>어떤 목표를 정했을 때 이렇게 나의 STT 같은 이런 소프트웨어나 기술을 통해서 그 액키스를 뽑아낼 수가 있고요. 그리고 그것을 활용을 해서 이렇게 빠르게 초원을 만들어 낼 수</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-217">
+            <div class="slide-image">
+                <img src="images/frame_0217_40-38.jpg" alt="40:38" loading="lazy">
+                <span class="timestamp">40:38</span>
+            </div>
+            <div class="slide-text">
+                <p>있다는 것도 보여 드렸습니다. 네. 제가 이번 세강 동안에 여러분들께 전달드리고 싶었던 목표가 세 가지가 있었는데요. 꺼진 기록도 다시 보자라는 의미로이 기록 자체가 단순히</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-218">
+            <div class="slide-image">
+                <img src="images/frame_0218_40-51.jpg" alt="40:51" loading="lazy">
+                <span class="timestamp">40:51</span>
+            </div>
+            <div class="slide-text">
+                <p>저장해 놓는게 아니라 우리 인생에서도 기록의 진정한 의미와 가치가 있고 AI 시대에서도 훨씬 더 잘 활용하면 좋다라는 것을 전달을 드리고 싶었는데 전달이 되었으면 좋겠습니다.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-219">
+            <div class="slide-image">
+                <img src="images/frame_0219_41-02.jpg" alt="41:02" loading="lazy">
+                <span class="timestamp">41:02</span>
+            </div>
+            <div class="slide-text">
+                <p>여러분들은 이제 잠재적인 가치를 기록을 잘 활용을함으로써 나를 위해서 생성할 수 있는 그런 경험을 하셨으면 좋겠고 이번 시리즈를 통해서 배워</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-220">
+            <div class="slide-image">
+                <img src="images/frame_0220_41-12.jpg" alt="41:12" loading="lazy">
+                <span class="timestamp">41:12</span>
+            </div>
+            <div class="slide-text">
+                <p>가셨으면 좋겠습니다. 첫 번째로는 생성입니다. 나의 지식을 활용하여 갇치는 결과물을 생성하는 경험을 하셨으면 좋겠습니다. 저희가 방금 보여 드렸죠. 내가 노트킹 마스터라는</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-221">
+            <div class="slide-image">
+                <img src="images/frame_0221_41-23.jpg" alt="41:23" loading="lazy">
+                <span class="timestamp">41:23</span>
+            </div>
+            <div class="slide-text">
+                <p>강의를 만들기 위해서 이런 식으로 노트를 입력을 하였는데 이런 초안이 나왔다라고 하는 새로운 콘텐츠를 생성을 하였습니다. 두 번째로는 생상성을 제가 말씀을 드렸는데요.</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-222">
+            <div class="slide-image">
+                <img src="images/frame_0222_41-35.jpg" alt="41:35" loading="lazy">
+                <span class="timestamp">41:35</span>
+            </div>
+            <div class="slide-text">
+                <p>방금 보여 드린 것처럼 나의 기록을 직접 이용을 하고 그리고 내가 그동안에 모아놓던 기록을 갖다 붙임으로써 실제로이 정도 퀄리티의</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-223">
+            <div class="slide-image">
+                <img src="images/frame_0223_41-46.jpg" alt="41:46" loading="lazy">
+                <span class="timestamp">41:46</span>
+            </div>
+            <div class="slide-text">
+                <p>내용을 크게 입력을 안 하고 뭔가 초환을 만들어 냈어요. 네. 그래서 나의 이런 생각을 갖다 넣는 것 자체가 일의 엄, 일의 질과 효율성을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-224">
+            <div class="slide-image">
+                <img src="images/frame_0224_41-57.jpg" alt="41:57" loading="lazy">
+                <span class="timestamp">41:57</span>
+            </div>
+            <div class="slide-text">
+                <p>높여 주기 바라입니다. 그리고 마지막으로 어 이러한 방식으로 나의 생각을 기록을함으로써 결국에는 나의 성작을 위한 재료로도 쓸 수 있다라는 것을 저는 보여 드리고 싶어요. 내가</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-225">
+            <div class="slide-image">
+                <img src="images/frame_0225_42-09.jpg" alt="42:09" loading="lazy">
+                <span class="timestamp">42:09</span>
+            </div>
+            <div class="slide-text">
+                <p>그 가치 있는 것을 기록을 해 둬 가지고 나의 다른 가치를 가져다 주기 위해서 쓰기도 했지만 그 기록을 하고 다시 활용을 해서 내가 그 기록들과</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-226">
+            <div class="slide-image">
+                <img src="images/frame_0226_42-19.jpg" alt="42:19" loading="lazy">
+                <span class="timestamp">42:19</span>
+            </div>
+            <div class="slide-text">
+                <p>대화함으로써 내가 더 성장할 수 있는 그런 재료로 활용할 수 있는 그 가능성을 보셨으면 좋겠습니다. 여러분이 세 개의 강의 동안에 제가 많은 내용을 다뤘긴 했지만</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-227">
+            <div class="slide-image">
+                <img src="images/frame_0227_42-31.jpg" alt="42:31" loading="lazy">
+                <span class="timestamp">42:31</span>
+            </div>
+            <div class="slide-text">
+                <p>여러분들께서이 노트라는 것, 기록이라는 거 자체를 다시 한번 생각을 하고 평생 기록을 같이 있게 활용할 수 있는 방식으로 마인드셋을 바꾸고 기록도 많이 해서 여러분들께서</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-228">
+            <div class="slide-image">
+                <img src="images/frame_0228_42-42.jpg" alt="42:42" loading="lazy">
+                <span class="timestamp">42:42</span>
+            </div>
+            <div class="slide-text">
+                <p>AI 시대 대체대 대체 불가능한 인력으로 어떻게 보면은 좀 거듭나셨으면 좋겠습니다. AI 시대에 기록을 활용을 해서 나다음을 표현을 하고 인간만이 할 수 있는 생각을</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-229">
+            <div class="slide-image">
+                <img src="images/frame_0229_42-53.jpg" alt="42:53" loading="lazy">
+                <span class="timestamp">42:53</span>
+            </div>
+            <div class="slide-text">
+                <p>끄집어내서 AI랑 함께 협업을 해서 꼭 같이 있고 세상에 새로운 영역을 가져다 주는 지식을 새로 많이 만들어 내셨으면 좋겠습니다. 이번 강의는 여기서 마치도록 하겠습니다. 여러분</p>
+            </div>
+        </div>
+        <div class="slide" id="slide-230">
+            <div class="slide-image">
+                <img src="images/frame_0230_43-04.jpg" alt="43:04" loading="lazy">
+                <span class="timestamp">43:04</span>
+            </div>
+            <div class="slide-text">
+                <p>세시간 동안에 수고하였습니다. 감사합니다.</p>
+            </div>
+        </div>
+    </div>
+    <div class="stats">231개 슬라이드 | Generated by youtube-slides</div>
+</body>
+</html>

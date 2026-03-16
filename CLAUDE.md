@@ -15,8 +15,10 @@ AI 관련 실험을 위한 작업 공간. 유저 환경에 적용하기 전에 �
 - `requirements/` — 요구사항 문서 (`YYYY-MM-DD-주제.md`)
 - `research/` — 리서치 자료
   - `readings/youtube/` — 유튜브 강의 자료 정리
+  - `youtube-slides/` — 유튜브 영상 프레임 추출 (`{VIDEO_ID}/slides.html`, `slides.md`, `images/`)
   - `domain-model/` — 도메인 모델 문서 (원본 + readable 버전)
   - `til/` — Today I Learned 기록 (`YYYY-MM-DD-주제.md`)
+- `sync/` — 팀 채널 위클리 요약 등 외부 정보 싱크
 
 ## Presentation 제작
 - 템플릿: `templates/slide-deck.html` 기반

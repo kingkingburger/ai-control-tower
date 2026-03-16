@@ -1,0 +1,687 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>만든 건 초안이다: Compound Engineering</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600&display=swap');
+
+  :root {
+    --bg-dark: #0a0a0f;
+    --bg-card: #14141f;
+    --bg-surface: #1c1c2e;
+    --accent-blue: #4f8cff;
+    --accent-purple: #a855f7;
+    --accent-cyan: #22d3ee;
+    --accent-green: #34d399;
+    --accent-orange: #fb923c;
+    --accent-pink: #f472b6;
+    --accent-red: #f87171;
+    --accent-yellow: #fbbf24;
+    --text-primary: #f0f0f5;
+    --text-secondary: #9ca3af;
+    --text-muted: #6b7280;
+    --day1-color: #4f8cff;
+    --day2-color: #a855f7;
+    --day3-color: #22d3ee;
+    --day4-color: #fb923c;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Noto Sans KR', sans-serif;
+    background: var(--bg-dark);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+    width: 100vw;
+  }
+
+  .slides-container { width: 100vw; height: 100vh; position: relative; }
+
+  .slide {
+    position: absolute; top: 0; left: 0;
+    width: 100%; height: 100%;
+    display: flex; flex-direction: column;
+    justify-content: center; align-items: center;
+    padding: 60px 80px;
+    opacity: 0; transform: translateX(60px);
+    transition: opacity 0.5s ease, transform 0.5s ease;
+    pointer-events: none; overflow-y: auto;
+  }
+  .slide.active { opacity: 1; transform: translateX(0); pointer-events: all; }
+  .slide.prev { opacity: 0; transform: translateX(-60px); }
+
+  /* TITLE */
+  .slide-title {
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 30%, rgba(251,146,60,0.12) 0%, transparent 60%),
+                radial-gradient(ellipse at 80% 70%, rgba(168,85,247,0.08) 0%, transparent 50%),
+                var(--bg-dark);
+  }
+  .slide-title .camp-badge {
+    display: inline-block; padding: 10px 28px;
+    border: 1px solid rgba(251,146,60,0.4); border-radius: 100px;
+    font-size: 18px; color: var(--accent-orange);
+    letter-spacing: 2px; text-transform: uppercase; margin-bottom: 32px;
+  }
+  .slide-title h1 {
+    font-size: 72px; font-weight: 900; line-height: 1.2; margin-bottom: 20px;
+    background: linear-gradient(135deg, #fff 30%, var(--accent-orange) 100%);
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .slide-title .subtitle { font-size: 28px; color: var(--text-secondary); font-weight: 300; margin-bottom: 48px; }
+  .slide-title .meta { display: flex; gap: 40px; color: var(--text-muted); font-size: 18px; }
+  .slide-title .meta span { display: flex; align-items: center; gap: 8px; }
+
+  /* DAY HEADER */
+  .day-header { text-align: center; }
+  .day-header .day-number {
+    font-size: 200px; font-weight: 900; opacity: 0.06;
+    position: absolute; top: 50%; left: 50%;
+    transform: translate(-50%, -60%); letter-spacing: -8px;
+  }
+  .day-header .day-label { font-size: 22px; letter-spacing: 4px; text-transform: uppercase; margin-bottom: 16px; opacity: 0.7; }
+  .day-header h2 { font-size: 56px; font-weight: 700; line-height: 1.3; max-width: 900px; margin-bottom: 24px; }
+  .day-header .day-meta { font-size: 20px; color: var(--text-muted); }
+
+  /* CONTENT SLIDE */
+  .content-slide { align-items: flex-start; justify-content: flex-start; padding: 50px 80px 80px; }
+  .content-slide .slide-header { display: flex; align-items: center; gap: 16px; margin-bottom: 32px; width: 100%; flex-shrink: 0; }
+  .content-slide .slide-header .day-tag {
+    padding: 6px 16px; border-radius: 6px; font-size: 16px;
+    font-weight: 600; letter-spacing: 1px; text-transform: uppercase; flex-shrink: 0;
+  }
+  .content-slide .slide-header h3 { font-size: 40px; font-weight: 700; }
+
+  .card-grid { display: grid; gap: 20px; width: 100%; flex: 1; }
+  .card-grid.cols-2 { grid-template-columns: 1fr 1fr; }
+  .card-grid.cols-3 { grid-template-columns: 1fr 1fr 1fr; }
+  .card-grid.cols-4 { grid-template-columns: 1fr 1fr 1fr 1fr; }
+
+  .card {
+    background: var(--bg-card); border: 1px solid rgba(255,255,255,0.06);
+    border-radius: 16px; padding: 28px; position: relative;
+    overflow: hidden; transition: border-color 0.3s;
+  }
+  .card:hover { border-color: rgba(255,255,255,0.15); }
+  .card .card-icon { font-size: 32px; margin-bottom: 12px; display: block; }
+  .card h4 { font-size: 22px; font-weight: 600; margin-bottom: 10px; line-height: 1.3; }
+  .card p, .card li { font-size: 18px; color: var(--text-secondary); line-height: 1.7; }
+  .card ul { padding-left: 20px; }
+  .card ul li { margin-bottom: 6px; }
+  .card .card-accent { position: absolute; top: 0; left: 0; right: 0; height: 3px; }
+
+  /* QUOTE */
+  .quote-card {
+    background: var(--bg-surface); border-left: 3px solid var(--accent-orange);
+    padding: 24px 28px; border-radius: 0 12px 12px 0;
+    margin-bottom: 20px; width: 100%;
+  }
+  .quote-card p { font-size: 22px; font-style: italic; color: var(--text-primary); line-height: 1.6; }
+  .quote-card .quote-author { font-size: 16px; color: var(--text-muted); font-style: normal; margin-top: 8px; }
+
+  /* FLOW DIAGRAM */
+  .flow-diagram { display: flex; align-items: center; gap: 0; justify-content: center; width: 100%; margin: 24px 0; flex-wrap: wrap; }
+  .flow-step {
+    background: var(--bg-surface); border: 1px solid rgba(255,255,255,0.08);
+    border-radius: 12px; padding: 18px 24px; text-align: center; min-width: 120px;
+  }
+  .flow-step .step-icon { font-size: 28px; margin-bottom: 6px; }
+  .flow-step .step-label { font-size: 17px; font-weight: 500; }
+  .flow-step .step-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+  .flow-arrow { font-size: 24px; color: var(--text-muted); padding: 0 6px; }
+
+  /* KEY INSIGHT */
+  .key-insight {
+    background: linear-gradient(135deg, rgba(251,146,60,0.08), rgba(168,85,247,0.08));
+    border: 1px solid rgba(251,146,60,0.15); border-radius: 16px;
+    padding: 32px; width: 100%; text-align: center; margin-top: 20px;
+  }
+  .key-insight .insight-label { font-size: 15px; letter-spacing: 3px; text-transform: uppercase; color: var(--accent-orange); margin-bottom: 12px; }
+  .key-insight p { font-size: 24px; font-weight: 500; line-height: 1.5; }
+
+  /* TABLE */
+  .styled-table { width: 100%; border-collapse: separate; border-spacing: 0; font-size: 18px; }
+  .styled-table thead th {
+    background: var(--bg-surface); padding: 16px 20px; text-align: left;
+    font-weight: 600; font-size: 16px; letter-spacing: 0.5px;
+    color: var(--text-secondary); border-bottom: 1px solid rgba(255,255,255,0.08);
+  }
+  .styled-table thead th:first-child { border-radius: 10px 0 0 0; }
+  .styled-table thead th:last-child { border-radius: 0 10px 0 0; }
+  .styled-table tbody td { padding: 16px 20px; border-bottom: 1px solid rgba(255,255,255,0.04); color: var(--text-secondary); line-height: 1.5; }
+  .styled-table tbody tr:last-child td { border-bottom: none; }
+  .styled-table tbody tr:hover td { background: rgba(255,255,255,0.02); }
+  .styled-table .tool-name { color: var(--text-primary); font-weight: 500; }
+
+  /* FINAL */
+  .slide-final {
+    text-align: center;
+    background: radial-gradient(ellipse at 50% 50%, rgba(251,146,60,0.08) 0%, transparent 60%), var(--bg-dark);
+  }
+  .slide-final h2 {
+    font-size: 60px; font-weight: 900; margin-bottom: 32px;
+    background: linear-gradient(135deg, var(--accent-orange), var(--accent-purple));
+    -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  }
+  .slide-final .takeaway-list { list-style: none; text-align: left; max-width: 850px; margin: 0 auto; }
+  .slide-final .takeaway-list li {
+    font-size: 22px; color: var(--text-secondary); padding: 16px 0;
+    border-bottom: 1px solid rgba(255,255,255,0.05);
+    display: flex; align-items: flex-start; gap: 16px; line-height: 1.5;
+  }
+  .slide-final .takeaway-list li .tk-num {
+    color: var(--accent-orange); font-family: 'JetBrains Mono', monospace;
+    font-weight: 600; font-size: 18px; flex-shrink: 0; margin-top: 2px;
+  }
+
+  /* HIGHLIGHTS */
+  .hl-blue { color: var(--accent-blue); }
+  .hl-purple { color: var(--accent-purple); }
+  .hl-cyan { color: var(--accent-cyan); }
+  .hl-green { color: var(--accent-green); }
+  .hl-orange { color: var(--accent-orange); }
+  .hl-pink { color: var(--accent-pink); }
+  .hl-red { color: var(--accent-red); }
+  .hl-yellow { color: var(--accent-yellow); }
+
+  code { font-family: 'JetBrains Mono', monospace; background: rgba(255,255,255,0.06); padding: 2px 8px; border-radius: 4px; font-size: 16px; }
+  .big-number { font-family: 'JetBrains Mono', monospace; font-size: 64px; font-weight: 900; margin-bottom: 8px; line-height: 1; }
+
+  /* CYCLE DIAGRAM */
+  .cycle-container { display: flex; justify-content: center; align-items: center; width: 100%; margin: 20px 0; }
+  .cycle-ring {
+    display: flex; flex-wrap: wrap; justify-content: center; align-items: center;
+    gap: 8px; max-width: 800px;
+  }
+  .cycle-step {
+    background: var(--bg-surface); border: 1px solid rgba(255,255,255,0.1);
+    border-radius: 14px; padding: 20px 24px; text-align: center;
+    min-width: 140px; transition: border-color 0.3s, transform 0.3s;
+  }
+  .cycle-step:hover { border-color: var(--accent-orange); transform: translateY(-2px); }
+  .cycle-step .cs-icon { font-size: 30px; margin-bottom: 8px; }
+  .cycle-step .cs-label { font-size: 18px; font-weight: 600; color: var(--text-primary); }
+  .cycle-step .cs-sub { font-size: 14px; color: var(--text-muted); margin-top: 4px; }
+  .cycle-arrow { font-size: 22px; color: var(--accent-orange); padding: 0 4px; }
+
+  /* PROGRESS BAR */
+  .progress-bar {
+    position: fixed; top: 0; left: 0; height: 3px;
+    background: linear-gradient(90deg, var(--accent-orange), var(--accent-purple), var(--accent-cyan));
+    transition: width 0.4s ease; z-index: 100;
+  }
+
+  /* NAV */
+  .slide-nav {
+    position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+    display: flex; align-items: center; gap: 16px; z-index: 100;
+    background: rgba(20,20,31,0.85); backdrop-filter: blur(12px);
+    padding: 10px 24px; border-radius: 100px; border: 1px solid rgba(255,255,255,0.08);
+  }
+  .slide-nav .nav-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-primary); width: 36px; height: 36px; border-radius: 50%;
+    cursor: pointer; display: flex; align-items: center; justify-content: center;
+    font-size: 16px; transition: all 0.2s;
+  }
+  .slide-nav .nav-btn:hover { background: rgba(255,255,255,0.1); border-color: rgba(255,255,255,0.3); }
+  .slide-nav .slide-counter { font-size: 16px; color: var(--text-muted); min-width: 60px; text-align: center; font-family: 'JetBrains Mono', monospace; }
+  .slide-dots { display: flex; gap: 6px; }
+  .slide-dots .dot { width: 6px; height: 6px; border-radius: 50%; background: rgba(255,255,255,0.15); transition: all 0.3s; cursor: pointer; }
+  .slide-dots .dot.active { background: var(--accent-orange); width: 20px; border-radius: 3px; }
+  .slide-dots .dot.day1.active { background: var(--day1-color); }
+  .slide-dots .dot.day2.active { background: var(--day2-color); }
+  .slide-dots .dot.day3.active { background: var(--day3-color); }
+  .slide-dots .dot.day4.active { background: var(--day4-color); }
+
+  /* RESPONSIVE */
+  @media (max-width: 1024px) {
+    .slide { padding: 40px; }
+    .content-slide { padding: 40px 50px; }
+    .slide-title h1 { font-size: 42px; }
+    .day-header h2 { font-size: 32px; }
+    .card-grid.cols-3, .card-grid.cols-4 { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<div class="progress-bar" id="progressBar"></div>
+
+<div class="slides-container" id="slidesContainer">
+
+  <!-- SLIDE 1: TITLE -->
+  <div class="slide slide-title" data-group="intro">
+    <div class="camp-badge">AI Native Camp 2기 &middot; Day 4</div>
+    <h1>만든 건 초안이다.<br>Compound Engineering</h1>
+    <p class="subtitle">AI 시스템에 복리를 쌓는 법</p>
+    <div class="meta">
+      <span>장원준</span>
+      <span>2026.03.04</span>
+    </div>
+  </div>
+
+  <!-- SLIDE 2: 캠프 여정 리캡 -->
+  <div class="slide content-slide" data-group="day1">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(79,140,255,0.12); color:var(--day1-color)">RECAP</div>
+      <h3>Day 1 ~ 3: 여기까지 왔다</h3>
+    </div>
+    <div class="card-grid cols-4">
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <span class="card-icon">&#x1F3D7;</span>
+        <h4>Day 1</h4>
+        <p><span class="hl-blue">환경 세팅</span><br>Claude Code 설치<br>CLAUDE.md 작성</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-purple)"></div>
+        <span class="card-icon">&#x1F50C;</span>
+        <h4>Day 2</h4>
+        <p><span class="hl-purple">맥락 연결</span><br>MCP로 도구 연결<br>설계 철학 이해</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-cyan)"></div>
+        <span class="card-icon">&#x1F50D;</span>
+        <h4>Day 3</h4>
+        <p><span class="hl-cyan">맥락 구조화</span><br>Clarify 스킬<br>PRD 작성</p>
+      </div>
+      <div class="card" style="border-color: rgba(251,146,60,0.3);">
+        <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <span class="card-icon">&#x1F504;</span>
+        <h4>Day 4</h4>
+        <p><span class="hl-orange">복리 쌓기</span><br>Compound<br>Engineering</p>
+      </div>
+    </div>
+    <div class="key-insight">
+      <div class="insight-label">JOURNEY</div>
+      <p>Day 1~3은 <span class="hl-blue">Context Engineering</span>이었다.<br>Day 4는 그 환경을 <span class="hl-orange">지속적으로 유지보수하며 복리를 쌓는</span> 방법론이다.</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 3: 프롬프트 시대의 종말 -->
+  <div class="slide day-header" data-group="day2" style="background: radial-gradient(ellipse at 50% 40%, rgba(251,146,60,0.1) 0%, transparent 60%), var(--bg-dark)">
+    <div class="day-number" style="color:var(--day4-color)">01</div>
+    <div class="day-label" style="color:var(--day4-color)">PARADIGM SHIFT</div>
+    <h2>프롬프트 잘 치는<br>시대는 <span class="hl-orange">끝났다</span></h2>
+    <p class="day-meta">환경이 잘 세팅되면, 프롬프트 하나하나의 질보다 환경 품질이 AI 레버리지를 결정한다</p>
+  </div>
+
+  <!-- SLIDE 4: 프롬프트 vs 환경 -->
+  <div class="slide content-slide" data-group="day2">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(251,146,60,0.12); color:var(--day4-color)">SHIFT</div>
+      <h3>프롬프트 질 &lt; 환경 세팅</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-red)"></div>
+        <span class="card-icon">&#x1F4DD;</span>
+        <h4>예전: Prompt Engineering</h4>
+        <ul>
+          <li>프롬프트를 정말 잘 깎아서 넣어야 한다</li>
+          <li>한 번의 질문에 최적의 답을 뽑아내는 기술</li>
+          <li>"프롬프트 엔지니어"라는 직분도 존재</li>
+          <li>결과: <span class="hl-red">일회성 결과물</span></li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <span class="card-icon">&#x2699;</span>
+        <h4>지금: Environment Engineering</h4>
+        <ul>
+          <li>CLAUDE.md, MCP, 스킬이 잘 세팅된 환경</li>
+          <li>빠르게 요구사항을 쏟아내는 것이 더 중요</li>
+          <li>오타가 나도 괜찮다</li>
+          <li>결과: <span class="hl-orange">시스템이 복리로 성장</span></li>
+        </ul>
+      </div>
+    </div>
+    <div class="quote-card" style="border-color:var(--accent-orange); margin-top:16px;">
+      <p>"Claude Code 같은 툴이 나오면서, 환경이 잘 세팅되면 프롬프트 하나하나의 질보다는 어떤 환경을 세팅했냐에 따라서 AI를 레버리지할 수 있는 업사이드가 굉장히 달라지는 거 같아요."</p>
+      <div class="quote-author">— 장원준</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 5: Compound Engineering이란 -->
+  <div class="slide day-header" data-group="day3" style="background: radial-gradient(ellipse at 50% 40%, rgba(168,85,247,0.1) 0%, transparent 60%), var(--bg-dark)">
+    <div class="day-number" style="color:var(--day2-color)">02</div>
+    <div class="day-label" style="color:var(--day2-color)">COMPOUND ENGINEERING</div>
+    <h2>AI한테 일을 시킬 때마다<br><span class="hl-purple">조금씩만 똑똑해지면</span></h2>
+    <p class="day-meta">업무 효율을 굉장히 증가시킬 수 있다는 컨셉 — Every.to (Dan Shipper)</p>
+  </div>
+
+  <!-- SLIDE 6: 복리 사이클 -->
+  <div class="slide content-slide" data-group="day3">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(168,85,247,0.12); color:var(--day2-color)">CYCLE</div>
+      <h3>Compound Engineering 사이클</h3>
+    </div>
+    <div class="cycle-container">
+      <div class="cycle-ring">
+        <div class="cycle-step">
+          <div class="cs-icon">&#x1F528;</div>
+          <div class="cs-label">Build</div>
+          <div class="cs-sub">만들기</div>
+        </div>
+        <div class="cycle-arrow">&#10132;</div>
+        <div class="cycle-step">
+          <div class="cs-icon">&#x1F4BB;</div>
+          <div class="cs-label">Use</div>
+          <div class="cs-sub">사용하기</div>
+        </div>
+        <div class="cycle-arrow">&#10132;</div>
+        <div class="cycle-step">
+          <div class="cs-icon">&#x1F440;</div>
+          <div class="cs-label">Notice</div>
+          <div class="cs-sub">불편함 발견</div>
+        </div>
+        <div class="cycle-arrow">&#10132;</div>
+        <div class="cycle-step">
+          <div class="cs-icon">&#x1F50E;</div>
+          <div class="cs-label">Debug</div>
+          <div class="cs-sub">원인 파악</div>
+        </div>
+        <div class="cycle-arrow">&#10132;</div>
+        <div class="cycle-step">
+          <div class="cs-icon">&#x1F527;</div>
+          <div class="cs-label">Fix</div>
+          <div class="cs-sub">수정</div>
+        </div>
+        <div class="cycle-arrow">&#10132;</div>
+        <div class="cycle-step" style="border-color: rgba(251,146,60,0.4);">
+          <div class="cs-icon">&#x1F4D6;</div>
+          <div class="cs-label" style="color:var(--accent-orange);">Document</div>
+          <div class="cs-sub">기록</div>
+        </div>
+        <div class="cycle-arrow">&#x1F501;</div>
+      </div>
+    </div>
+    <div class="key-insight">
+      <div class="insight-label">CORE PRINCIPLE</div>
+      <p>기록(Document)은 되돌리기 위해서만 하는 게 아니다.<br><span class="hl-orange">복리(Compounding)</span>의 시작점이다.<br>AI한테 기록해달라고 하면 <span class="hl-purple">얘가 제일 잘 알아서 기록한다.</span></p>
+    </div>
+  </div>
+
+  <!-- SLIDE 7: 역할 전환 -->
+  <div class="slide content-slide" data-group="day3">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(168,85,247,0.12); color:var(--day2-color)">ROLE</div>
+      <h3>지식 노동자 &rarr; AI 관리자</h3>
+    </div>
+    <div class="card-grid cols-3">
+      <div class="card" style="text-align:center;">
+        <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <span class="card-icon">&#x1F4CB;</span>
+        <h4>Plan</h4>
+        <p>계획을 세워주고<br>PRD를 만들고<br>방향을 잡아준다</p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="card-accent" style="background:var(--accent-cyan)"></div>
+        <span class="card-icon">&#x2705;</span>
+        <h4>Review</h4>
+        <p>결과물을 리뷰하고<br>맞는지 틀리는지<br>판단한다</p>
+      </div>
+      <div class="card" style="text-align:center; border-color:rgba(251,146,60,0.3);">
+        <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <span class="card-icon">&#x1F504;</span>
+        <h4>Compound</h4>
+        <p>피드백을 시스템에<br>반영하여 복리를<br>쌓아간다</p>
+      </div>
+    </div>
+    <div class="quote-card" style="border-color:var(--accent-purple); margin-top:16px;">
+      <p>"AI가 지식 노동을 많이 대체해주기 때문에, 우리는 관리자가 되는 거잖아요. 계획 세워주고, 결과 검토하고, 피드백하고. 여기서 피드백에 해당하는 것이 Compound Engineering이라는 개념으로 이해하시면 좋겠습니다."</p>
+      <div class="quote-author">— 장원준</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 8: Harness Engineering -->
+  <div class="slide content-slide" data-group="day4">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(251,146,60,0.12); color:var(--day4-color)">HARNESS</div>
+      <h3>엔진보다 중요한 하네스(Harness)</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-purple)"></div>
+        <span class="card-icon">&#x1F3CE;</span>
+        <h4>모델 성능만으로는 부족하다</h4>
+        <ul>
+          <li>엔진(모델)이 아무리 좋아도</li>
+          <li>엔진을 <span class="hl-purple">어떻게 엮어놔야</span> 잘 쓸 수 있느냐가 핵심</li>
+          <li>언제 Haiku, 언제 Sonnet, 언제 Opus를 쓸지</li>
+          <li>기준을 가지고 AI 성능을 끌어내는 것</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <span class="card-icon">&#x1F4CA;</span>
+        <h4>Andrew Ng 데이터</h4>
+        <p style="margin-bottom:16px;">워크플로우 설계가<br>모델 업그레이드보다</p>
+        <div class="big-number hl-orange" style="font-size:56px;">2.5x</div>
+        <p>더 효과적이다</p>
+      </div>
+    </div>
+    <div class="key-insight">
+      <div class="insight-label">HARNESS ENGINEERING</div>
+      <p>모델 성능을 최대로 끌어내는 것은 <span class="hl-purple">모델 자체</span>보다<br><span class="hl-orange">모델을 어떻게 엮어놓느냐(하네스)</span>에 달려 있다</p>
+    </div>
+  </div>
+
+  <!-- SLIDE 9: 실전 수칙 -->
+  <div class="slide content-slide" data-group="day4">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(251,146,60,0.12); color:var(--day4-color)">PRACTICE</div>
+      <h3>Compound Engineering 실전 수칙</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <span class="card-icon">&#x1F4C4;</span>
+        <h4>1. CLAUDE.md를 계속 깎아라</h4>
+        <p>각자의 워크플로우에 맞게 취향에 맞게 작성하고,<br><span class="hl-orange">계속해서 조금씩 고치면서</span> 쓴다</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-red)"></div>
+        <span class="card-icon">&#x26A0;</span>
+        <h4>2. 리스크 테이킹을 하라</h4>
+        <p>AI에게 <span class="hl-red">적극적으로 권한을 위임</span>하라.<br>보수적으로 하기보다 시스템 레벨 사고를 가능하게</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-cyan)"></div>
+        <span class="card-icon">&#x1F3AF;</span>
+        <h4>3. 스킬을 의식적으로 만들어라</h4>
+        <p>"아, 이거 스킬로 만들어야지"라는<br><span class="hl-cyan">인위적인 의식</span>을 갖고 사용한다</p>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-green)"></div>
+        <span class="card-icon">&#x1F4DD;</span>
+        <h4>4. 실수는 즉시 시스템에 반영</h4>
+        <p>오답 노트를 만들 듯,<br>한 번 잘못 나오면 <span class="hl-green">바로 시스템에 반영</span>한다</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 10: 복리의 비유 -->
+  <div class="slide content-slide" data-group="day4">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(251,146,60,0.12); color:var(--day4-color)">ANALOGY</div>
+      <h3>실무자 &rarr; 팀장 &rarr; 경영진</h3>
+    </div>
+    <div class="card-grid cols-3">
+      <div class="card" style="text-align:center;">
+        <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <span class="card-icon">&#x1F464;</span>
+        <h4>실무자</h4>
+        <p>하나하나 직접 실행<br>확인받고 진행<br><span class="hl-blue">마이크로 레벨</span></p>
+      </div>
+      <div class="card" style="text-align:center;">
+        <div class="card-accent" style="background:var(--accent-purple)"></div>
+        <span class="card-icon">&#x1F465;</span>
+        <h4>팀장</h4>
+        <p>위임하고 관리<br>결과를 검토<br><span class="hl-purple">매크로 레벨</span></p>
+      </div>
+      <div class="card" style="text-align:center; border-color:rgba(251,146,60,0.3);">
+        <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <span class="card-icon">&#x1F3E2;</span>
+        <h4>경영진</h4>
+        <p>시스템을 설계<br>방향을 제시<br><span class="hl-orange">시스템 레벨</span></p>
+      </div>
+    </div>
+    <div class="quote-card" style="border-color:var(--accent-orange); margin-top:16px;">
+      <p>"불필요한 확인 과정을 줄이고 권한을 줄수록, 시스템 레벨에서 일을 할 수 있게 되는 거 같아요. 마치 실무자일 때는 안 보이던 게 팀장일 때는 관리되고, 경영진이 되면 또 다른 레벨에서 지시를 내리게 되는 것처럼요."</p>
+      <div class="quote-author">— 장원준</div>
+    </div>
+  </div>
+
+  <!-- SLIDE 11: 한국 AI 생태계 -->
+  <div class="slide day-header" data-group="day4" style="background: radial-gradient(ellipse at 50% 40%, rgba(34,211,238,0.1) 0%, transparent 60%), var(--bg-dark)">
+    <div class="day-number" style="color:var(--day3-color)">03</div>
+    <div class="day-label" style="color:var(--day3-color)">CLOSING INSIGHT</div>
+    <h2>1년씩 앞서가는 사람은<br><span class="hl-cyan">논리적으로 없다</span></h2>
+    <p class="day-meta">꽤 큰 자신감으로 스텝 밟아도 되는 시기</p>
+  </div>
+
+  <!-- SLIDE 12: 정보 격차와 실행력 -->
+  <div class="slide content-slide" data-group="day4">
+    <div class="slide-header">
+      <div class="day-tag" style="background:rgba(34,211,238,0.12); color:var(--day3-color)">INSIGHT</div>
+      <h3>지금은 자신감을 가질 시기</h3>
+    </div>
+    <div class="card-grid cols-2">
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-blue)"></div>
+        <span class="card-icon">&#x1F30D;</span>
+        <h4>미국(영어권)의 강점</h4>
+        <ul>
+          <li>절대 정보량이 많다</li>
+          <li>트위터의 디베이트 문화</li>
+          <li>파운데이션 모델 밸류체인</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-orange)"></div>
+        <span class="card-icon">&#x1F1F0;&#x1F1F7;</span>
+        <h4>한국(서울)의 강점</h4>
+        <ul>
+          <li>빠른 실행력</li>
+          <li>하네스(Harness) 레벨의 엣지</li>
+          <li>AI를 업무에 도입하는 관점에서 앞서는 부분</li>
+        </ul>
+      </div>
+    </div>
+    <div class="card-grid cols-2" style="margin-top:20px;">
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-green)"></div>
+        <span class="card-icon">&#x1F4A1;</span>
+        <h4>AI를 잘 쓰는 사람의 패턴</h4>
+        <ul>
+          <li>특정 세대나 직군으로 한정되지 않음</li>
+          <li><span class="hl-green">원래 일을 잘하던 사람들</span>이 AI도 잘 쓴다</li>
+          <li>핵심 자질: <span class="hl-green">언러닝(Unlearning)</span>을 잘하는 사람</li>
+        </ul>
+      </div>
+      <div class="card">
+        <div class="card-accent" style="background:var(--accent-cyan)"></div>
+        <span class="card-icon">&#x23F1;</span>
+        <h4>지금이 기회</h4>
+        <ul>
+          <li>같은 타이밍에 기어지고 있다</li>
+          <li>하루 이틀 빠른 사람은 있을 수 있지만</li>
+          <li><span class="hl-cyan">1년씩 앞서가는 사람은 없다</span></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- SLIDE 13: FINAL -->
+  <div class="slide slide-final" data-group="summary">
+    <h2>Takeaways</h2>
+    <ul class="takeaway-list">
+      <li>
+        <span class="tk-num">01</span>
+        <span><strong>프롬프트 잘 치는 시대는 끝났다.</strong><br>환경(CLAUDE.md, MCP, 스킬)의 품질이 AI 레버리지를 결정한다.</span>
+      </li>
+      <li>
+        <span class="tk-num">02</span>
+        <span><strong>만든 건 초안이다.</strong><br>Build &rarr; Use &rarr; Notice &rarr; Debug &rarr; Fix &rarr; Document 사이클을 반복하며 복리를 쌓아라.</span>
+      </li>
+      <li>
+        <span class="tk-num">03</span>
+        <span><strong>엔진보다 하네스가 중요하다.</strong><br>모델 자체보다, 모델을 어떻게 엮어놓느냐가 성능을 결정한다.</span>
+      </li>
+      <li>
+        <span class="tk-num">04</span>
+        <span><strong>AI 관리자로 역할을 전환하라.</strong><br>계획 &rarr; 위임 &rarr; 리뷰 &rarr; 피드백(Compound). 이것이 새로운 핵심 루프다.</span>
+      </li>
+    </ul>
+  </div>
+
+</div>
+
+<nav class="slide-nav">
+  <button class="nav-btn" id="prevBtn" onclick="navigate(-1)">&#8592;</button>
+  <div class="slide-dots" id="slideDots"></div>
+  <span class="slide-counter" id="slideCounter">1 / 1</span>
+  <button class="nav-btn" id="nextBtn" onclick="navigate(1)">&#8594;</button>
+</nav>
+
+<script>
+(function() {
+  const slides = document.querySelectorAll('.slide');
+  const dotsContainer = document.getElementById('slideDots');
+  const counter = document.getElementById('slideCounter');
+  const progressBar = document.getElementById('progressBar');
+  let current = 0;
+  const total = slides.length;
+
+  const groupColors = { intro: '', day1: 'day1', day2: 'day2', day3: 'day3', day4: 'day4', summary: '' };
+
+  slides.forEach((s, i) => {
+    const dot = document.createElement('div');
+    dot.className = 'dot';
+    const group = s.dataset.group;
+    const gc = groupColors[group];
+    if (gc) dot.classList.add(gc);
+    dot.addEventListener('click', () => goTo(i));
+    dotsContainer.appendChild(dot);
+  });
+
+  function goTo(index) {
+    if (index < 0 || index >= total) return;
+    slides[current].classList.remove('active');
+    if (index > current) slides[current].classList.add('prev');
+    setTimeout(() => { slides.forEach(s => { s.classList.remove('prev'); }); }, 500);
+    current = index;
+    slides[current].classList.add('active');
+    document.querySelectorAll('.slide-dots .dot').forEach((d, i) => { d.classList.toggle('active', i === current); });
+    counter.textContent = `${current + 1} / ${total}`;
+    progressBar.style.width = `${((current + 1) / total) * 100}%`;
+  }
+
+  window.navigate = function(dir) { goTo(current + dir); };
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown' || e.key === ' ') { e.preventDefault(); navigate(1); }
+    else if (e.key === 'ArrowLeft' || e.key === 'ArrowUp') { e.preventDefault(); navigate(-1); }
+    else if (e.key === 'Home') { e.preventDefault(); goTo(0); }
+    else if (e.key === 'End') { e.preventDefault(); goTo(total - 1); }
+  });
+
+  let touchStartX = 0;
+  document.addEventListener('touchstart', (e) => { touchStartX = e.touches[0].clientX; });
+  document.addEventListener('touchend', (e) => {
+    const diff = touchStartX - e.changedTouches[0].clientX;
+    if (Math.abs(diff) > 50) navigate(diff > 0 ? 1 : -1);
+  });
+
+  goTo(0);
+})();
+</script>
+
+</body>
+</html>

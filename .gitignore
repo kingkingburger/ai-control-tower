@@ -55,3 +55,12 @@ htmlcov/
 
 # Claude / OMC
 .omc/
+
+# Large media files
+*.mp4
+*.mkv
+*.avi
+*.mov
+*.webm
+research/youtube-slides/*/source/
+research/youtube-slides/*/images/
