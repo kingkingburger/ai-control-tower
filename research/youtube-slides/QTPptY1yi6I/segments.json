@@ -1,0 +1,3957 @@
+[
+  {
+    "index": 0,
+    "timestamp": "00:00",
+    "timestamp_sec": 0.359,
+    "text": "노트테이킹 마스터 강의에 오신 것을 환영합니다. 본 강의는 제가 기록에",
+    "image": "frame_0000_00-00.jpg"
+  },
+  {
+    "index": 1,
+    "timestamp": "00:05",
+    "timestamp_sec": 5.319,
+    "text": "대해서 좀 여러분들께 좀 새로운 방식으로 좀 접근을 할 수 있도록",
+    "image": "frame_0001_00-05.jpg"
+  },
+  {
+    "index": 2,
+    "timestamp": "00:09",
+    "timestamp_sec": 9.719,
+    "text": "준비한 특별한 강의인데요. 어 이번 강의에서는 단순 기록을 갖치는",
+    "image": "frame_0002_00-09.jpg"
+  },
+  {
+    "index": 3,
+    "timestamp": "00:14",
+    "timestamp_sec": 14.719,
+    "text": "지식으로 그리고 지식을 활용해서 평장과 생산성까지 여러분들이",
+    "image": "frame_0003_00-14.jpg"
+  },
+  {
+    "index": 4,
+    "timestamp": "00:19",
+    "timestamp_sec": 19.039,
+    "text": "평생하시는 그 기록을 더욱더 가치 있게 활용할 수 있도록 좀 귀중한",
+    "image": "frame_0004_00-19.jpg"
+  },
+  {
+    "index": 5,
+    "timestamp": "00:23",
+    "timestamp_sec": 23.56,
+    "text": "내용으로 준비를 하였습니다. 이번 강의는 세 강으로 이루어지고요. 이번",
+    "image": "frame_0005_00-23.jpg"
+  },
+  {
+    "index": 6,
+    "timestamp": "00:27",
+    "timestamp_sec": 27.08,
+    "text": "영상은 첫 강으로 일단은 기록의 본질적 가치에 대해서 좀 알아보는",
+    "image": "frame_0006_00-27.jpg"
+  },
+  {
+    "index": 7,
+    "timestamp": "00:31",
+    "timestamp_sec": 31.4,
+    "text": "시간을 가지고 조지 기록이랑 무엇인지에 대해서 좀 다뤄보고자",
+    "image": "frame_0007_00-31.jpg"
+  },
+  {
+    "index": 8,
+    "timestamp": "00:35",
+    "timestamp_sec": 35.44,
+    "text": "합니다. 네. 어, 일단은 제 소개부터 해야 되겠죠? 네.",
+    "image": "frame_0008_00-35.jpg"
+  },
+  {
+    "index": 9,
+    "timestamp": "00:39",
+    "timestamp_sec": 39.239,
+    "text": "안녕하세요. 저는 브라이언이라고 하고요. 현재 브레인 트리니티라는",
+    "image": "frame_0009_00-39.jpg"
+  },
+  {
+    "index": 10,
+    "timestamp": "00:43",
+    "timestamp_sec": 43.16,
+    "text": "유튜브 채널을 운영을 하고 있습니다. 어, 저는 그 AI 시대에 숨겨진",
+    "image": "frame_0010_00-43.jpg"
+  },
+  {
+    "index": 11,
+    "timestamp": "00:48",
+    "timestamp_sec": 48.16,
+    "text": "잠재력을 읽깨워 여러분들의 무한한 성장을 통해 최고의 내가 되는 새로운",
+    "image": "frame_0011_00-48.jpg"
+  },
+  {
+    "index": 12,
+    "timestamp": "00:54",
+    "timestamp_sec": 54.12,
+    "text": "패러다임을 제시하는 것을 목표로 하고 있는데요. 되게 장황한 그런",
+    "image": "frame_0012_00-54.jpg"
+  },
+  {
+    "index": 13,
+    "timestamp": "00:58",
+    "timestamp_sec": 58.559,
+    "text": "메시지이긴 한데 어 저 같은 경우는 AI 시대에서 우리가 우리의 두뇌를",
+    "image": "frame_0013_00-58.jpg"
+  },
+  {
+    "index": 14,
+    "timestamp": "01:03",
+    "timestamp_sec": 63.96,
+    "text": "잘 활용을 해서 어떻게 하면은 훨씬",
+    "image": "frame_0014_01-03.jpg"
+  },
+  {
+    "index": 15,
+    "timestamp": "01:07",
+    "timestamp_sec": 67.0,
+    "text": "더 어 뛰어난 인재들이 될 수 있을지",
+    "image": "frame_0015_01-07.jpg"
+  },
+  {
+    "index": 16,
+    "timestamp": "01:10",
+    "timestamp_sec": 70.159,
+    "text": "그리고 우리가 경제경쟁력 있는 사람이 될 수 있을지 고민을",
+    "image": "frame_0016_01-10.jpg"
+  },
+  {
+    "index": 17,
+    "timestamp": "01:14",
+    "timestamp_sec": 74.6,
+    "text": "하고 많은 분들에게 콘텐츠를 전발하고 있습니다. 어 일단은 좀 서론으로",
+    "image": "frame_0017_01-14.jpg"
+  },
+  {
+    "index": 18,
+    "timestamp": "01:20",
+    "timestamp_sec": 80.079,
+    "text": "들어가겠습니다. 혹시 여러분들께서는 메모를 잘 못 하신다라고 생각을",
+    "image": "frame_0018_01-20.jpg"
+  },
+  {
+    "index": 19,
+    "timestamp": "01:24",
+    "timestamp_sec": 84.96,
+    "text": "하실까요? 우리가 생각해 보면은 평생 메모를 하죠. 우리가 학창 시절에",
+    "image": "frame_0019_01-24.jpg"
+  },
+  {
+    "index": 20,
+    "timestamp": "01:30",
+    "timestamp_sec": 90.0,
+    "text": "여러분들께서 모두가 다 보셨던 수능을 위해서 준비를 하면서도 학창 시절에도",
+    "image": "frame_0020_01-30.jpg"
+  },
+  {
+    "index": 21,
+    "timestamp": "01:35",
+    "timestamp_sec": 95.24,
+    "text": "열심히 기록을하고 메모를 하였고요. 어 그리고 여러분들께서 지금",
+    "image": "frame_0021_01-35.jpg"
+  },
+  {
+    "index": 22,
+    "timestamp": "01:38",
+    "timestamp_sec": 98.72,
+    "text": "대학교에서 수업을 들으시면서도 메모를 하실",
+    "image": "frame_0022_01-38.jpg"
+  },
+  {
+    "index": 23,
+    "timestamp": "01:42",
+    "timestamp_sec": 102.439,
+    "text": "거잖아요. 그리고 평소에 내가 뭐 뭔가 기억해야 되는게 딱 떠오르면은",
+    "image": "frame_0023_01-42.jpg"
+  },
+  {
+    "index": 24,
+    "timestamp": "01:46",
+    "timestamp_sec": 106.52,
+    "text": "바로 메모를 해야 하죠. 우리가 되게",
+    "image": "frame_0024_01-46.jpg"
+  },
+  {
+    "index": 25,
+    "timestamp": "01:49",
+    "timestamp_sec": 109.56,
+    "text": "평생 메모를 해 왔는데 많은 사람들이 자기는 메모를 잘 못 한다라고 생각을",
+    "image": "frame_0025_01-49.jpg"
+  },
+  {
+    "index": 26,
+    "timestamp": "01:54",
+    "timestamp_sec": 114.2,
+    "text": "합니다. 왜 그럴까요? 우리가 평생 해왔는데 왜 우리는 메모를 못",
+    "image": "frame_0026_01-54.jpg"
+  },
+  {
+    "index": 27,
+    "timestamp": "01:58",
+    "timestamp_sec": 118.6,
+    "text": "한다라고 생각을 할까요? 어, 이번 강의의 목표는 그것을 해결하는",
+    "image": "frame_0027_01-58.jpg"
+  },
+  {
+    "index": 28,
+    "timestamp": "02:02",
+    "timestamp_sec": 122.96,
+    "text": "거고요. 꺼진 기록도 다시 보자라는",
+    "image": "frame_0028_02-02.jpg"
+  },
+  {
+    "index": 29,
+    "timestamp": "02:06",
+    "timestamp_sec": 126.24,
+    "text": "것을 여러분들께 좀 전달을 하려고 합니다. 어, 결국에는 우리가 맨날",
+    "image": "frame_0029_02-06.jpg"
+  },
+  {
+    "index": 30,
+    "timestamp": "02:10",
+    "timestamp_sec": 130.52,
+    "text": "하는 기록을 어, 단순히 저장하는 것이 아닌 그 기록의 진정한 의미와",
+    "image": "frame_0030_02-10.jpg"
+  },
+  {
+    "index": 31,
+    "timestamp": "02:15",
+    "timestamp_sec": 135.959,
+    "text": "가치를 알아봐서 여러분들께서 잘",
+    "image": "frame_0031_02-15.jpg"
+  },
+  {
+    "index": 32,
+    "timestamp": "02:19",
+    "timestamp_sec": 139.16,
+    "text": "활용할 수 있는 기록을 나의 삶에 전략적으로 잘 적용시킬 수 있는 그런",
+    "image": "frame_0032_02-19.jpg"
+  },
+  {
+    "index": 33,
+    "timestamp": "02:24",
+    "timestamp_sec": 144.44,
+    "text": "방식으로 이용하는 방법을 좀 알아볼 것이고요. 그리고이 가치를 잘 활용해",
+    "image": "frame_0033_02-24.jpg"
+  },
+  {
+    "index": 34,
+    "timestamp": "02:30",
+    "timestamp_sec": 150.04,
+    "text": "나의 생성을 위해서 활용할 수 있는 방법을 알아볼 예정입니다.이",
+    "image": "frame_0034_02-30.jpg"
+  },
+  {
+    "index": 35,
+    "timestamp": "02:33",
+    "timestamp_sec": 153.76,
+    "text": "생성이라는 거는 제가 그 기록의 효용, 기록의 가치에 대해서 제가",
+    "image": "frame_0035_02-33.jpg"
+  },
+  {
+    "index": 36,
+    "timestamp": "02:37",
+    "timestamp_sec": 157.959,
+    "text": "표현한 건데요. 첫 번째로는 생성입니다.이 기록을 잘 활용을 해서",
+    "image": "frame_0036_02-37.jpg"
+  },
+  {
+    "index": 37,
+    "timestamp": "02:41",
+    "timestamp_sec": 161.92,
+    "text": "나의 지식을 활용해서 갇치는 결과물을 새로 생성할 수도 있고요. 물론",
+    "image": "frame_0037_02-41.jpg"
+  },
+  {
+    "index": 38,
+    "timestamp": "02:46",
+    "timestamp_sec": 166.159,
+    "text": "AI까지 그 잘 연계한 방식입니다. 두 번째로는 생인데요. 생산성입니다.",
+    "image": "frame_0038_02-46.jpg"
+  },
+  {
+    "index": 39,
+    "timestamp": "02:51",
+    "timestamp_sec": 171.159,
+    "text": "나의 기록을 잘 활용해서 나의 업무와 일, 내가 하는 모든 것의 효율성을과",
+    "image": "frame_0039_02-51.jpg"
+  },
+  {
+    "index": 40,
+    "timestamp": "02:57",
+    "timestamp_sec": 177.2,
+    "text": "품질을 업그레이드시킬 수 있고요. 그 마지막으로는 성장입니다. 나의 기록을",
+    "image": "frame_0040_02-57.jpg"
+  },
+  {
+    "index": 41,
+    "timestamp": "03:02",
+    "timestamp_sec": 182.36,
+    "text": "이용해서 나의 성장의 재료를 이용할 수 있는 방법을 전달해 드리는 것이",
+    "image": "frame_0041_03-02.jpg"
+  },
+  {
+    "index": 42,
+    "timestamp": "03:06",
+    "timestamp_sec": 186.799,
+    "text": "저의 목표입니다. 네. 우선 기록이란 무엇인가 한번 좀 다뤄 보도록",
+    "image": "frame_0042_03-06.jpg"
+  },
+  {
+    "index": 43,
+    "timestamp": "03:11",
+    "timestamp_sec": 191.319,
+    "text": "할게요. 일단은 여러분들이 계속 기록을 해야다고 해봤잖아요. 한번",
+    "image": "frame_0043_03-11.jpg"
+  },
+  {
+    "index": 44,
+    "timestamp": "03:15",
+    "timestamp_sec": 195.12,
+    "text": "10초를 드릴테니까 아무거나 꺼내서 한번 기록을 해 보세요. 내가",
+    "image": "frame_0044_03-15.jpg"
+  },
+  {
+    "index": 45,
+    "timestamp": "03:18",
+    "timestamp_sec": 198.48,
+    "text": "생각하는 기록이란 무엇인지 그냥 막 기록을 해 보세요. 저도 해",
+    "image": "frame_0045_03-18.jpg"
+  },
+  {
+    "index": 46,
+    "timestamp": "03:21",
+    "timestamp_sec": 201.84,
+    "text": "보겠습니다. 네. 제가 그냥 그 막",
+    "image": "frame_0046_03-21.jpg"
+  },
+  {
+    "index": 47,
+    "timestamp": "03:25",
+    "timestamp_sec": 205.76,
+    "text": "적어 봤거든요. 그 여러분들께서는 어떤 분들은 종이를 꺼내셨을 수도",
+    "image": "frame_0047_03-25.jpg"
+  },
+  {
+    "index": 48,
+    "timestamp": "03:30",
+    "timestamp_sec": 210.64,
+    "text": "있고요. 그리고 저 같은 경우는 그냥이 즉석으로이 화이트보드에다가",
+    "image": "frame_0048_03-30.jpg"
+  },
+  {
+    "index": 49,
+    "timestamp": "03:34",
+    "timestamp_sec": 214.959,
+    "text": "이렇게 막 쳤어요. 의식의 흐름대로 적었죠. 지금 나는 무엇을 기록하라고",
+    "image": "frame_0049_03-34.jpg"
+  },
+  {
+    "index": 50,
+    "timestamp": "03:39",
+    "timestamp_sec": 219.36,
+    "text": "해서 막 해본다. 지금 생각나는 것은",
+    "image": "frame_0050_03-39.jpg"
+  },
+  {
+    "index": 51,
+    "timestamp": "03:42",
+    "timestamp_sec": 222.519,
+    "text": "졸리다. 며칠간 잠을 많이 못 자서 많이 지치고 힘들다. 그런데 단계",
+    "image": "frame_0051_03-42.jpg"
+  },
+  {
+    "index": 52,
+    "timestamp": "03:46",
+    "timestamp_sec": 226.56,
+    "text": "당긴다. [웃음] 이렇게 막 온갖 것을 기록을 하야",
+    "image": "frame_0052_03-46.jpg"
+  },
+  {
+    "index": 53,
+    "timestamp": "03:50",
+    "timestamp_sec": 230.439,
+    "text": "되잖아요. 여러분들 혹시 기록을 해 보니까이 느낌이 어떠신가요? 어 뭔가",
+    "image": "frame_0053_03-50.jpg"
+  },
+  {
+    "index": 54,
+    "timestamp": "03:55",
+    "timestamp_sec": 235.12,
+    "text": "좀 달라졌나요? 아니면은 내가 맨날 하는 기록이라서 뭐가 특별한지 잘",
+    "image": "frame_0054_03-55.jpg"
+  },
+  {
+    "index": 55,
+    "timestamp": "03:59",
+    "timestamp_sec": 239.879,
+    "text": "모르겠다라고 생각이 드실까요? 일단은 우리가 맨날 하는 이러한 기록에",
+    "image": "frame_0055_03-59.jpg"
+  },
+  {
+    "index": 56,
+    "timestamp": "04:03",
+    "timestamp_sec": 243.72,
+    "text": "대해서 제가 한번 그 기록의 특성에 대해서 한번 좀 준비를 하겠습니다.",
+    "image": "frame_0056_04-03.jpg"
+  },
+  {
+    "index": 57,
+    "timestamp": "04:08",
+    "timestamp_sec": 248.64,
+    "text": "어, 우리가 맨날 기록은 세 가지 특성을 갖고 있습니다. 어, 첫",
+    "image": "frame_0057_04-08.jpg"
+  },
+  {
+    "index": 58,
+    "timestamp": "04:12",
+    "timestamp_sec": 252.0,
+    "text": "번째로는이 기록이라는 것은 당시의",
+    "image": "frame_0058_04-12.jpg"
+  },
+  {
+    "index": 59,
+    "timestamp": "04:15",
+    "timestamp_sec": 255.48,
+    "text": "현재를 기록하는 것입니다. 이게 무슨 말일까요? 지금이 현재 생각나는 것을",
+    "image": "frame_0059_04-15.jpg"
+  },
+  {
+    "index": 60,
+    "timestamp": "04:20",
+    "timestamp_sec": 260.56,
+    "text": "기록하는게 기록입니다. 현재를 내가 어떤 반짝이는 아이디어를 옮기는",
+    "image": "frame_0060_04-20.jpg"
+  },
+  {
+    "index": 61,
+    "timestamp": "04:26",
+    "timestamp_sec": 266.08,
+    "text": "것이죠. 현재도 여러분들께서는 세상에 수많은 정보와 데이터들을 막 나도",
+    "image": "frame_0061_04-26.jpg"
+  },
+  {
+    "index": 62,
+    "timestamp": "04:31",
+    "timestamp_sec": 271.4,
+    "text": "모르게 받아들이고 있습니다. 예를 들어서 여러분들께서는 지금 이제",
+    "image": "frame_0062_04-31.jpg"
+  },
+  {
+    "index": 63,
+    "timestamp": "04:35",
+    "timestamp_sec": 275.68,
+    "text": "디지털 화면과 소리를 통해서 제 목소리가 들어가고 있고요. 눈을",
+    "image": "frame_0063_04-35.jpg"
+  },
+  {
+    "index": 64,
+    "timestamp": "04:39",
+    "timestamp_sec": 279.36,
+    "text": "통해서이 제가 지금 보는이 화면을 여러분들께서도 보고 계십니다. 네.",
+    "image": "frame_0064_04-39.jpg"
+  },
+  {
+    "index": 65,
+    "timestamp": "04:45",
+    "timestamp_sec": 285.0,
+    "text": "그런데요. 이것을 들으면서 여러분들이",
+    "image": "frame_0065_04-45.jpg"
+  },
+  {
+    "index": 66,
+    "timestamp": "04:48",
+    "timestamp_sec": 288.28,
+    "text": "관찰하고 여러분들께서 많은 생각을 하실 텐데요.이 순간 드는이 생각들을",
+    "image": "frame_0066_04-48.jpg"
+  },
+  {
+    "index": 67,
+    "timestamp": "04:53",
+    "timestamp_sec": 293.919,
+    "text": "끄집어내서 남겨 놓는게 기록입니다.",
+    "image": "frame_0067_04-53.jpg"
+  },
+  {
+    "index": 68,
+    "timestamp": "04:57",
+    "timestamp_sec": 297.24,
+    "text": "네. 너무 당연한 얘기일까요? 그런데 이게 현재를 기록한다는게 무슨",
+    "image": "frame_0068_04-57.jpg"
+  },
+  {
+    "index": 69,
+    "timestamp": "05:02",
+    "timestamp_sec": 302.039,
+    "text": "말이냐면요. 우리가 일단 기록을 안",
+    "image": "frame_0069_05-02.jpg"
+  },
+  {
+    "index": 70,
+    "timestamp": "05:05",
+    "timestamp_sec": 305.12,
+    "text": "할 경우에는 네. 기록을 안 한다라고 생각을 해 볼게요. 기록을 안 하면은",
+    "image": "frame_0070_05-05.jpg"
+  },
+  {
+    "index": 71,
+    "timestamp": "05:09",
+    "timestamp_sec": 309.16,
+    "text": "내가 현재 생각하고 있는 것이 기발적이에요. 조금 지나면은 기억이",
+    "image": "frame_0071_05-09.jpg"
+  },
+  {
+    "index": 72,
+    "timestamp": "05:13",
+    "timestamp_sec": 313.56,
+    "text": "나지 않습니다. 우리가 그럴 때가 많이 있었을 거예요. 어, 내가",
+    "image": "frame_0072_05-13.jpg"
+  },
+  {
+    "index": 73,
+    "timestamp": "05:17",
+    "timestamp_sec": 317.639,
+    "text": "갑자기 뭔가 확 기반한 아이디어가",
+    "image": "frame_0073_05-17.jpg"
+  },
+  {
+    "index": 74,
+    "timestamp": "05:20",
+    "timestamp_sec": 320.8,
+    "text": "떠올랐어. 그런데 조금만 지나면 아, 이거 뭐였더라? 아, 기록해 둘 걸",
+    "image": "frame_0074_05-20.jpg"
+  },
+  {
+    "index": 75,
+    "timestamp": "05:25",
+    "timestamp_sec": 325.319,
+    "text": "이런 고민을 하기도 하잖아요. 네. 그래서 어 현재이 순간에 내가 기록을",
+    "image": "frame_0075_05-25.jpg"
+  },
+  {
+    "index": 76,
+    "timestamp": "05:31",
+    "timestamp_sec": 331.44,
+    "text": "해 두지 않으면은 까먹습니다. 막상 어떨 때는 내가 어제 뭐 먹었는지도",
+    "image": "frame_0076_05-31.jpg"
+  },
+  {
+    "index": 77,
+    "timestamp": "05:36",
+    "timestamp_sec": 336.199,
+    "text": "기억이 나지도 않는데 그것을 기록해 두지 않으면 내가 아하 하면서",
+    "image": "frame_0077_05-36.jpg"
+  },
+  {
+    "index": 78,
+    "timestamp": "05:40",
+    "timestamp_sec": 340.44,
+    "text": "아이디어가 났어요. 나에게 뭔가 되게 유용한 것이었거든요. 이걸 기록해",
+    "image": "frame_0078_05-40.jpg"
+  },
+  {
+    "index": 79,
+    "timestamp": "05:44",
+    "timestamp_sec": 344.919,
+    "text": "두지 않으면은 결국에는 우리가 까먹기 마련입니다. 그래서 우리의 생각이",
+    "image": "frame_0079_05-44.jpg"
+  },
+  {
+    "index": 80,
+    "timestamp": "05:50",
+    "timestamp_sec": 350.08,
+    "text": "휘발성이 있기 때문에 저장을 하지 않으면은 날아가요. 네. 그래서",
+    "image": "frame_0080_05-50.jpg"
+  },
+  {
+    "index": 81,
+    "timestamp": "05:54",
+    "timestamp_sec": 354.479,
+    "text": "현재를 기록해 놓는다는 것이 우리 현재의 생각을 기록해 돈다는 것이",
+    "image": "frame_0081_05-54.jpg"
+  },
+  {
+    "index": 82,
+    "timestamp": "05:58",
+    "timestamp_sec": 358.36,
+    "text": "그런 의미입니다. 네. 두 번째로는요.이 기록이라는게",
+    "image": "frame_0082_05-58.jpg"
+  },
+  {
+    "index": 83,
+    "timestamp": "06:02",
+    "timestamp_sec": 362.72,
+    "text": "다양한 형태로 저장이 됩니다. 어, 제가 앞서서 했던 기록의 예시는 그냥",
+    "image": "frame_0083_06-02.jpg"
+  },
+  {
+    "index": 84,
+    "timestamp": "06:08",
+    "timestamp_sec": 368.36,
+    "text": "타이핑이었죠. 텍스트로 남는 것인데요. 어, 여러분들께서 또 다른",
+    "image": "frame_0084_06-08.jpg"
+  },
+  {
+    "index": 85,
+    "timestamp": "06:13",
+    "timestamp_sec": 373.36,
+    "text": "기록이라고 한다면 뭐 우리가 평소에 이제 메모로 하는 것도 있죠. 막",
+    "image": "frame_0085_06-13.jpg"
+  },
+  {
+    "index": 86,
+    "timestamp": "06:18",
+    "timestamp_sec": 378.16,
+    "text": "끄이는 거. 자, 예를 들어서 제 아이패드로 이렇게 그냥 제가 다른",
+    "image": "frame_0086_06-18.jpg"
+  },
+  {
+    "index": 87,
+    "timestamp": "06:23",
+    "timestamp_sec": 383.0,
+    "text": "강의를 준비를 하면서 이렇게 끄적였던 거 있죠? 이것도 기록이에요. 근데",
+    "image": "frame_0087_06-23.jpg"
+  },
+  {
+    "index": 88,
+    "timestamp": "06:27",
+    "timestamp_sec": 387.0,
+    "text": "머릿속에서 어떤 메시지를 전달하기 위해서 어떤 식으로 풀어 나갈까에",
+    "image": "frame_0088_06-27.jpg"
+  },
+  {
+    "index": 89,
+    "timestamp": "06:31",
+    "timestamp_sec": 391.199,
+    "text": "대해서 이렇게 적은 것도 기록이고 나중에 제 잘 활용할 수가 있습니다.",
+    "image": "frame_0089_06-31.jpg"
+  },
+  {
+    "index": 90,
+    "timestamp": "06:36",
+    "timestamp_sec": 396.0,
+    "text": "네. 그리고 제가이 사진도 하나 준비했는데요.이 사진도 기록입니다.",
+    "image": "frame_0090_06-36.jpg"
+  },
+  {
+    "index": 91,
+    "timestamp": "06:41",
+    "timestamp_sec": 401.96,
+    "text": "제가 그냥 재밌는 걸 하나 만들어 봤어요. 그 최근에 경주에서 열린이펙",
+    "image": "frame_0091_06-41.jpg"
+  },
+  {
+    "index": 92,
+    "timestamp": "06:46",
+    "timestamp_sec": 406.639,
+    "text": "때 엔비디아의 사장이죠. 젠슨왕하고",
+    "image": "frame_0092_06-46.jpg"
+  },
+  {
+    "index": 93,
+    "timestamp": "06:49",
+    "timestamp_sec": 409.96,
+    "text": "저 이제 회장님들께서네 이렇게 그 치맥 회동이 있었죠. 이런",
+    "image": "frame_0093_06-49.jpg"
+  },
+  {
+    "index": 94,
+    "timestamp": "06:54",
+    "timestamp_sec": 414.4,
+    "text": "치맥 회동이 있었는데 제가 어 이거를",
+    "image": "frame_0094_06-54.jpg"
+  },
+  {
+    "index": 95,
+    "timestamp": "06:57",
+    "timestamp_sec": 417.68,
+    "text": "어 그냥 AI로 만들어 봤어요. 제 자신을 이게 뒤에다가 넣어 가지고",
+    "image": "frame_0095_06-57.jpg"
+  },
+  {
+    "index": 96,
+    "timestamp": "07:01",
+    "timestamp_sec": 421.919,
+    "text": "실제로 참가했던 것처럼 이렇게 만들었는데요. 어 제가 이걸 왜",
+    "image": "frame_0096_07-01.jpg"
+  },
+  {
+    "index": 97,
+    "timestamp": "07:05",
+    "timestamp_sec": 425.039,
+    "text": "가져왔냐면 여러분들께서도 핸드폰에 다양한 기록들 있잖아요.",
+    "image": "frame_0097_07-05.jpg"
+  },
+  {
+    "index": 98,
+    "timestamp": "07:09",
+    "timestamp_sec": 429.199,
+    "text": "그렇죠? 다양한 사진들 있잖아요. 그것도 일종의 기록이라고 할 수",
+    "image": "frame_0098_07-09.jpg"
+  },
+  {
+    "index": 99,
+    "timestamp": "07:12",
+    "timestamp_sec": 432.599,
+    "text": "있습니다. 그 순간에 여러분들께서 소중한 추억들과 기억들을 남겨 놓은",
+    "image": "frame_0099_07-12.jpg"
+  },
+  {
+    "index": 100,
+    "timestamp": "07:18",
+    "timestamp_sec": 438.0,
+    "text": "거죠. 그 순간을 기억해는 겁니다. 이렇게 그 사진과 이미지 형태로도",
+    "image": "frame_0100_07-18.jpg"
+  },
+  {
+    "index": 101,
+    "timestamp": "07:23",
+    "timestamp_sec": 443.72,
+    "text": "있는데 또 어 마찬가지로 저희가 그",
+    "image": "frame_0101_07-23.jpg"
+  },
+  {
+    "index": 102,
+    "timestamp": "07:27",
+    "timestamp_sec": 447.56,
+    "text": "이런 녹음의 형태로도 기록이라고 할 수 있습니다. 갤럭시를 쓰시는 분들",
+    "image": "frame_0102_07-27.jpg"
+  },
+  {
+    "index": 103,
+    "timestamp": "07:32",
+    "timestamp_sec": 452.919,
+    "text": "같은 경우에는 우리가 통화 녹음 기록이 있잖아요. 그 기록이 뭘까요?",
+    "image": "frame_0103_07-32.jpg"
+  },
+  {
+    "index": 104,
+    "timestamp": "07:37",
+    "timestamp_sec": 457.36,
+    "text": "결국에는 그 당시에 그 사람과 통화를",
+    "image": "frame_0104_07-37.jpg"
+  },
+  {
+    "index": 105,
+    "timestamp": "07:40",
+    "timestamp_sec": 460.52,
+    "text": "했던 내용을 내용이 남겨진 거잖아요.",
+    "image": "frame_0105_07-40.jpg"
+  },
+  {
+    "index": 106,
+    "timestamp": "07:44",
+    "timestamp_sec": 464.28,
+    "text": "그러면은 우리가 이것도 그 당시에 내가 어떤 이야기를 나눴는지를 다시",
+    "image": "frame_0106_07-44.jpg"
+  },
+  {
+    "index": 107,
+    "timestamp": "07:49",
+    "timestamp_sec": 469.0,
+    "text": "복습을 할 수 있 있습니다.이 녹음도 결국에는 기록이라고 할 수 있어요.",
+    "image": "frame_0107_07-49.jpg"
+  },
+  {
+    "index": 108,
+    "timestamp": "07:53",
+    "timestamp_sec": 473.36,
+    "text": "그 당시에이 그 당시의 상황을 기록한 기록이라고",
+    "image": "frame_0108_07-53.jpg"
+  },
+  {
+    "index": 109,
+    "timestamp": "07:59",
+    "timestamp_sec": 479.4,
+    "text": "할 수 있죠. 우리가 이런 형태의",
+    "image": "frame_0109_07-59.jpg"
+  },
+  {
+    "index": 110,
+    "timestamp": "08:02",
+    "timestamp_sec": 482.44,
+    "text": "이미지라든지 음성 녹음이 없으면은",
+    "image": "frame_0110_08-02.jpg"
+  },
+  {
+    "index": 111,
+    "timestamp": "08:05",
+    "timestamp_sec": 485.72,
+    "text": "그때 당시에 내가 무엇을 했었는지 그때 당시에 그때 현재를 우리가",
+    "image": "frame_0111_08-05.jpg"
+  },
+  {
+    "index": 112,
+    "timestamp": "08:11",
+    "timestamp_sec": 491.24,
+    "text": "기억하기가 쉽지 않습니다. 물론 다 기억하려 하시는 분들이긴 하죠.",
+    "image": "frame_0112_08-11.jpg"
+  },
+  {
+    "index": 113,
+    "timestamp": "08:15",
+    "timestamp_sec": 495.8,
+    "text": "하여튼 이렇게 다양한 형태로 기록이 된다는 특성도 있는데요. 또 기록의",
+    "image": "frame_0113_08-15.jpg"
+  },
+  {
+    "index": 114,
+    "timestamp": "08:20",
+    "timestamp_sec": 500.159,
+    "text": "하나의 특징 특성이라고 하면은 재활용이 된다라는 겁니다. 어,",
+    "image": "frame_0114_08-20.jpg"
+  },
+  {
+    "index": 115,
+    "timestamp": "08:25",
+    "timestamp_sec": 505.159,
+    "text": "이거는 너무 중요한 특성인데요. 여러분들께서 그 어떤 순간에 세상을",
+    "image": "frame_0115_08-25.jpg"
+  },
+  {
+    "index": 116,
+    "timestamp": "08:31",
+    "timestamp_sec": 511.28,
+    "text": "관찰을 하면서 기록한 것들이 있죠.",
+    "image": "frame_0116_08-31.jpg"
+  },
+  {
+    "index": 117,
+    "timestamp": "08:34",
+    "timestamp_sec": 514.479,
+    "text": "그 그 데이터가 나중에 재활을 할 수가 있어요. 예를 들어서",
+    "image": "frame_0117_08-34.jpg"
+  },
+  {
+    "index": 118,
+    "timestamp": "08:38",
+    "timestamp_sec": 518.519,
+    "text": "여러분들께서 만약에 수업 때 필기 한 개 있다라고 하면요. 그것을 언제",
+    "image": "frame_0118_08-38.jpg"
+  },
+  {
+    "index": 119,
+    "timestamp": "08:44",
+    "timestamp_sec": 524.279,
+    "text": "활용을 하죠? 나중에 시험을 볼 때 아니면 평가를 받을 때 과제를 할 때",
+    "image": "frame_0119_08-44.jpg"
+  },
+  {
+    "index": 120,
+    "timestamp": "08:48",
+    "timestamp_sec": 528.76,
+    "text": "활용을 하죠. 우리가 어 수업 시간에",
+    "image": "frame_0120_08-48.jpg"
+  },
+  {
+    "index": 121,
+    "timestamp": "08:51",
+    "timestamp_sec": 531.92,
+    "text": "배우고 그리고 남겨 둔 것이 없으면은",
+    "image": "frame_0121_08-51.jpg"
+  },
+  {
+    "index": 122,
+    "timestamp": "08:55",
+    "timestamp_sec": 535.04,
+    "text": "나중에 시험을 볼 수가 없습니다. 또 이제 이미지를 활용한다라고 하면은",
+    "image": "frame_0122_08-55.jpg"
+  },
+  {
+    "index": 123,
+    "timestamp": "08:59",
+    "timestamp_sec": 539.68,
+    "text": "우리가 인스타에서 찾은 이쁜 카페에 있잖아요. 네. 아니면은 인터넷에서",
+    "image": "frame_0123_08-59.jpg"
+  },
+  {
+    "index": 124,
+    "timestamp": "09:05",
+    "timestamp_sec": 545.12,
+    "text": "공유받은 좀 이쁜 장소들, 맛집들",
+    "image": "frame_0124_09-05.jpg"
+  },
+  {
+    "index": 125,
+    "timestamp": "09:08",
+    "timestamp_sec": 548.64,
+    "text": "이런 것들이 저는 이제 제와",
+    "image": "frame_0125_09-08.jpg"
+  },
+  {
+    "index": 126,
+    "timestamp": "09:12",
+    "timestamp_sec": 552.16,
+    "text": "다음 데이트 때 계획을 할 때 활용을 할 수도 있어요. 이것도 어떻게",
+    "image": "frame_0126_09-12.jpg"
+  },
+  {
+    "index": 127,
+    "timestamp": "09:16",
+    "timestamp_sec": 556.12,
+    "text": "보면은 내가 그 인스타에서 저장하게 해 놓은 것도 어떻게 보면은",
+    "image": "frame_0127_09-16.jpg"
+  },
+  {
+    "index": 128,
+    "timestamp": "09:20",
+    "timestamp_sec": 560.24,
+    "text": "기록이라고 할 수 있죠. 그리고 우리 어렸을 때 그 저는 이제 초등학교",
+    "image": "frame_0128_09-20.jpg"
+  },
+  {
+    "index": 129,
+    "timestamp": "09:25",
+    "timestamp_sec": 565.36,
+    "text": "1학년 때 아마도 이제 자증거 타는 법을 배웠던 거 같아요. 근데 그때",
+    "image": "frame_0129_09-25.jpg"
+  },
+  {
+    "index": 130,
+    "timestamp": "09:30",
+    "timestamp_sec": 570.959,
+    "text": "배웠던 어떤 스킬들이 나의 머릿속에 기억이 저장이 돼 가지고 나중에",
+    "image": "frame_0130_09-30.jpg"
+  },
+  {
+    "index": 131,
+    "timestamp": "09:36",
+    "timestamp_sec": 576.16,
+    "text": "자전거를 탈 때 이제 서울이면 다른 일을 탈 때 그 활용을 하잖아요.",
+    "image": "frame_0131_09-36.jpg"
+  },
+  {
+    "index": 132,
+    "timestamp": "09:41",
+    "timestamp_sec": 581.32,
+    "text": "결국에는 우리가 어떤 순간에 이렇게",
+    "image": "frame_0132_09-41.jpg"
+  },
+  {
+    "index": 133,
+    "timestamp": "09:44",
+    "timestamp_sec": 584.959,
+    "text": "인사이트를 넣고 생각했던 것들이 언젠가는 재활용되게끔 되어 있습니다.",
+    "image": "frame_0133_09-44.jpg"
+  },
+  {
+    "index": 134,
+    "timestamp": "09:50",
+    "timestamp_sec": 590.279,
+    "text": "그냥 이게 기록하는게 그래서이 생각과",
+    "image": "frame_0134_09-50.jpg"
+  },
+  {
+    "index": 135,
+    "timestamp": "09:53",
+    "timestamp_sec": 593.519,
+    "text": "기록이라는게 그냥 막 가치가 없는게 아니에요. 너무 당연한 얘기라고",
+    "image": "frame_0135_09-53.jpg"
+  },
+  {
+    "index": 136,
+    "timestamp": "09:58",
+    "timestamp_sec": 598.68,
+    "text": "생각이 드실 수도 있는데요. 다시 생각해 보면은 우리가 기록이라는 것이",
+    "image": "frame_0136_09-58.jpg"
+  },
+  {
+    "index": 137,
+    "timestamp": "10:03",
+    "timestamp_sec": 603.68,
+    "text": "어 매우 재미있고 신기한 특징을 갖고 있습니다. 네. 그래서 이런 특성들로",
+    "image": "frame_0137_10-03.jpg"
+  },
+  {
+    "index": 138,
+    "timestamp": "10:09",
+    "timestamp_sec": 609.839,
+    "text": "인해서 기록이라는게 뭔지 한번 좀 정리를 해 보면요. 기록이라는 것은",
+    "image": "frame_0138_10-09.jpg"
+  },
+  {
+    "index": 139,
+    "timestamp": "10:15",
+    "timestamp_sec": 615.2,
+    "text": "결국에는 어떤 순간에 제가 세상을 관찰한하고 인지한 것들 중에서",
+    "image": "frame_0139_10-15.jpg"
+  },
+  {
+    "index": 140,
+    "timestamp": "10:20",
+    "timestamp_sec": 620.6,
+    "text": "특정하게 내가 아이디어를 느끼는 거,",
+    "image": "frame_0140_10-20.jpg"
+  },
+  {
+    "index": 141,
+    "timestamp": "10:23",
+    "timestamp_sec": 623.88,
+    "text": "인사이트를 느끼는 것, 새로운 발견을 한 것들을 결국에는 꺼내서 다 머릿속",
+    "image": "frame_0141_10-23.jpg"
+  },
+  {
+    "index": 142,
+    "timestamp": "10:29",
+    "timestamp_sec": 629.76,
+    "text": "밖으로 꺼내서 나중에 재활용할 수 있도록 저장해 놓는 것이 기록이라고",
+    "image": "frame_0142_10-29.jpg"
+  },
+  {
+    "index": 143,
+    "timestamp": "10:34",
+    "timestamp_sec": 634.72,
+    "text": "할 수 있습니다. 어, 결국에는 단순 저장의 그 의상의 의미를 갖고",
+    "image": "frame_0143_10-34.jpg"
+  },
+  {
+    "index": 144,
+    "timestamp": "10:39",
+    "timestamp_sec": 639.639,
+    "text": "있다라는 것을 여러분들께서 느끼실 수 있을 거예요. 그 당시의 생각을 잘",
+    "image": "frame_0144_10-39.jpg"
+  },
+  {
+    "index": 145,
+    "timestamp": "10:44",
+    "timestamp_sec": 644.24,
+    "text": "담아내서 재활용 가능한 재료를 만드는 것이고요. 또 한마디로 무의식의",
+    "image": "frame_0145_10-44.jpg"
+  },
+  {
+    "index": 146,
+    "timestamp": "10:49",
+    "timestamp_sec": 649.519,
+    "text": "무의식화라고 할 수 있습니다. 내가이 순간에이 현재 내가 느끼는 다양한",
+    "image": "frame_0146_10-49.jpg"
+  },
+  {
+    "index": 147,
+    "timestamp": "10:55",
+    "timestamp_sec": 655.12,
+    "text": "어떤 무의식에서 돌아가는 것들을 꺼내",
+    "image": "frame_0147_10-55.jpg"
+  },
+  {
+    "index": 148,
+    "timestamp": "10:58",
+    "timestamp_sec": 658.2,
+    "text": "가지고 의식화 하는 거죠. 우리가 적어 놓지 않고 이것을 데이터 해",
+    "image": "frame_0148_10-58.jpg"
+  },
+  {
+    "index": 149,
+    "timestamp": "11:02",
+    "timestamp_sec": 662.079,
+    "text": "놓지 않으면은 그게 있었다라는 것도",
+    "image": "frame_0149_11-02.jpg"
+  },
+  {
+    "index": 150,
+    "timestamp": "11:05",
+    "timestamp_sec": 665.48,
+    "text": "남겨 놓기도 힘들고 그리고 근거로 쓰기도 어렵습니다. 네. 그래서이",
+    "image": "frame_0150_11-05.jpg"
+  },
+  {
+    "index": 151,
+    "timestamp": "11:10",
+    "timestamp_sec": 670.56,
+    "text": "기록이라는게 결국에는 다양한 소중한",
+    "image": "frame_0151_11-10.jpg"
+  },
+  {
+    "index": 152,
+    "timestamp": "11:14",
+    "timestamp_sec": 674.04,
+    "text": "의미를 갖고 있다라고 보시면은 될 거 같아요. 그러면은이 기록이 무엇인지",
+    "image": "frame_0152_11-14.jpg"
+  },
+  {
+    "index": 153,
+    "timestamp": "11:19",
+    "timestamp_sec": 679.72,
+    "text": "한번 우리가 평생 하던 기록에 대해서 다시 한번 돌아보는 시간 있었으면은",
+    "image": "frame_0153_11-19.jpg"
+  },
+  {
+    "index": 154,
+    "timestamp": "11:24",
+    "timestamp_sec": 684.959,
+    "text": "이제 두 번째로는 우리가이 기록의 중요성에 대해서 좀 알아볼게요.",
+    "image": "frame_0154_11-24.jpg"
+  },
+  {
+    "index": 155,
+    "timestamp": "11:29",
+    "timestamp_sec": 689.92,
+    "text": "기록의 의미에 대해서 알아봤으면은 우리가이 시대에 왜 기록을 잘해야",
+    "image": "frame_0155_11-29.jpg"
+  },
+  {
+    "index": 156,
+    "timestamp": "11:35",
+    "timestamp_sec": 695.12,
+    "text": "되는지 그 중요성에 대해서 좀 다뤄보겠습니다. 첫 번째로는 인생은",
+    "image": "frame_0156_11-35.jpg"
+  },
+  {
+    "index": 157,
+    "timestamp": "11:40",
+    "timestamp_sec": 700.56,
+    "text": "남는게 기록밖에 없습니다. 어, 아까도 제가 말씀을 드렸지만요.",
+    "image": "frame_0157_11-40.jpg"
+  },
+  {
+    "index": 158,
+    "timestamp": "11:44",
+    "timestamp_sec": 704.56,
+    "text": "우리가 현재이 순간에 무엇을",
+    "image": "frame_0158_11-44.jpg"
+  },
+  {
+    "index": 159,
+    "timestamp": "11:47",
+    "timestamp_sec": 707.72,
+    "text": "생각했는지, 어떤 걸 했는지를 저장해 놓지 않으면은 다 날아가게 되어",
+    "image": "frame_0159_11-47.jpg"
+  },
+  {
+    "index": 160,
+    "timestamp": "11:52",
+    "timestamp_sec": 712.04,
+    "text": "있어요. 근데 이것을 인생이라는 좀 더 큰 프레임에서 생각을 해",
+    "image": "frame_0160_11-52.jpg"
+  },
+  {
+    "index": 161,
+    "timestamp": "11:56",
+    "timestamp_sec": 716.279,
+    "text": "보겠습니다. 네. 어 아까 말씀드린",
+    "image": "frame_0161_11-56.jpg"
+  },
+  {
+    "index": 162,
+    "timestamp": "11:59",
+    "timestamp_sec": 719.32,
+    "text": "거 같이 우리가 이러한 다양한 우리가",
+    "image": "frame_0162_11-59.jpg"
+  },
+  {
+    "index": 163,
+    "timestamp": "12:02",
+    "timestamp_sec": 722.68,
+    "text": "이제 시간이 있잖아요. 현재를 기준으로 과거와 그리고 미래 어",
+    "image": "frame_0163_12-02.jpg"
+  },
+  {
+    "index": 164,
+    "timestamp": "12:07",
+    "timestamp_sec": 727.639,
+    "text": "오타가 있네요.네 제가 바꾸겠습니다. 미래가 있어요. 네를 기준으로 과거와",
+    "image": "frame_0164_12-07.jpg"
+  },
+  {
+    "index": 165,
+    "timestamp": "12:12",
+    "timestamp_sec": 732.88,
+    "text": "미래가 있는데요. 현재라는 것을 우리가 보내고 있죠. 일단은 현재라는",
+    "image": "frame_0165_12-12.jpg"
+  },
+  {
+    "index": 166,
+    "timestamp": "12:18",
+    "timestamp_sec": 738.279,
+    "text": "거는 존재하지 않습니다. 왜냐면 방금 현재라는 건 존재하지 않습니다라고",
+    "image": "frame_0166_12-18.jpg"
+  },
+  {
+    "index": 167,
+    "timestamp": "12:22",
+    "timestamp_sec": 742.8,
+    "text": "말한 것도 과거가 되어 버리. 금방 지나갑니다. 현재라는 거는 엄밀히",
+    "image": "frame_0167_12-22.jpg"
+  },
+  {
+    "index": 168,
+    "timestamp": "12:26",
+    "timestamp_sec": 746.279,
+    "text": "말하면 존재하지 않는 거예요. 근데 제 저는 현재라는게 저만의 방식으로",
+    "image": "frame_0168_12-26.jpg"
+  },
+  {
+    "index": 169,
+    "timestamp": "12:31",
+    "timestamp_sec": 751.44,
+    "text": "정의를 하고 있는데요.이 현재라는 것은 시간의 어떤 단위로 정 그 쪼개",
+    "image": "frame_0169_12-31.jpg"
+  },
+  {
+    "index": 170,
+    "timestamp": "12:35",
+    "timestamp_sec": 755.92,
+    "text": "가지고 정의를 할 수 있습니다. 예를 들어서 여러분들께서이 강의를 듣고",
+    "image": "frame_0170_12-35.jpg"
+  },
+  {
+    "index": 171,
+    "timestamp": "12:40",
+    "timestamp_sec": 760.68,
+    "text": "있을이 여러분들께서 계획했던 시간 이게 이제 현재이고요. 아니면은 어",
+    "image": "frame_0171_12-40.jpg"
+  },
+  {
+    "index": 172,
+    "timestamp": "12:46",
+    "timestamp_sec": 766.24,
+    "text": "내가 이제 수업을 듣는데 특정한 수업을 듣는 그 수업 기간 있죠? 뭐",
+    "image": "frame_0172_12-46.jpg"
+  },
+  {
+    "index": 173,
+    "timestamp": "12:51",
+    "timestamp_sec": 771.24,
+    "text": "한시간에서 한시간 반 정도 되는데요. 그것도 현재라고 볼 수 있어요.",
+    "image": "frame_0173_12-51.jpg"
+  },
+  {
+    "index": 174,
+    "timestamp": "12:54",
+    "timestamp_sec": 774.959,
+    "text": "아니면 그 뭐 가족들하고 친구들하고",
+    "image": "frame_0174_12-54.jpg"
+  },
+  {
+    "index": 175,
+    "timestamp": "12:58",
+    "timestamp_sec": 778.16,
+    "text": "시간을 보내서 그 시간을 보내기 시작에서부터 끝까지가 어떤 현재라고",
+    "image": "frame_0175_12-58.jpg"
+  },
+  {
+    "index": 176,
+    "timestamp": "13:03",
+    "timestamp_sec": 783.36,
+    "text": "정의를 하고 이렇게 나눌 수가 있습니다. 그 현재 그 시간을 보냈을",
+    "image": "frame_0176_13-03.jpg"
+  },
+  {
+    "index": 177,
+    "timestamp": "13:07",
+    "timestamp_sec": 787.8,
+    "text": "때요. 저희가 결국에는 남는게 기록밖에 없는데요. 기록을 남겨 두고",
+    "image": "frame_0177_13-07.jpg"
+  },
+  {
+    "index": 178,
+    "timestamp": "13:13",
+    "timestamp_sec": 793.639,
+    "text": "저희가 계속 하다 보면은 이게 어떤 연결이 보입니다. 어, 제가 다음",
+    "image": "frame_0178_13-13.jpg"
+  },
+  {
+    "index": 179,
+    "timestamp": "13:18",
+    "timestamp_sec": 798.6,
+    "text": "시간에 우리가 결국에는이 기록을 어떻게 해야 되는지를 좀 다룰",
+    "image": "frame_0179_13-18.jpg"
+  },
+  {
+    "index": 180,
+    "timestamp": "13:23",
+    "timestamp_sec": 803.56,
+    "text": "예정인데요. 결국에는 우리는 연결 기반에 기록을 해야 돼요. 기록을",
+    "image": "frame_0180_13-23.jpg"
+  },
+  {
+    "index": 181,
+    "timestamp": "13:27",
+    "timestamp_sec": 807.92,
+    "text": "남겨 놓더라도 우리가 어떤 맥락에서 기록을 했는지 아니면은 왜 기록을",
+    "image": "frame_0181_13-27.jpg"
+  },
+  {
+    "index": 182,
+    "timestamp": "13:33",
+    "timestamp_sec": 813.0,
+    "text": "했는지, 내가 어떤 상황에서 기록을 했는지 이것들을 남겨 놔야 됩니다.",
+    "image": "frame_0182_13-33.jpg"
+  },
+  {
+    "index": 183,
+    "timestamp": "13:37",
+    "timestamp_sec": 817.68,
+    "text": "그런 것들을 통해서 우리가 기억이 연결이 되는데요. 이렇게 기록을 안",
+    "image": "frame_0183_13-37.jpg"
+  },
+  {
+    "index": 184,
+    "timestamp": "13:41",
+    "timestamp_sec": 821.88,
+    "text": "해도 알고 보면은 우리가 모든 것들이 다 연결돼 있습니다. 예, 지금",
+    "image": "frame_0184_13-41.jpg"
+  },
+  {
+    "index": 185,
+    "timestamp": "13:45",
+    "timestamp_sec": 825.48,
+    "text": "여러분들께서 듣고 계신이 강의 자체도",
+    "image": "frame_0185_13-45.jpg"
+  },
+  {
+    "index": 186,
+    "timestamp": "13:48",
+    "timestamp_sec": 828.56,
+    "text": "여러분들이 여기까지 오게 된 찾아오게 된 계기가 있을 겁니다. 어떤 이제",
+    "image": "frame_0186_13-48.jpg"
+  },
+  {
+    "index": 187,
+    "timestamp": "13:53",
+    "timestamp_sec": 833.279,
+    "text": "웹사이트나 아니면은 어떤 어 교육 시스템에서 노트테이킹 마스터라는",
+    "image": "frame_0187_13-53.jpg"
+  },
+  {
+    "index": 188,
+    "timestamp": "13:58",
+    "timestamp_sec": 838.72,
+    "text": "강의를 접하고 어 나는 노트테이킹에",
+    "image": "frame_0188_13-58.jpg"
+  },
+  {
+    "index": 189,
+    "timestamp": "14:02",
+    "timestamp_sec": 842.16,
+    "text": "대해서 좀 듣고 싶어 궁금해졌어라고",
+    "image": "frame_0189_14-02.jpg"
+  },
+  {
+    "index": 190,
+    "timestamp": "14:05",
+    "timestamp_sec": 845.6,
+    "text": "하면서이 강의를 신청해 신청을 했을 거고요.이 노트 테이킹이라는 것도",
+    "image": "frame_0190_14-05.jpg"
+  },
+  {
+    "index": 191,
+    "timestamp": "14:10",
+    "timestamp_sec": 850.839,
+    "text": "관심 갖게 된 계기가 있겠죠. 어떤 계기가 꼭 있었을 겁니다.이",
+    "image": "frame_0191_14-10.jpg"
+  },
+  {
+    "index": 192,
+    "timestamp": "14:15",
+    "timestamp_sec": 855.44,
+    "text": "기억이라는 것도 경험이라는 것도 노트라는 것도 결국에는 다 연결이",
+    "image": "frame_0192_14-15.jpg"
+  },
+  {
+    "index": 193,
+    "timestamp": "14:20",
+    "timestamp_sec": 860.32,
+    "text": "되어 있거든요. 예. 그래서 현재이",
+    "image": "frame_0193_14-20.jpg"
+  },
+  {
+    "index": 194,
+    "timestamp": "14:23",
+    "timestamp_sec": 863.399,
+    "text": "순간을 보내고 있는 것도 결국에는 어떤 맥락과 연결이 있어요. 결국에는",
+    "image": "frame_0194_14-23.jpg"
+  },
+  {
+    "index": 195,
+    "timestamp": "14:27",
+    "timestamp_sec": 867.639,
+    "text": "우리가 기록을 계속하다 보면은 이러 과거에 내가 어떤 선택을 외는지에",
+    "image": "frame_0195_14-27.jpg"
+  },
+  {
+    "index": 196,
+    "timestamp": "14:32",
+    "timestamp_sec": 872.399,
+    "text": "대해서도 이렇게 영 기록을 할 수 있게 되고요. 현재까지도 기록을 하다",
+    "image": "frame_0196_14-32.jpg"
+  },
+  {
+    "index": 197,
+    "timestamp": "14:37",
+    "timestamp_sec": 877.8,
+    "text": "보면은 결국에는이 지식을 남겨 두고 나의 인생 스토리가",
+    "image": "frame_0197_14-37.jpg"
+  },
+  {
+    "index": 198,
+    "timestamp": "14:43",
+    "timestamp_sec": 883.639,
+    "text": "완성을 하게 됩니다.데 이렇게 계속 기록을 하다면은 연결이 되고 어떤",
+    "image": "frame_0198_14-43.jpg"
+  },
+  {
+    "index": 199,
+    "timestamp": "14:49",
+    "timestamp_sec": 889.16,
+    "text": "네트워크가 만들어지는데요. 이거 어떻게 활용을 할 수가 있는게이",
+    "image": "frame_0199_14-49.jpg"
+  },
+  {
+    "index": 200,
+    "timestamp": "14:53",
+    "timestamp_sec": 893.6,
+    "text": "지식을 나중에 미래에 다시 활용을 할 수가 있어요. 제가 앞서서이",
+    "image": "frame_0200_14-53.jpg"
+  },
+  {
+    "index": 201,
+    "timestamp": "14:58",
+    "timestamp_sec": 898.519,
+    "text": "기록이라는게 지식이라는게 결국에는 나중에 재활용된다라고 말씀을",
+    "image": "frame_0201_14-58.jpg"
+  },
+  {
+    "index": 202,
+    "timestamp": "15:02",
+    "timestamp_sec": 902.36,
+    "text": "드렸잖아요. 내가 만약에 현재 강의를 들으면서 어떤 수업을 들으면서 내가",
+    "image": "frame_0202_15-02.jpg"
+  },
+  {
+    "index": 203,
+    "timestamp": "15:07",
+    "timestamp_sec": 907.44,
+    "text": "느낀 것들, 배운 것들을 잘 기록을 해 두면은 나중에 머지 않은 미래에",
+    "image": "frame_0203_15-07.jpg"
+  },
+  {
+    "index": 204,
+    "timestamp": "15:12",
+    "timestamp_sec": 912.44,
+    "text": "내가 시험을 본데 재활령을 할 수가 있겠죠. 그죠? 그리고 아니면 내가",
+    "image": "frame_0204_15-12.jpg"
+  },
+  {
+    "index": 205,
+    "timestamp": "15:16",
+    "timestamp_sec": 916.839,
+    "text": "어떤 어떤 뭐 사업을 해야지 아니면 어떤 방식으로 행동을 해야지라는 것을",
+    "image": "frame_0205_15-16.jpg"
+  },
+  {
+    "index": 206,
+    "timestamp": "15:22",
+    "timestamp_sec": 922.279,
+    "text": "생각을 해서 기록을 해 두면요. 행동 그 계획된 행동이나 시간이 다가왔을",
+    "image": "frame_0206_15-22.jpg"
+  },
+  {
+    "index": 207,
+    "timestamp": "15:27",
+    "timestamp_sec": 927.56,
+    "text": "때 그 기록을 재활용할 수가 있습니다. 그래서 우리가 어 내가",
+    "image": "frame_0207_15-27.jpg"
+  },
+  {
+    "index": 208,
+    "timestamp": "15:32",
+    "timestamp_sec": 932.8,
+    "text": "어떤 생각을 했더라라는 것을 다시 떠올릴 필요가 없어요. 그래서 우리가",
+    "image": "frame_0208_15-32.jpg"
+  },
+  {
+    "index": 209,
+    "timestamp": "15:37",
+    "timestamp_sec": 937.8,
+    "text": "인생이라는 전체 타임프레임을 보면은 현재 내가 어떤 시간을 보내면서",
+    "image": "frame_0209_15-37.jpg"
+  },
+  {
+    "index": 210,
+    "timestamp": "15:42",
+    "timestamp_sec": 942.88,
+    "text": "남는게 기록이밖에 없을 뿐더러 나중에 재활할 수 있기 때문에 결국엔 기록을",
+    "image": "frame_0210_15-42.jpg"
+  },
+  {
+    "index": 211,
+    "timestamp": "15:47",
+    "timestamp_sec": 947.639,
+    "text": "많이 해 두는게 나에게 이득일 수밖에 없습니다. 내 기록을 그리고 이렇게",
+    "image": "frame_0211_15-47.jpg"
+  },
+  {
+    "index": 212,
+    "timestamp": "15:52",
+    "timestamp_sec": 952.639,
+    "text": "기록을 많이 해 두면요.이 하루에 기록을 하나라도 하면은 내가 오늘",
+    "image": "frame_0212_15-52.jpg"
+  },
+  {
+    "index": 213,
+    "timestamp": "15:57",
+    "timestamp_sec": 957.519,
+    "text": "인상적이었던게 뭐고 오늘 무엇을 배웠는지 여러분들께서 기록을 해",
+    "image": "frame_0213_15-57.jpg"
+  },
+  {
+    "index": 214,
+    "timestamp": "16:01",
+    "timestamp_sec": 961.519,
+    "text": "두면요. 어, 저는이 복리 효과가",
+    "image": "frame_0214_16-01.jpg"
+  },
+  {
+    "index": 215,
+    "timestamp": "16:05",
+    "timestamp_sec": 965.079,
+    "text": "나타난다라고 강력하게 주장을 하고 싶습니다.이 복리 효과라는게",
+    "image": "frame_0215_16-05.jpg"
+  },
+  {
+    "index": 216,
+    "timestamp": "16:09",
+    "timestamp_sec": 969.36,
+    "text": "그거잖아요. 우리가 오늘 1,000원을 투자를 하면은 예를",
+    "image": "frame_0216_16-09.jpg"
+  },
+  {
+    "index": 217,
+    "timestamp": "16:12",
+    "timestamp_sec": 972.6,
+    "text": "들어서 이익률이 뭐 10%라고 해요. 그럼 내일 1100원이 되고 그 봉리",
+    "image": "frame_0217_16-12.jpg"
+  },
+  {
+    "index": 218,
+    "timestamp": "16:17",
+    "timestamp_sec": 977.399,
+    "text": "효과로 인해서 1,00원의 10%가 더 붙어서 또 1210원이 되겠죠.",
+    "image": "frame_0218_16-17.jpg"
+  },
+  {
+    "index": 219,
+    "timestamp": "16:22",
+    "timestamp_sec": 982.8,
+    "text": "네. 이렇게 계속 점점 더 불안하는게 복리 협관인데요.이 기록도",
+    "image": "frame_0219_16-22.jpg"
+  },
+  {
+    "index": 220,
+    "timestamp": "16:27",
+    "timestamp_sec": 987.839,
+    "text": "엄청납니다. 기록이 쌓이고 쌓이고 연결되면 연결될수록 나중에이 기록들을",
+    "image": "frame_0220_16-27.jpg"
+  },
+  {
+    "index": 221,
+    "timestamp": "16:33",
+    "timestamp_sec": 993.48,
+    "text": "한꺼번에 이용해서 내가 책을 쓸 수도 있고요. 아니면은 이것들을 이용을 해",
+    "image": "frame_0221_16-33.jpg"
+  },
+  {
+    "index": 222,
+    "timestamp": "16:37",
+    "timestamp_sec": 997.839,
+    "text": "가지고 한 번에 AI한테 넣어서",
+    "image": "frame_0222_16-37.jpg"
+  },
+  {
+    "index": 223,
+    "timestamp": "16:40",
+    "timestamp_sec": 1000.839,
+    "text": "더욱더 가치 있는 어떤 결과물로 만들어 낼 수가 있죠. 그래서",
+    "image": "frame_0223_16-40.jpg"
+  },
+  {
+    "index": 224,
+    "timestamp": "16:45",
+    "timestamp_sec": 1005.92,
+    "text": "결국에는이 복리 효과가 나타나게 됩니다. 그래서 기록을 많이 해두고",
+    "image": "frame_0224_16-45.jpg"
+  },
+  {
+    "index": 225,
+    "timestamp": "16:51",
+    "timestamp_sec": 1011.36,
+    "text": "최대한 어 정확하고 가치 있게 두는 것이 여러분들 인생에 그 제도 그런",
+    "image": "frame_0225_16-51.jpg"
+  },
+  {
+    "index": 226,
+    "timestamp": "16:57",
+    "timestamp_sec": 1017.12,
+    "text": "경험을 하였고요. 모든 사람들의 인생에 도움이 될 수밖에 없습니다.",
+    "image": "frame_0226_16-57.jpg"
+  },
+  {
+    "index": 227,
+    "timestamp": "17:00",
+    "timestamp_sec": 1020.88,
+    "text": "네. 어, 그리고 기록이 중요한 두 번째 이유는요.이 기록을 통해서",
+    "image": "frame_0227_17-00.jpg"
+  },
+  {
+    "index": 228,
+    "timestamp": "17:06",
+    "timestamp_sec": 1026.559,
+    "text": "내가이 시대에 나다움과 인간다움을",
+    "image": "frame_0228_17-06.jpg"
+  },
+  {
+    "index": 229,
+    "timestamp": "17:10",
+    "timestamp_sec": 1030.079,
+    "text": "살릴 수 있는 어, 찾을 수 있는 유일한 방식이기 때문이에요. 나는",
+    "image": "frame_0229_17-10.jpg"
+  },
+  {
+    "index": 230,
+    "timestamp": "17:14",
+    "timestamp_sec": 1034.88,
+    "text": "뭘까요? 나는 뭔지라는 거를 정의하는게 너무 힘 힘들죠.",
+    "image": "frame_0230_17-14.jpg"
+  },
+  {
+    "index": 231,
+    "timestamp": "17:20",
+    "timestamp_sec": 1040.0,
+    "text": "그죠? 왜냐면 실제로 나라는 것은요.",
+    "image": "frame_0231_17-20.jpg"
+  },
+  {
+    "index": 232,
+    "timestamp": "17:23",
+    "timestamp_sec": 1043.439,
+    "text": "내 존재는 내가 지금 몸 그 뭐",
+    "image": "frame_0232_17-23.jpg"
+  },
+  {
+    "index": 233,
+    "timestamp": "17:26",
+    "timestamp_sec": 1046.559,
+    "text": "세포, 내 몸의 다양한 조직들로 세포들로 이루어져 있죠. 이게 실제로",
+    "image": "frame_0233_17-26.jpg"
+  },
+  {
+    "index": 234,
+    "timestamp": "17:30",
+    "timestamp_sec": 1050.679,
+    "text": "나인데 내가 생각하는 나는 저는 이제",
+    "image": "frame_0234_17-30.jpg"
+  },
+  {
+    "index": 235,
+    "timestamp": "17:34",
+    "timestamp_sec": 1054.0,
+    "text": "유튜브 유튜버를 하고요. 그리고 현재 현업에서 AI 컨설턴트로 일하고",
+    "image": "frame_0235_17-34.jpg"
+  },
+  {
+    "index": 236,
+    "timestamp": "17:38",
+    "timestamp_sec": 1058.76,
+    "text": "있고요. 네. 그리고 저를 생각하는 나, 내가 생각한 나의 방식, 아,",
+    "image": "frame_0236_17-38.jpg"
+  },
+  {
+    "index": 237,
+    "timestamp": "17:43",
+    "timestamp_sec": 1063.679,
+    "text": "내가 인지한 내가 있잖아요. 난 누구의 아내이고 누구의 아들이고",
+    "image": "frame_0237_17-43.jpg"
+  },
+  {
+    "index": 238,
+    "timestamp": "17:48",
+    "timestamp_sec": 1068.2,
+    "text": "어디서 어떤 역할하고 있다. 이거는 내가 생각을 한 겁니다. 예. 내가",
+    "image": "frame_0238_17-48.jpg"
+  },
+  {
+    "index": 239,
+    "timestamp": "17:52",
+    "timestamp_sec": 1072.6,
+    "text": "나를 그렇게 정의하는게 결국엔 내가 생각을 하기 때문에 그리고 내가",
+    "image": "frame_0239_17-52.jpg"
+  },
+  {
+    "index": 240,
+    "timestamp": "17:57",
+    "timestamp_sec": 1077.12,
+    "text": "그렇다고 생각을 하기 때문에 나는 존재하는 거거든요. 그게 나입니다.",
+    "image": "frame_0240_17-57.jpg"
+  },
+  {
+    "index": 241,
+    "timestamp": "18:01",
+    "timestamp_sec": 1081.159,
+    "text": "데카르테가 이렇게 말했습니다. 나는 생각한다. 고로 존재한다.",
+    "image": "frame_0241_18-01.jpg"
+  },
+  {
+    "index": 242,
+    "timestamp": "18:06",
+    "timestamp_sec": 1086.799,
+    "text": "내가 결국에는 현재이 순간에 내가 무엇이 중요하고 무엇이 좋고 난 어떤",
+    "image": "frame_0242_18-06.jpg"
+  },
+  {
+    "index": 243,
+    "timestamp": "18:12",
+    "timestamp_sec": 1092.36,
+    "text": "역할하고 나의 목표가 뭐고 이렇게 행동을 해야 되겠다. 이런 인사이트를",
+    "image": "frame_0243_18-12.jpg"
+  },
+  {
+    "index": 244,
+    "timestamp": "18:15",
+    "timestamp_sec": 1095.52,
+    "text": "느꼈다라고 생각을 했기 때문에 내가",
+    "image": "frame_0244_18-15.jpg"
+  },
+  {
+    "index": 245,
+    "timestamp": "18:18",
+    "timestamp_sec": 1098.52,
+    "text": "존재를 하는 거죠. 그래서 내가 생각하는 것들을 이렇게 꺼내 놓으면은",
+    "image": "frame_0245_18-18.jpg"
+  },
+  {
+    "index": 246,
+    "timestamp": "18:23",
+    "timestamp_sec": 1103.679,
+    "text": "내가 무엇인지, 내가 무엇을 좋아하는지를 이렇게 꺼내 놓을 수도",
+    "image": "frame_0246_18-23.jpg"
+  },
+  {
+    "index": 247,
+    "timestamp": "18:27",
+    "timestamp_sec": 1107.96,
+    "text": "있고요. 결국에는 나 내가 누군지 더욱 더 찾을 수 있습니다. 그래서",
+    "image": "frame_0247_18-27.jpg"
+  },
+  {
+    "index": 248,
+    "timestamp": "18:32",
+    "timestamp_sec": 1112.919,
+    "text": "나다음을 찾아야 한다라고 우리는 많이 강조하고 있잖아요. 우리가 생각하는",
+    "image": "frame_0248_18-32.jpg"
+  },
+  {
+    "index": 249,
+    "timestamp": "18:37",
+    "timestamp_sec": 1117.12,
+    "text": "것을 꺼내 놓으면은 결국은 나담을 찾을 수 있는 유일한 방법이라고 저는",
+    "image": "frame_0249_18-37.jpg"
+  },
+  {
+    "index": 250,
+    "timestamp": "18:41",
+    "timestamp_sec": 1121.24,
+    "text": "말씀을 드리고 싶습니다. 그리고 어이 생각을 하는 것이 기록을 하는 것이",
+    "image": "frame_0250_18-41.jpg"
+  },
+  {
+    "index": 251,
+    "timestamp": "18:45",
+    "timestamp_sec": 1125.72,
+    "text": "결국에는 인간다음을 찾는 방법 중",
+    "image": "frame_0251_18-45.jpg"
+  },
+  {
+    "index": 252,
+    "timestamp": "18:49",
+    "timestamp_sec": 1129.08,
+    "text": "하나인데요.음 저는 우리 이런 거 많잖아요. 호모 어쩌구 뭐 우리의이",
+    "image": "frame_0252_18-49.jpg"
+  },
+  {
+    "index": 253,
+    "timestamp": "18:55",
+    "timestamp_sec": 1135.6,
+    "text": "인종을 그 우리의 동물의 종류 우리를",
+    "image": "frame_0253_18-55.jpg"
+  },
+  {
+    "index": 254,
+    "timestamp": "18:59",
+    "timestamp_sec": 1139.32,
+    "text": "이제 호모사피엔스라고 하잖아요. 호모사피엔스 말고 우리 인간의 어떤",
+    "image": "frame_0254_18-59.jpg"
+  },
+  {
+    "index": 255,
+    "timestamp": "19:04",
+    "timestamp_sec": 1144.679,
+    "text": "본성을 정의를 하는 다양한 용어들이",
+    "image": "frame_0255_19-04.jpg"
+  },
+  {
+    "index": 256,
+    "timestamp": "19:07",
+    "timestamp_sec": 1147.84,
+    "text": "있거든요. 예를 들어서 호모파베르 도그로서의 인간 인간은 도구를",
+    "image": "frame_0256_19-07.jpg"
+  },
+  {
+    "index": 257,
+    "timestamp": "19:12",
+    "timestamp_sec": 1152.799,
+    "text": "이용해서 새로운 것을 착료를 해요. 호모르덴스 놀이하는 인간 우리가",
+    "image": "frame_0257_19-12.jpg"
+  },
+  {
+    "index": 258,
+    "timestamp": "19:18",
+    "timestamp_sec": 1158.159,
+    "text": "놀이와 여가를 통해서 상의성을 발휘를",
+    "image": "frame_0258_19-18.jpg"
+  },
+  {
+    "index": 259,
+    "timestamp": "19:21",
+    "timestamp_sec": 1161.28,
+    "text": "하고 표현을 추구하고 호모렌스 질문하는 인간 호모커센스",
+    "image": "frame_0259_19-21.jpg"
+  },
+  {
+    "index": 260,
+    "timestamp": "19:26",
+    "timestamp_sec": 1166.6,
+    "text": "학습하는 인간네 이런 인간의 다양한",
+    "image": "frame_0260_19-26.jpg"
+  },
+  {
+    "index": 261,
+    "timestamp": "19:29",
+    "timestamp_sec": 1169.72,
+    "text": "특성들을 정의를 하는 것들이 있습니다. 근데이 인간다움이라는 것은",
+    "image": "frame_0261_19-29.jpg"
+  },
+  {
+    "index": 262,
+    "timestamp": "19:34",
+    "timestamp_sec": 1174.36,
+    "text": "결국 어디서 시작이 되냐면요. 내가 현재 인지하고 있는이 세상을",
+    "image": "frame_0262_19-34.jpg"
+  },
+  {
+    "index": 263,
+    "timestamp": "19:40",
+    "timestamp_sec": 1180.08,
+    "text": "생각하라고 고민을 하고 질문을 하고",
+    "image": "frame_0263_19-40.jpg"
+  },
+  {
+    "index": 264,
+    "timestamp": "19:43",
+    "timestamp_sec": 1183.72,
+    "text": "그리고 이것을 결국은 생각을함으로써",
+    "image": "frame_0264_19-43.jpg"
+  },
+  {
+    "index": 265,
+    "timestamp": "19:46",
+    "timestamp_sec": 1186.84,
+    "text": "모든 것이 다 시작이 됩니다.이 생각을 내가 결국에는 머릿속에서",
+    "image": "frame_0265_19-46.jpg"
+  },
+  {
+    "index": 266,
+    "timestamp": "19:51",
+    "timestamp_sec": 1191.48,
+    "text": "꺼내서 표현해 내고 남겨 놓는 것만으로도이 인간다음을 실행할 수",
+    "image": "frame_0266_19-51.jpg"
+  },
+  {
+    "index": 267,
+    "timestamp": "19:57",
+    "timestamp_sec": 1197.159,
+    "text": "있는 제일 가치 있는 방법이라고 저는 생각을 합니다. 그리고 마지막으로",
+    "image": "frame_0267_19-57.jpg"
+  },
+  {
+    "index": 268,
+    "timestamp": "20:02",
+    "timestamp_sec": 1202.48,
+    "text": "AI 시대에도 저는 기록이 무엇보다도",
+    "image": "frame_0268_20-02.jpg"
+  },
+  {
+    "index": 269,
+    "timestamp": "20:05",
+    "timestamp_sec": 1205.48,
+    "text": "중요하다고 생각을 하고 있습니다. 그 이유가요. 일단은 제가 말씀드리고",
+    "image": "frame_0269_20-05.jpg"
+  },
+  {
+    "index": 270,
+    "timestamp": "20:08",
+    "timestamp_sec": 1208.64,
+    "text": "싶은 것은 샘 알트먼도 최지T를",
+    "image": "frame_0270_20-08.jpg"
+  },
+  {
+    "index": 271,
+    "timestamp": "20:11",
+    "timestamp_sec": 1211.64,
+    "text": "만들고 세상에 놓은 내 어어 내놓은",
+    "image": "frame_0271_20-11.jpg"
+  },
+  {
+    "index": 272,
+    "timestamp": "20:14",
+    "timestamp_sec": 1214.76,
+    "text": "오픈 A의 샘 알트먼도 AI 시대의 기록을 엄청나게 중요시 여긴대요.음",
+    "image": "frame_0272_20-14.jpg"
+  },
+  {
+    "index": 273,
+    "timestamp": "20:20",
+    "timestamp_sec": 1220.44,
+    "text": "세 알트먼의 기록법하고 AI 활용법을 좀 보여 드리자면 우선 샘 알트버는",
+    "image": "frame_0273_20-20.jpg"
+  },
+  {
+    "index": 274,
+    "timestamp": "20:25",
+    "timestamp_sec": 1225.72,
+    "text": "생각의 도구를 이용을 한대요. tools for thoughts.",
+    "image": "frame_0274_20-25.jpg"
+  },
+  {
+    "index": 275,
+    "timestamp": "20:29",
+    "timestamp_sec": 1229.44,
+    "text": "그리고 아날로그를 많이 이용한다 한데요. 자기가 어떤 아이디어가",
+    "image": "frame_0275_20-29.jpg"
+  },
+  {
+    "index": 276,
+    "timestamp": "20:32",
+    "timestamp_sec": 1232.799,
+    "text": "나면은 바로 이런 포스티이나 아니면은",
+    "image": "frame_0276_20-32.jpg"
+  },
+  {
+    "index": 277,
+    "timestamp": "20:36",
+    "timestamp_sec": 1236.28,
+    "text": "이런 A5 메모장을 꺼내 가지고 바로",
+    "image": "frame_0277_20-36.jpg"
+  },
+  {
+    "index": 278,
+    "timestamp": "20:39",
+    "timestamp_sec": 1239.76,
+    "text": "내가 생각하는 것을 기록해 둔다라고 합니다. 일단은 막 수첩에 막 적어",
+    "image": "frame_0278_20-39.jpg"
+  },
+  {
+    "index": 279,
+    "timestamp": "20:44",
+    "timestamp_sec": 1244.84,
+    "text": "놔요. 그리고 이것은 정제되지 않게",
+    "image": "frame_0279_20-44.jpg"
+  },
+  {
+    "index": 280,
+    "timestamp": "20:48",
+    "timestamp_sec": 1248.0,
+    "text": "일단은 막 기록해 둔다고 합니다. 그리고 나서 나중에 한 번에이 내가",
+    "image": "frame_0280_20-48.jpg"
+  },
+  {
+    "index": 281,
+    "timestamp": "20:52",
+    "timestamp_sec": 1252.159,
+    "text": "기록했던 것들을 돌아보면서 어 내가 그때 어떤 생각을 했는지 좀 더",
+    "image": "frame_0281_20-52.jpg"
+  },
+  {
+    "index": 282,
+    "timestamp": "20:57",
+    "timestamp_sec": 1257.72,
+    "text": "명확하게 아이디어로 발전시킨다고 해요. 명확한 사고를 한다고",
+    "image": "frame_0282_20-57.jpg"
+  },
+  {
+    "index": 283,
+    "timestamp": "21:01",
+    "timestamp_sec": 1261.2,
+    "text": "합니다.이 명확한 사고라는 것은 내가이 생각한 것들에 대해서 다시",
+    "image": "frame_0283_21-01.jpg"
+  },
+  {
+    "index": 284,
+    "timestamp": "21:05",
+    "timestamp_sec": 1265.96,
+    "text": "표현을 할 수가 있고 명료하게 글로 쓸 수가 있다면은 생각을 하는 거라고",
+    "image": "frame_0284_21-05.jpg"
+  },
+  {
+    "index": 285,
+    "timestamp": "21:10",
+    "timestamp_sec": 1270.48,
+    "text": "합니다. 명확한 사과를 한다고 해요. 그래서 최지T를 활용을 할 때 하기",
+    "image": "frame_0285_21-10.jpg"
+  },
+  {
+    "index": 286,
+    "timestamp": "21:15",
+    "timestamp_sec": 1275.6,
+    "text": "전에는 내가 결국에는 명확하게 생각하고 기록한 것들을 토대로 이용을",
+    "image": "frame_0286_21-15.jpg"
+  },
+  {
+    "index": 287,
+    "timestamp": "21:20",
+    "timestamp_sec": 1280.559,
+    "text": "한다고 하더라고요. 생각이 없으면은",
+    "image": "frame_0287_21-20.jpg"
+  },
+  {
+    "index": 288,
+    "timestamp": "21:24",
+    "timestamp_sec": 1284.08,
+    "text": "AI를 활용하지 않는다라고 합니다. 그러니까 저희가이 AI 시대에",
+    "image": "frame_0288_21-24.jpg"
+  },
+  {
+    "index": 289,
+    "timestamp": "21:28",
+    "timestamp_sec": 1288.0,
+    "text": "사람들이 많이 하는 것이 어 별로 생각을 하지 않고 무지성하게 AI을",
+    "image": "frame_0289_21-28.jpg"
+  },
+  {
+    "index": 290,
+    "timestamp": "21:32",
+    "timestamp_sec": 1292.24,
+    "text": "활용하는 경우가 많을 거예요. 그래서 오히려 어 AI를 활용을 해서 과제를",
+    "image": "frame_0290_21-32.jpg"
+  },
+  {
+    "index": 291,
+    "timestamp": "21:38",
+    "timestamp_sec": 1298.039,
+    "text": "더 빨리 하거나 더 공부를 잘하거나 성적을 좀 늘리려고 시도를 하려고",
+    "image": "frame_0291_21-38.jpg"
+  },
+  {
+    "index": 292,
+    "timestamp": "21:42",
+    "timestamp_sec": 1302.96,
+    "text": "했던 경험이 있는데 오히려 혹시 여러분들께서 더 오래 걸렸던 경험이",
+    "image": "frame_0292_21-42.jpg"
+  },
+  {
+    "index": 293,
+    "timestamp": "21:47",
+    "timestamp_sec": 1307.799,
+    "text": "있지 않으신가요? 오히려 그 AI를 쓰고 나니까 그냥 내가 혼자서 할 걸",
+    "image": "frame_0293_21-47.jpg"
+  },
+  {
+    "index": 294,
+    "timestamp": "21:52",
+    "timestamp_sec": 1312.48,
+    "text": "이런 경험이 있으셨을 거예요. 그 이유가요. 아마도 여러분들께서 크게",
+    "image": "frame_0294_21-52.jpg"
+  },
+  {
+    "index": 295,
+    "timestamp": "21:57",
+    "timestamp_sec": 1317.12,
+    "text": "고민을 안 하시고 여러분들이 해결하하고자 했던 문제 그리고",
+    "image": "frame_0295_21-57.jpg"
+  },
+  {
+    "index": 296,
+    "timestamp": "22:01",
+    "timestamp_sec": 1321.0,
+    "text": "여러분들께서 하려고 했던 그 과제에 대해서 생각을 많이 하지 않고 그것을",
+    "image": "frame_0296_22-01.jpg"
+  },
+  {
+    "index": 297,
+    "timestamp": "22:06",
+    "timestamp_sec": 1326.24,
+    "text": "해결하려고 했기 때문에 오히려 더 오래 걸렸을 수도 있을 거예요.",
+    "image": "frame_0297_22-06.jpg"
+  },
+  {
+    "index": 298,
+    "timestamp": "22:09",
+    "timestamp_sec": 1329.76,
+    "text": "그래서 샘 알트먼도 결국에는 명확한 사고를 하고 생각을 한 후에 최지T를",
+    "image": "frame_0298_22-09.jpg"
+  },
+  {
+    "index": 299,
+    "timestamp": "22:15",
+    "timestamp_sec": 1335.279,
+    "text": "이용을 하고 있는데요. 이 생각이라는게 왜 이렇게 중요하냐라고",
+    "image": "frame_0299_22-15.jpg"
+  },
+  {
+    "index": 300,
+    "timestamp": "22:19",
+    "timestamp_sec": 1339.32,
+    "text": "한다면 지금은 웬만한 AI 모델들 뭐 최지피t나 제미나이나 클로드 같은",
+    "image": "frame_0300_22-19.jpg"
+  },
+  {
+    "index": 301,
+    "timestamp": "22:24",
+    "timestamp_sec": 1344.279,
+    "text": "것들이 다 생각 모델이 각각 가지고",
+    "image": "frame_0301_22-24.jpg"
+  },
+  {
+    "index": 302,
+    "timestamp": "22:27",
+    "timestamp_sec": 1347.52,
+    "text": "있습니다. 리즈닝 모델이라고 하는데요. 언제부터 좀 재중화",
+    "image": "frame_0302_22-27.jpg"
+  },
+  {
+    "index": 303,
+    "timestamp": "22:31",
+    "timestamp_sec": 1351.279,
+    "text": "됐냐라고 하면은 2024년 9월 달에",
+    "image": "frame_0303_22-31.jpg"
+  },
+  {
+    "index": 304,
+    "timestamp": "22:34",
+    "timestamp_sec": 1354.52,
+    "text": "저희가 오픈 AI가 551이라는 모델을 내면서 이제 AI가 오랫동안",
+    "image": "frame_0304_22-34.jpg"
+  },
+  {
+    "index": 305,
+    "timestamp": "22:39",
+    "timestamp_sec": 1359.36,
+    "text": "생각을 하고 훨씬 더 똑똑한 답변을 똑똑한 답변을 제공을 해 주는 이런",
+    "image": "frame_0305_22-39.jpg"
+  },
+  {
+    "index": 306,
+    "timestamp": "22:44",
+    "timestamp_sec": 1364.64,
+    "text": "think킹 모델 리스닝 모델을 세상에 내놓기 시작했는데요. 이때",
+    "image": "frame_0306_22-44.jpg"
+  },
+  {
+    "index": 307,
+    "timestamp": "22:48",
+    "timestamp_sec": 1368.76,
+    "text": "오픈 A가 뭐라고 했냐면요. Reasoning is the",
+    "image": "frame_0307_22-48.jpg"
+  },
+  {
+    "index": 308,
+    "timestamp": "22:51",
+    "timestamp_sec": 1371.96,
+    "text": "ability of turning thinking time into better outcomes",
+    "image": "frame_0308_22-51.jpg"
+  },
+  {
+    "index": 309,
+    "timestamp": "22:55",
+    "timestamp_sec": 1375.08,
+    "text": "whatever the task doing.이 이 사고하는 행위는",
+    "image": "frame_0309_22-55.jpg"
+  },
+  {
+    "index": 310,
+    "timestamp": "22:58",
+    "timestamp_sec": 1378.6,
+    "text": "결국에는 생각하는 시간을 더 나은 결과로 만드는 것. 그러니까 내가",
+    "image": "frame_0310_22-58.jpg"
+  },
+  {
+    "index": 311,
+    "timestamp": "23:03",
+    "timestamp_sec": 1383.32,
+    "text": "생각을 더 오래함으로써 이것을 더",
+    "image": "frame_0311_23-03.jpg"
+  },
+  {
+    "index": 312,
+    "timestamp": "23:06",
+    "timestamp_sec": 1386.44,
+    "text": "좋은 결과물로 만들어 낼 수 있다라는 거죠.이 쌤 알트본도 마찬가지로",
+    "image": "frame_0312_23-06.jpg"
+  },
+  {
+    "index": 313,
+    "timestamp": "23:11",
+    "timestamp_sec": 1391.919,
+    "text": "결국에는 내가 AI를 활용을 해서 무엇을 하려고 하는데 명확하게 사고를",
+    "image": "frame_0313_23-11.jpg"
+  },
+  {
+    "index": 314,
+    "timestamp": "23:17",
+    "timestamp_sec": 1397.96,
+    "text": "하고 생각을 해서 더 나은 결과물로",
+    "image": "frame_0314_23-17.jpg"
+  },
+  {
+    "index": 315,
+    "timestamp": "23:21",
+    "timestamp_sec": 1401.4,
+    "text": "활용하기 위해서피티를 이용한다는 것이에요. 네. 결국에는 우리가",
+    "image": "frame_0315_23-21.jpg"
+  },
+  {
+    "index": 316,
+    "timestamp": "23:26",
+    "timestamp_sec": 1406.159,
+    "text": "생각하고 기록을 해야 되는 이유가 여기에 있습니다. 우리가 생각한 것을",
+    "image": "frame_0316_23-26.jpg"
+  },
+  {
+    "index": 317,
+    "timestamp": "23:30",
+    "timestamp_sec": 1410.52,
+    "text": "데이터로 만들고 기록으로 남겨두면요.",
+    "image": "frame_0317_23-30.jpg"
+  },
+  {
+    "index": 318,
+    "timestamp": "23:33",
+    "timestamp_sec": 1413.679,
+    "text": "걔를 그대로 나중에 최지T나 재미나이 같은 AI에 넣을 수가 있겠죠. 너무",
+    "image": "frame_0318_23-33.jpg"
+  },
+  {
+    "index": 319,
+    "timestamp": "23:38",
+    "timestamp_sec": 1418.4,
+    "text": "당연하죠. 여러분들께서도 뭐 프롬트 엔지니어링 같은 거 이미",
+    "image": "frame_0319_23-38.jpg"
+  },
+  {
+    "index": 320,
+    "timestamp": "23:42",
+    "timestamp_sec": 1422.919,
+    "text": "많이 공부를 해 보셨을 겁니다. 우리가 AI한테 결국에는 어떤 것이",
+    "image": "frame_0320_23-42.jpg"
+  },
+  {
+    "index": 321,
+    "timestamp": "23:47",
+    "timestamp_sec": 1427.24,
+    "text": "입력되는 것이 훨씬 더 중요한데요. 우리가 쓰레기 데이터가 들어갔을 때는",
+    "image": "frame_0321_23-47.jpg"
+  },
+  {
+    "index": 322,
+    "timestamp": "23:52",
+    "timestamp_sec": 1432.32,
+    "text": "쓰레기 데이터가 나온다라는 말이 있습니다. Garbage in",
+    "image": "frame_0322_23-52.jpg"
+  },
+  {
+    "index": 323,
+    "timestamp": "23:55",
+    "timestamp_sec": 1435.72,
+    "text": "garbage out웃이라는 말이 있는데요. 어, 결국에는 우리가",
+    "image": "frame_0323_23-55.jpg"
+  },
+  {
+    "index": 324,
+    "timestamp": "23:59",
+    "timestamp_sec": 1439.52,
+    "text": "생각을 하지 않고 AI를 활용을 하게 되면은 이게 물론 모든 입력이",
+    "image": "frame_0324_23-59.jpg"
+  },
+  {
+    "index": 325,
+    "timestamp": "24:04",
+    "timestamp_sec": 1444.4,
+    "text": "쓰레기라고 말씀을 드리는 건 아니지만 생각을 하고 입력을 했을 때랑 하지",
+    "image": "frame_0325_24-04.jpg"
+  },
+  {
+    "index": 326,
+    "timestamp": "24:08",
+    "timestamp_sec": 1448.24,
+    "text": "않았을 때랑 당연히 데이터가 다를 수밖에 없겠죠. 그 질이 다를 수밖에",
+    "image": "frame_0326_24-08.jpg"
+  },
+  {
+    "index": 327,
+    "timestamp": "24:13",
+    "timestamp_sec": 1453.08,
+    "text": "없겠죠. 그래서 우리가 생각을 하고 고민을 한 내용 자체를 AI에서",
+    "image": "frame_0327_24-13.jpg"
+  },
+  {
+    "index": 328,
+    "timestamp": "24:17",
+    "timestamp_sec": 1457.64,
+    "text": "입력을 해야 해야 금덩이가 들어가서 금덩이가 나오는 골드인 골드 아웃",
+    "image": "frame_0328_24-17.jpg"
+  },
+  {
+    "index": 329,
+    "timestamp": "24:22",
+    "timestamp_sec": 1462.84,
+    "text": "방식으로 이용을 해야 됩니다. 품질도 달라질 거예요. 근데 이게 매우",
+    "image": "frame_0329_24-22.jpg"
+  },
+  {
+    "index": 330,
+    "timestamp": "24:27",
+    "timestamp_sec": 1467.48,
+    "text": "중요한 이유가 우리가 AI를 활용을 하면서 요즘 떠오르고 있는 것들 중",
+    "image": "frame_0330_24-27.jpg"
+  },
+  {
+    "index": 331,
+    "timestamp": "24:32",
+    "timestamp_sec": 1472.279,
+    "text": "하나가이 컨텍스트 엔지니어링이라는 건데요.이 이 컨텍스트라는게 우리가",
+    "image": "frame_0331_24-32.jpg"
+  },
+  {
+    "index": 332,
+    "timestamp": "24:37",
+    "timestamp_sec": 1477.24,
+    "text": "AI한테 입력하는 모든 프롬트뿐만 아니라 참고 자료, 그리고 데이터,",
+    "image": "frame_0332_24-37.jpg"
+  },
+  {
+    "index": 333,
+    "timestamp": "24:42",
+    "timestamp_sec": 1482.64,
+    "text": "문서, 파일 이런 것들이 다 컨텍스트라고 합니다. AI가 자기가",
+    "image": "frame_0333_24-42.jpg"
+  },
+  {
+    "index": 334,
+    "timestamp": "24:47",
+    "timestamp_sec": 1487.52,
+    "text": "답변을 생성을 하기 위해서 활용하는 모든 것들을 말을 하는데요. 우리가",
+    "image": "frame_0334_24-47.jpg"
+  },
+  {
+    "index": 335,
+    "timestamp": "24:52",
+    "timestamp_sec": 1492.039,
+    "text": "콘텍스트 엔지니어링을 통해서 그 어떤 데이터를 집어넣을지 내가 AI가 어떤",
+    "image": "frame_0335_24-52.jpg"
+  },
+  {
+    "index": 336,
+    "timestamp": "24:57",
+    "timestamp_sec": 1497.44,
+    "text": "지식과 정보를 이용했으면 좋겠는지 이렇게 내가 원하는 것만 제공을 하지",
+    "image": "frame_0336_24-57.jpg"
+  },
+  {
+    "index": 337,
+    "timestamp": "25:02",
+    "timestamp_sec": 1502.6,
+    "text": "않으면은 오히려 생산성이 떨어질 수가 있습니다. 특히이 리즈닝 모델 같은",
+    "image": "frame_0337_25-02.jpg"
+  },
+  {
+    "index": 338,
+    "timestamp": "25:06",
+    "timestamp_sec": 1506.96,
+    "text": "경우는 우리가 일반적인 GPD를 이용하는 것보다 일반적인 AI 모델을",
+    "image": "frame_0338_25-06.jpg"
+  },
+  {
+    "index": 339,
+    "timestamp": "25:12",
+    "timestamp_sec": 1512.0,
+    "text": "이용하는 것보다 훨씬 더 오래 걸리잖아요. 물론 고민을 해 가지고",
+    "image": "frame_0339_25-12.jpg"
+  },
+  {
+    "index": 340,
+    "timestamp": "25:16",
+    "timestamp_sec": 1516.76,
+    "text": "더욱 더 좋은 결과물을 얻어내는 경우가 있는데 실제로 AI 개발자들과",
+    "image": "frame_0340_25-16.jpg"
+  },
+  {
+    "index": 341,
+    "timestamp": "25:21",
+    "timestamp_sec": 1521.32,
+    "text": "AI 엔지니어들 사이에서는 이런 리즈닝 모델이 성능은 더 좋을 수도",
+    "image": "frame_0341_25-21.jpg"
+  },
+  {
+    "index": 342,
+    "timestamp": "25:25",
+    "timestamp_sec": 1525.08,
+    "text": "있는데 통제하기가 더 힘들다라는 말도 있습니다. 왜냐면요. 자기 스스로",
+    "image": "frame_0342_25-25.jpg"
+  },
+  {
+    "index": 343,
+    "timestamp": "25:29",
+    "timestamp_sec": 1529.399,
+    "text": "고민을 많이 하는데 만약에이 생각의 과정이 이상한 곳으로 빠져될 경우에는",
+    "image": "frame_0343_25-29.jpg"
+  },
+  {
+    "index": 344,
+    "timestamp": "25:33",
+    "timestamp_sec": 1533.799,
+    "text": "오히려 성능이 더 떨어질 수도 있다라고 말을 하고 있어요. 그래서",
+    "image": "frame_0344_25-33.jpg"
+  },
+  {
+    "index": 345,
+    "timestamp": "25:36",
+    "timestamp_sec": 1536.96,
+    "text": "우리가 콘텍스트 엔지니어링이라는 것이 뜨고 있는게 내가 AI한테 어떤",
+    "image": "frame_0345_25-36.jpg"
+  },
+  {
+    "index": 346,
+    "timestamp": "25:42",
+    "timestamp_sec": 1542.2,
+    "text": "데이터와 어떤 프롬트를 기반으로 어떤",
+    "image": "frame_0346_25-42.jpg"
+  },
+  {
+    "index": 347,
+    "timestamp": "25:45",
+    "timestamp_sec": 1545.36,
+    "text": "방식의 아웃풋을 줬으면 좋겠는지",
+    "image": "frame_0347_25-45.jpg"
+  },
+  {
+    "index": 348,
+    "timestamp": "25:48",
+    "timestamp_sec": 1548.44,
+    "text": "명확하게 기록을 한 다음에 이것을 전달하면은 AI가 이렇게 전체 범위를",
+    "image": "frame_0348_25-48.jpg"
+  },
+  {
+    "index": 349,
+    "timestamp": "25:53",
+    "timestamp_sec": 1553.36,
+    "text": "다 보는게 아니라 내가 제공한 것들만 볼 뿐더러 그리고 실제로 더욱더",
+    "image": "frame_0349_25-53.jpg"
+  },
+  {
+    "index": 350,
+    "timestamp": "25:58",
+    "timestamp_sec": 1558.679,
+    "text": "고민을 많이 해 가지고 더욱더 내가 준 자료들만을 가지고 이제 어 답변을",
+    "image": "frame_0350_25-58.jpg"
+  },
+  {
+    "index": 351,
+    "timestamp": "26:03",
+    "timestamp_sec": 1563.44,
+    "text": "생성을 해야 되기 때문에 더 단기간 안에 내가 더 만족 만족하는 품들이",
+    "image": "frame_0351_26-03.jpg"
+  },
+  {
+    "index": 352,
+    "timestamp": "26:07",
+    "timestamp_sec": 1567.6,
+    "text": "높은 결과물을 얻어낼 수가 있습니다. 그래서 AI 시대에서도 결국에는",
+    "image": "frame_0352_26-07.jpg"
+  },
+  {
+    "index": 353,
+    "timestamp": "26:11",
+    "timestamp_sec": 1571.88,
+    "text": "기록이 중요한 이유가 내가 생각한",
+    "image": "frame_0353_26-11.jpg"
+  },
+  {
+    "index": 354,
+    "timestamp": "26:14",
+    "timestamp_sec": 1574.919,
+    "text": "것을 AI한테 제공해 준다라고 했었을 때 그 기록 자체가 AI한테 제공해",
+    "image": "frame_0354_26-14.jpg"
+  },
+  {
+    "index": 355,
+    "timestamp": "26:20",
+    "timestamp_sec": 1580.52,
+    "text": "줄 수 있는 재료가 되고 그리고 그게 금덩이기이기 때문에 그것들을 이용을",
+    "image": "frame_0355_26-20.jpg"
+  },
+  {
+    "index": 356,
+    "timestamp": "26:25",
+    "timestamp_sec": 1585.76,
+    "text": "입력을 했었을 때 훨씬 더 생산적으로 빠르게 내가 원하는 곱신 품질의",
+    "image": "frame_0356_26-25.jpg"
+  },
+  {
+    "index": 357,
+    "timestamp": "26:31",
+    "timestamp_sec": 1591.12,
+    "text": "결과물을 얻어낼 가능성이 더 높아진다라는 말씀을 드리고 싶습니다.",
+    "image": "frame_0357_26-31.jpg"
+  },
+  {
+    "index": 358,
+    "timestamp": "26:35",
+    "timestamp_sec": 1595.2,
+    "text": "제가이 가능성이 높아진다라고 표현을 한 이유가요. 우리가이 LM을 비롯한",
+    "image": "frame_0358_26-35.jpg"
+  },
+  {
+    "index": 359,
+    "timestamp": "26:39",
+    "timestamp_sec": 1599.799,
+    "text": "AI 모델들이 어떤 결과물을 만들어 낼지 예상을 할 수가 없어요. 그래서",
+    "image": "frame_0359_26-39.jpg"
+  },
+  {
+    "index": 360,
+    "timestamp": "26:44",
+    "timestamp_sec": 1604.679,
+    "text": "가능성이 높아진다라는 거지 그게 꼭 뒤따라오는 것은 아니라는 것을",
+    "image": "frame_0360_26-44.jpg"
+  },
+  {
+    "index": 361,
+    "timestamp": "26:49",
+    "timestamp_sec": 1609.2,
+    "text": "말씀드리고 싶습니다. 네. 그래서 지금까지 보면은 우리가 기록이 이렇게",
+    "image": "frame_0361_26-49.jpg"
+  },
+  {
+    "index": 362,
+    "timestamp": "26:53",
+    "timestamp_sec": 1613.399,
+    "text": "중요한게 실제로 인생에서 남는 것은",
+    "image": "frame_0362_26-53.jpg"
+  },
+  {
+    "index": 363,
+    "timestamp": "26:56",
+    "timestamp_sec": 1616.559,
+    "text": "기록밖에 없고요. 기록을 하는 것이 결국엔 공리 효과를 쌓 뿐더러이 AI",
+    "image": "frame_0363_26-56.jpg"
+  },
+  {
+    "index": 364,
+    "timestamp": "27:01",
+    "timestamp_sec": 1621.08,
+    "text": "시대에서 내가 어떻게 경쟁력이 있을 수 있을까를 고민을 하면은 결국에는",
+    "image": "frame_0364_27-01.jpg"
+  },
+  {
+    "index": 365,
+    "timestamp": "27:06",
+    "timestamp_sec": 1626.6,
+    "text": "나다음과 인간다움을 유지하는 것도",
+    "image": "frame_0365_27-06.jpg"
+  },
+  {
+    "index": 366,
+    "timestamp": "27:09",
+    "timestamp_sec": 1629.64,
+    "text": "기록으로 유일하게 실천을 할 수가 있고요. 그리고 AI 시대에 오히려",
+    "image": "frame_0366_27-09.jpg"
+  },
+  {
+    "index": 367,
+    "timestamp": "27:14",
+    "timestamp_sec": 1634.76,
+    "text": "기록을 하는 것이 좋고 나의 생산성과",
+    "image": "frame_0367_27-14.jpg"
+  },
+  {
+    "index": 368,
+    "timestamp": "27:17",
+    "timestamp_sec": 1637.88,
+    "text": "나의 경쟁력을 늘릴 수 있는 그 이유도 결국에는 이렇게 기록을 통해서",
+    "image": "frame_0368_27-17.jpg"
+  },
+  {
+    "index": 369,
+    "timestamp": "27:22",
+    "timestamp_sec": 1642.679,
+    "text": "할 수 있다라는 것을 보여 드렸습니다. 어 그러면은 우리가 이제",
+    "image": "frame_0369_27-22.jpg"
+  },
+  {
+    "index": 370,
+    "timestamp": "27:26",
+    "timestamp_sec": 1646.799,
+    "text": "여기서 또 생각을 해야 되는게 지금까지 기록을 잘해야 되고 같이",
+    "image": "frame_0370_27-26.jpg"
+  },
+  {
+    "index": 371,
+    "timestamp": "27:31",
+    "timestamp_sec": 1651.6,
+    "text": "있다라는 것을 너무 잘 알았어요. 그럼 결국에는 우리가 좋은 기록인게",
+    "image": "frame_0371_27-31.jpg"
+  },
+  {
+    "index": 372,
+    "timestamp": "27:36",
+    "timestamp_sec": 1656.72,
+    "text": "뭔지에 대해서 그러면 알아봐야 되거든요. 기록이 중요한 걸 알겠어.",
+    "image": "frame_0372_27-36.jpg"
+  },
+  {
+    "index": 373,
+    "timestamp": "27:40",
+    "timestamp_sec": 1660.679,
+    "text": "그럼 나는 이왕 기록을 하는데 기록과 메모를 잘하고 싶은데 어떻게 할 수",
+    "image": "frame_0373_27-40.jpg"
+  },
+  {
+    "index": 374,
+    "timestamp": "27:44",
+    "timestamp_sec": 1664.72,
+    "text": "있을까 이제 좀 설명을 하고 저희가 이제 이번 영상을 마칠 예정인데요.",
+    "image": "frame_0374_27-44.jpg"
+  },
+  {
+    "index": 375,
+    "timestamp": "27:49",
+    "timestamp_sec": 1669.0,
+    "text": "그러면 제가 제차 말씀드렸던게이",
+    "image": "frame_0375_27-49.jpg"
+  },
+  {
+    "index": 376,
+    "timestamp": "27:52",
+    "timestamp_sec": 1672.36,
+    "text": "기록이라는 거게 결국에는 어 생각이라는 겁니다. 인간이 일단은",
+    "image": "frame_0376_27-52.jpg"
+  },
+  {
+    "index": 377,
+    "timestamp": "27:56",
+    "timestamp_sec": 1676.48,
+    "text": "생각은 끊임 없이 하잖아요. 그렇죠? 엄청나게 계속 끝도 없이 하는데",
+    "image": "frame_0377_27-56.jpg"
+  },
+  {
+    "index": 378,
+    "timestamp": "28:00",
+    "timestamp_sec": 1680.08,
+    "text": "시는물처럼 쏟아집니다. 어 내가 갑자기 막 여기저기를 돌아보다가",
+    "image": "frame_0378_28-00.jpg"
+  },
+  {
+    "index": 379,
+    "timestamp": "28:04",
+    "timestamp_sec": 1684.12,
+    "text": "갑자기 뭔가 눈에 띄는 어떤 인상적인 사람이 있어 그러면 눈이 갈 수도",
+    "image": "frame_0379_28-04.jpg"
+  },
+  {
+    "index": 380,
+    "timestamp": "28:08",
+    "timestamp_sec": 1688.679,
+    "text": "있고요. 저 사람 잘생겼다 이렇게 생각할 수도 있는 거고요. 갑자기",
+    "image": "frame_0380_28-08.jpg"
+  },
+  {
+    "index": 381,
+    "timestamp": "28:11",
+    "timestamp_sec": 1691.88,
+    "text": "내가 해야 할 일이 생각이 나서 기존에 하던 것들을 좀 이렇게 미루어",
+    "image": "frame_0381_28-11.jpg"
+  },
+  {
+    "index": 382,
+    "timestamp": "28:15",
+    "timestamp_sec": 1695.32,
+    "text": "가지고 다른 것들을 더 우선순 있는 것들을 할 수가 있습니다.이",
+    "image": "frame_0382_28-15.jpg"
+  },
+  {
+    "index": 383,
+    "timestamp": "28:18",
+    "timestamp_sec": 1698.88,
+    "text": "생각이라는 거는 끝도 없이 돌아가는 거라면 일단은이 생각하기라는 것은",
+    "image": "frame_0383_28-18.jpg"
+  },
+  {
+    "index": 384,
+    "timestamp": "28:24",
+    "timestamp_sec": 1704.039,
+    "text": "이것을 하나 끄집어 가지고 내가인지를 하는 거예요. 그래서 일단은 우리가이",
+    "image": "frame_0384_28-24.jpg"
+  },
+  {
+    "index": 385,
+    "timestamp": "28:28",
+    "timestamp_sec": 1708.279,
+    "text": "기록이라는 거 자체가 어 제가 여러 번 말씀드렸다시피 생각에 이해서",
+    "image": "frame_0385_28-28.jpg"
+  },
+  {
+    "index": 386,
+    "timestamp": "28:33",
+    "timestamp_sec": 1713.519,
+    "text": "이루어지는 거라면 일단은이 생각하기와",
+    "image": "frame_0386_28-33.jpg"
+  },
+  {
+    "index": 387,
+    "timestamp": "28:37",
+    "timestamp_sec": 1717.279,
+    "text": "생각을 나누자면 끝도 없이 일어나고 있는이 생각의 늪속에서 하나를 끄집어",
+    "image": "frame_0387_28-37.jpg"
+  },
+  {
+    "index": 388,
+    "timestamp": "28:43",
+    "timestamp_sec": 1723.32,
+    "text": "올려서 우리가 기록해 두는 것이 생각하기를 기록해 두는 것이 결국에는",
+    "image": "frame_0388_28-43.jpg"
+  },
+  {
+    "index": 389,
+    "timestamp": "28:48",
+    "timestamp_sec": 1728.48,
+    "text": "기록입니다. 결국에는 이킹 생각이라는게 무엇인지 한번 설명을",
+    "image": "frame_0389_28-48.jpg"
+  },
+  {
+    "index": 390,
+    "timestamp": "28:53",
+    "timestamp_sec": 1733.279,
+    "text": "드릴게요. 어 우리가 결국에는 좋은 기록이라는게 뭔지를 보려면 생각이",
+    "image": "frame_0390_28-53.jpg"
+  },
+  {
+    "index": 391,
+    "timestamp": "28:58",
+    "timestamp_sec": 1738.08,
+    "text": "어떤 과정을 통해서 이루어지는지 좀 봐야 합니다. 우선은 우리가 이제 외부 세계가 있습니다.이 외부",
+    "image": "frame_0391_28-58.jpg"
+  },
+  {
+    "index": 392,
+    "timestamp": "29:02",
+    "timestamp_sec": 1742.96,
+    "text": "세계라는 것은 내 머릿속에 바깥에 있는 모든 것들을 의미를 하 합니다.",
+    "image": "frame_0392_29-02.jpg"
+  },
+  {
+    "index": 393,
+    "timestamp": "29:07",
+    "timestamp_sec": 1747.44,
+    "text": "여러분들께서도 지금 어 디지털 영상과",
+    "image": "frame_0393_29-07.jpg"
+  },
+  {
+    "index": 394,
+    "timestamp": "29:10",
+    "timestamp_sec": 1750.559,
+    "text": "신호를 통해서 제 목소리가 들어가고 있죠. 그렇죠? 이것도 외부",
+    "image": "frame_0394_29-10.jpg"
+  },
+  {
+    "index": 395,
+    "timestamp": "29:13",
+    "timestamp_sec": 1753.64,
+    "text": "세계예요. 디지털 세계가 되겠죠.이 이 현실 세계가 있을 수도 있습니다.",
+    "image": "frame_0395_29-13.jpg"
+  },
+  {
+    "index": 396,
+    "timestamp": "29:17",
+    "timestamp_sec": 1757.399,
+    "text": "여러분들께서 예를 들어서 뭐 카페에서이 강의를 듣고 있거나",
+    "image": "frame_0396_29-17.jpg"
+  },
+  {
+    "index": 397,
+    "timestamp": "29:21",
+    "timestamp_sec": 1761.36,
+    "text": "도서관에서 듣고 있거나 집에서 듣고 있으면이 현실 세계가 또 있겠죠.",
+    "image": "frame_0397_29-21.jpg"
+  },
+  {
+    "index": 398,
+    "timestamp": "29:26",
+    "timestamp_sec": 1766.159,
+    "text": "그렇죠? 그래서 여러분들이 디지털 세계와이",
+    "image": "frame_0398_29-26.jpg"
+  },
+  {
+    "index": 399,
+    "timestamp": "29:29",
+    "timestamp_sec": 1769.679,
+    "text": "온라인 현실 어 온라인 세계 현실 세계와 그리고 디지털 세계에서 얻어",
+    "image": "frame_0399_29-29.jpg"
+  },
+  {
+    "index": 400,
+    "timestamp": "29:35",
+    "timestamp_sec": 1775.799,
+    "text": "얻는 다양한 신호들 중에서 나에게 의미 있는 시그널들을 픽업을 합니다.",
+    "image": "frame_0400_29-35.jpg"
+  },
+  {
+    "index": 401,
+    "timestamp": "29:41",
+    "timestamp_sec": 1781.159,
+    "text": "네. 강연이라든지 팟캐스트 이런 것들이 다 나에게 의미 있는 시너을",
+    "image": "frame_0401_29-41.jpg"
+  },
+  {
+    "index": 402,
+    "timestamp": "29:46",
+    "timestamp_sec": 1786.679,
+    "text": "이제 포착을 한 다음에이 외부색에서 내부 세계로 들어오는데요.이 포착한",
+    "image": "frame_0402_29-46.jpg"
+  },
+  {
+    "index": 403,
+    "timestamp": "29:51",
+    "timestamp_sec": 1791.679,
+    "text": "시그널들이 음성, 어 시각, 그리고",
+    "image": "frame_0403_29-51.jpg"
+  },
+  {
+    "index": 404,
+    "timestamp": "29:55",
+    "timestamp_sec": 1795.36,
+    "text": "청각, 촉각 이런 것들을 통해서 오감을 통해서 일단은 내 몸에",
+    "image": "frame_0404_29-55.jpg"
+  },
+  {
+    "index": 405,
+    "timestamp": "29:59",
+    "timestamp_sec": 1799.0,
+    "text": "들어오고요. 내부색에 일단 들어옵니다. 들어와서 우선은이 감각",
+    "image": "frame_0405_29-59.jpg"
+  },
+  {
+    "index": 406,
+    "timestamp": "30:03",
+    "timestamp_sec": 1803.679,
+    "text": "기억에 저장을 합니다. 내가이 지금",
+    "image": "frame_0406_30-03.jpg"
+  },
+  {
+    "index": 407,
+    "timestamp": "30:07",
+    "timestamp_sec": 1807.36,
+    "text": "듣고 어 보고 이해한 것을 일단은",
+    "image": "frame_0407_30-07.jpg"
+  },
+  {
+    "index": 408,
+    "timestamp": "30:10",
+    "timestamp_sec": 1810.88,
+    "text": "우선 감각 기억에 저장을 해 놓고요. 그리고 우리가 어 장기 기억에서 어이",
+    "image": "frame_0408_30-10.jpg"
+  },
+  {
+    "index": 409,
+    "timestamp": "30:17",
+    "timestamp_sec": 1817.88,
+    "text": "감각을 이해하기 위해서 내가 기존에 알고 있었던 거에서 막 꺼내옵니다.",
+    "image": "frame_0409_30-17.jpg"
+  },
+  {
+    "index": 410,
+    "timestamp": "30:22",
+    "timestamp_sec": 1822.96,
+    "text": "우리가 지금 듣고 있는 어떤 이해하려고 하는 자료를 아무것도",
+    "image": "frame_0410_30-22.jpg"
+  },
+  {
+    "index": 411,
+    "timestamp": "30:27",
+    "timestamp_sec": 1827.48,
+    "text": "모르면은 결국은 아무런 생각이나 감정이 들지도 않잖아요. 우리가 아예",
+    "image": "frame_0411_30-27.jpg"
+  },
+  {
+    "index": 412,
+    "timestamp": "30:32",
+    "timestamp_sec": 1832.159,
+    "text": "모르는 영역에 대해서 만약에 어떤 자료를 보고 있으면은이야 조조차 할",
+    "image": "frame_0412_30-32.jpg"
+  },
+  {
+    "index": 413,
+    "timestamp": "30:36",
+    "timestamp_sec": 1836.519,
+    "text": "수 없잖아요. 그래서 우리가 결국에는이 강연을 통해서 외부에 있는",
+    "image": "frame_0413_30-36.jpg"
+  },
+  {
+    "index": 414,
+    "timestamp": "30:41",
+    "timestamp_sec": 1841.24,
+    "text": "세상을 이해하려고 우선 기존에 내가 어떤 경험을 알고",
+    "image": "frame_0414_30-41.jpg"
+  },
+  {
+    "index": 415,
+    "timestamp": "30:46",
+    "timestamp_sec": 1846.12,
+    "text": "있나 어떤 지식이 있나를 꺼내 와서",
+    "image": "frame_0415_30-46.jpg"
+  },
+  {
+    "index": 416,
+    "timestamp": "30:49",
+    "timestamp_sec": 1849.44,
+    "text": "예 이렇게 현재 바깥에 있는이 외부",
+    "image": "frame_0416_30-49.jpg"
+  },
+  {
+    "index": 417,
+    "timestamp": "30:52",
+    "timestamp_sec": 1852.96,
+    "text": "신호들과 매칭을 시켜 가지고 비교를 하려고 합니다. 그래서 내가 이해를",
+    "image": "frame_0417_30-52.jpg"
+  },
+  {
+    "index": 418,
+    "timestamp": "30:57",
+    "timestamp_sec": 1857.0,
+    "text": "하려고 해요. 그래서 결국엔이 외부 세계에 있는 감각을 감각을 통해서",
+    "image": "frame_0418_30-57.jpg"
+  },
+  {
+    "index": 419,
+    "timestamp": "31:02",
+    "timestamp_sec": 1862.48,
+    "text": "외부어이 감각을 통해서 외부 세계에 있는 것들을 가지고 오고요. 그리고",
+    "image": "frame_0419_31-02.jpg"
+  },
+  {
+    "index": 420,
+    "timestamp": "31:06",
+    "timestamp_sec": 1866.919,
+    "text": "이제 내가 기존에 알고 있었던 걸 꺼내 가지고 얘를 이해하려고 하면서",
+    "image": "frame_0420_31-06.jpg"
+  },
+  {
+    "index": 421,
+    "timestamp": "31:11",
+    "timestamp_sec": 1871.2,
+    "text": "이것을 머릿속에 이제 작업 기역의 영역에서 어 프로세싱을 합니다. 네.",
+    "image": "frame_0421_31-11.jpg"
+  },
+  {
+    "index": 422,
+    "timestamp": "31:16",
+    "timestamp_sec": 1876.519,
+    "text": "그래서 우리가이 프로세싱을 할 때는 순간적으로 어떠한 과정이 일어나면요.",
+    "image": "frame_0422_31-16.jpg"
+  },
+  {
+    "index": 423,
+    "timestamp": "31:21",
+    "timestamp_sec": 1881.72,
+    "text": "예.이 이 순간,이 상황 여러분들께서 지금 강연을 듣고 계신 듣고 계신이",
+    "image": "frame_0423_31-21.jpg"
+  },
+  {
+    "index": 424,
+    "timestamp": "31:27",
+    "timestamp_sec": 1887.159,
+    "text": "상황 그리고이 강연의 내용을 토대로 내가 뭔가 이해하려고 하는이 상황",
+    "image": "frame_0424_31-27.jpg"
+  },
+  {
+    "index": 425,
+    "timestamp": "31:31",
+    "timestamp_sec": 1891.96,
+    "text": "있죠.이 이 상황이 발생을 하였을 때 일단은 내가 느낌이 되는게 이게",
+    "image": "frame_0425_31-31.jpg"
+  },
+  {
+    "index": 426,
+    "timestamp": "31:36",
+    "timestamp_sec": 1896.919,
+    "text": "좋은지 나쁜지에 대한 감정이 들게",
+    "image": "frame_0426_31-36.jpg"
+  },
+  {
+    "index": 427,
+    "timestamp": "31:40",
+    "timestamp_sec": 1900.24,
+    "text": "됩니다. 기뻐요. 행복해요. 만족해요. 사랑해요. 역겨워요.",
+    "image": "frame_0427_31-40.jpg"
+  },
+  {
+    "index": 428,
+    "timestamp": "31:45",
+    "timestamp_sec": 1905.72,
+    "text": "화나요, 슬퍼요. 예, 분노해요.",
+    "image": "frame_0428_31-45.jpg"
+  },
+  {
+    "index": 429,
+    "timestamp": "31:48",
+    "timestamp_sec": 1908.76,
+    "text": "이런 것들에 순간적으로 느끼게 되고요. 지금이 내용에 대해서.",
+    "image": "frame_0429_31-48.jpg"
+  },
+  {
+    "index": 430,
+    "timestamp": "31:53",
+    "timestamp_sec": 1913.12,
+    "text": "그리고 이게 좋은지 나쁜지를 인지라고 됩니다. 내 몸의 순간적인 반응을",
+    "image": "frame_0430_31-53.jpg"
+  },
+  {
+    "index": 431,
+    "timestamp": "31:58",
+    "timestamp_sec": 1918.2,
+    "text": "보고 어 나는 이게 좋네 나쁘네라고",
+    "image": "frame_0431_31-58.jpg"
+  },
+  {
+    "index": 432,
+    "timestamp": "32:01",
+    "timestamp_sec": 1921.2,
+    "text": "하면서 생각을 하게 됩니다. 왜 좋을까? 내가 왜 좋다라고 판단을",
+    "image": "frame_0432_32-01.jpg"
+  },
+  {
+    "index": 433,
+    "timestamp": "32:05",
+    "timestamp_sec": 1925.519,
+    "text": "했었을까? 어 지금 브라이언의 강의를 들으면서이 기록이라는게 매우",
+    "image": "frame_0433_32-05.jpg"
+  },
+  {
+    "index": 434,
+    "timestamp": "32:10",
+    "timestamp_sec": 1930.679,
+    "text": "중요하다라는 인사이트를 얻었네. 좋네.네 네. 이런 생각을 하게 되고",
+    "image": "frame_0434_32-10.jpg"
+  },
+  {
+    "index": 435,
+    "timestamp": "32:16",
+    "timestamp_sec": 1936.08,
+    "text": "결국에는이 모든 것들이 경험을이 모든",
+    "image": "frame_0435_32-16.jpg"
+  },
+  {
+    "index": 436,
+    "timestamp": "32:19",
+    "timestamp_sec": 1939.76,
+    "text": "것들의 총합이 결국에는 새로운 경험,",
+    "image": "frame_0436_32-19.jpg"
+  },
+  {
+    "index": 437,
+    "timestamp": "32:23",
+    "timestamp_sec": 1943.2,
+    "text": "새로운 생각과 경험을 하게 되는 과정인데요.이",
+    "image": "frame_0437_32-23.jpg"
+  },
+  {
+    "index": 438,
+    "timestamp": "32:26",
+    "timestamp_sec": 1946.84,
+    "text": "과정에서 개인화가 되고 가치를 부여하게 됩니다. 어, 결국에는이",
+    "image": "frame_0438_32-26.jpg"
+  },
+  {
+    "index": 439,
+    "timestamp": "32:30",
+    "timestamp_sec": 1950.76,
+    "text": "과정을 통해서 우리가 기억이 하나 늘어나는데요. 그러면 우리가",
+    "image": "frame_0439_32-30.jpg"
+  },
+  {
+    "index": 440,
+    "timestamp": "32:35",
+    "timestamp_sec": 1955.799,
+    "text": "생각이라는게 이런 방식으로 이루어진다는 것을 이해를 했으니까",
+    "image": "frame_0440_32-35.jpg"
+  },
+  {
+    "index": 441,
+    "timestamp": "32:40",
+    "timestamp_sec": 1960.36,
+    "text": "그러면 우리는 어떻게 기록을 해야",
+    "image": "frame_0441_32-40.jpg"
+  },
+  {
+    "index": 442,
+    "timestamp": "32:43",
+    "timestamp_sec": 1963.44,
+    "text": "될까요? 무엇을 기록을 해야 될까요?이 모든 과정에 있어서 우리가",
+    "image": "frame_0442_32-43.jpg"
+  },
+  {
+    "index": 443,
+    "timestamp": "32:47",
+    "timestamp_sec": 1967.799,
+    "text": "생각이 나타났는데 무엇을 기록을 해야",
+    "image": "frame_0443_32-47.jpg"
+  },
+  {
+    "index": 444,
+    "timestamp": "32:50",
+    "timestamp_sec": 1970.88,
+    "text": "될까라고 한다면 저는 결국엔 여러분들께서 감정을 기록해라라고",
+    "image": "frame_0444_32-50.jpg"
+  },
+  {
+    "index": 445,
+    "timestamp": "32:55",
+    "timestamp_sec": 1975.399,
+    "text": "말씀을 드리고 싶습니다. 감정을 기록해라. 내가 어떤 그 특정은 현재",
+    "image": "frame_0445_32-55.jpg"
+  },
+  {
+    "index": 446,
+    "timestamp": "33:01",
+    "timestamp_sec": 1981.159,
+    "text": "타임 블록이라고 했죠.이 이 강의를 들으면서 아니면 다른 친구들과 좋은",
+    "image": "frame_0446_33-01.jpg"
+  },
+  {
+    "index": 447,
+    "timestamp": "33:06",
+    "timestamp_sec": 1986.24,
+    "text": "시간을 보내면서이 처음부터 끝까지 내 머릿속에서 어떤 시간을 보냈잖아요.",
+    "image": "frame_0447_33-06.jpg"
+  },
+  {
+    "index": 448,
+    "timestamp": "33:11",
+    "timestamp_sec": 1991.12,
+    "text": "그 현재를 기준으로 내가 어 무슨",
+    "image": "frame_0448_33-11.jpg"
+  },
+  {
+    "index": 449,
+    "timestamp": "33:14",
+    "timestamp_sec": 1994.76,
+    "text": "생각이 들었던데 그리고 어떠한 감정이 있었는 기록을 해야 됩니다. 뇌각을",
+    "image": "frame_0449_33-14.jpg"
+  },
+  {
+    "index": 450,
+    "timestamp": "33:19",
+    "timestamp_sec": 1999.279,
+    "text": "또 연구를 하시는 박문 박사님께서 무엇이라고 말씀을 하셨냐면 기억이라",
+    "image": "frame_0450_33-19.jpg"
+  },
+  {
+    "index": 451,
+    "timestamp": "33:24",
+    "timestamp_sec": 2004.44,
+    "text": "쓰고 감정이라 읽으면 돼요라고 말씀을 하셨습니다. 이게 무슨 말이냐?",
+    "image": "frame_0451_33-24.jpg"
+  },
+  {
+    "index": 452,
+    "timestamp": "33:29",
+    "timestamp_sec": 2009.36,
+    "text": "우리는 결국은 머릿속에 새로운 생각을 하고 이런 경험을 통해서 기억을 하게",
+    "image": "frame_0452_33-29.jpg"
+  },
+  {
+    "index": 453,
+    "timestamp": "33:34",
+    "timestamp_sec": 2014.679,
+    "text": "되는데요.이 기억에는 남는게 감정밖에 없습니다. 어, 여러분들께서 이런",
+    "image": "frame_0453_33-34.jpg"
+  },
+  {
+    "index": 454,
+    "timestamp": "33:40",
+    "timestamp_sec": 2020.08,
+    "text": "경거 있지 않으신가요? 저 같은 경우는 지금 반려동물을 키우고 있지는",
+    "image": "frame_0454_33-40.jpg"
+  },
+  {
+    "index": 455,
+    "timestamp": "33:44",
+    "timestamp_sec": 2024.159,
+    "text": "않지만 한국에서 좀 반려동물을 많이 키우시잖아요. 근데 반려동물이",
+    "image": "frame_0455_33-44.jpg"
+  },
+  {
+    "index": 456,
+    "timestamp": "33:49",
+    "timestamp_sec": 2029.279,
+    "text": "오랫동안 시간을 많이 보내고 정이 많이 쌓이고 난 다음에 관료동물이",
+    "image": "frame_0456_33-49.jpg"
+  },
+  {
+    "index": 457,
+    "timestamp": "33:53",
+    "timestamp_sec": 2033.679,
+    "text": "무지개 달을 건너을 때 엄청 슬프잖아요. 그죠? 근데 우리가 진짜",
+    "image": "frame_0457_33-53.jpg"
+  },
+  {
+    "index": 458,
+    "timestamp": "33:58",
+    "timestamp_sec": 2038.84,
+    "text": "오랜만에 보는 친척이 갑자기 별세를",
+    "image": "frame_0458_33-58.jpg"
+  },
+  {
+    "index": 459,
+    "timestamp": "34:02",
+    "timestamp_sec": 2042.159,
+    "text": "하셨다. 장례 시장에 가잖아요. 그러면 내 반려동물이 무지개달을",
+    "image": "frame_0459_34-02.jpg"
+  },
+  {
+    "index": 460,
+    "timestamp": "34:07",
+    "timestamp_sec": 2047.08,
+    "text": "건넜을 때와 그리고 내가 오랜만에 보는 친척이의 장례식을 갔을 때 그",
+    "image": "frame_0460_34-07.jpg"
+  },
+  {
+    "index": 461,
+    "timestamp": "34:13",
+    "timestamp_sec": 2053.04,
+    "text": "슬픔의 정도가 무엇이 더 클까요?",
+    "image": "frame_0461_34-13.jpg"
+  },
+  {
+    "index": 462,
+    "timestamp": "34:16",
+    "timestamp_sec": 2056.079,
+    "text": "우리가 일반적으로는 그 반려동물이 무의 계달을 건넜을 때 슬픔이 더욱더",
+    "image": "frame_0462_34-16.jpg"
+  },
+  {
+    "index": 463,
+    "timestamp": "34:20",
+    "timestamp_sec": 2060.079,
+    "text": "크다고 생각을 합니다. 그 이유가요. 우리가 많은 감정을 교류를 했고",
+    "image": "frame_0463_34-20.jpg"
+  },
+  {
+    "index": 464,
+    "timestamp": "34:25",
+    "timestamp_sec": 2065.639,
+    "text": "그것으로 인해서 많은 기억이 있기 때문이에요. 결국에는이 기억에는 남는",
+    "image": "frame_0464_34-25.jpg"
+  },
+  {
+    "index": 465,
+    "timestamp": "34:32",
+    "timestamp_sec": 2072.04,
+    "text": "것은 감정과 그 느낌이 제일 중요하어",
+    "image": "frame_0465_34-32.jpg"
+  },
+  {
+    "index": 466,
+    "timestamp": "34:36",
+    "timestamp_sec": 2076.159,
+    "text": "남는게 감정과 느낌입니다. 그 감정과",
+    "image": "frame_0466_34-36.jpg"
+  },
+  {
+    "index": 467,
+    "timestamp": "34:39",
+    "timestamp_sec": 2079.919,
+    "text": "느낌을 통해서 우리의 생각이 형성이 되었기 때문에 결국에는 감정을",
+    "image": "frame_0467_34-39.jpg"
+  },
+  {
+    "index": 468,
+    "timestamp": "34:44",
+    "timestamp_sec": 2084.52,
+    "text": "기록하는 것이 매우 중요한데요. 그래서 우리가이 감정을 기록해 기록을",
+    "image": "frame_0468_34-44.jpg"
+  },
+  {
+    "index": 469,
+    "timestamp": "34:50",
+    "timestamp_sec": 2090.0,
+    "text": "해야 될 이유가 우리가 좋은 감정, 긍정적인 감정을 얻은 것들이 우리의",
+    "image": "frame_0469_34-50.jpg"
+  },
+  {
+    "index": 470,
+    "timestamp": "34:55",
+    "timestamp_sec": 2095.879,
+    "text": "삶의 질를 높여 주기 때문이에요. 지금 여러분들 혹시 이제 연애를 하고",
+    "image": "frame_0470_34-55.jpg"
+  },
+  {
+    "index": 471,
+    "timestamp": "35:00",
+    "timestamp_sec": 2100.2,
+    "text": "계시거나 아니면 이미 결혼을 하셨을 경우에는 이제 지금 내가 앞으로 어",
+    "image": "frame_0471_35-00.jpg"
+  },
+  {
+    "index": 472,
+    "timestamp": "35:06",
+    "timestamp_sec": 2106.2,
+    "text": "지금 만나고 있는 분이 매우 좋을 수도 있지만 앞으로 만나고 싶은 분",
+    "image": "frame_0472_35-06.jpg"
+  },
+  {
+    "index": 473,
+    "timestamp": "35:10",
+    "timestamp_sec": 2110.48,
+    "text": "아니면 나의 이상형이라고 하는 사람이 어떻게 형성이 되었을까요?",
+    "image": "frame_0473_35-10.jpg"
+  },
+  {
+    "index": 474,
+    "timestamp": "35:14",
+    "timestamp_sec": 2114.68,
+    "text": "여러분들께서 그동안에 연애를 하시고 다양한 사람들을 만나시면서 나에게",
+    "image": "frame_0474_35-14.jpg"
+  },
+  {
+    "index": 475,
+    "timestamp": "35:19",
+    "timestamp_sec": 2119.52,
+    "text": "좋은 경험을 했던 그 사람들의 특징이 결국엔 내가 미래의 배우자로 삼고",
+    "image": "frame_0475_35-19.jpg"
+  },
+  {
+    "index": 476,
+    "timestamp": "35:24",
+    "timestamp_sec": 2124.44,
+    "text": "싶은 사람이잖아요. 그죠? 그래서 우리가 많은 경험을 하고 많은 기억을",
+    "image": "frame_0476_35-24.jpg"
+  },
+  {
+    "index": 477,
+    "timestamp": "35:28",
+    "timestamp_sec": 2128.48,
+    "text": "하면 기억이 늘어나고 어 많은 경험이",
+    "image": "frame_0477_35-28.jpg"
+  },
+  {
+    "index": 478,
+    "timestamp": "35:31",
+    "timestamp_sec": 2131.68,
+    "text": "늘어나면서 결국에는 그 감정을 적어야 결국에는 그 생각에 있는 그대로 그",
+    "image": "frame_0478_35-31.jpg"
+  },
+  {
+    "index": 479,
+    "timestamp": "35:36",
+    "timestamp_sec": 2136.52,
+    "text": "액기스를 우리가 남겨 놓을 수가 있습니다. 그래서 제가 들 이제 팁을",
+    "image": "frame_0479_35-36.jpg"
+  },
+  {
+    "index": 480,
+    "timestamp": "35:41",
+    "timestamp_sec": 2141.28,
+    "text": "좀 드리자면 우리가 어떻게 기록을 해야 하냐면 하이라이트를 하나 하면은",
+    "image": "frame_0480_35-41.jpg"
+  },
+  {
+    "index": 481,
+    "timestamp": "35:45",
+    "timestamp_sec": 2145.88,
+    "text": "거기다가 코멘트 한마디를 꼭 붙이라고",
+    "image": "frame_0481_35-45.jpg"
+  },
+  {
+    "index": 482,
+    "timestamp": "35:49",
+    "timestamp_sec": 2149.0,
+    "text": "말씀을 드리고 싶어요. 네.이 이 하이라이트라는 것이 이제 책을 읽다가",
+    "image": "frame_0482_35-49.jpg"
+  },
+  {
+    "index": 483,
+    "timestamp": "35:54",
+    "timestamp_sec": 2154.16,
+    "text": "예를 들어서 내가 이렇게 하이라이트를 했어요. 그러면 어 내가 왜 이게",
+    "image": "frame_0483_35-54.jpg"
+  },
+  {
+    "index": 484,
+    "timestamp": "35:58",
+    "timestamp_sec": 2158.96,
+    "text": "좋았지? 왜 이끌렸지라고 어 한마디를",
+    "image": "frame_0484_35-58.jpg"
+  },
+  {
+    "index": 485,
+    "timestamp": "36:02",
+    "timestamp_sec": 2162.2,
+    "text": "붙이는 겁니다. 이렇게 하다 보면은 우리가 이제이 하이라이트를 한 것이",
+    "image": "frame_0485_36-02.jpg"
+  },
+  {
+    "index": 486,
+    "timestamp": "36:07",
+    "timestamp_sec": 2167.359,
+    "text": "어 내가 좋았기 때문에 하이라이트를 한 건데요. 내가 나중에 돌아왔었을",
+    "image": "frame_0486_36-07.jpg"
+  },
+  {
+    "index": 487,
+    "timestamp": "36:11",
+    "timestamp_sec": 2171.88,
+    "text": "때 이게 내가 왜 하이라이트를 했지, 왜 인상적이었는지 기억을 못 하게",
+    "image": "frame_0487_36-11.jpg"
+  },
+  {
+    "index": 488,
+    "timestamp": "36:16",
+    "timestamp_sec": 2176.48,
+    "text": "됩니다. 근데 거기다가 우리가 코멘트를 하나 붙이잖아요. 그러면 아",
+    "image": "frame_0488_36-16.jpg"
+  },
+  {
+    "index": 489,
+    "timestamp": "36:20",
+    "timestamp_sec": 2180.92,
+    "text": "내가 이런 부분에서 이게 인상적이었구나라는 것을 우리가 다시",
+    "image": "frame_0489_36-20.jpg"
+  },
+  {
+    "index": 490,
+    "timestamp": "36:26",
+    "timestamp_sec": 2186.24,
+    "text": "상기를 할 수가 있어요. 그래서 그 기록과 하이라이트를 잘 다시 활용을",
+    "image": "frame_0490_36-26.jpg"
+  },
+  {
+    "index": 491,
+    "timestamp": "36:31",
+    "timestamp_sec": 2191.04,
+    "text": "할 수가 있겠죠. 그래서 만약에 대학원 생길 경우에는 논문 읽을 때",
+    "image": "frame_0491_36-31.jpg"
+  },
+  {
+    "index": 492,
+    "timestamp": "36:35",
+    "timestamp_sec": 2195.04,
+    "text": "그리고 여러분들께서 뭐 평소에 독서를 할 때한 교과서를 읽을 때",
+    "image": "frame_0492_36-35.jpg"
+  },
+  {
+    "index": 493,
+    "timestamp": "36:39",
+    "timestamp_sec": 2199.44,
+    "text": "하이라이트라고 이게 왜 중요한 거 같은지 내가 무엇을 느꼈는지 꼭",
+    "image": "frame_0493_36-39.jpg"
+  },
+  {
+    "index": 494,
+    "timestamp": "36:43",
+    "timestamp_sec": 2203.76,
+    "text": "코멘트도 적어 주시면은 매우 좋습니다. 그래서 제가 이제이 좋은",
+    "image": "frame_0494_36-43.jpg"
+  },
+  {
+    "index": 495,
+    "timestamp": "36:49",
+    "timestamp_sec": 2209.079,
+    "text": "기록이라는게 결국에는 우리가이 생각의",
+    "image": "frame_0495_36-49.jpg"
+  },
+  {
+    "index": 496,
+    "timestamp": "36:52",
+    "timestamp_sec": 2212.839,
+    "text": "과정을 생각을 해 봤을 때 이런 방식으로 이루어지고 결국에는 감정을",
+    "image": "frame_0496_36-52.jpg"
+  },
+  {
+    "index": 497,
+    "timestamp": "36:58",
+    "timestamp_sec": 2218.44,
+    "text": "기록해야 된다라고 말씀을 드렸어. 저는이 감정을 기록하는 것의 중요성을",
+    "image": "frame_0497_36-58.jpg"
+  },
+  {
+    "index": 498,
+    "timestamp": "37:02",
+    "timestamp_sec": 2222.88,
+    "text": "알고 이런 표를 하나 만들어 냈어요. 아기 아기라는 걸 만들었는데요. AI",
+    "image": "frame_0498_37-02.jpg"
+  },
+  {
+    "index": 499,
+    "timestamp": "37:08",
+    "timestamp_sec": 2228.64,
+    "text": "시대의 기록은 아기처럼 기이라고",
+    "image": "frame_0499_37-08.jpg"
+  },
+  {
+    "index": 500,
+    "timestamp": "37:12",
+    "timestamp_sec": 2232.92,
+    "text": "[웃음] 했습니다. 재미가 없죠. 네. 이게",
+    "image": "frame_0500_37-12.jpg"
+  },
+  {
+    "index": 501,
+    "timestamp": "37:16",
+    "timestamp_sec": 2236.56,
+    "text": "무슨 말이냐면요. 우리가 AI 시대에 기록을 하는 방법은 내가 어떤 경험을",
+    "image": "frame_0501_37-16.jpg"
+  },
+  {
+    "index": 502,
+    "timestamp": "37:23",
+    "timestamp_sec": 2243.2,
+    "text": "하면서 새로운 기억이 추가가 됐으면요. 그 당시에 느꼈던 나의",
+    "image": "frame_0502_37-23.jpg"
+  },
+  {
+    "index": 503,
+    "timestamp": "37:28",
+    "timestamp_sec": 2248.92,
+    "text": "어떤 느낌 그 있는 그대로 필터링",
+    "image": "frame_0503_37-28.jpg"
+  },
+  {
+    "index": 504,
+    "timestamp": "37:32",
+    "timestamp_sec": 2252.599,
+    "text": "없이 최대한 빨리 날것 그대로 적어놔야 합니다. 그 낡대로 적는다는",
+    "image": "frame_0504_37-32.jpg"
+  },
+  {
+    "index": 505,
+    "timestamp": "37:37",
+    "timestamp_sec": 2257.48,
+    "text": "것이 어떻게 보면은 좀 구조되지가",
+    "image": "frame_0505_37-37.jpg"
+  },
+  {
+    "index": 506,
+    "timestamp": "37:40",
+    "timestamp_sec": 2260.56,
+    "text": "않고 논리적이지 않을 수도 있지만 결국에는이 상황, 감정, 인지, 어떤",
+    "image": "frame_0506_37-40.jpg"
+  },
+  {
+    "index": 507,
+    "timestamp": "37:47",
+    "timestamp_sec": 2267.119,
+    "text": "인지적 평가를 했는지 그리고 그에 대한 생각을 다 하나의 데이터로 남겨",
+    "image": "frame_0507_37-47.jpg"
+  },
+  {
+    "index": 508,
+    "timestamp": "37:53",
+    "timestamp_sec": 2273.16,
+    "text": "놓는 것이에요. 이게 왜 이렇게 중요하냐면요. 어, 저는 나의 감정을",
+    "image": "frame_0508_37-53.jpg"
+  },
+  {
+    "index": 509,
+    "timestamp": "37:58",
+    "timestamp_sec": 2278.28,
+    "text": "기록해 두는 것이 결국에는이 다시",
+    "image": "frame_0509_37-58.jpg"
+  },
+  {
+    "index": 510,
+    "timestamp": "38:01",
+    "timestamp_sec": 2281.28,
+    "text": "왼쪽으로 돌아와서 그 우리가 생각을",
+    "image": "frame_0510_38-01.jpg"
+  },
+  {
+    "index": 511,
+    "timestamp": "38:05",
+    "timestamp_sec": 2285.28,
+    "text": "한 것을 그대로 기록을 남겨서 내가",
+    "image": "frame_0511_38-05.jpg"
+  },
+  {
+    "index": 512,
+    "timestamp": "38:08",
+    "timestamp_sec": 2288.56,
+    "text": "무엇을 좋아하는지 찾는 방법이기도 하지만 결국에는 내가 느꼈던 감정을",
+    "image": "frame_0512_38-08.jpg"
+  },
+  {
+    "index": 513,
+    "timestamp": "38:13",
+    "timestamp_sec": 2293.16,
+    "text": "적는 것이 인간이 할 수 있는 그",
+    "image": "frame_0513_38-13.jpg"
+  },
+  {
+    "index": 514,
+    "timestamp": "38:16",
+    "timestamp_sec": 2296.2,
+    "text": "제일 인간다운 방법이라고 생각을 합니다. 예를 들어서 제가 어떠한",
+    "image": "frame_0514_38-16.jpg"
+  },
+  {
+    "index": 515,
+    "timestamp": "38:21",
+    "timestamp_sec": 2301.16,
+    "text": "인터넷에 있는 유튜브 영상을 보면서 어, 난 이걸 가지고 좀 너무",
+    "image": "frame_0515_38-21.jpg"
+  },
+  {
+    "index": 516,
+    "timestamp": "38:25",
+    "timestamp_sec": 2305.599,
+    "text": "재밌어. 나중에 더 파고 들어야지 아니면은이 사람한테 연락을 해보고",
+    "image": "frame_0516_38-25.jpg"
+  },
+  {
+    "index": 517,
+    "timestamp": "38:30",
+    "timestamp_sec": 2310.319,
+    "text": "내가 좀 커피챗을 해 봐야지라고 하는이 감정,이 흥분의 순간을 느꼈을",
+    "image": "frame_0517_38-30.jpg"
+  },
+  {
+    "index": 518,
+    "timestamp": "38:35",
+    "timestamp_sec": 2315.24,
+    "text": "때 기록해 두는 것이 결국에는 나중에",
+    "image": "frame_0518_38-35.jpg"
+  },
+  {
+    "index": 519,
+    "timestamp": "38:38",
+    "timestamp_sec": 2318.839,
+    "text": "내가이 순간이 나에게 나의 어떤",
+    "image": "frame_0519_38-38.jpg"
+  },
+  {
+    "index": 520,
+    "timestamp": "38:42",
+    "timestamp_sec": 2322.24,
+    "text": "인생을 바꿔 줄 수 있는 결정적인 경험이 될 수도 있거든요. 아니면",
+    "image": "frame_0520_38-42.jpg"
+  },
+  {
+    "index": 521,
+    "timestamp": "38:46",
+    "timestamp_sec": 2326.56,
+    "text": "내가 나중에 내가이 발견한이 경험을이 지식을 나중에 활용해야지라고 생각이",
+    "image": "frame_0521_38-46.jpg"
+  },
+  {
+    "index": 522,
+    "timestamp": "38:51",
+    "timestamp_sec": 2331.359,
+    "text": "들고 기록해 되는 것이 나중에 우리가 재활용을 할 때이 지식 자체가 엄청",
+    "image": "frame_0522_38-51.jpg"
+  },
+  {
+    "index": 523,
+    "timestamp": "38:56",
+    "timestamp_sec": 2336.76,
+    "text": "가치 있는 기록이 될 수도 있는 거예요. 그래서 우리가 결국엔 해야",
+    "image": "frame_0523_38-56.jpg"
+  },
+  {
+    "index": 524,
+    "timestamp": "39:00",
+    "timestamp_sec": 2340.88,
+    "text": "되는게이 내가 어떤 경험을 했었을 때 그 경험에 대한 그 감정 그 날것",
+    "image": "frame_0524_39-00.jpg"
+  },
+  {
+    "index": 525,
+    "timestamp": "39:07",
+    "timestamp_sec": 2347.319,
+    "text": "그대로 꼭 적어 놓 놓으셔야 합니다. 어 나만 보기 위한 거면은 이렇게",
+    "image": "frame_0525_39-07.jpg"
+  },
+  {
+    "index": 526,
+    "timestamp": "39:13",
+    "timestamp_sec": 2353.88,
+    "text": "기록을 해도 좋지 않을까요? 만약에 다른 사람들한테 공유를 하고",
+    "image": "frame_0526_39-13.jpg"
+  },
+  {
+    "index": 527,
+    "timestamp": "39:18",
+    "timestamp_sec": 2358.079,
+    "text": "재활용하기 위한 거면은 당연히이 그 감정이라는 걸 좀 줄이고 우리가",
+    "image": "frame_0527_39-18.jpg"
+  },
+  {
+    "index": 528,
+    "timestamp": "39:22",
+    "timestamp_sec": 2362.96,
+    "text": "절제를 해야 될 필요성이 있어요. 근데 내가 나만 활용을 할 거라고",
+    "image": "frame_0528_39-22.jpg"
+  },
+  {
+    "index": 529,
+    "timestamp": "39:27",
+    "timestamp_sec": 2367.319,
+    "text": "한다면은이 감정을 있는 그대로를",
+    "image": "frame_0529_39-27.jpg"
+  },
+  {
+    "index": 530,
+    "timestamp": "39:30",
+    "timestamp_sec": 2370.56,
+    "text": "적어두고이 적어 두었을 때 나중에이",
+    "image": "frame_0530_39-30.jpg"
+  },
+  {
+    "index": 531,
+    "timestamp": "39:34",
+    "timestamp_sec": 2374.92,
+    "text": "AI한테 공급을 했을 때 훨씬 더 어",
+    "image": "frame_0531_39-34.jpg"
+  },
+  {
+    "index": 532,
+    "timestamp": "39:38",
+    "timestamp_sec": 2378.119,
+    "text": "수준 높은 경험을 하실 수가 있고요.",
+    "image": "frame_0532_39-38.jpg"
+  },
+  {
+    "index": 533,
+    "timestamp": "39:41",
+    "timestamp_sec": 2381.16,
+    "text": "내가 무엇을 원했는지를 좀 이해를 하고 하면서이 LRM이 결과물을",
+    "image": "frame_0533_39-41.jpg"
+  },
+  {
+    "index": 534,
+    "timestamp": "39:47",
+    "timestamp_sec": 2387.0,
+    "text": "만들어 낸다라고 생각이 드실 수가",
+    "image": "frame_0534_39-47.jpg"
+  },
+  {
+    "index": 535,
+    "timestamp": "39:50",
+    "timestamp_sec": 2390.04,
+    "text": "있을 거예요. 어, 저는 이런 내용을",
+    "image": "frame_0535_39-50.jpg"
+  },
+  {
+    "index": 536,
+    "timestamp": "39:53",
+    "timestamp_sec": 2393.4,
+    "text": "좀 찾아왔습니다. 그 인류 조건이라는 베스트셀러의 저자인 사이트 아카시가",
+    "image": "frame_0536_39-53.jpg"
+  },
+  {
+    "index": 537,
+    "timestamp": "39:58",
+    "timestamp_sec": 2398.839,
+    "text": "글 쓰기의 힘이라 책을 썼는데요. 여기서 뭐라고 했냐면이 글 쓰기이",
+    "image": "frame_0537_39-58.jpg"
+  },
+  {
+    "index": 538,
+    "timestamp": "40:03",
+    "timestamp_sec": 2403.44,
+    "text": "말로 표현하는 것이 결국에는 자기 형성의 방법이라고 하였습니다. 내가",
+    "image": "frame_0538_40-03.jpg"
+  },
+  {
+    "index": 539,
+    "timestamp": "40:08",
+    "timestamp_sec": 2408.48,
+    "text": "지금이 세상에서 경험을 하는 것을 생각을 하는 것을 글로 쓰는 것",
+    "image": "frame_0539_40-08.jpg"
+  },
+  {
+    "index": 540,
+    "timestamp": "40:13",
+    "timestamp_sec": 2413.48,
+    "text": "자체만으로 나를인지를 하게 된다라고",
+    "image": "frame_0540_40-13.jpg"
+  },
+  {
+    "index": 541,
+    "timestamp": "40:17",
+    "timestamp_sec": 2417.0,
+    "text": "말씀을 하셨어요. 그래서 결국에는 내가이 글로 표현을 하고 기록을 남겨",
+    "image": "frame_0541_40-17.jpg"
+  },
+  {
+    "index": 542,
+    "timestamp": "40:22",
+    "timestamp_sec": 2422.64,
+    "text": "두는 것 자체만으로 내 머릿속에서이 모한 것들이 어떻게 풀어 풀어지지",
+    "image": "frame_0542_40-22.jpg"
+  },
+  {
+    "index": 543,
+    "timestamp": "40:28",
+    "timestamp_sec": 2428.56,
+    "text": "않은 스파게티 같은 생각들을 밖으로 꺼내서 익스프레스 해 가지고 남겨 놓",
+    "image": "frame_0543_40-28.jpg"
+  },
+  {
+    "index": 544,
+    "timestamp": "40:35",
+    "timestamp_sec": 2435.04,
+    "text": "놓는 것이 결국엔 나를 인식하게 되는 방법이라고 말씀을 하셨는데요. 우리가",
+    "image": "frame_0544_40-35.jpg"
+  },
+  {
+    "index": 545,
+    "timestamp": "40:40",
+    "timestamp_sec": 2440.079,
+    "text": "결국에는 기록을 이렇게 해야 되는 이유가 이렇게 정리가 됩니다. 예.",
+    "image": "frame_0545_40-40.jpg"
+  },
+  {
+    "index": 546,
+    "timestamp": "40:45",
+    "timestamp_sec": 2445.68,
+    "text": "결국에는 인간만이 할 수 있는 것이고",
+    "image": "frame_0546_40-45.jpg"
+  },
+  {
+    "index": 547,
+    "timestamp": "40:49",
+    "timestamp_sec": 2449.92,
+    "text": "어 이렇게 경험을 기록해 두었을 때",
+    "image": "frame_0547_40-49.jpg"
+  },
+  {
+    "index": 548,
+    "timestamp": "40:53",
+    "timestamp_sec": 2453.079,
+    "text": "결국에는 나중에 재활용해서 우리가 생산성도 높이고 질도 높일 수 있을",
+    "image": "frame_0548_40-53.jpg"
+  },
+  {
+    "index": 549,
+    "timestamp": "40:57",
+    "timestamp_sec": 2457.48,
+    "text": "뿐더로 이렇게 기록을 해 두면은 나중에 AI까지 이제 그 경험을",
+    "image": "frame_0549_40-57.jpg"
+  },
+  {
+    "index": 550,
+    "timestamp": "41:02",
+    "timestamp_sec": 2462.72,
+    "text": "그대로 활용을 해서 그 금의 원석들 덩어리를 이용을 해서 나중에 나를",
+    "image": "frame_0550_41-02.jpg"
+  },
+  {
+    "index": 551,
+    "timestamp": "41:07",
+    "timestamp_sec": 2467.76,
+    "text": "위해서 더욱더 가치 있게 활용할 수 있기 때문이죠. 네. 하여튼 지금까지",
+    "image": "frame_0551_41-07.jpg"
+  },
+  {
+    "index": 552,
+    "timestamp": "41:11",
+    "timestamp_sec": 2471.96,
+    "text": "제가이 기록이 왜 중요한지 그 기록의",
+    "image": "frame_0552_41-11.jpg"
+  },
+  {
+    "index": 553,
+    "timestamp": "41:15",
+    "timestamp_sec": 2475.52,
+    "text": "본질에 대해서 좀 깊게 다루어 보았습니다. 네. 어, 이번",
+    "image": "frame_0553_41-15.jpg"
+  },
+  {
+    "index": 554,
+    "timestamp": "41:20",
+    "timestamp_sec": 2480.24,
+    "text": "영상에서는 제가 결국에는 기록이 무엇인지이 본질적인 가치에 대해서 좀",
+    "image": "frame_0554_41-20.jpg"
+  },
+  {
+    "index": 555,
+    "timestamp": "41:25",
+    "timestamp_sec": 2485.119,
+    "text": "다뤄봤는데요. 여러분들께서 기록을 하실 때는 결국에는 감정을 기록하셔야",
+    "image": "frame_0555_41-25.jpg"
+  },
+  {
+    "index": 556,
+    "timestamp": "41:30",
+    "timestamp_sec": 2490.04,
+    "text": "합니다. 그 감정이 기록이 되었을 때에 비로소 우리가 AI한테 활용할",
+    "image": "frame_0556_41-30.jpg"
+  },
+  {
+    "index": 557,
+    "timestamp": "41:35",
+    "timestamp_sec": 2495.599,
+    "text": "수 있는 귀중한 재료를 만들어내는 것입니다. 우리가이 좋은 기록에",
+    "image": "frame_0557_41-35.jpg"
+  },
+  {
+    "index": 558,
+    "timestamp": "41:39",
+    "timestamp_sec": 2499.64,
+    "text": "대해서 이번 시간에 살펴봤으면은 다음 시간에는이 좋은 기록을 하는 방법에",
+    "image": "frame_0558_41-39.jpg"
+  },
+  {
+    "index": 559,
+    "timestamp": "41:44",
+    "timestamp_sec": 2504.64,
+    "text": "대한 구체적인 방법에 대해서 말씀을 드릴 예정입니다. 우리가 좋은 기록을",
+    "image": "frame_0559_41-44.jpg"
+  },
+  {
+    "index": 560,
+    "timestamp": "41:49",
+    "timestamp_sec": 2509.76,
+    "text": "어떻게 실행을 할 수 있는지 노트 테이킹과 노트 웨이킹이라는 개념",
+    "image": "frame_0560_41-49.jpg"
+  },
+  {
+    "index": 561,
+    "timestamp": "41:55",
+    "timestamp_sec": 2515.24,
+    "text": "그리고 내가 어떻게 하면이 생각을 빠르게 표현해낼 수 있을지 캡처할 수",
+    "image": "frame_0561_41-55.jpg"
+  },
+  {
+    "index": 562,
+    "timestamp": "42:00",
+    "timestamp_sec": 2520.24,
+    "text": "있을지 다양한 방법론들을 좀",
+    "image": "frame_0562_42-00.jpg"
+  },
+  {
+    "index": 563,
+    "timestamp": "42:03",
+    "timestamp_sec": 2523.319,
+    "text": "살펴보면서 어떻게 우리가 기록을 해야 되는지에 대해서 좀 살펴보겠습니다.",
+    "image": "frame_0563_42-03.jpg"
+  },
+  {
+    "index": 564,
+    "timestamp": "42:07",
+    "timestamp_sec": 2527.8,
+    "text": "이번 강의는 여기서 마치겠습니다. 오랜 시간 주셔서 감사합니다.",
+    "image": "frame_0564_42-07.jpg"
+  }
+]

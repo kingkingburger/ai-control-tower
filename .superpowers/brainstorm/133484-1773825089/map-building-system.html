@@ -1,0 +1,98 @@
+<h2>섹션 2: 맵 & 건물 시스템</h2>
+<p class="subtitle">2D 탑다운 콜로니 디펜스 — 맵 레이아웃과 건물 배치 구조</p>
+
+<div class="section">
+  <h3>맵 레이아웃</h3>
+  <div class="mockup">
+    <div class="mockup-header">게임 맵 구조 (탑다운 뷰)</div>
+    <div class="mockup-body" style="font-family:monospace; line-height:1.4; font-size:13px; background:#1a1a2e; color:#e0e0e0; padding:24px;">
+<pre style="margin:0;">
+ ～～～～～～～～～～～～～～～～～～～～～～～～～～
+ ～                    적 스폰 존                    ～
+ ～    💀    💀    💀    💀    💀    💀    💀        ～
+ ～～～～～～～～～～～～～～～～～～～～～～～～～～
+
+          ↓  ↓  ↓  웨이브 방향  ↓  ↓  ↓
+
+    ┌─────────────────────────────────────┐
+    │           자유 건설 영역              │
+    │                                     │
+    │   🏗️ 타워    🧱 벽    ⛏️ 자원건물    │
+    │                                     │
+    │   🏰 병영    🔬 연구소   🏪 상점     │
+    │                                     │
+    │         ┌───────────┐               │
+    │         │  ⭐ 거점   │ ← 여기 뚫리면  │
+    │         │ (코어)     │   게임 오버    │
+    │         └───────────┘               │
+    │                                     │
+    └─────────────────────────────────────┘
+
+          ↑  ↑  ↑  웨이브 방향  ↑  ↑  ↑
+
+ ～～～～～～～～～～～～～～～～～～～～～～～～～～
+ ～                    적 스폰 존                    ～
+ ～    💀    💀    💀    💀    💀    💀    💀        ～
+ ～～～～～～～～～～～～～～～～～～～～～～～～～～
+</pre>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>건물 종류</h3>
+  <div style="display:grid; grid-template-columns:1fr 1fr; gap:12px;">
+    <div style="background:#16213e; border:1px solid #334; border-radius:8px; padding:16px;">
+      <h4 style="color:#e94560; margin:0 0 8px;">🧱 방어 건물</h4>
+      <p style="color:#aaa; margin:0; font-size:14px;"><strong>벽</strong> — 적 이동 차단, 체력 높음<br>
+      <strong>타워</strong> — 범위 내 자동 공격<br>
+      <strong>함정</strong> — 지나가는 적에게 피해/감속</p>
+    </div>
+    <div style="background:#16213e; border:1px solid #334; border-radius:8px; padding:16px;">
+      <h4 style="color:#0f3460; margin:0 0 8px;">⚔️ 유닛 건물</h4>
+      <p style="color:#aaa; margin:0; font-size:14px;"><strong>병영</strong> — 근접 유닛 자동 생산<br>
+      <strong>사격장</strong> — 원거리 유닛 자동 생산<br>
+      <strong>마법탑</strong> — 마법 유닛 자동 생산</p>
+    </div>
+    <div style="background:#16213e; border:1px solid #334; border-radius:8px; padding:16px;">
+      <h4 style="color:#e9b44c; margin:0 0 8px;">⛏️ 자원 건물</h4>
+      <p style="color:#aaa; margin:0; font-size:14px;"><strong>금광</strong> — 골드 생산 (건설 비용)<br>
+      <strong>벌목장</strong> — 목재 생산 (벽/건물)<br>
+      <strong>마나석</strong> — 마나 생산 (유닛/스킬)</p>
+    </div>
+    <div style="background:#16213e; border:1px solid #334; border-radius:8px; padding:16px;">
+      <h4 style="color:#7ec8e3; margin:0 0 8px;">🔬 특수 건물</h4>
+      <p style="color:#aaa; margin:0; font-size:14px;"><strong>연구소</strong> — 건물/유닛 업그레이드<br>
+      <strong>성벽 강화소</strong> — 주변 벽 체력 증가<br>
+      <strong>봉화대</strong> — 주변 유닛 공속/이속 버프</p>
+    </div>
+  </div>
+</div>
+
+<div class="section">
+  <h3>맵 구조 선택</h3>
+</div>
+
+<div class="options">
+  <div class="option" data-choice="a" onclick="toggleSelect(this)">
+    <div class="letter">A</div>
+    <div class="content">
+      <h3>4방향 스폰</h3>
+      <p>사방에서 적이 밀려옴. 360도 방어 필요. 긴장감 최고, TAB 원작과 동일</p>
+    </div>
+  </div>
+  <div class="option" data-choice="b" onclick="toggleSelect(this)">
+    <div class="letter">B</div>
+    <div class="content">
+      <h3>2방향 스폰 (위/아래)</h3>
+      <p>위아래에서만 공격. 방어선 구축이 명확하고 직관적. 초보 친화적</p>
+    </div>
+  </div>
+  <div class="option" data-choice="c" onclick="toggleSelect(this)">
+    <div class="letter">C</div>
+    <div class="content">
+      <h3>점진적 확장</h3>
+      <p>처음엔 1방향 → 웨이브 진행마다 스폰 방향 추가. 난이도 자연 스케일링</p>
+    </div>
+  </div>
+</div>

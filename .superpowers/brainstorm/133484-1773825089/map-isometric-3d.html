@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>아이소메트릭 맵 - 3D 프리뷰</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { background: #0a0a1a; overflow: hidden; font-family: sans-serif; }
+  canvas { display: block; }
+  #ui {
+    position: fixed; top: 16px; left: 16px; z-index: 10;
+    color: #e0e0e0; font-size: 14px;
+    background: rgba(10,10,26,0.85); padding: 16px; border-radius: 8px;
+    border: 1px solid #334;
+  }
+  #ui h2 { font-size: 18px; margin-bottom: 8px; color: #e94560; }
+  #ui p { margin-bottom: 4px; color: #aaa; font-size: 13px; }
+  #legend {
+    position: fixed; bottom: 16px; left: 16px; z-index: 10;
+    color: #e0e0e0; font-size: 13px;
+    background: rgba(10,10,26,0.85); padding: 16px; border-radius: 8px;
+    border: 1px solid #334;
+  }
+  #legend .item { display: flex; align-items: center; gap: 8px; margin: 4px 0; }
+  #legend .color-box { width: 16px; height: 16px; border-radius: 3px; }
+  #spawn-select {
+    position: fixed; top: 16px; right: 16px; z-index: 10;
+    color: #e0e0e0; font-size: 14px;
+    background: rgba(10,10,26,0.85); padding: 16px; border-radius: 8px;
+    border: 1px solid #334; min-width: 220px;
+  }
+  #spawn-select h3 { font-size: 15px; margin-bottom: 12px; color: #e94560; }
+  .spawn-btn {
+    display: block; width: 100%; padding: 10px 12px; margin: 6px 0;
+    background: #16213e; color: #e0e0e0; border: 1px solid #334;
+    border-radius: 6px; cursor: pointer; font-size: 13px; text-align: left;
+  }
+  .spawn-btn:hover { background: #1a3a5c; border-color: #e94560; }
+  .spawn-btn.active { background: #e94560; color: #fff; border-color: #e94560; }
+  .spawn-btn strong { display: block; font-size: 14px; margin-bottom: 2px; }
+</style>
+</head>
+<body>
+<div id="ui">
+  <h2>아이소메트릭 맵 프리뷰</h2>
+  <p>마우스 드래그: 회전 | 스크롤: 줌</p>
+  <p>우측에서 스폰 방향을 선택해보세요</p>
+</div>
+<div id="legend">
+  <div class="item"><div class="color-box" style="background:#e9b44c;"></div> ⭐ 거점 (코어)</div>
+  <div class="item"><div class="color-box" style="background:#888;"></div> 🧱 벽</div>
+  <div class="item"><div class="color-box" style="background:#e94560;"></div> 🏗️ 타워</div>
+  <div class="item"><div class="color-box" style="background:#4a90d9;"></div> ⚔️ 병영</div>
+  <div class="item"><div class="color-box" style="background:#2ecc71;"></div> ⛏️ 자원건물</div>
+  <div class="item"><div class="color-box" style="background:#9b59b6;"></div> 🔬 특수건물</div>
+  <div class="item"><div class="color-box" style="background:#c0392b;"></div> 💀 적 스폰</div>
+  <div class="item"><div class="color-box" style="background:#1a472a;"></div> 🌿 지형 (타일)</div>
+</div>
+<div id="spawn-select">
+  <h3>적 스폰 방향</h3>
+  <button class="spawn-btn" onclick="setSpawn('4dir')" id="btn-4dir">
+    <strong>A: 4방향</strong> 사방에서 밀려옴. TAB 원작
+  </button>
+  <button class="spawn-btn" onclick="setSpawn('2dir')" id="btn-2dir">
+    <strong>B: 2방향</strong> 양쪽에서만. 직관적
+  </button>
+  <button class="spawn-btn active" onclick="setSpawn('progressive')" id="btn-progressive">
+    <strong>C: 점진적 확장</strong> 1방향→웨이브마다 추가
+  </button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script>
+// Scene setup
+const scene = new THREE.Scene();
+scene.background = new THREE.Color(0x0a0a1a);
+scene.fog = new THREE.Fog(0x0a0a1a, 30, 60);
+
+const camera = new THREE.PerspectiveCamera(45, window.innerWidth / window.innerHeight, 0.1, 100);
+camera.position.set(20, 18, 20);
+camera.lookAt(0, 0, 0);
+
+const renderer = new THREE.WebGLRenderer({ antialias: true });
+renderer.setSize(window.innerWidth, window.innerHeight);
+renderer.shadowMap.enabled = true;
+renderer.shadowMap.type = THREE.PCFSoftShadowMap;
+document.body.appendChild(renderer.domElement);
+
+// Lights
+const ambientLight = new THREE.AmbientLight(0x334466, 0.6);
+scene.add(ambientLight);
+
+const dirLight = new THREE.DirectionalLight(0xffeedd, 0.8);
+dirLight.position.set(10, 15, 10);
+dirLight.castShadow = true;
+dirLight.shadow.mapSize.width = 2048;
+dirLight.shadow.mapSize.height = 2048;
+dirLight.shadow.camera.near = 0.5;
+dirLight.shadow.camera.far = 50;
+dirLight.shadow.camera.left = -20;
+dirLight.shadow.camera.right = 20;
+dirLight.shadow.camera.top = 20;
+dirLight.shadow.camera.bottom = -20;
+scene.add(dirLight);
+
+const pointLight = new THREE.PointLight(0xe94560, 0.5, 20);
+pointLight.position.set(0, 5, 0);
+scene.add(pointLight);
+
+// Materials
+const groundMat = new THREE.MeshLambertMaterial({ color: 0x1a472a });
+const wallMat = new THREE.MeshLambertMaterial({ color: 0x888888 });
+const towerMat = new THREE.MeshLambertMaterial({ color: 0xe94560 });
+const barracksMat = new THREE.MeshLambertMaterial({ color: 0x4a90d9 });
+const resourceMat = new THREE.MeshLambertMaterial({ color: 0x2ecc71 });
+const specialMat = new THREE.MeshLambertMaterial({ color: 0x9b59b6 });
+const coreMat = new THREE.MeshLambertMaterial({ color: 0xe9b44c });
+const spawnMat = new THREE.MeshLambertMaterial({ color: 0xc0392b, transparent: true, opacity: 0.6 });
+const tileDarkMat = new THREE.MeshLambertMaterial({ color: 0x152a15 });
+const tileLightMat = new THREE.MeshLambertMaterial({ color: 0x1a472a });
+
+// Ground tiles (checkerboard)
+const GRID = 20;
+for (let x = -GRID/2; x < GRID/2; x++) {
+  for (let z = -GRID/2; z < GRID/2; z++) {
+    const geo = new THREE.BoxGeometry(0.95, 0.1, 0.95);
+    const mat = (x + z) % 2 === 0 ? tileLightMat : tileDarkMat;
+    const tile = new THREE.Mesh(geo, mat);
+    tile.position.set(x + 0.5, -0.05, z + 0.5);
+    tile.receiveShadow = true;
+    scene.add(tile);
+  }
+}
+
+// Helper: create box building
+function createBuilding(x, z, w, h, d, mat, castShadow = true) {
+  const geo = new THREE.BoxGeometry(w, h, d);
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(x, h/2, z);
+  mesh.castShadow = castShadow;
+  mesh.receiveShadow = true;
+  scene.add(mesh);
+  return mesh;
+}
+
+// Helper: create tower (cylinder + top)
+function createTower(x, z) {
+  const base = new THREE.CylinderGeometry(0.35, 0.4, 1.8, 8);
+  const mesh = new THREE.Mesh(base, towerMat);
+  mesh.position.set(x, 0.9, z);
+  mesh.castShadow = true;
+  scene.add(mesh);
+
+  const top = new THREE.ConeGeometry(0.45, 0.6, 8);
+  const topMesh = new THREE.Mesh(top, new THREE.MeshLambertMaterial({ color: 0xaa2040 }));
+  topMesh.position.set(x, 2.1, z);
+  topMesh.castShadow = true;
+  scene.add(topMesh);
+}
+
+// Core (center)
+const coreGeo = new THREE.BoxGeometry(2, 2.5, 2);
+const core = new THREE.Mesh(coreGeo, coreMat);
+core.position.set(0, 1.25, 0);
+core.castShadow = true;
+scene.add(core);
+
+// Core glow
+const glowGeo = new THREE.SphereGeometry(0.4, 16, 16);
+const glowMat2 = new THREE.MeshBasicMaterial({ color: 0xffdd44 });
+const glow = new THREE.Mesh(glowGeo, glowMat2);
+glow.position.set(0, 2.8, 0);
+scene.add(glow);
+
+// Walls (ring around core)
+const wallPositions = [];
+for (let i = -4; i <= 4; i++) {
+  wallPositions.push([i, -4], [i, 4]);
+  if (i !== 0) { // leave gaps for entrances
+    wallPositions.push([-4, i], [4, i]);
+  }
+}
+wallPositions.forEach(([x, z]) => {
+  createBuilding(x, z, 0.9, 1.0, 0.9, wallMat);
+});
+
+// Towers at corners and midpoints
+[[-4,-4],[4,-4],[-4,4],[4,4],[0,-4],[0,4]].forEach(([x,z]) => {
+  createTower(x, z);
+});
+
+// Barracks
+createBuilding(-2, -2, 1.2, 1.2, 1.2, barracksMat);
+createBuilding(2, 2, 1.2, 1.2, 1.2, barracksMat);
+
+// Resource buildings
+createBuilding(-2, 2, 0.9, 0.8, 0.9, resourceMat);
+createBuilding(2, -2, 0.9, 0.8, 0.9, resourceMat);
+createBuilding(0, -2, 0.9, 0.8, 0.9, resourceMat);
+
+// Special buildings
+createBuilding(-2, 0, 1.0, 1.4, 1.0, specialMat);
+createBuilding(2, 0, 1.0, 1.4, 1.0, specialMat);
+
+// Spawn zones
+let spawnMeshes = [];
+
+function clearSpawns() {
+  spawnMeshes.forEach(m => scene.remove(m));
+  spawnMeshes = [];
+}
+
+function addSpawnZone(x, z, w, d) {
+  const geo = new THREE.BoxGeometry(w, 0.3, d);
+  const mesh = new THREE.Mesh(geo, spawnMat.clone());
+  mesh.position.set(x, 0.15, z);
+  scene.add(mesh);
+  spawnMeshes.push(mesh);
+
+  // Skull markers
+  for (let i = -Math.floor(w/2)+1; i < Math.floor(w/2); i += 2) {
+    const skull = new THREE.SphereGeometry(0.2, 8, 8);
+    const skullMesh = new THREE.Mesh(skull, new THREE.MeshBasicMaterial({ color: 0xff4444 }));
+    skullMesh.position.set(x + i, 0.5, z);
+    spawnMeshes.push(skullMesh);
+    scene.add(skullMesh);
+  }
+}
+
+function setSpawn(type) {
+  clearSpawns();
+  document.querySelectorAll('.spawn-btn').forEach(b => b.classList.remove('active'));
+
+  if (type === '4dir') {
+    document.getElementById('btn-4dir').classList.add('active');
+    addSpawnZone(0, -9, 18, 1.5);
+    addSpawnZone(0, 9, 18, 1.5);
+    addSpawnZone(-9, 0, 1.5, 18);
+    addSpawnZone(9, 0, 1.5, 18);
+  } else if (type === '2dir') {
+    document.getElementById('btn-2dir').classList.add('active');
+    addSpawnZone(0, -9, 18, 1.5);
+    addSpawnZone(0, 9, 18, 1.5);
+  } else if (type === 'progressive') {
+    document.getElementById('btn-progressive').classList.add('active');
+    addSpawnZone(0, -9, 18, 1.5);
+
+    // Faded future spawns
+    const futureMat = new THREE.MeshLambertMaterial({ color: 0xc0392b, transparent: true, opacity: 0.2 });
+    [
+      [0, 9, 18, 1.5],
+      [-9, 0, 1.5, 18],
+      [9, 0, 1.5, 18]
+    ].forEach(([fx, fz, fw, fd]) => {
+      const geo = new THREE.BoxGeometry(fw, 0.15, fd);
+      const mesh = new THREE.Mesh(geo, futureMat);
+      mesh.position.set(fx, 0.08, fz);
+      scene.add(mesh);
+      spawnMeshes.push(mesh);
+    });
+  }
+}
+
+// Initial spawn: progressive
+setSpawn('progressive');
+
+// Enemies (animated spheres moving toward core)
+const enemies = [];
+function spawnEnemy(fromX, fromZ) {
+  const geo = new THREE.SphereGeometry(0.25, 8, 8);
+  const mat = new THREE.MeshLambertMaterial({ color: 0xff2222 });
+  const mesh = new THREE.Mesh(geo, mat);
+  mesh.position.set(fromX, 0.35, fromZ);
+  mesh.userData = { speed: 0.01 + Math.random() * 0.015 };
+  scene.add(mesh);
+  enemies.push(mesh);
+}
+
+// Spawn some enemies for visual
+for (let i = 0; i < 15; i++) {
+  spawnEnemy(-8 + Math.random() * 16, -8 - Math.random() * 2);
+}
+for (let i = 0; i < 8; i++) {
+  spawnEnemy(-8 + Math.random() * 16, 8 + Math.random() * 2);
+}
+
+// Mouse controls
+let isDragging = false;
+let prevMouse = { x: 0, y: 0 };
+let angle = Math.PI / 4;
+let elevation = Math.PI / 6;
+let distance = 25;
+
+renderer.domElement.addEventListener('mousedown', (e) => {
+  isDragging = true;
+  prevMouse = { x: e.clientX, y: e.clientY };
+});
+
+renderer.domElement.addEventListener('mousemove', (e) => {
+  if (!isDragging) return;
+  const dx = e.clientX - prevMouse.x;
+  const dy = e.clientY - prevMouse.y;
+  angle -= dx * 0.005;
+  elevation = Math.max(0.1, Math.min(Math.PI / 2.5, elevation + dy * 0.005));
+  prevMouse = { x: e.clientX, y: e.clientY };
+});
+
+renderer.domElement.addEventListener('mouseup', () => isDragging = false);
+renderer.domElement.addEventListener('mouseleave', () => isDragging = false);
+
+renderer.domElement.addEventListener('wheel', (e) => {
+  distance = Math.max(10, Math.min(40, distance + e.deltaY * 0.02));
+});
+
+// Animation
+function animate() {
+  requestAnimationFrame(animate);
+
+  // Camera orbit
+  camera.position.x = Math.cos(angle) * Math.cos(elevation) * distance;
+  camera.position.y = Math.sin(elevation) * distance;
+  camera.position.z = Math.sin(angle) * Math.cos(elevation) * distance;
+  camera.lookAt(0, 0, 0);
+
+  // Animate enemies toward center
+  enemies.forEach(e => {
+    const dx = -e.position.x;
+    const dz = -e.position.z;
+    const len = Math.sqrt(dx*dx + dz*dz);
+    if (len > 5) {
+      e.position.x += (dx / len) * e.userData.speed;
+      e.position.z += (dz / len) * e.userData.speed;
+    }
+    e.position.y = 0.35 + Math.sin(Date.now() * 0.005 + e.position.x) * 0.1;
+  });
+
+  // Core glow pulse
+  const pulse = 0.8 + Math.sin(Date.now() * 0.003) * 0.2;
+  glow.scale.set(pulse, pulse, pulse);
+
+  // Spawn zone pulse
+  spawnMeshes.forEach(m => {
+    if (m.material && m.material.opacity) {
+      const baseOpacity = m.material.opacity > 0.3 ? 0.6 : 0.2;
+      m.material.opacity = baseOpacity + Math.sin(Date.now() * 0.002) * 0.1;
+    }
+  });
+
+  renderer.render(scene, camera);
+}
+animate();
+
+// Resize
+window.addEventListener('resize', () => {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+});
+</script>
+</body>
+</html>
