@@ -1,0 +1,1301 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The End of Coding: Andrej Karpathy on Agents, AutoResearch, and the Loopy Era of AI</title>
+<style>
+:root {
+  --bg: #0f0f0f;
+  --surface: #1a1a2e;
+  --surface2: #16213e;
+  --accent: #e94560;
+  --accent2: #0f3460;
+  --text: #eee;
+  --text-dim: #999;
+  --text-ko: #8ec8f0;
+  --ts-color: #e94560;
+  --border: #2a2a4a;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+body {
+  font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.7;
+}
+.hero {
+  background: linear-gradient(135deg, var(--surface) 0%, var(--accent2) 100%);
+  padding: 60px 40px;
+  text-align: center;
+  border-bottom: 3px solid var(--accent);
+}
+.hero h1 {
+  font-size: 2.2em;
+  font-weight: 700;
+  margin-bottom: 16px;
+  background: linear-gradient(90deg, #fff, #8ec8f0);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.hero .meta {
+  color: var(--text-dim);
+  font-size: 0.95em;
+  margin-bottom: 8px;
+}
+.hero .meta a {
+  color: var(--accent);
+  text-decoration: none;
+}
+.hero .meta a:hover { text-decoration: underline; }
+.container {
+  max-width: 960px;
+  margin: 0 auto;
+  padding: 40px 24px;
+}
+.summary {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 40px;
+}
+.summary h2 {
+  color: var(--accent);
+  font-size: 1.3em;
+  margin-bottom: 16px;
+}
+.summary p { margin-bottom: 12px; }
+.summary .key-points { list-style: none; padding: 0; }
+.summary .key-points li {
+  padding: 8px 0 8px 24px;
+  position: relative;
+}
+.summary .key-points li::before {
+  content: "\25B6";
+  position: absolute;
+  left: 0;
+  color: var(--accent);
+  font-size: 0.7em;
+  top: 12px;
+}
+.insights {
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 32px;
+  margin-bottom: 40px;
+}
+.insights h2 {
+  color: var(--text-ko);
+  font-size: 1.3em;
+  margin-bottom: 16px;
+}
+.insights h3 {
+  color: var(--accent);
+  font-size: 1.05em;
+  margin: 20px 0 10px;
+}
+.insights ul { padding-left: 20px; }
+.insights li { margin-bottom: 8px; }
+.toc {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 24px 32px;
+  margin-bottom: 40px;
+}
+.toc h2 {
+  color: var(--accent);
+  font-size: 1.2em;
+  margin-bottom: 12px;
+}
+.toc ol { padding-left: 20px; }
+.toc li { margin-bottom: 6px; }
+.toc a { color: var(--text); text-decoration: none; }
+.toc a:hover { color: var(--accent); }
+.toc .ts {
+  color: var(--ts-color);
+  font-family: 'Consolas', monospace;
+  font-size: 0.85em;
+  margin-right: 6px;
+}
+.chapter { margin-bottom: 48px; }
+.chapter h2 {
+  font-size: 1.4em;
+  padding-bottom: 12px;
+  border-bottom: 2px solid var(--accent);
+  margin-bottom: 20px;
+}
+.ch-ts {
+  color: var(--ts-color);
+  text-decoration: none;
+  font-family: 'Consolas', monospace;
+  font-size: 0.75em;
+  margin-right: 8px;
+}
+.ch-ts:hover { text-decoration: underline; }
+.segment {
+  display: flex;
+  gap: 12px;
+  padding: 10px 0;
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+.segment:hover {
+  background: rgba(233, 69, 96, 0.05);
+  border-radius: 6px;
+}
+.timestamp {
+  color: var(--ts-color);
+  font-family: 'Consolas', monospace;
+  font-size: 0.82em;
+  white-space: nowrap;
+  text-decoration: none;
+  padding-top: 3px;
+  min-width: 65px;
+}
+.timestamp:hover { text-decoration: underline; }
+.text { flex: 1; }
+.text .en { color: var(--text); margin-bottom: 4px; }
+.text .ko { color: var(--text-ko); font-size: 0.92em; opacity: 0.85; }
+.toggle-bar {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+.toggle-btn {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  color: var(--text);
+  padding: 8px 18px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9em;
+  transition: all 0.2s;
+}
+.toggle-btn:hover, .toggle-btn.active {
+  background: var(--accent);
+  border-color: var(--accent);
+  color: #fff;
+}
+@media (max-width: 640px) {
+  .hero { padding: 32px 16px; }
+  .hero h1 { font-size: 1.5em; }
+  .container { padding: 20px 12px; }
+  .summary, .insights, .toc { padding: 20px; }
+  .timestamp { min-width: 50px; font-size: 0.75em; }
+}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <h1>The End of Coding: Andrej Karpathy on Agents, AutoResearch, and the Loopy Era of AI</h1>
+  <p class="meta"><strong>Channel:</strong> <a href="https://www.youtube.com/@NoPriorsPodcast" target="_blank">No Priors: AI, Machine Learning, Tech, &amp; Startups</a></p>
+  <p class="meta"><strong>Guest:</strong> Andrej Karpathy &nbsp;|&nbsp; <strong>Host:</strong> Sarah Guo</p>
+  <p class="meta"><strong>Date:</strong> 2026-03-20 &nbsp;|&nbsp; <strong>Duration:</strong> 1:06:31 &nbsp;|&nbsp; <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU" target="_blank">YouTube Link</a></p>
+</div>
+
+<div class="container">
+
+  <div class="summary">
+    <h2>Summary</h2>
+    <p>Andrej Karpathy가 No Priors 팟캐스트에서 AI 에이전트 시대의 코딩 변화, AutoResearch 프로젝트, 그리고 자율적으로 실험&middot;학습&middot;최적화하는 &ldquo;Loopy Era&rdquo;에 대해 논의한다. 2025년 12월을 코딩 에이전트의 전환점으로 지목하며, &ldquo;코드&rdquo;라는 동사 자체가 바뀌고 있다고 주장한다.</p>
+    <ul class="key-points">
+      <li><strong>코딩의 종말:</strong> 더 이상 코드를 직접 작성하는 것이 아니라, 자연어로 에이전트에게 의사를 전달하는 &ldquo;에이전틱 엔지니어링&rdquo; 시대가 도래했다.</li>
+      <li><strong>AutoResearch:</strong> AI가 실험 설계, 데이터 수집, 모델 훈련, 최적화까지 자율적으로 수행하는 연구 루프를 닫는 프로젝트. SETI-at-Home처럼 분산 실험이 가능한 비전.</li>
+      <li><strong>일자리 변화:</strong> Karpathy는 실제 구인 데이터를 분석하여 일자리가 즉시 사라지기보다 &ldquo;능력 확장&rdquo;이 일어나고 있으며, 적응하는 사람에게 기회가 열린다고 주장한다.</li>
+    </ul>
+  </div>
+
+  <div class="insights">
+    <h2>Insights</h2>
+    <h3>핵심 아이디어</h3>
+    <ul>
+      <li><strong>Vibe Coding &rarr; Agentic Engineering:</strong> 2025년의 &ldquo;vibe coding&rdquo;은 시작일 뿐이었고, 이제는 에이전트 그리드를 tmux로 운영하며 하루 16시간 지시하는 수준으로 진화했다.</li>
+      <li><strong>Model Speciation:</strong> 하나의 범용 모델이 아닌, 특화된 모델들이 생태계를 이루는 &ldquo;종 분화&rdquo;가 일어나고 있다.</li>
+      <li><strong>루프의 시대:</strong> 인간이 루프 안에 있을 필요가 없어지면서, AI가 가설 수립 &rarr; 실험 &rarr; 검증 &rarr; 개선을 자율적으로 반복하는 시대가 왔다.</li>
+    </ul>
+    <h3>적용 가능한 점</h3>
+    <ul>
+      <li>코딩 에이전트를 &ldquo;도구&rdquo;가 아닌 &ldquo;팀원&rdquo;으로 대하는 워크플로우 설계가 필요하다.</li>
+      <li>자연어 소통 능력(프롬프트 엔지니어링을 넘어서)이 핵심 기술이 된다.</li>
+      <li>오픈소스 모델이 closed-source와 격차를 좁히고 있으므로, 자체 모델 운영 전략을 고려할 가치가 있다.</li>
+    </ul>
+  </div>
+
+  <div class="toggle-bar">
+    <button class="toggle-btn active" onclick="toggleLang('both')">EN + KO</button>
+    <button class="toggle-btn" onclick="toggleLang('en')">English Only</button>
+    <button class="toggle-btn" onclick="toggleLang('ko')">Korean Only</button>
+  </div>
+
+  <div class="toc">
+    <h2>Chapters</h2>
+    <ol>
+      <li><a href="#ch-0"><span class="ts">[00:00]</span> Andrej Karpathy Introduction</a></li>
+<li><a href="#ch-1"><span class="ts">[02:55]</span> What Capability Limits Remain?</a></li>
+<li><a href="#ch-2"><span class="ts">[06:15]</span> What Mastery of Coding Agents Looks Like</a></li>
+<li><a href="#ch-3"><span class="ts">[11:16]</span> Second Order Effects of Natural Language Coding</a></li>
+<li><a href="#ch-4"><span class="ts">[15:51]</span> Why AutoResearch</a></li>
+<li><a href="#ch-5"><span class="ts">[22:45]</span> Relevant Skills in the AI Era</a></li>
+<li><a href="#ch-6"><span class="ts">[28:25]</span> Model Speciation</a></li>
+<li><a href="#ch-7"><span class="ts">[32:30]</span> Building More Collaboration Surfaces for Humans and AI</a></li>
+<li><a href="#ch-8"><span class="ts">[37:28]</span> Analysis of Jobs Market Data</a></li>
+<li><a href="#ch-9"><span class="ts">[48:25]</span> Open vs. Closed Source Models</a></li>
+<li><a href="#ch-10"><span class="ts">[53:51]</span> Autonomous Robotics</a></li>
+<li><a href="#ch-11"><span class="ts">[1:00:59]</span> MicroGPT and Agentic Education</a></li>
+<li><a href="#ch-12"><span class="ts">[1:05:40]</span> Conclusion</a></li>
+
+    </ol>
+  </div>
+
+  
+    <section id="ch-0" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=0s" target="_blank" class="ch-ts">[00:00]</a> Andrej Karpathy Introduction</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=0s" target="_blank" class="timestamp">[00:00]</a>
+          <div class="text">
+            <p class="en">code&#x27;s not even the right verb anymore, right? But I have to um express my will to my agents for 16 hours a day manifest. &gt;&gt; How can I have not just a single session of clot code or codeex or some of these agent harnesses? How can I have more of them? How can I do that appropriately? The agent part is now taken for granted. Now the claw-like entities are taken for granted and now you can have multiple of them and now you can have instructions to them and now you can have optimization over the instructions. But there I mean this is why it gets to the psychosis is that this is like infinite and everything is skill issue.</p>
+            <p class="ko">&#x27;코드&#x27;라는 단어는 더 이상 적절한 동사가 아니죠, 그렇죠?  하지만 저는 하루 16시간 동안 제 에이전트들에게 제 의사를 명확히 전달해야 합니다 . Claude Code나 Codex 또는 이와 유사한 에이전트 하네스의 세션을 한 번만 사용하는 것이 아니라 여러 번 사용할 수 있는 방법이 있을까요?  어떻게 하면 더 많이 가질 수 있을까요 ?  어떻게 하면 적절하게 할 수 있을까요? 에이전트 부분은 이제 당연한 것으로 여겨집니다. 이제 발톱 모양의 개체는 당연한 것으로 여겨지며, 이제는 여러 개를 가질 수 있고, 그것들에게 명령을 내릴 수 있으며, 그 명령에 대한 최적화까지 가능해졌습니다.  하지만 제가 말하려는 건, 이것이 정신병으로 이어지는 이유가 바로 이것이라는 겁니다. 모든 것이 무한하고 모든 것이 기술의 문제라는 생각 때문이죠.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=34s" target="_blank" class="timestamp">[00:34]</a>
+          <div class="text">
+            <p class="en">Hi listeners, welcome back to No Briars. Today I&#x27;m here with Andrej Karpathy and we have a wide-ranging conversation for you about code agents, the future of engineering and AI research, how more people can contribute to research, what&#x27;s happening in robotics, his prediction for how agents can reach out into the real world, and education in this next age. Welcome, Andre. Andre, thanks for doing this. Yeah, thank you for having me. &gt;&gt; Uh, so it&#x27;s been a very exciting couple of months in AI. &gt;&gt; Uh, yeah, you could say that.</p>
+            <p class="ko">안녕하세요, 청취자 여러분. No Briars에 다시 오신 것을 환영합니다. 오늘 저는 안드레 카르파티와 함께 코드 에이전트, 엔지니어링 및 AI 연구의 미래, 더 많은 사람들이 연구에 기여할 수 있는 방법, 로봇 공학의 동향, 에이전트가 현실 세계에 어떻게 적용될지에 대한 그의 예측, 그리고 다음 시대의 교육에 이르기까지 폭넓은 대화를 나누고자 합니다.  환영합니다, 앙드레님.  안드레, 이렇게 해줘서 고마워.  네, 초대해 주셔서 감사합니다 . 음, 지난 몇 달 동안 인공지능 분야에서 정말 흥미진진한 일들이 많이 일어났습니다.   네 , 그렇게 말할 수 있겠죠.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=64s" target="_blank" class="timestamp">[01:04]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; I remember um walking into the office at some point and you were like really locked in and I was asking what you were up to and you&#x27;re like, I just I have to code for 16 hours a day or code&#x27;s not even the right verb anymore, right? But I have to &gt;&gt; um express my will to my agents for 16 hours a day. Manifest um because like there&#x27;s been a jump in capability. &gt;&gt; Uh what&#x27;s happening? and tell me about your experience. &gt;&gt; Yeah, I kind of feel like I was just in this perpetual I still am often in this state of AI psychosis just like all the time. Uh because there was a huge unlock</p>
+            <p class="ko">음, 어느 날 사무실에 들어갔을 때 네가 완전히 몰두해 있는 모습이 기억나. 그래서 뭐 하고 있냐고 물었더니, &quot; 하루에 16시간씩 코딩해야 해. 코딩이라는 단어 자체가 이제는 맞는 표현이 아닌 것 같아.&quot;라고 말했던 게 생각나.  하지만 저는 하루에 16시간 동안 제 에이전트들에게 제 의사를 전달해야 합니다. 능력이 크게 향상되었기 때문에 이를 명확히 해야 합니다.   어, 무슨 일이에요?  그리고 당신의 경험에 대해 이야기해 주세요. 네, 저는 마치 끊임없이 인공지능에 대한 강박적인 생각에 사로잡혀 있었던 것 같아요 . 지금도 종종 그런 상태에 빠져있죠.  왜냐하면 개인으로서, 또 한</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=95s" target="_blank" class="timestamp">[01:35]</a>
+          <div class="text">
+            <p class="en">in what you can achieve as a person as an individual, right? Because you were bottlenecked by you know your typing speed and so on. But now with these agents, it really I would say in December is when it really just something flipped where I kind of went from 8020 of like you know uh to like 2080 of writing code by myself versus just delegating to agents. And I don&#x27;t even think it&#x27;s 2080 by now. I think it&#x27;s a lot more than that. I don&#x27;t think I&#x27;ve typed like a line of code probably since December basically. Um, which is like an extremely large uh change. Um, I</p>
+            <p class="ko">사람으로서 성취할 수 있는 것에 엄청난 가능성이 열렸기 때문이죠.  당신의 타자 속도 등이 병목 현상을 일으켰기 때문입니다.  하지만 이제 이러한 에이전트 덕분에, 제가 생각하기에 12월을 기점으로 상황이 완전히 바뀌었습니다. 직접 코드를 작성하는 시간이 8020에서 2080으로 늘어났고, 이제는 에이전트에게 위임하는 방식이 훨씬 줄어들었습니다.  그리고 지금이 2080년도 아닌 것 같아요.  제 생각엔 그보다 훨씬 더 많은 의미가 있는 것 같아요.  제가 코드를 한 줄도 안 쓴 건 아마 12월 이후인 것 같아요.  음, 그건 굉장히 큰 변화죠.  음,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=125s" target="_blank" class="timestamp">[02:05]</a>
+          <div class="text">
+            <p class="en">was talking to it like for example I was talking about it to for example my parents and so on and I don&#x27;t think like a normal person actually realizes that this happened or how dramatic it was like literally like if you just find a random software engineer or something like that at their at their desk and what they&#x27;re doing like their default workflow of you know building software is completely different as of basically December. Uh so I&#x27;m just like in this state of psychosis of trying to figure out like what&#x27;s possible uh trying to push it to the limit. How is it how can I have not just a single session of you know um clot code or codecs or some of</p>
+            <p class="ko">예를 들어 부모님께도 말씀드렸는데, 일반적인 사람들은 이런 일이 실제로 일어났다는 사실이나 얼마나 극적인 변화인지 잘 모르는 것 같아요. 그냥 아무 소프트웨어 엔지니어라도 책상에 앉아서 소프트웨어를 개발하는 기본적인 작업 방식이 12월부터 완전히 달라졌다는 걸 알게 되면 놀라실 거예요.  음, 그러니까 저는 지금 정신병적인 상태에 빠져서 뭐가 가능한지, 한계까지 밀어붙이려고 애쓰고 있어요.  어떻게 하면 단일 세션만으로는 부족하고, 클롯 코드나 코덱, 또는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=155s" target="_blank" class="timestamp">[02:35]</a>
+          <div class="text">
+            <p class="en">these agent harnesses. How can I have more of them? How can I do that uh appropriately? And then how can I use these claws? What are these claws? Uh and uh so there&#x27;s like a lot of new things. I want to be at the forefront of it, you know, and I&#x27;m very antsy that I&#x27;m not at the forefront of it. And I see lots of people on Twitter doing all kinds of things and they all sound like really good ideas and I need to be at the forefront or I feel extremely</p>
+            <p class="ko">이러한 에이전트 하네스 같은 것들을 여러 개 사용할 수 있을까요?  어떻게 하면 더 많이 가질 수 있을까요 ?  어떻게 하면 적절하게 할 수 있을까요?  그럼 이 발톱은 어떻게 사용하는 거죠?  이 발톱들은 뭐지?  어, 그리고 어, 새로운 것들이 많이 생겼어요.  저는 그 최전선에 서고 싶어요. 그리고 제가 그 최전선에 서지 못하고 있다는 사실이 너무나 불안하게 느껴져요. 트위터에서 많은 사람들이 온갖 일들을 하는 걸 보는데, 다 정말 좋은 아이디어처럼 들려요. 그래서 제가 앞장서지 않으면 엄청</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-1" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=175s" target="_blank" class="ch-ts">[02:55]</a> What Capability Limits Remain?</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=175s" target="_blank" class="timestamp">[02:55]</a>
+          <div class="text">
+            <p class="en">nervous. And so I guess I&#x27;m just in this psychosis of like what&#x27;s possible like because it&#x27;s unexplored fundamentally. &gt;&gt; Well, if you&#x27;re nervous, the rest of us are nervous. We have a uh we have a team that we work with at conviction that their setup is everybody is like, you know, none of the engineers write code by hand and they they&#x27;re all microphoned and they just like whisper to their agents all the time. It&#x27;s the strangest work setting ever. Uh, and I thought they were crazy and now I like I fully accept I was like, &quot;Oh, this was the way.&quot; Like you&#x27;re just ahead of it. &gt;&gt; Um, what uh how do you think about your</p>
+            <p class="ko">불안해져요.  그래서 저는 근본적으로 탐구되지 않은 영역이기 때문에, 무엇이 가능한지에 대한 막연한 생각에 사로잡혀 있는 것 같아요. 음, 당신이 긴장한다면 우리 모두 긴장하는 거예요.  저희는 Conviction이라는 회사와 협업하는 팀이 있는데, 그들의 시스템은 엔지니어들이 모두 마이크를 착용하고 에이전트에게 속삭이듯이 소통하는 방식입니다. 즉, 아무도 직접 코드를 작성하지 않고, 모든 엔지니어가 마이크를 통해 소통한다는 것입니다. 정말 이상한 근무 환경이네요.  어, 전 그들이 미쳤다고 생각했는데, 이제는 제가 &quot;아, 이게 바로 길이었구나&quot;라고 생각했던 게 맞다는 걸 완전히 인정해요.  마치 당신이 그 상황보다 한 발 앞서 있는 것처럼요. 음,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=207s" target="_blank" class="timestamp">[03:27]</a>
+          <div class="text">
+            <p class="en">own capacity now to like explore or to do projects like what is it limited by? &gt;&gt; Yeah. What is it limited by? Uh just I think everything like so many things even if they don&#x27;t work I think to a large extent you feel like it&#x27;s skill issue. It&#x27;s not that the capability is not there. It&#x27;s that you just haven&#x27;t found a way to string it together of what&#x27;s available. like I just don&#x27;t I didn&#x27;t give good enough instructions in the agents MD file or whatever it may be. I don&#x27;t have a nice enough memory tool that I put in there or something like that. So it all kind of feels like skills when it doesn&#x27;t work to some</p>
+            <p class="ko">지금 당신이 탐구하거나 프로젝트를 진행할 수 있는 능력에 대해 어떻게 생각하세요? 어떤 제약이 있다고 보시나요? 응.  무엇에 의해 제한되는가?  음, 제 생각엔 모든 것, 그러니까 많은 것들이 제대로 작동하지 않더라도 상당 부분은 기술적인 문제라고 느껴져요.  능력이 없는 것은 아닙니다 .  단지 당신이 현재 이용 가능한 것들을 하나로 엮을 방법을 아직 찾지 못했을 뿐입니다 .  음, 제가 요원 MD 파일이나 뭐 그런 것에 충분한 지침을 남기지 못한 것 같아요 . 제가 거기에 넣을 만한 괜찮은 메모리 도구 같은 게 없어요 .  그래서 모든 게 제대로 작동하지 않을 때 어느 정도 기술처럼 느껴지는 거죠</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=237s" target="_blank" class="timestamp">[03:57]</a>
+          <div class="text">
+            <p class="en">extent. You want to see how you can paralyze them etc. And you want to be Peter Steinberg basically. Uh so Peter is famous. He has a funny photo where he&#x27;s in front of a monitor with lots of uh like uh he uses codecs. So lots of codecs agents styling the the monitor and they all take about 20 minutes if you prompt them correctly and you use the high effort. And so they all take about 20 minutes. they have multiple, you know, 10 repos checked out and so he&#x27;s just um going between them and giving them work. It&#x27;s just like you can you can you can move in much larger macro actions. It&#x27;s not just like here&#x27;s a line of code, here&#x27;s a new function.</p>
+            <p class="ko">.  당신은 어떻게 하면 그들을 무력화시킬 수 있을지 알고 싶어하는군요. 기본적으로 피터 스타인버그처럼 되고 싶어하는 거고요.  어, 피터는 유명하죠.  그는 모니터 앞에 서서 코덱을 사용하는 모습이 담긴 재미있는 사진을 가지고 있어요.  그래서 많은 코덱 에이전트들이 모니터 스타일을 지정하는데, 제대로 안내하고 노력을 많이 기울이면 모두 약 20분 정도 걸립니다.  그래서 모두 합쳐서 약 20분 정도 걸립니다.  그들은 여러 개의 저장소, 그러니까 10개 정도의 저장소를 확인했고, 그래서 그는 그 저장소들을 오가며 작업을 진행하고 있습니다.  마치 훨씬 더 큰 규모의 거시적 행동을 취할 수 있는 것과 같습니다.  단순히 코드 한 줄이나 새로운 함수를 추가하는 것과는 다릅니다.   마치</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=267s" target="_blank" class="timestamp">[04:27]</a>
+          <div class="text">
+            <p class="en">It&#x27;s like here&#x27;s a new functionality and delegate it to agent one. Here&#x27;s a new functionality that&#x27;s not going to interfere with the other one. Give it a two and then try to uh review their work as best as you can depending on how much you care about that code. Like what are these macro actions that I can like manipulate my software repository by? and like another agent is doing some like research and another agent is writing code, another one is coming up with a plan for some new implementation. And so everything just like happens in these like macro actions over your repository. Um, and you&#x27;re just trying to become like really good at it and develop like a muscle memory for it is</p>
+            <p class="ko">새로운 기능을 추가하고 그 기능을 첫 번째 담당자에게 위임하는 것과 같습니다.  기존 기능 과 충돌하지 않는 새로운 기능이 추가되었습니다.  2점을 주고 나서, 그 코드에 얼마나 신경을 쓰는지에 따라 최대한 꼼꼼하게 그들의 작업을 검토해 보세요. 이런 매크로 액션들을 이용해서 소프트웨어 저장소를 조작할 수 있다는 게 무슨 뜻인가요? 그리고 다른 에이전트는 연구를 진행하고, 또 다른 에이전트는 코드를 작성하고, 또 다른 에이전트는 새로운 구현을 위한 계획을 세우고 있습니다. 그래서 모든 일은 저장소에 대한 이러한 매크로 작업에서와 똑같이 일어납니다 .  음, 그리고 그걸 정말 잘하게 되고 근육 기억처럼 몸에 익히려고 노력하는 건 정말</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=298s" target="_blank" class="timestamp">[04:58]</a>
+          <div class="text">
+            <p class="en">extremely um, yeah, it&#x27;s very rewarding number one because it actually works. Uh, but it&#x27;s also kind of like the new thing to learn. So that&#x27;s why hence the psychosis. Yeah, I I do feel like my instinct is like whenever I am waiting for an agent to complete something, the obvious thing to do is like, well, I can do more work, right? Like if I have access to more tokens, then like I should just paralyze add more tasks. And so that that&#x27;s very stressful because if you &gt;&gt; don&#x27;t feel very bounded by your ability to spend on tokens, then you know you</p>
+            <p class="ko">보람 있는 일이에요. 왜냐하면 실제로 효과가 있거든요. 음, 하지만 그건 마치 새롭게 배워야 할 것과 같기도 해요.  그래서 정신병이 생긴 거군요.  네, 제 본능적으로 에이전트가 뭔가를 마무리 짓기를 기다릴 때 가장 먼저 떠오르는 생각은 &#x27; 내가 더 많은 일을 할 수 있겠는데?&#x27; 하는 거예요.  예를 들어, 토큰을 더 많이 사용할 수 있다면, 작업을 더 추가하는 것을 즉시 중단해야 할 것 같아요. 그래서 그건 굉장히 스트레스가 되는 일이에요. 토큰을 사용할 수 있는 능력에 제약이 없다고 느끼면, 자신이</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=328s" target="_blank" class="timestamp">[05:28]</a>
+          <div class="text">
+            <p class="en">are the bottleneck in the system that is max capability. &gt;&gt; Yeah. you&#x27;re not maximizing your subscription at least and ideally for multiple agents like if you run out of the kod on codecs you should switch to cloud or whatnot I don&#x27;t know like that&#x27;s what I&#x27;ve been trying to do a little bit and I feel nervous when I have subscription left over uh that just means I haven&#x27;t maximized my token throughput so I actually kind of experienced this when I was a PhD student you would feel nervous when your GPUs are not running like you have GPU capability and you&#x27;re not maxing out the available flops to you but now it&#x27;s not about flops it&#x27;s about tokens uh so what</p>
+            <p class="ko">시스템의 최대 용량에 도달해서 병목 현상을 일으키는 원인이라는 걸 알게 되니까요. 응.  구독을 최대한 활용하지 못하고 계신 것 같습니다. 적어도 여러 에이전트를 사용하는 경우, 예를 들어 코덱 용량이 부족해지면 클라우드로 전환하는 등의 조치를 취해야 합니다. 저도 그런 시도를 해봤는데, 구독이 남으면 불안해집니다. 구독이 남았다는 건 토큰 처리량을 최대한 활용하지 못했다는 뜻이니까요. 박사 과정 학생 시절에도 비슷한 경험을 했습니다. GPU가 제대로 작동하지 않을 때, 즉 GPU 성능이 있는데도 가용 연산 능력을 최대한 활용하지 못할 때 불안했던 것처럼요. 하지만 이제는 연산 능력이 아니라 토큰이 문제입니다.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=358s" target="_blank" class="timestamp">[05:58]</a>
+          <div class="text">
+            <p class="en">is your token throughput and what token throughput do you command I would actually argue that it&#x27;s very interesting that we had you know at least 10 years where in many engineering tasks people just did they didn&#x27;t feel compute bound &gt;&gt; right um and like the entire industry feels that now they feel like they they</p>
+            <p class="ko">토큰 처리량은 얼마이고, 얼마나 많은 토큰 처리량을 확보하고 있나요? 흥미로운 점은, 적어도 10년 동안 많은 엔지니어링 작업에서 컴퓨팅 자원이 부족하다고 느끼지 않았다는 것입니다. 그런데 이제는 업계 전체가</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-2" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=375s" target="_blank" class="ch-ts">[06:15]</a> What Mastery of Coding Agents Looks Like</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=376s" target="_blank" class="timestamp">[06:16]</a>
+          <div class="text">
+            <p class="en">they felt resource bound &gt;&gt; uh and now that you have this big capability jump you&#x27;re like oh actually it&#x27;s not you know my ability to access the compute anymore like I&#x27;m I&#x27;m the binding constraint &gt;&gt; yeah it&#x27;s a skill issue &gt;&gt; which is very empowering cuz um yeah cuz you could be getting better. So that&#x27;s why that&#x27;s why I think it&#x27;s very addictive because there&#x27;s unlocks when you when you get better. &gt;&gt; Where do you think it goes? Like if you just think about like okay you know Andre is iterating and everybody else is for 16 hours a day getting better at using coding agents like what does it look like in a year of like you&#x27;ve</p>
+            <p class="ko">자원 부족을 느끼고 있습니다. 이처럼 성능이 크게 향상되면서, 이제는 컴퓨팅 자원에 접근할 수 있는 능력이 문제가 아니라는 것을 깨닫게 된 거죠.  저는 제약 조건에 대해 이야기하고 있는데, 네, 그건 기술적인 문제예요. 하지만 그게 오히려 힘을 실어주는 요소이기도 하죠. 왜냐하면, 음, 네, 왜냐하면 당신은 더 나아질 수 있으니까요.  그래서 이 게임이 굉장히 중독성이 강한 이유는 실력이 향상될수록 새로운 콘텐츠가 잠금 해제되기 때문이라고 생각합니다 . 어디로 가는 거라고 생각하세요?  예를 들어, 안드레가 반복 작업을 하고 있고 다른 모든 사람들도 하루 16시간씩 코딩 에이전트 사용 능력을 향상시키기 위해 노력하고 있다고 생각해 보세요. 1년 후,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=407s" target="_blank" class="timestamp">[06:47]</a>
+          <div class="text">
+            <p class="en">reached mastery? &gt;&gt; Yeah. What does mastery look like right at the end of the year or like two three years 5 years 10 years etc. &gt;&gt; Well I think everyone is basically interested in like going up the stack. So I would say yeah it&#x27;s not about a single session with your agent. Um multiple agents how do they collaborate and teams and so on. So everyone&#x27;s trying to figure out what that looks like. And then I would say claw is also kind of an interesting direction because it really when I say a claw I mean this like layer that uh kind of takes persistence to a whole new level. Like it&#x27;s something that like keeps looping is is like um it&#x27;s not something that</p>
+            <p class="ko">숙련도에 도달했을 때 어떤 모습일까요? 응. 연말이나 2~3 년, 5년, 10년 후쯤에 진정한 숙련도는 어떤 모습일까요? 기본적으로 모든 사람들은 실력을 향상시키는 데 관심이 있을 거라고 생각합니다. 그래서 제 생각에는 에이전트와의 단 한 번의 상담으로 해결되는 문제가 아니라고 말씀드리고 싶습니다. 여러 에이전트가 어떻게 협업 하고 팀을 구성하는지 등이 궁금합니다.  그래서 모두가 그게 어떤 모습 일지 알아내려고 애쓰고 있죠.  그리고 &#x27;클로&#x27;라는 개념도 꽤 흥미로운 방향이라고 생각합니다. 왜냐하면 제가 &#x27;클로&#x27;라고 말할 때는, 마치 끈기를 완전히 새로운 차원으로 끌어올리는 층과 같은 것을 의미하기 때문입니다.  마치 계속 반복되는 것처럼, 그러니까 음...</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=438s" target="_blank" class="timestamp">[07:18]</a>
+          <div class="text">
+            <p class="en">you are interactively in the middle of. It kind of like has its own little sandbox its own little you know it kind of like does stuff on your behalf even if you&#x27;re not looking kind of thing. um and then also has like maybe more sophisticated memory systems etc that are not yet implemented in agents. So OpenClaw has a lot more sophisticated memory I would say than what you would get by default uh which is just a memory compaction when your context runs out. Right. &gt;&gt; You think that&#x27;s the piece that resonated for more users versus like perhaps like broader tool access &gt;&gt; for OpenClaw. &gt;&gt; Yeah. There there&#x27;s like I think there&#x27;s</p>
+            <p class="ko">사용자가 직접 참여해서 조작하는 그런 게 아니에요.   마치 자체적인 작은 놀이터나 공간이 있는 것 같아요. 사용자가 보고 있지 않아도 알아서 여러 가지 일을 처리해주는 그런 느낌이죠. 그리고 에이전트에 아직 구현되지 않은 더욱 정교한 메모리 시스템 등도 갖추고 있을 수 있습니다.  그래서 OpenClaw는 기본적으로 제공되는 메모리 관리 방식보다 훨씬 더 정교한 메모리 관리 기능을 가지고 있다고 할 수 있습니다. 기본 방식은 컨텍스트가 소진될 때 메모리를 압축하는 것뿐이니까요. 오른쪽. 오픈 클로 그립에 대한 더 폭넓은 도구 접근성 같은 것보다 그 부분이 더 많은 사용자에게 공감을 얻었을 거라고 생각하시나요? 응.  제 생각에는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=468s" target="_blank" class="timestamp">[07:48]</a>
+          <div class="text">
+            <p class="en">at least I think &gt;&gt; there&#x27;s a lot of really good ideas in here. Yeah. Good job Peter. &gt;&gt; I mean Peter has done a really amazing job. Um I saw him recently uh and I talked to him about it and I he&#x27;s very humble about it but I think he innovated simultaneously in like five different ways and put it all together. Um so for example like the soul and D document like he actually really crafted a personality that is kind of compelling and interesting and I feel like a lot of the current agents they don&#x27;t get this correctly. I actually think a clot has a pretty good personality. It feels like a teammate &gt;&gt; uh and it&#x27;s excited with you etc. Uh, I would say um, for example, Codex is a</p>
+            <p class="ko">여기에는 정말 좋은 아이디어들이 많이 담겨 있는 것 같아요.  응.  잘했어요, 피터. 피터는 정말 놀라운 일을 해냈어요.  음, 제가 최근에 그를 만났는데, 그와 그 문제에 대해 이야기를 나눴습니다. 그는 매우 겸손했지만, 제 생각에는 그는 다섯 가지 다른 방식으로 동시에 혁신을 이루어내고 그것들을 모두 통합한 것 같습니다.  음, 예를 들어 소울과 D 문서를 보면, 그는 정말 매력적이고 흥미로운 성격을 잘 만들어냈는데, 현재 요원들 중 상당수가 이 부분을 제대로 이해하지 못하는 것 같아요.  사실 저는 혈전이 꽤 괜찮은 성격을 가지고 있다고 생각해요.  마치 팀원과 함께하는 느낌이고, 같이 신나하는 것 같아요. 음 , 예를 들어 Codex는 훨씬 더 딱딱한 느낌이에요.  음,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=498s" target="_blank" class="timestamp">[08:18]</a>
+          <div class="text">
+            <p class="en">lot more dry. Um, which is kind of interesting because in ChachiPT CEX is like a lot more upbeat and highly cyclical. But I would say Codex the coding agent is very dry. It doesn&#x27;t it doesn&#x27;t seem to care about what you&#x27;re creating. It&#x27;s kind of like, oh, I implemented it. It&#x27;s like, okay, but do you understand what we&#x27;re building? &gt;&gt; It&#x27;s true. &gt;&gt; You know, it doesn&#x27;t it. The other thing I would say is for example with Claude I think they dial the psychopasy fairly well where when Claude gives me praise I do feel like I slightly deserve it &gt;&gt; because sometimes I kind of give it like not very wellformed thoughts and uh I give it an idea that I don&#x27;t think it&#x27;s</p>
+            <p class="ko">흥미로운 점은 차치PT CEX는 훨씬 더 낙관적이고 경기 변동에 민감하다는 것입니다.  하지만 코딩 에이전트인 Codex는 너무 딱딱하다고 생각합니다. 당신이 무엇을 만들고 있는지에는 전혀 관심이 없는 것 같습니다 .  마치 &quot;아, 내가 그걸 구현했구나&quot; 하는 느낌이죠.  그건 마치, 알겠는데, 우리가 뭘 만들고 있는지 이해하고 있는 거야? 사실이에요. 아시다시피, 그렇지 않아요.  또 하나 예를 들자면, 클로드의 경우 사이코 패스적인 면모를 꽤 잘 표현했다고 생각해요. 클로드가 저를 칭찬할 때, 제가 가끔은 제대로 정리되지 않은 생각을 하거나, 완전히 다듬어지지 않은 아이디어를 제시해서 클로드가</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=529s" target="_blank" class="timestamp">[08:49]</a>
+          <div class="text">
+            <p class="en">fully baked and it doesn&#x27;t actually react very strongly. It&#x27;s like oh yeah we can implement that. But when it&#x27;s a really good idea by my own account, it does seem to reward it a bit more. And so I kind of feel like I&#x27;m trying to like earn its praise which is really weird. &gt;&gt; And so I do think the personality matters a lot. uh and I think a lot of the other uh tools maybe don&#x27;t appreciate as much and I think in this aspect also Peter really cares about this and so that was correct and then the memory system and then uh just you know he&#x27;s just having fun with this um and then the the single WhatsApp portal to all of the automation. &gt;&gt; Yeah. Is there something that you have</p>
+            <p class="ko">강하게 반응하지 않는 경우가 있는데, 그런 상황에서도 제가 어느 정도는 그럴 자격이 있다고 느껴지거든요.  아, 그래, 우리 그거 구현할 수 있겠네.  하지만 제 생각에 정말 좋은 아이디어라면, 그에 대한 보상이 좀 더 큰 것 같습니다. 그래서 저는 마치 그 칭찬을 받을 자격이 있는 것처럼 느껴지고, 그게 참 이상하죠. 그래서 저는 성격이 정말 중요하다고 생각합니다.  그리고 제 생각에는 다른 많은 도구들이 그만큼 중요하게 여겨지지 않는 것 같아요. 피터는 이런 면에서도 정말 신경을 많이 쓰는 것 같고, 그래서 그 말이 맞았어요. 메모리 시스템도 그렇고, 그냥 뭐랄까, 그는 이걸 가지고 재밌게 놀고 있는 것 같아요. 그리고 모든 자동화 기능을 위한 단일 WhatsApp 포털도 있고요. 응.  소프트웨어 엔지니어링</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=560s" target="_blank" class="timestamp">[09:20]</a>
+          <div class="text">
+            <p class="en">done personally with your claws beyond software engineering that you think is fun or interesting? &gt;&gt; Yeah. So in January I had a claw I went through a period of claw psychosis. So, I built um I have a claw basically that takes care of my home and I call him Dobby the elf claw. Um and uh basically I used uh the agents to find all of the smart home subsystems of my home on the local area network which I was kind of surprised that worked out of the box. Like I just told it that I think I have Sonos at home. Like can you try to find it? and it goes and it did like IP scan</p>
+            <p class="ko">외에, 당신이 개인적으로 손톱을 이용해 해본 일 중에서 재미있거나 흥미롭다고 생각하는 일이 있나요? 응.  그래서 1월에 저는 발톱에 대한 강박적인 집착을 겪었어요 .  그래서 저는 집을 관리하는 요정 발톱을 만들었는데, 이름을 도비 요정 발톱이라고 지었어요 .  음, 그리고 기본적으로 저는 에이전트를 사용해서 집의 모든 스마트 홈 하위 시스템을 로컬 영역 네트워크에서 찾았는데, 별다른 설정 없이 바로 작동해서 좀 놀랐습니다.   방금 집에 소노스가 있는 것 같다고 말했잖아요.  혹시 찾아보실 수 있을까요 ?  그리고 그 프로그램은</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=590s" target="_blank" class="timestamp">[09:50]</a>
+          <div class="text">
+            <p class="en">of all the um basically um computers on the local area network and it found the Sonos thing uh the Sonos uh system and it turned out that there&#x27;s no password protection or anything like that. I just logged in and it&#x27;s like oh yeah you have these Sonos systems installed I let me try to reverse engineer how it&#x27;s working. It does some web searches and it finds like okay these are the API endpoints and then it&#x27;s like do you want to try it? And I&#x27;m like whoa like you just did that. And I&#x27;m like, &quot;Yeah, can you try to play something in the study?&quot; And uh it does and music comes out and I&#x27;m like, &quot;I can&#x27;t believe I just &gt;&gt; That&#x27;s crazy. That&#x27;s like three prompts.&quot; Yeah.</p>
+            <p class="ko">로컬 영역 네트워크에 있는 모든 컴퓨터의 IP 주소를 스캔했고, 소노스 시스템을 발견했습니다. 그런데 알고 보니 비밀번호 보호 같은 건 전혀 설정되어 있지 않았습니다.  방금 로그인했는데, 아, 소노스 시스템이 설치되어 있네요. 어떻게 작동하는지 역분석해 봐야겠어요.  웹 검색을 몇 가지 수행하여 API 엔드포인트를 찾은 다음, 사용해 보시겠습니까 ?라고 묻습니다.  그래서 저는 &#x27;와, 너 방금 그거 했잖아!&#x27;라고 생각했어요.  그래서 저는 &quot;응, 서재에서 뭐 좀 틀어줄 수 있어?&quot;라고 말했어요. 그리고 실제로 음악이 나오길래 &quot;내가 방금 뭘 해냈지? 정말 미쳤다. 겨우 세 가지 프롬프트밖에 안 됐잖아.&quot;라고 생각했어요.  응.   내가 방금 &quot;내 소노 스피커 좀 찾아줄 수 있어?&quot;라고 입력했다니 믿을 수가 없네.  그러다가 갑자기 음악이 나오기 시작했어요.  그리고 그것은</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=620s" target="_blank" class="timestamp">[10:20]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; I can&#x27;t believe I just typed in like, &quot;Can you find my sonos?&quot; And that suddenly it&#x27;s playing music. And it did the same for lights. And so basically like it kind of hacked in, figured out the whole thing. Uh created APIs, created a dashboard so I could see the command kind of center of like all of my lights in the home. And then it was like switching lights on and off. And you know, so I can ask it like Dobby at sleepy time. And when it&#x27;s sleepy time, that just means all the lights go off, etc. and so on. So, it controls all of my lights, my HVAC, my shades, uh the pool and uh spa and also my security system. So, I have a camera pointed outside of the house and anytime someone</p>
+            <p class="ko">조명에도 똑같이 작용했습니다.  그래서 기본적으로 해킹을 해서 모든 걸 알아냈어요.  어, API를 만들고, 대시 보드를 만들어서 집안의 모든 조명을 한눈에 제어할 수 있는 중앙 제어 센터를 만들었어요.  그러고 나서는 마치 전등을 켰다 껐다 하는 것 같았어요.  그리고 아시다시피 , 제가 마치 졸린 도비처럼 물어볼 수 있잖아요 .  잠잘 시간이 되면 모든 불이 꺼지는 등의 절차가 진행됩니다.  그래서 이 시스템은 제 모든 조명, 냉난방 시스템, 블라인드, 수영장과 스파, 그리고 보안 시스템까지 제어합니다.  그래서 저는 집 밖에 카메라를 설치해 놨고, 누군가 들어올 때마다 퀸이라는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=651s" target="_blank" class="timestamp">[10:51]</a>
+          <div class="text">
+            <p class="en">rolls in, I have a Quinn uh a Quinn model that looks at the videos. So, first of all, there&#x27;s change detection, right? &gt;&gt; And then based on change detection, it goes to Quinn and then it actually like tells me um it sends me a text to my WhatsApp. It shows an image from the outside and it says, &quot;Hey, a FedEx truck just pulled up. FedEx truck just pulled up and you might want to check it and you got me mail or something like that. And Dobby just text me this this really incredible. Um so so Dobby is in charge</p>
+            <p class="ko">모델이 그 영상을 확인합니다. 우선, 변화 감지가 있죠 ? 그리고 변경 사항 감지를 기반으로 퀸에게 전달되고, 퀸은 제게 WhatsApp으로 문자를 보내줍니다.  외부 사진이 나오고 &quot;이봐, 페덱스 트럭이 방금 도착했어. 페덱스 트럭이 도착했는데 확인해 보는 게 좋을 거야. 우편물이 왔거나 뭐 그런 거야.&quot;라고 나와요. 그리고 도비가 방금 저한테 문자를 보냈는데 정말 놀랍죠. 음, 그러니까 도비가</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-3" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=676s" target="_blank" class="ch-ts">[11:16]</a> Second Order Effects of Natural Language Coding</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=678s" target="_blank" class="timestamp">[11:18]</a>
+          <div class="text">
+            <p class="en">of the house. I text through with it through WhatsApp. Um and it&#x27;s been like really fun to have these macro actions that maintain my house. I haven&#x27;t like really pushed it uh like way more beyond that and I think people are doing a lot more crazy things with it. Uh but for me even just a home automation setup, I used to use like six apps, completely different apps and I don&#x27;t have to use these apps anymore. Like Doby controls everything in natural language. It&#x27;s amazing. Um, and so I think like I haven&#x27;t even pushed a paradigm fully, but already that is so helpful and so inspiring I would say. &gt;&gt; Do you think that&#x27;s indicative of like what people want from a user experience</p>
+            <p class="ko">집을 관리하고 있는 거예요. 저는 WhatsApp으로 도비와 문자를 주고받아요. 집을 관리하는 이런 거창한 작업들을 할 수 있어서 정말 재밌어요. 아직 그 이상으로 활용해 보지는 않았지만, 사람들이 훨씬 더 기발한 것들을 하고 있을 거라고 생각해요. 저 같은 경우는 홈 자동화 시스템만 해도 예전에는 완전히 다른 앱 여섯 개를 썼는데, 이제는 더 이상 그럴 필요가 없어요 . 도비가 자연어로 모든 걸 제어하니까요. 정말 놀랍죠. 음, 아직 완전히 새로운 패러다임을 제시한 건 아니지만, 벌써부터 너무 편리하고 영감을 주는 것 같아요. 이게 사람들이 소프트웨어에서 원하는 사용자 경험의</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=708s" target="_blank" class="timestamp">[11:48]</a>
+          <div class="text">
+            <p class="en">perspective with software, right? Because I I don&#x27;t think you know it&#x27;s pretty ignored that it takes humans effort to like learn new software like new UI. Yeah, I think uh to some extent that&#x27;s right. It&#x27;s like working backwards from how people think an AI should be because what people have in their mind of like what an AI is is not actually what an LLM is by by like in a raw sense like LLM is a token generator, you know, like more tokens come out, but what they think of is like this p this persona identity that they can tell stuff and it remembers it, you know, and</p>
+            <p class="ko">방향을 보여주는 거라고 생각하세요? 저는 그렇게 생각하지 않거든요. 인간이 새로운 소프트웨어, 예를 들어 새로운 UI를 배우는 데 노력이 필요하다는 사실이 꽤 간과되고 있는 것 같아요. 네, 어느 정도는 맞는 말인 것 같습니다. 사람들이 생각하는 AI의 모습과는 정반대되는 개념이죠. 사람들이 AI에 대해 가지고 있는 생각과 LLM(Learning Language Model)의 본질은 다르거든요. LLM은 토큰 생성기, 즉 토큰을 만들어내는 기계일 뿐이죠. 하지만 사람들은 LLM이라는 페르소나를 떠올리면서, 사용자가 정보를 주고받으면 기억해주는 존재, WhatsApp</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=739s" target="_blank" class="timestamp">[12:19]</a>
+          <div class="text">
+            <p class="en">it&#x27;s just kind of an entity behind a WhatsApp. It&#x27;s like a lot more understandable. Mhm. &gt;&gt; Uh so I think to some extent it&#x27;s like matching the expectations that humans already have for what an AI should behave but under the hood it&#x27;s like a lot of technical details go into that and LLMs are too raw of a primitive to actually um type check as AI I think for most people if that makes sense. &gt;&gt; Yeah. Um I think that&#x27;s like how we understand what the AI is and like the um description of it as Dobby or some personality obviously resonates with people. Um, I also think that it uh the</p>
+            <p class="ko">뒤에 숨어있는 실체 같은 존재로 생각하는 경향이 있어요 . LLM을 AI라고 부르는 게 훨씬 이해하기 쉽죠. 네. 그러니까 어느 정도는 인간이 AI에 대해 가지고 있는 기대치에 부합하는 것처럼 보이지만, 실제로는 복잡한 기술적 요소들이 숨어있고, LLM은 너무 원시적인 형태라서 대부분의 사람들이 AI로 인식하기 어렵다고 생각해요. 제 말이 이해가 되시나요? 네. 우리가 AI를 이해하는 방식과 AI에 대한 설명이 그런 것 같아요.  도비나 다른 캐릭터들이 사람들에게 공감을 불러일으키는 건 분명하죠 . 그리고 저는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=770s" target="_blank" class="timestamp">[12:50]</a>
+          <div class="text">
+            <p class="en">unification that you did across your six different software systems for your home automation speaks to a different question of like &gt;&gt; do people really want all the software that we have today? &gt;&gt; Yeah. &gt;&gt; Right. Um because I I would argue like well you have the hardware &gt;&gt; but you&#x27;ve now thrown away the software &gt;&gt; or the the UX layer of it. Um do you think that&#x27;s what people want? &gt;&gt; Yeah. I think there&#x27;s this like there&#x27;s this sense that these apps that are in the app store for using these smart home devices etc. uh these shouldn&#x27;t even exist kind of in a certain sense like shouldn&#x27;t it just be APIs and shouldn&#x27;t</p>
+            <p class="ko">여러분이 홈 자동화를 위해 6개의 서로 다른 소프트웨어 시스템을 통합한 것이, 사람들이 오늘날 우리가 가진 모든 소프트웨어를 정말로 원하는지에 대한 질문을 던진다고 생각합니다. 네, 맞습니다. 왜냐하면 하드웨어는 있지만 소프트웨어, 즉 사용자 경험(UX) 레이어는 버려졌다고 생각하기 때문입니다. 사람들이 원하는 게 과연 이런 걸까요? 네. 앱 스토어에 있는 스마트 홈 기기 등을 사용하는 앱들은, 어떤 의미에서는 아예 존재해서는 안 되는 것 같습니다. API만 있으면 되고,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=800s" target="_blank" class="timestamp">[13:20]</a>
+          <div class="text">
+            <p class="en">agents be just using it directly and um wouldn&#x27;t it like I can do all kinds of home automation stuff that uh any individual app will not be able to do right um and an LLM can actually drive the tools and call all the right tools and do do pretty complicated things um &gt;&gt; and so in a certain sense it does point to this like maybe there&#x27;s like an overproduction of lots of custom bespoke apps that shouldn&#x27;t exist because agents kind of like crumble them up and everything should be a lot more just like exposed API endpoints and agents are the glue of the intelligence that</p>
+            <p class="ko">에이전트가 직접 사용해서 홈 자동화 기능을 구현하는 게 더 낫지 않을까요? 개별 앱으로는 불가능한 모든 기능을 LLM(Learning Leadership Manager)이 제공하고, 필요한 도구를 호출하고, 복잡한 작업까지 처리할 수 있지 않을까요? 그래서 어쩌면 소프트웨어 과잉 생산이 있는 건 아닐까 하는 생각이 듭니다. 에이전트가 자체적으로 개발한 맞춤형 앱들을 망가뜨리는 경우가 많아서, 애초에 존재해서는 안 될 앱들이 많습니다. 모든 것이 훨씬 더 개방적인 API 엔드포인트 형태로 제공되어야 하고, 에이전트는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=831s" target="_blank" class="timestamp">[13:51]</a>
+          <div class="text">
+            <p class="en">actually like tool calls all the all the parts. Um, another example is like my treadmill. Uh, there&#x27;s an app for my treadmill and I wanted to like keep track of how often I do my cardio. Uh, but like I don&#x27;t want to like log into a web UI and go through a flow and etc. Like all this should just be like make APIs available and this is kind of you know going towards the agentic um sort of web or like agent first uh tools and all this kind of stuff. So I think the industry just has to reconfigure in so many ways that it&#x27;s like the customer is not the human anymore. It&#x27;s like agents who are acting on behalf of humans and this refactoring will be will probably</p>
+            <p class="ko">도구들이 모든 부분을 호출하는 핵심적인 역할을 해야 합니다. 예를 들어 제 러닝머신을 생각해 보세요. 러닝머신 앱이 있는데, 저는 유산소 운동을 얼마나 자주 하는지 기록하고 싶습니다. 하지만 웹 UI에 로그인해서 복잡한 절차를 거치고 싶지는 않습니다. 모든 것이 API를 통해 제공되어야 하고, 이것이 바로 에이전트 중심의 웹 또는 에이전트 우선 도구로 나아가는 방향입니다 . 따라서 업계는 여러 면에서 재구성되어야 하며, 더 이상 고객이 사람이 아니라 사람을 대신하여 행동하는 에이전트가 되어야 합니다. 이러한 재구성은 상당한 규모로 이루어질 것입니다</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=862s" target="_blank" class="timestamp">[14:22]</a>
+          <div class="text">
+            <p class="en">be substantial in a certain sense. One way that people sometimes push back on this is like do people do do we expect people to v code some of these tools? Do we expect normal people to do this kind of stuff that I described? &gt;&gt; But I think to some extent &gt;&gt; this is just you know technology as it exists today and right now there is some vibe coding and I&#x27;m actually watching it and I&#x27;m working with the system. But I kind of feel like this kind of stuff that I just talked about this should be free like in a year or two or three. There&#x27;s no back coding involved. This is trivial. This is table stakes. This is like any AI even the open source models</p>
+            <p class="ko">. 사람들이 이러한 변화에 반발하는 부분 중 하나는, 사람들이 이러한 도구들을 V-코딩으로 개발해야 할까요? 일반인이 직접 개발할 수 있을까요? 제가 설명한 이런 종류의 작업을 하려면 어떻게 해야 할까요? 제 생각에는 어느 정도는 현재 존재하는 기술일 뿐이고, 지금 당장 바이브 코딩이 진행되고 있는데, 저는 실제로 그 시스템을 지켜보고 작업하고 있습니다. 하지만 제가 방금 이야기한 이런 종류의 기능은 1년, 2년, 아니면 3년 안에 무료로 제공될 거라고 생각합니다. 백코딩도 필요 없고, 아주 간단한 작업이죠. 기본 사양입니다 . 오픈 소스 모델을 포함한 모든 AI가</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=892s" target="_blank" class="timestamp">[14:52]</a>
+          <div class="text">
+            <p class="en">etc can like do this. &gt;&gt; You should be able to translate from a less technical humans intent very easily to this &gt;&gt; extremely easily. Yeah. Today it&#x27;s vi coding it&#x27;s involved and not many people are going to do it. But &gt;&gt; and you still have to make some design decisions, right? We were talking about like you take frames for example. &gt;&gt; Yeah. &gt;&gt; Yeah. But I kind of feel like this will just uh start to the barrier will just come down and it&#x27;s just ephemeral software on your behalf and some kind of like claw is handling all the details for you but you&#x27;re not involved. Claw has a &gt;&gt; claw has a machine and it will figure it</p>
+            <p class="ko">이런 작업을 할 수 있을 겁니다. 기술적인 지식이 부족한 사람의 의도를 이런 방식으로 아주 쉽게 변환할 수 있어야 합니다. 네, 지금은 바이브 코딩이 필요하고, 많은 사람들이 하지 않을 겁니다 . 그리고 여전히 몇 가지 디자인 결정을 내려야 하죠. 예를 들어 프레임을 생각해 보세요. 네, 맞습니다 . 하지만 저는 이런 기술적인 장벽이 무너지고, 사용자를 대신해서 일시적인 소프트웨어가 모든 세부 사항을 처리해 주고, 사용자는 관여하지 않게 될 거라고 생각합니다. 마치 클로처럼 말이죠. 클로는 클로를 가지고 있습니다.  기계가 알아서 해결해 주고, 사용자</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=922s" target="_blank" class="timestamp">[15:22]</a>
+          <div class="text">
+            <p class="en">out and it&#x27;s just presenting you UIs and you&#x27;re like saying stuff you know. Mhm. &gt;&gt; Why haven&#x27;t you um I guess like pushed the boundaries of what you can do personally with Claus? Like is it you know you&#x27;re focusing on more important projects, auto research, etc. or uh you&#x27;re climbing the hill to mastery or something else, right? &gt;&gt; Yeah. I just feel like I&#x27;m so distracted by everything. So I spend I spent like a week on the class stuff and I I have more to do almost. Um but I will say that um &gt;&gt; like Jensen tools were all just busier</p>
+            <p class="ko">인터페이스만 보여주면 사용자는 그냥 말하는 거죠. 음. 왜 Claus를 활용해서 개인적으로 할 수 있는 일의 한계를 뛰어넘어 보지 않으셨나요 ? 더 중요한 프로젝트나 자동차 연구 등에 집중하고 계신 건가요? 아니면 전문가가 되기 위해 노력하고 계신 건가요 ? 네. 모든 것에 너무 정신이 팔려 있어요 . 수업 관련해서 일주일을 보냈는데, 아직 할 일이 더 많아요. 음, 그런데 Jensen 도구들이 좀 바빠서 어쩔 수 없었네요</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-4" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=951s" target="_blank" class="ch-ts">[15:51]</a> Why AutoResearch</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=952s" target="_blank" class="timestamp">[15:52]</a>
+          <div class="text">
+            <p class="en">unfortunately. &gt;&gt; Yeah. Uh, I didn&#x27;t really take advantage of a lot of like email and calendar and all this other stuff and I didn&#x27;t give it access because I&#x27;m still a little bit like suspicious and it&#x27;s still very new and rough around the edges. So, I didn&#x27;t want to give it like full access to my digital life yet. And part of it is just the security, privacy and uh just being very cautious in that in that realm. And um, so some of it is like held back by that I would say. Yeah, maybe that&#x27;s like the dominant dominant feature, but some of it is also just I feel so distracted because I feel like I had a week of claw and then other stuff is happening. And &gt;&gt; what was the um I mean you&#x27;ve talked</p>
+            <p class="ko">. 네. 이메일이나 캘린더 같은 기능은 제대로 활용하지 못했고, 접근 권한도 주지 않았어요. 아직은 좀 의심스럽고, 너무 새롭고 미흡한 부분이 많아서요. 제 디지털 생활에 대한 모든 접근 권한을 주고 싶지 않았어요 . 보안과 개인 정보 보호 문제도 있고, 그 부분에 있어서는 매우 신중해야 한다고 생각했어요.  음 , 그래서 제가 보기엔 그런 점 때문에 어느 정도 제약을 받는 것 같아요 . 네, 아마 그게 가장 두드러진 특징일지도 모르겠네요. 하지만 또 다른 이유는, 일주일 내내 클로(clo) 작업에 매달린 후 다른 일들이 겹치면서 정신이 없어서 그런 것 같아요 . 그리고 음, 그러니까</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=984s" target="_blank" class="timestamp">[16:24]</a>
+          <div class="text">
+            <p class="en">about like being able to train or at least optimize a a model as a task you want to see agents do for a long time like what was the motivation behind auto research? &gt;&gt; Auto research. Yeah. So I think like I had a tweet earlier where I kind of like said something along the lines of to get the most out of the tools that have become available now you have to remove yourself as the as the bottleneck. You can&#x27;t be there to prompt the next thing. You&#x27;re you need to take yourself outside. um you have to arrange things such that they&#x27;re completely autonomous and the more you you know how can you</p>
+            <p class="ko">모델을 훈련시키거나 최적화하는 작업을 에이전트가 오랫동안 수행하도록 하는 것에 대해 말씀하셨는데, 자동화 연구를 시작하게 된 동기는 무엇이었나요? 네, 자동화 연구요. 제가 아까 트윗에서 비슷한 말을 했는데요, 지금 이용 가능한 도구를 최대한 활용하려면 스스로 병목 현상을 없애야 한다는 거예요. 다음 단계를 지시하기 위해 거기에 있어서는 안 돼요. 스스로를 그 밖으로 빼내야 해요. 모든 것이 완전히 자율적으로 작동하도록 구성해야 하고, 토큰 처리량을 극대화하면서 루프에 개입하지 않는 방법을 더 많이 알아야 해요. 이게</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1014s" target="_blank" class="timestamp">[16:54]</a>
+          <div class="text">
+            <p class="en">maximize your token throughput and not be in the loop. This is the this is the goal and so I kind of mentioned that the the name of the game now is to increase your leverage. uh I put in just very few tokens just once in a while and a huge amount of stuff happens on my behalf and so auto research like I tweeted that and I think people liked it and whatnot but that they haven&#x27;t like maybe worked through like the implications of that and for me auto research is an example of like an implication of that &gt;&gt; where it&#x27;s like I don&#x27;t want to be like the researcher in the loop like looking at results etc like I&#x27;m I&#x27;m holding the system back so the question is how do I</p>
+            <p class="ko">목표예요. 그래서 지금 중요한 건 레버리지를 높이는 거라고 말씀드렸죠. 토큰은 아주 가끔씩 아주 적게 사용되고, 제 대신 엄청난 양의 작업이 자동으로 처리됩니다. 제가 트위터에 올렸던 자동 연구에 대해 사람들이 좋아해 주신 것 같은데, 그 의미에 대해서는 제대로 생각해 보지 않으신 것 같아요. 제 생각에 자동 연구는 그런 의미의 한 예시입니다. 저는 연구자가 직접 결과를 확인하는 역할을 하고 싶지 않아요. 제가 시스템 발전을 저해하는 존재가 되고 싶지 않거든요. 그래서 모든 추상화를 어떻게 재구성 해야 제가 한 번만 설정하고 바로 실행 버튼을 누르는 방식이 아닌, 더 많은</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1044s" target="_blank" class="timestamp">[17:24]</a>
+          <div class="text">
+            <p class="en">refactor all the abstractions so that I&#x27;m not I have to arrange it once and hit go the name of the game is how can you get more agents running for longer periods of time without your involvement doing stuff on your behalf and auto research is just yeah here&#x27;s an objective here&#x27;s a metric here&#x27;s your boundaries of what you can and cannot do and go and uh yeah &gt;&gt; you were surprised at its effectiveness &gt;&gt; yeah I I didn&#x27;t expect uh it to work because so I have the project data chat um and fundamentally like I think a lot of people are very confused with my obsession for like training GBT2 models</p>
+            <p class="ko">에이전트가 제 개입 없이 더 오랜 시간 동안 제 대신 작업을 수행하도록 만들 수 있을까 하는 게 핵심입니다. 자동 연구는 &quot;여기 목표가 있고, 여기 측정 기준이 있고, 할 수 있는 것과 할 수 없는 것의 범위가 있습니다. 이제 시작하세요.&quot;라고 하는 것과 같습니다. 그리고 네, 효과가 예상 밖이었다고 하셨죠? 저도 그렇게 될 거라고는 예상 못 했어요. 프로젝트 데이터 채팅도 있고, 근본적으로 많은 사람들이 제가 GBT2 모델 학습에 집착하는 이유를 잘 이해하지 못하는 것 같아요. 하지만 제게 있어서 GBT 모델 등을 훈련하는 것은 LLM을 훈련하기 위한 작은 도구이자 놀이터일 뿐입니다. 근본적으로 제가 더</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1074s" target="_blank" class="timestamp">[17:54]</a>
+          <div class="text">
+            <p class="en">and so on but for me uh training GBT models and so on is just a little harness a little playground for training LLMs and fundamentally what I&#x27;m more interested in is like this idea of recursive self-improvement and to what extent you can actually have LLMs improving LLMs because I think all the Frontier Labs this is like the thing &gt;&gt; uh for obvious reasons and they&#x27;re all trying to recursively self-improve roughly speaking and so for me this is kind of like um a little play pen of that um and I guess I like tuned Namat already quite a bit by hand in a good old fashioned way that I&#x27;m used to like I&#x27;m a researcher I&#x27;ve done this for like you know two decades I have some amount</p>
+            <p class="ko">관심 있는 것은 재귀적 자기 개선이라는 개념, 그리고 LLM이 실제로 어느 정도까지 스스로를 개선할 수 있는지입니다. 프론티어 랩의 모든 연구자들이 당연히 재귀적 자기 개선을 추구하고 있기 때문에, 제게는 이것이 그러한 실험을 위한 작은 놀이터와 같습니다. 저는 이미 Namat을 제가 익숙한 방식대로, 전통적인 방식으로 꽤 많이 튜닝</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1104s" target="_blank" class="timestamp">[18:24]</a>
+          <div class="text">
+            <p class="en">of like what is the opposite of &gt;&gt; uh yeah &gt;&gt; earned confidence &gt;&gt; okay I have like two decades of like oh I&#x27;ve trained this model like thousands of times of like um so I&#x27;ve done a bunch of experiments I&#x27;ve done hyper primary tuning I&#x27;ve done all the things I&#x27;m very used to and I&#x27;ve done for two decades and I&#x27;ve gotten to a certain point and I thought it was like fairly well tuned and then I let auto research go for like overnight and it came back with like tunings that I didn&#x27;t see &gt;&gt; and yeah I did forget like the weight decay on the value embeddings and my atom betas were not sufficiently tuned</p>
+            <p class="ko">했습니다. 저는 연구자로서 20년 동안 이 일을 해왔고, 어느 정도 &#x27;경험에서 얻은 자신감&#x27;의 반대 개념이라고 할까요? 20년 동안 이 모델을 수천 번 훈련시키고, 수많은 실험을 하고, 하이퍼파라미터 튜닝을 하고, 제가 20년 동안 해왔던 모든 익숙한 작업들을 해왔습니다. 어느 정도까지 튜닝이 완료되었다고 생각했는데, 자동 연구를 하룻밤 동안 실행해 보니 미처 생각하지 못했던 튜닝 요소들이 발견됐습니다. 예를 들어, 값 임베딩의 가중치 감소나 아톰 베타 값이 충분히 튜닝되지 않았다는 점을 잊고 있었죠. 이런 요소들은 서로 상호작용하기 때문에 하나를 튜닝하면 다른 요소들도 함께 변경될 가능성이 있습니다. 제가 병목 현상을 일으켜서는 안 되죠. 하이퍼파라미터 검색 최적화를 실행하거나 결과를 확인하는 데 시간을 낭비해서는 안 됩니다.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1134s" target="_blank" class="timestamp">[18:54]</a>
+          <div class="text">
+            <p class="en">and these things jointly interact so like once you tune one thing the other things have to potentially change too you know I shouldn&#x27;t be a bottleneck like I shouldn&#x27;t be running these hyperparameter search optimizations. I shouldn&#x27;t be looking at the results. There&#x27;s objective criteria in this case. Uh so you just let you just have to arrange it so that it can just go forever. So that&#x27;s a single sort of version of auto research of like a single loop trying to improve. And I was surprised that it um it found these things that I you know the repo is already fairly well tuned and still found something. And that&#x27;s just a single it&#x27;s a single loop like these frontier labs they have GPU clusters of</p>
+            <p class="ko">이 경우에는 객관적인 기준이 있으니까요. 그래서 자동 연구가 무한히 실행되도록 설정해야 합니다 . 즉, 개선을 위해 한 번의 루프를 반복하는 자동 연구의 한 버전이라고 할 수 있습니다. 이미 상당히 튜닝된 상태임에도 불구하고 새로운 요소들을 발견해낸 것에 놀랐습니다 . 이건 단 한 번의 루프 실행 결과입니다. 프론티어 랩은 수만 개의 GPU 클러스터를 보유하고 있으니, 얼마나 많은 최적화 작업이 가능할지 쉽게 상상할 수 있습니다. 기본적으로 이러한 자동화는 작은 모델에서 많이 구현될 것이고, 최첨단</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1164s" target="_blank" class="timestamp">[19:24]</a>
+          <div class="text">
+            <p class="en">tens of thousands of them. And so it&#x27;s very easy to imagine how you would basically get a lot of this automation on um smaller models and fundamentally everything around like frontier level intelligence is about extrapolation and scaling loss and so you basically do a ton of the exploration on the smaller models and then you try to um extrapolate out. &gt;&gt; So you&#x27;re saying our research efforts are going to get more efficient like we&#x27;re going to have better direction for when we scale as well if we can do this experimentation better. Yeah, I would say that like the most interesting project and probably what the frontier labs are working on is uh you know you</p>
+            <p class="ko">지능과 관련된 모든 것은 외삽과 스케일링 손실에 관한 것입니다. 따라서 작은 모델에서 많은 탐색을 수행한 다음 외삽을 시도하는 것입니다 . 즉, 이러한 실험을 더 잘 수행할 수 있다면 연구 노력이 더 효율적이 되고 규모 확장에 대한 더 나은 방향을 제시할 수 있다는 말씀이시죠? 네 , 가장 흥미로운 프로젝트이자 아마도 프론티어 랩에서 진행하고 있는 프로젝트는 바로 작은 모델에서 실험하는 것입니다. 최대한 자율적으로 만들고 연구원들을 개입시키지 않는 것이죠. 연구원들은 너무 많은</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1195s" target="_blank" class="timestamp">[19:55]</a>
+          <div class="text">
+            <p class="en">experiment on the smaller models. You try to make it as autonomous as possible. Remove researchers from the loop. Uh they have way too much what is the what is the opposite? Way too much confidence. Yeah, they don&#x27;t know. They shouldn&#x27;t be touching any of this really and so you have to like rewrite the whole thing because right now I mean certainly they can contribute ideas but okay uh they shouldn&#x27;t actually be enacting those ideas. There&#x27;s a queue of ideas and there&#x27;s maybe an automated scientist that comes up with ideas based on all the archive papers and GitHub repos and it funnels ideas in or researchers can contribute ideas but</p>
+            <p class="ko">자신감을 가지고 있습니다. 그들은 제대로 알지 못합니다. 사실 이 모든 것에 관여해서는 안 됩니다. 따라서 전체 시스템을 다시 작성해야 합니다. 현재로서는 연구원들이 아이디어를 제공할 수는 있지만, 실제로 그 아이디어를 실행해서는 안 됩니다. 아이디어 대기열이 있고, 모든 아이디어를 기반으로 아이디어를 도출하는 자동화된 과학자가 있는 방식입니다. 논문과 GitHub 저장소를 아카이브하고 아이디어를 모으거나 연구자들이 아이디어를 제공할 수 있지만, 모든 것이 하나의 큐에 담겨 있고, 작업자가 항목을 가져와서 테스트하고, 효과가 있는 것은 기능 브랜치에 추가됩니다. 그리고 어떤 사람들은 기능</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1225s" target="_blank" class="timestamp">[20:25]</a>
+          <div class="text">
+            <p class="en">it&#x27;s a single queue and there&#x27;s workers that pull uh items and they try them out and uh whatever works just gets uh sort of put on the feature branch and maybe some people like um monitor the feature branch and merge to the main branch sometimes. So yeah, just removing humans uh from all the processes and automating as much as possible and getting high tok tokens per second throughputs and it does require rethinking of all the abstractions. Um and uh everything has to be reshuffled. So yeah, I think it&#x27;s very exciting. If &gt;&gt; we take one more recursive step here, um</p>
+            <p class="ko">브랜치를 모니터링하고 때때로 메인 브랜치에 병합합니다 . 그러니까 모든 프로세스에서 사람을 제거하고 가능한 한 많은 부분을 자동화하여 초당 높은 토큰 처리량을 얻는 것이죠. 하지만 이를 위해서는 모든 추상화 개념을 재고하고 모든 것을 재배치해야 합니다. 그래서 저는 이것이 매우 흥미롭다고 생각합니다. 여기서 한 단계 더 나아가서, 모델이 언제 당신보다 더 나은 프로그램 MD를 작성할까요? 네. 프로그램 MD는 우리가 루프에 없는 상태입니다. 네, 맞습니다. 네. 프로그램 MD는 제가</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1257s" target="_blank" class="timestamp">[20:57]</a>
+          <div class="text">
+            <p class="en">uh when is the model going to write a better program MD than you? &gt;&gt; Yeah. Uh so program MD is &gt;&gt; we&#x27;re not in the loop. &gt;&gt; Yeah, exactly. &gt;&gt; Yeah. Um, so program MD is my crappy attempt at describing like how the auto researcher should work like oh do this then do that and that and then try these kinds of ideas and then here&#x27;s maybe some ideas like look at architecture look at optimizer etc. I just came up with this in markdown, right? &gt;&gt; Um &gt;&gt; and so uh yeah, exactly. You want some kind of an auto research loop maybe that</p>
+            <p class="ko">자동 연구자가 어떻게 작동해야 하는지, 즉 &quot;이것을 하고, 저것을 하고, 이런 아이디어를 시도해 보고, 그리고 나서 몇 가지를 더 해보자&quot;라고 설명하려는 서툰 시도입니다.  아키텍처를 살펴보거나 최적화 도구를 살펴보는 등의 아이디어요. 방금 마크다운으로 생각해낸 거예요. 네, 맞아요 . 일종의 자동 연구 루프 같은 게 필요할 수도 있어요. 예를 들어, 다른 프로그램 NDS가 다른 진행 상황을 보여줄 거라고 상상해 보세요. 기본적으로 모든 연구 조직은</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1287s" target="_blank" class="timestamp">[21:27]</a>
+          <div class="text">
+            <p class="en">looks for you can imagine that different program NDS would um would give you different uh progress. So you basically every research organization is described by program MD. Yeah, &gt;&gt; a research organization is a set of markdown files that describe all the roles and how the whole thing connects. Um and you can imagine having a better research organization. So maybe they do fewer stand-ups in the morning because they&#x27;re useless. And this is all just code, right? Um and so you can so one organization can have fewer stand-ups, one organization can have more uh one organization can be very risk-taking,</p>
+            <p class="ko">프로그램 MD로 설명됩니다. 네, 연구 조직은 모든 역할과 전체적인 연결 방식을 설명하는 마크다운 파일 세트입니다. 더 나은 연구 조직을 상상해 보세요. 예를 들어, 쓸모없는 조직은 아침 스탠드업 미팅을 덜 할 수도 있죠. 이 모든 게 코드로 이루어져 있죠? 그래서 어떤 조직은 스탠드업 미팅을 적게 하고, 어떤 조직은 더 많이 할 수 있고, 어떤 조직은 위험을 감수하고, 어떤 조직은 덜 감수할 수 있어요. 여러 연구 조직이 있다고 상상해 보세요. 그리고 각 조직은 코드를 가지고 있고, 코드가 있으면 코드를 튜닝하는 것도 가능하죠. 그러니까 메타 레이어가 있는 거예요.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1318s" target="_blank" class="timestamp">[21:58]</a>
+          <div class="text">
+            <p class="en">one organization can be less. And so you can definitely imagine that you have multiple research orgs. Um and then they all have code and once you have code, then you can imagine tuning the code. So 100% there&#x27;s like the meta layer of it. Uh um &gt;&gt; did you see my text about my contest idea? My contest idea was uh like let people write uh different program MDs, right? And and so for same hardware, where do you get most improvement? &gt;&gt; Oh, I see. &gt;&gt; And then you can take all that data and then give it to the model and say write a better program MD. &gt;&gt; Yes. Yes.</p>
+            <p class="ko">제 공모전 아이디어에 대한 글 보셨어요 ?  대회 아이디어는 사람들이 서로 다른 프로그램 MD를 작성하게 하는 거였죠? 같은 하드웨어에서 어떤 부분에서 가장 큰 개선이 이루어지는지 알아보는 거고요. 아, 그렇군요. 그리고 그 데이터를 모두 모아서 모델에 입력해 더 나은 프로그램 MD를 작성하게 할 수 있겠네요. 네, 맞습니다 . 확실히 더 나은 결과가 나올 겁니다. 개선이 어디에서 왔는지 100% 분석해서, 이런 종류의 개선이 더 잘 이루어지도록 프로그램 MD를 수정할 수 있을까요? 아니면 효과가 없었던 부분을 개선할 수 있을까요?</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1348s" target="_blank" class="timestamp">[22:28]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; Yeah. Exactly. &gt;&gt; We&#x27;re going to get something better. Like there&#x27;s no way we don&#x27;t. &gt;&gt; You can 100% look at um where the improvements came from and like can I change the program MD such that more of these kinds of things would be done or like things that didn&#x27;t work. uh &gt;&gt; meta optimization. Yeah, &gt;&gt; you can 100% imagine doing that. So I think this is a great idea, but it&#x27;s</p>
+            <p class="ko">메타 최적화요? 네, 충분히 가능하죠. 저는 이 아이디어가 훌륭하다고 생각하지만,</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-5" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1365s" target="_blank" class="ch-ts">[22:45]</a> Relevant Skills in the AI Era</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1365s" target="_blank" class="timestamp">[22:45]</a>
+          <div class="text">
+            <p class="en">like you know I think like you sort of go one step at a time where you sort of have one process and then second process and then the next process and these are all layers of an onion like the LLM sort of part is now taken for granted. The agent part is now taken for granted. Now the claw-like entities are taken for granted and now you can have multiple of them and now you can have instructions to them and now you can have optimization over the instructions and it&#x27;s just like it&#x27;s a little too much you know but there I mean this is why it gets to the psychosis is that this is like infinite and everything is still issue and that&#x27;s why I feel like yeah that&#x27;s just coming back to this is why it&#x27;s so insane. Okay. Well, if we&#x27;re</p>
+            <p class="ko">마치 양파 껍질처럼 한 단계씩 차근차근 발전시켜 나가야 할 것 같아요. LLM 부분은 이미 당연하게 여겨지고 있고, 에이전트 부분도 마찬가지죠. 집게 모양의 개체들도 이제는 당연하게 여겨지고 있고, 여러 개를 만들 수도 있게 됐습니다. 이제 그들에게 지침을 줄 수 있고, 지침에 대한 최적화도 할 수 있는데, 솔직히 좀 과한 것 같기도 해요. 하지만 제가 말하려는 건, 이게 마치 정신병처럼 느껴지는 이유가 바로 이거예요. 모든 게 무한하고 여전히 문제투성이잖아요. 그래서 결국 이렇게 미쳐버릴 것 같다는 생각이 드는 거죠 . 자, 현재 상황을 진단하고</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1396s" target="_blank" class="timestamp">[23:16]</a>
+          <div class="text">
+            <p class="en">we&#x27;re just trying to like diagnose the current moment and uh what is a relevant skill right now, what do you like what do you think is the implication that this um that this is the loop we should be trying to achieve in different areas and that it works right like you know remove &gt;&gt; create the metric or create the ability for um agents to continue working on it without you. &gt;&gt; Yeah. &gt;&gt; Do we still have performance engineering like &gt;&gt; Yeah. I mean so there&#x27;s a few caveats that I would put on top of the LM ecosystem. Number one, &gt;&gt; uh this is extremely well suited to</p>
+            <p class="ko">지금 중요한 기술이 무엇인지, 그리고 이것이 우리가 여러 분야에서 달성해야 할 목표라고 생각하는 것은 무엇인지, 그리고 이것이 제대로 작동한다는 것은 무엇을 의미한다고 생각하시나요? 예를 들어, 지표를 제거하거나 생성하거나, 에이전트가 당신 없이도 계속 작업할 수 있도록 하는 기능을 만드는 것 같은 거죠. 네 . 성능 엔지니어링은 여전히 ​​중요하죠. 네. LM 생태계에 몇 가지 주의사항을 덧붙이자면, 첫째, 객관적인 지표를 쉽게 평가할 수 있는 모든 것에 매우 적합합니다. 예를 들어, 더 효율적인 CUDA 코드를 위한 커널을 작성하는 것과 같은 거죠.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1426s" target="_blank" class="timestamp">[23:46]</a>
+          <div class="text">
+            <p class="en">anything that has objective uh metrics that are easy to evaluate. So for example, like writing kernels for more efficient CUDA, you know, code for various parts of a model, etc. are the perfect fit. &gt;&gt; Because you have inefficient code and then you want efficient code that has the exact same behavior, but it&#x27;s much faster, perfect fit. &gt;&gt; Uh so a lot of things like like are perfect fit for auto research, but many things will not be and so they it&#x27;s just if you can&#x27;t evaluate then you can&#x27;t auto research it, right? Uh so that&#x27;s like caveat number one. And then maybe caveat number two I would say is, you know, we&#x27;re we&#x27;re kind of talking about</p>
+            <p class="ko">모델의 다양한 부분 등에 있어서 자동 연구는 완벽하게 들어맞습니다. 비효율적인 코드가 있다면, 똑같은 동작을 하면서도 훨씬 빠른 효율적인 코드를 원할 테니까요. 완벽한 조합이죠. 그래서 자동 연구에 완벽하게 들어맞는 것들이 많지만, 그렇지 않은 것들도 많습니다. 평가할 수 없다면 자동 연구도 할 수 없겠죠? 이게 첫 번째 주의사항입니다 . 두 번째 주의사항은, 우리가 다음 단계에 대해 이야기하고 있고 다음 단계가 무엇인지 살펴보고 있지만, 근본적으로 전체적인 시스템은 아직 완벽하지 않고, 마치 틈새가 터질 것 같고, 균열이 있고,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1456s" target="_blank" class="timestamp">[24:16]</a>
+          <div class="text">
+            <p class="en">next steps and we kind of see what the next steps are, but fundamentally the the whole thing still doesn&#x27;t it&#x27;s still kind of like bursting at the seams a little bit and there&#x27;s cracks and it doesn&#x27;t fully work. And if you kind of try to go too far ahead, the whole thing is actually net not useful if that makes sense. &gt;&gt; Um because these models like still are not, you know, they&#x27;ve improved a lot, but they&#x27;re still like rough around the edges is maybe the way I would describe it. I simultaneously feel like I&#x27;m talking to an extremely brilliant PhD student who&#x27;s been like a systems programmer for their entire life and a 10-year-old. And it&#x27;s so weird because</p>
+            <p class="ko">완전히 작동하지 않는다는 것입니다. 너무 앞서 나가려고 하면 오히려 전체 시스템이 쓸모없어질 수도 있습니다 . 왜냐하면 이러한 모델들은 아직 완벽하지 않기 때문입니다. 물론 많이 개선되긴 했지만, 여전히 다듬어지지 않은 부분이 있다고 표현할 수 있겠습니다 .  마치 평생 시스템 프로그래머로 살아온 엄청나게 똑똑한 박사 과정 학생과 10살짜리 아이와 이야기하는 것 같은 느낌이에요. 정말 이상한 건, 인간은 훨씬 더 긴밀하게 연결되어 있다고 생각한다는 거예요. 모든 게 다 있는 것처럼요. 인간은 그런 조합을 마주칠 일이 거의 없죠</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1487s" target="_blank" class="timestamp">[24:47]</a>
+          <div class="text">
+            <p class="en">humans like there&#x27;s I feel like they&#x27;re a lot more coupled. Like you have, you know, um everything &gt;&gt; you wouldn&#x27;t you wouldn&#x27;t encounter that combination. &gt;&gt; This jaggedness is really strange and humans have a lot less of that kind of jaggedness. Although they definitely have some, but humans have a lot more jaggedness. uh sorry the agents have a lot more jaggedness where uh sometimes like you know I ask for functionality and it like comes back with something that&#x27;s just like totally wrong and then we get into loops that are totally wrong and then I&#x27;m just I get so frustrated with the agents all the time still because you feel the power of it but you</p>
+            <p class="ko">. 이 들쭉날쭉함이 정말 이상하고, 인간은 그런 들쭉날쭉함이 훨씬 적어요. 물론 인간에게도 들쭉날쭉함은 있지만요. 아, 죄송합니다. 에이전트는 훨씬 더 들쭉날쭉해요. 예를 들어, 제가 기능을 요청했는데 완전히 잘못된 결과가 나오고, 완전히 잘못된 무한 루프에 빠지기도 해요. 그럴 때마다 에이전트 때문에 답답해요. 에이전트 의 능력은 분명히 느껴지지만, 여전히 말도 안 되는 행동을 할 때가 있거든요.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1518s" target="_blank" class="timestamp">[25:18]</a>
+          <div class="text">
+            <p class="en">also there&#x27;s still like it does nonsensical things once in a while for me still as well &gt;&gt; I get very annoyed when um uh I feel like the agent wasted a lot of compute on something it should have recognized was an obvious problem. &gt;&gt; Yeah, I think like some of the bigger things is like maybe what&#x27;s under underneath it, if I could hypothesize, is fundamentally these models are trained via reinforcement learning. So they&#x27;re actually struggling with the exact same thing we just talked about, which is the labs can improve the models in anything that is verifiable, whether has rewards. So did you write the</p>
+            <p class="ko">에이전트가 명백하게 인식했어야 할 것을 인식하는 데 엄청난 연산 능력을 낭비할 때면 정말 짜증이 나요. 문제네요. 네, 제 생각에는 가장 큰 문제 중 하나는, 제 가설을 세우자면, 근본적으로 이 모델들이 강화 학습을 통해 훈련되었다는 점일 것 같아요. 그래서 이 모델들은 방금 이야기했던 것과 똑같은 문제에 직면하고 있는 거죠. 즉, 연구실에서는 검증 가능한 부분, 예를 들어 보상이 있는 부분(프로그램을 제대로 작성했는지, 단위 테스트를 통과했는지 등)에서 모델을 개선할 수 있지만, 어려움을 겪는 부분은 예를 들어, 제가 생각했던 것과 의도했던 것의 미묘한 차이, 그리고</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1549s" target="_blank" class="timestamp">[25:49]</a>
+          <div class="text">
+            <p class="en">program correctly and does it do the unit test check out? Yes or no? But some of the things where they&#x27;re struggling is like for example, I think they have a tough time with like nuance of maybe what I what I had in mind or what I intended and when to ask clarifying questions. Um like what I yeah it&#x27;s just um anything that feels softer is like worse. And so you&#x27;re kind of like you&#x27;re either on Rails and you&#x27;re part of the super intelligence circuits or you&#x27;re not on Rails and you&#x27;re outside of the verifiable domains and suddenly everything kind of just like meanders. Like maybe another way to put it is if</p>
+            <p class="ko">언제 명확한 질문을 해야 하는지 등을 파악하는 데 어려움을 겪는 것 같아요. 음, 뭐랄까, 조금이라도 애매한 부분이 있으면 더 안 좋게 느껴지는 거죠. 마치 레일즈를 사용해서 초지능 회로의 일부가 되거나, 레일즈를 사용하지 않고 검증 가능한 영역 밖에 있거나 둘 중 하나인 것처럼요. 그렇게 되면 모든 게 갈팡질팡하게 되는 거죠. 다른 말로 표현하자면, 오늘날의 상황과 오늘날의 상황을 비교해 보면 알 수 있어요. 최첨단 모델인 차치 PT에게 농담 하나 해달라고 하면, 어떤 농담을 들을지 아세요? 바로 그 농담입니다. 제가 정확히 어떤</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1579s" target="_blank" class="timestamp">[26:19]</a>
+          <div class="text">
+            <p class="en">you go to if today if you go to like state-of-the-art model chachi PT and you ask it tell me a joke um do you know what joke you&#x27;re going to get? There&#x27;s the joke. &gt;&gt; The joke I do feel I I I can&#x27;t tell you like the you know standard form of it but I do feel like Chach has like three jokes. &gt;&gt; Yeah. Yeah. So the the joke that apparently all thems like laugh the most is why do scientists uh not trust atoms? &gt;&gt; Okay. &gt;&gt; Because they make everything up. &gt;&gt; Okay. &gt;&gt; They make everything up. So this is &gt;&gt; how did that emerge? &gt;&gt; So this is the joke you would get like</p>
+            <p class="ko">표준적인 형태로 말씀드릴 수는 없지만, 차치는 세 가지 정도의 농담을 가지고 있는 것 같아요. 네. 네. 그중에서 가장 많이 웃는 농담은 과학자들이 왜 원자를 믿지 않느냐는 겁니다. 네 . 원자가 모든 것을 만들어내기 때문이죠. 네. 모든 것을 만들어낸다고요. 어떻게 이런 농담이 생겨났을까요? 이 농담은 3~4년 전에도 나왔던 농담이고, 지금도 여전히 나옵니다. 네 . 모델이 엄청나게 발전했는데도 말이죠. 네. 모델 에게 어떤 작업을 맡기면 몇 시간이고 쉬지 않고 산도 옮길 것처럼 일을 해냅니다.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1609s" target="_blank" class="timestamp">[26:49]</a>
+          <div class="text">
+            <p class="en">three or four years ago and this is the joke you still get today. &gt;&gt; Okay. &gt;&gt; So even though the models have improved tremendously. &gt;&gt; Yeah. &gt;&gt; And if you give them an agentic task, they will just go for hours and move mountains for you. &gt;&gt; And then you ask for like a joke and it has a stupid joke, a crappy joke from 5 years ago. And it&#x27;s because it&#x27;s outside of the it&#x27;s outside of the RL. &gt;&gt; It&#x27;s outside of the reinforcement learning. It&#x27;s outside of what&#x27;s being improved. It&#x27;s like and it&#x27;s part of the jaggedness of like shouldn&#x27;t you expect models as they get better to also have like better jokes or more diversity of them or it&#x27;s just it&#x27;s not being</p>
+            <p class="ko">그런데 농담을 해달라고 하면, 바보 같고 엉뚱한 농담을 하는 거죠.  5 년 전의 ppy 농담.  그 이유는 그것이 현실 세계 밖에 있기 때문입니다. 강화 학습의 범주 밖에 있습니다 . 개선 대상 범위 밖에 있습니다.  그건 마치, 모델이 발전할수록 더 나은 농담이나 더 다양한 유머를 구사할 거라고 기대해야 하는 거 아닌가 하는 생각과 비슷해요. 최적화가 안 돼서 제자리에 멈춰 있는 거죠.   그게 우리가 유머 감각이나 재치 같은 더 넓은 지능과</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1640s" target="_blank" class="timestamp">[27:20]</a>
+          <div class="text">
+            <p class="en">optimized and it&#x27;s stuck. &gt;&gt; Do you uh uh think that that implies that we are not seeing like generalization in the sense of like broader intelligence of joke smartness being attached to code smartness. Yeah, I think there&#x27;s some decoupling where some things are verifiable and some things are not and some things are optimized for arbitrarily by the labs depending on like what data went in and some things are not and um &gt;&gt; and &gt;&gt; but I mean the the premise there&#x27;s a you know premise from some research groups</p>
+            <p class="ko">코딩 능력이 연관되는 현상을 일반화하는 걸 보지 못하고 있다는 걸 의미한다고 생각하세요?  네, 제 생각에는 검증 가능한 부분과 그렇지 않은 부분이 있고, 연구실에서 입력 데이터에 따라 임의로 최적화하는 부분도 있고 그렇지 않은 부분도 있는 등, 어느 정도 분리가 있는 것 같습니다. 그런데 일부 연구 그룹에서는 코드 생성이나 검증 가능한 분야에서 더 뛰어나면 모든 면에서 더 뛰어날 것이라는 전제를 가지고 있는데, 농담처럼 보이는 상황을 보면 그런 현상이 실제로는 일어나지 않는 것 같습니다 .  네, 그런 일은</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1671s" target="_blank" class="timestamp">[27:51]</a>
+          <div class="text">
+            <p class="en">that if you are smarter at code generation or in these ver verifiable fields you should be better at everything and and like the the the joke situation suggests that that&#x27;s not happening in all &gt;&gt; I don&#x27;t think that&#x27;s happening. Yeah, I don&#x27;t think that&#x27;s happening. I think uh I think maybe we&#x27;re seeing like a little bit of that but not like a satisfying amount. &gt;&gt; Yeah, that agonist exists in humans. &gt;&gt; You can be very very good at math and still tell a really bad joke. &gt;&gt; Yeah, that&#x27;s true. Yeah, but it just it still means that we&#x27;re not getting like the story is that we&#x27;re getting a lot of the intelligence and capabilities in all the domains of society like for free as</p>
+            <p class="ko">일어나지 않을 것 같아요.  제 생각에는 그런 현상이 조금은 나타나고 있는 것 같지만, 만족스러운 수준은 아닌 것 같습니다. 네, 그 작용제는 인간에게도 존재합니다. 수학을 아주 잘하면서도 농담은 정말 못할 수도 있다. 네, 그건 사실이에요.  네, 하지만 그건 여전히 우리가 더 나은 모델을 개발함에 따라 사회 모든 영역의 지능과 역량을 무료로 얻게 될 거라는 이야기가 사실이 아니라는 걸 의미합니다 .  그리고 그건 실제로</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1702s" target="_blank" class="timestamp">[28:22]</a>
+          <div class="text">
+            <p class="en">we get better and better models. And that&#x27;s not like exactly fundamentally</p>
+            <p class="ko"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-6" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1705s" target="_blank" class="ch-ts">[28:25]</a> Model Speciation</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1705s" target="_blank" class="timestamp">[28:25]</a>
+          <div class="text">
+            <p class="en">what&#x27;s going on. And there&#x27;s some blind spots and some things are not being optimized for. And this is all clustered up in these neural net opaque models, right? So you&#x27;re either on rails of what it was trained for and everything is like you&#x27;re going at speed of light or you&#x27;re not. Um and so it&#x27;s jaggedness. So um so that&#x27;s why I think like even though the the progression is obvious what should happen, you can&#x27;t let it fully go there yet because it doesn&#x27;t fully work or it&#x27;s a skill issue and we just haven&#x27;t like figured out how to use it. So you know it&#x27;s hard to tell. Can I</p>
+            <p class="ko">일어나고 있는 근본적인 상황과는 좀 다릅니다.  그리고 사각 지대가 있고, 최적화되지 않은 부분도 있습니다 .  그리고 이 모든 것이 이러한 불투명한 신경망 모델에 뭉쳐져 있는 거죠 ?  그러니까 훈련받은 대로 정확하게 주행해서 마치 광속으로 달리는 것처럼 느껴지거나, 아니면 그렇지 않거나 둘 중 하나라는 거죠.  음, 그래서 들쭉날쭉한 거죠. 그래서 음, 제 생각에는 진행 과정이 명확하더라도 아직 완전히 그 단계로 넘어갈 수는 없다고 봅니다. 왜냐하면 아직 완벽하게 작동하지 않거나, 기술적인 문제일 수도 있고, 우리가 아직 사용법을 제대로 파악하지 못했기 때문입니다 .  그러니까, 알기 어렵다는 거죠.  좀</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1736s" target="_blank" class="timestamp">[28:56]</a>
+          <div class="text">
+            <p class="en">ask kind of a blasphemous question which is like if this jaggedness is persisting um and it&#x27;s all rolled up in a uh at least monolithic interface right but you know single model &gt;&gt; um does that make sense or do do you should should it be unbundled into things that are can be optimized and improved against different &gt;&gt; domains of intelligence &gt;&gt; uh like unbundling the models into multiple experts in different areas etc &gt;&gt; more directly yeah &gt;&gt; um &gt;&gt; instead of juste that we have no exposure to that can be confusing as a</p>
+            <p class="ko">불경스러운 질문일 수도 있지만, 만약 이런 불규칙성이 지속되고, 모든 것이 최소한 하나의 단일 모델이라는 인터페이스에 통합되어 있다면, 그게 말이 될까요? 아니면 여러 지능 영역에 맞춰 최적화하고 개선할 수 있도록 모델을 여러 전문가에게 맡기는 것처럼, 더 직접적으로 접근하는 게 나을까요? 우리가 접해보지 못한 부분이 있어서 왜 어떤 부분에서는 뛰어난데</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1768s" target="_blank" class="timestamp">[29:28]</a>
+          <div class="text">
+            <p class="en">why is it so good at this but not at this other thing. &gt;&gt; Yeah, I think currently my impression is the labs are trying to have a single sort of like monoculture of a model that is arbitrarily intelligent in all these different domains and they just stuff it into the parameters. I do think that we will we I I I do think we should expect more speciation in the um intelligences. Um like you know the animal kingdom is extremely diverse in the brains that exist and there&#x27;s lots of different niches of uh of nature and some animals have overdeveloped visual cortex or</p>
+            <p class="ko">다른 부분에서는 그렇지 않은지 혼란스러울 수 있잖아요. 네, 제 생각에는 현재 연구실들이 모든 다양한 영역에서 임의로 지능을 갖춘 단일 모델을 만들어서 매개변수에 억지로 끼워 맞추는 것 같습니다.  저는 우리가 지능 분야에서 더 많은 종 분화를 기대해야 한다고 생각합니다. 음, 아시다시피 동물계는 뇌의 종류가 매우 다양하고 자연에는 다양한 생태적 지위가 존재하며, 어떤 동물들은 시각 피질이나 다른 특정 부위가 과도하게 발달하기도 합니다. 저는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1798s" target="_blank" class="timestamp">[29:58]</a>
+          <div class="text">
+            <p class="en">other part kind of parts and I think we we should be able to see more speciation and um you don&#x27;t need like this oracle that knows everything. and you kind of speciate it and then you put it on a specific task. And we should be seeing some of that because you should be able to have like much smaller models that still have the cognitive core like they&#x27;re still competent but then they specialize and then um and then they can become more efficient in terms of latency or throughput on uh specific tasks that you really care about like if you&#x27;re a mathematician working in lean. I saw for example there&#x27;s a few releases that really like target that as a domain. Um uh so there&#x27;s a probably</p>
+            <p class="ko">우리가 더 많은 종 분화를 볼 수 있어야 한다고 생각하며, 모든 것을 아는 신탁 같은 존재는 필요하지 않다고 생각합니다.  그리고 그것을 특정 종으로 분류한 다음 특정 작업에 투입하는 거죠.  그리고 우리는 그런 현상을 어느 정도 볼 수 있을 겁니다. 왜냐하면 인지 핵심은 여전히 ​​유능하지만, 훨씬 더 작은 모델들이 특정 분야에 특화되어, 예를 들어 린( Lean) 방식으로 일하는 수학자처럼, 정말 중요한 특정 작업에서 지연 시간이나 처리량 측면에서 더욱 효율적이 될 수 있기 때문입니다. 예를 들어, 특정 도메인을 집중적으로 겨냥하는 몇몇 릴리스를 봤습니다 .  음, 그러니까 아마도 그런 식으로 분리하는 게 타당한 사례가 몇 가지 있을 겁니다</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1829s" target="_blank" class="timestamp">[30:29]</a>
+          <div class="text">
+            <p class="en">going to be a few examples like that where the unbundling kind of makes sense. One question I have is whether or not uh the capacity constraint on available compute infrastructure &gt;&gt; drives more of this because efficiency Yeah. actually matters more, right? Like your &gt;&gt; if you financing aside though financing is involved in all of this, if you have access to full compute for anything you do, like even one single model, right? But if you actually feel pressure where you&#x27;re like I can&#x27;t serve</p>
+            <p class="ko">.  제가 궁금한 점은 사용 가능한 컴퓨팅 인프라의 용량 제약이 효율성 때문에 이러한 현상을 더욱 부추기는지 여부입니다 .  사실 그게 더 중요한 거잖아요, 그렇죠? 자금 조달 문제는 차치하고, 이 모든 것에 자금이 관련되어 있다는 점을 감안하더라도, 단 하나의 모델이라도 제작하는 데 필요한 모든 컴퓨팅 자원을 확보할 수 있다면 어떨까요? 하지만 만약 여러분이 모든 사용 사례에 대해 엄청난 규모의 모델을 제공할 수 없다는 압박감을 느낀다면, 그런 상황이</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1860s" target="_blank" class="timestamp">[31:00]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; um a model of massive size for every use case &gt;&gt; like do you think that leads to any speciation? Does that question make sense to you? The question makes sense and I guess like what I&#x27;m what I&#x27;m what I what I&#x27;m struggling with is I don&#x27;t think we&#x27;ve seen too much speciation just yet, right? &gt;&gt; No. &gt;&gt; Uh we&#x27;re seeing a monoculture of models. &gt;&gt; Yeah. &gt;&gt; So um &gt;&gt; and there&#x27;s like clearly pressure for like make a good code model, put it back in the main merge again. &gt;&gt; Yeah. Yeah. &gt;&gt; Um even though there already is pressure on the models. &gt;&gt; I guess perhaps I I feel like there&#x27;s a</p>
+            <p class="ko">어떤 종 분화로 이어질 거라고 생각하시나요?  그 질문이 당신에게는 이해가 되나요?  질문은 타당하고, 제가 좀 고민하는 부분은 아직까지 종 분화가 많이 일어나지 않았다는 점이에요. 그렇죠? 아니요. 어, 우리는 모델들의 단일 문화 현상을 보고 있어요. 응. 그래서, 음, 좋은 코드 모델을 만들어서 메인 병합에 다시 포함시켜야 한다는 압력이 분명히 있는 것 같아요. 응.  응. 음, 모델들에게 이미 부담이 가중되고 있는데도 말이죠. 제 생각에는 단기적인 공급 부족 현상이 심하고, 그로 인해 종 분화가 더 활발해지는 것 같습니다</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1890s" target="_blank" class="timestamp">[31:30]</a>
+          <div class="text">
+            <p class="en">lot of very short-term supply crunch and like maybe that causes more speciation now. &gt;&gt; Yeah. Yeah, I think fundamentally like the the the labs are serving a model and they don&#x27;t really know what the end user is going to be asking about. Uh so maybe that&#x27;s like some part of it because they kind of have to multitask over all the possible things that could be asked. But I think if you&#x27;re coming to a business and maybe partnering on some specific problems you care about, then maybe you would see that there. Um or there would be some very high value applications that are like more niche. Um but uh I think right now they&#x27;re kind of like</p>
+            <p class="ko">. 응.  네, 제 생각에는 근본적으로 연구소들은 하나의 모델을 제시하는 역할을 할 뿐, 최종 사용자가 실제로 무엇을 질문할지 정확히 알지 못하는 것 같아요 .  음, 어쩌면 그것도 한몫하는 것 같아요. 왜냐하면 그들은 질문받을 수 있는 모든 가능한 사항들을 동시에 처리해야 하니까요.  하지만 만약 당신이 어떤 사업에 참여해서 당신이 관심을 갖고 있는 특정 문제들을 함께 해결해 나간다면, 그런 점을 볼 수 있을 거라고 생각합니다.  음, 아니면 좀 더 틈새시장에 특화된, 가치가 매우 높은 애플리케이션들도 있을 겁니다.  음, 하지만 제 생각에는 지금 그들은 이용 가능한 모든 것을 최대한 활용하려고 하는 것 같습니다.  저는 뇌를 조작하는 과학이</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1920s" target="_blank" class="timestamp">[32:00]</a>
+          <div class="text">
+            <p class="en">going after the totality of what&#x27;s available. I don&#x27;t think that the science of manipulating the brains is like fully developed yet partly. &gt;&gt; What do you mean manipulating? &gt;&gt; So like so fine-tuning without losing capabilities as an example and we don&#x27;t have these primitives for actually like working with the intelligences in ways other than just context windows like context windows kind of just just work and it&#x27;s very cheap to manipulate etc. And this is how we&#x27;re getting some of the customization etc. Uh but I think if it was I think it&#x27;s a it&#x27;s a bit more of a developing science of how you like more deeply adjust the models, how you have continual learning maybe or how you</p>
+            <p class="ko">아직 완전히 발달하지 않았다고 생각합니다. 조종한다는 게 무슨 뜻이에요? 예를 들어, 기능을 잃지 않고 미세 조정하는 것과 같은 작업인데, 컨텍스트 윈도우 외에는 인공지능을 조작하는 기본적인 방법이 없습니다. 컨텍스트 윈도우는 그냥 작동하고 조작 비용도 매우 저렴하죠. 이런 방식으로 사용자 정의 기능 등이 구현되고 있습니다. 하지만 제 생각에는 모델을 더 깊이 조정하고, 지속적인 학습을 유도하고,</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-7" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1950s" target="_blank" class="ch-ts">[32:30]</a> Building More Collaboration Surfaces for Humans and AI</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1952s" target="_blank" class="timestamp">[32:32]</a>
+          <div class="text">
+            <p class="en">um how you fine-tune in a certain area, how you get better in a certain area or like how you actually touch the weights, not just the context windows. And so it&#x27;s a lot more tricky, I would say, to touch the weights than just the context windows. Uh because you&#x27;re actually fundamentally changing the full model and potentially its intelligence. And so um so maybe it&#x27;s just like not a fully developed science, if that makes sense, of speciation. A and it also has to be like cheap enough &gt;&gt; for that speciation to be worthwhile in these given &gt;&gt; contexts. Can I ask a question about uh like uh an extension to auto research</p>
+            <p class="ko">특정 영역을 미세 조정하고, 특정 영역을 개선하고, 컨텍스트 윈도우뿐만 아니라 가중치 자체를 조작하는 것은 앞으로 계속 발전시켜 나가야 할 과학 분야라고 생각합니다.  그래서 컨텍스트 창을 건드리는 것보다 가중치를 건드리는 것이 훨씬 더 까다롭다고 할 수 있습니다 .  왜냐하면 실제로 전체 모델 과 잠재적으로 모델의 지능까지 근본적으로 바꾸고 있기 때문입니다.  그래서 음, 어쩌면 종 분화에 관한 과학은 아직 완전히 발달하지 않은 분야일지도 모르겠어요. 제 말이 이해가 되시나요?  그리고 또한 해당 종 분화가 주어진 상황에서 가치가 있으려면 충분히 저렴해야 합니다.  제가 질문 하나 드려도 될까요? 음, 말씀하신 것처럼</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=1982s" target="_blank" class="timestamp">[33:02]</a>
+          <div class="text">
+            <p class="en">that you described in terms of um open ground? You said okay well you know we have this thing &gt;&gt; um we need more collaboration surface around it essentially for people to contribute um to research overall. Can you talk about that? Yeah. So, we talked about our research has a single thread of like I&#x27;m going to try stuff in loop, but fundamentally uh the paralization of this is like the interesting component. Um, and I guess I was trying to like play around with a few ideas, but I don&#x27;t have anything that like clicks as simply as like I don&#x27;t have something that I&#x27;m like super happy with just yet, but it&#x27;s something I&#x27;m like working on on the side when I&#x27;m not working on my</p>
+            <p class="ko">개방된 지면을 활용한 자동차 연구 확장 방안에 대해서요.  당신은 &quot;좋아요, 아시다시피 우리에게는 이런 게 있는데, 사람들이 연구 전반에 기여할 수 있도록 더 많은 협력의 장이 필요해요.&quot;라고 말했죠. 그것에 대해 말씀해 주시겠어요?  응.  그래서 저희 연구는 마치 루프 안에서 여러 가지를 시도해 보는 것처럼 하나의 흐름을 가지고 있다고 말씀드렸는데, 근본적으로 이 과정의 병렬화가 흥미로운 요소라고 할 수 있습니다. 음, 몇 가지 아이디어를 시험해 보려고 했는데, 딱히 마음에 쏙 드는 건 아직 못 찾았어요. 아주 만족스러운 결과물은 아직 없지만,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2013s" target="_blank" class="timestamp">[33:33]</a>
+          <div class="text">
+            <p class="en">claw. Um so I think like one issue is if you have a bunch of nodes uh of paralization available to you then it&#x27;s very easy to just have multiple auto researchers talking through um a common system or something like that. What I was more interested in is how you can have an untrusted pool of workers out there on the internet. &gt;&gt; So for example in auto research uh you&#x27;re just trying to find um the piece of code that trains a model to a very low validation loss. If anyone gives you a candidate commit, it&#x27;s very easy to</p>
+            <p class="ko">클로 작업을 하지 않을 때 틈틈이 작업하고 있는 중이에요.  음, 그러니까 한 가지 문제는, 만약 병렬화 노드가 많이 있다면 여러 자동 연구원들이 공통 시스템 등을 통해 서로 통신하는 것이 매우 쉽다는 점입니다 .  제가 더 궁금했던 점은 인터넷상에 어떻게 신뢰할 수 없는 노동자 집단이 존재할 수 있느냐는 것이었습니다 . 예를 들어 자동차 연구에서는 모델을 학습시켜 매우 낮은 검증 손실을 얻는 코드를 찾는 것이 목표입니다.  누군가 커밋 후보를 제시하면,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2043s" target="_blank" class="timestamp">[34:03]</a>
+          <div class="text">
+            <p class="en">verify that that commit is correct, is good. Like they someone could claim from the internet that this piece of code will optimize uh much better and give you much better performance. You could just check very easy, but probably a lot of work goes into that checking. Uh but fundamentally they could lie and etc. So you&#x27;re basically dealing with a similar kind of it&#x27;s almost actually like looks a little bit like my my designs that incorporate an untrusted pool of workers uh actually look a little bit more like a blockchain a little bit. uh because instead of blocks, you have uh commits and these commits can build on each other and they contain like changes to</p>
+            <p class="ko">그 커밋이 올바르고 괜찮은지 확인하는 것은 매우 쉽습니다.  예를 들어, 누군가가 인터넷에서 이 코드가 훨씬 더 잘 최적화되고 훨씬 더 나은 성능을 제공할 것이라고 주장할 수 있다는 거죠. 간단하게 확인할 수도 있겠지만, 확인하는 데 상당한 시간이 걸릴 겁니다.  하지만 근본적으로 그들은 거짓말을 할 수도 있고 여러 가지 문제가 있을 수 있습니다. 그래서 기본적으로 비슷한 문제를 다루는 셈인데, 사실 제 설계 방식과도 약간 비슷해 보입니다. 제 설계 방식은 신뢰할 수 없는 작업자 풀을 통합하고 있는데, 오히려 블록체인과 더 유사해 보입니다.  왜냐하면 블록 대신에 커밋이라는 개념이 있고, 이 커밋들은 서로 연결되어</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2073s" target="_blank" class="timestamp">[34:33]</a>
+          <div class="text">
+            <p class="en">the code as you&#x27;re improving it. Um and uh the proof of work is basically doing tons of experimentation to find the commits that work. &gt;&gt; Um and that&#x27;s hard. Um and then the reward is just being on the leaderboard right now. There&#x27;s no monetary reward whatsoever. uh but I don&#x27;t want to push the analogy too far but it fundamentally has this issue where you a huge amount of search goes into it but it&#x27;s very cheap to verify that a candidate solution is indeed good because you can just train a single you know someone had to try 10,000 ideas but you just have to check that the thing that they produced actually works</p>
+            <p class="ko">코드를 개선해 나가는 과정에서 발생하는 변경 사항들을 담고 있기 때문입니다.  음, 그리고 작업증명은 기본적으로 제대로 작동하는 커밋을 찾기 위해 수많은 실험을 하는 것입니다 . 음, 그건 어려운 일이죠.  음, 그리고 보상은 지금 당장 순위표에 이름을 올리는 것 자체입니다 .  금전적인 보상은 전혀 없습니다.  음, 비유를 너무 확대하고 싶진 않지만, 근본적으로 엄청난 양의 탐색 작업이 투입되지만, 후보 솔루션이 실제로 좋은지 검증하는 데 드는 비용은 매우 저렴하다는 문제가 있습니다. 왜냐하면 단 하나의 모델만 학습시키면 되기 때문이죠. 누군가는 10,000개의 아이디어를 시도해야 하지만,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2103s" target="_blank" class="timestamp">[35:03]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; because the 99,000 of them didn&#x27;t work you know &gt;&gt; um and so basically long story short is like you have to come up with a system where an untrusted pool of workers can collaborate with a trusted pool of workers uh that do the verification And the whole thing is kind of like asynchronous and works and um and so on and uh it&#x27;s it&#x27;s like safe from a security perspective because if anyone sends you arbitrary code and you&#x27;re going to run it that&#x27;s very sketchy and dodgy. So um but fundamentally it should be totally possible. So you&#x27;re familiar with projects like SETI-at-Home and</p>
+            <p class="ko">그중 99,000개는 작동하지 않기 때문에 실제로 작동하는지 확인하기만 하면 됩니다. 요컨대, 신뢰할 수 없는 작업자 그룹이 검증을 수행하는 신뢰할 수 있는 작업자 그룹과 협업할 수 있는 시스템을 만들어야 한다는 것입니다. 전체 과정이 비동기적으로 작동하고, 보안 측면에서도 안전합니다. 누군가 임의의 코드를 보내서 실행하게 하는 것은 매우 위험하고 의심스럽기 때문입니다.  음, 근본적으로는 충분히 가능해야 합니다.  여러분은 seti at home이나</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2134s" target="_blank" class="timestamp">[35:34]</a>
+          <div class="text">
+            <p class="en">folding at home all of these problems have a similar kind of setup. So folding at home you&#x27;re folding a protein um and it&#x27;s very hard to find a configuration that is low energy. But if someone finds a configuration that they evaluate to be low energy that&#x27;s perfect you can just use it. you can easily verify it. So a lot of things have this pRoPErty that you know very expensive to come up with but very cheap to verify and so in all those cases things like folding at home or SETI-at-Home or auto research at home will be good fits. And so, um, long story short, a swarm of agents on the internet could collaborate to improve</p>
+            <p class="ko">folding at home 같은 프로젝트에 익숙하실 텐데, 이러한 문제들은 모두 비슷한 구성으로 되어 있습니다. 집에서 단백질을 접는 실험을 할 때, 낮은 에너지 상태를 나타내는 구조를 찾는 것은 매우 어렵습니다.  하지만 누군가가 에너지 효율이 매우 높다고 판단되는 완벽한 구성을 찾았다면, 그 구성을 그대로 사용하면 됩니다.  쉽게 확인할 수 있습니다.  그래서 많은 것들이 개발하는 데는 비용이 많이 들지만 검증하는 데는 비용이 매우 적게 드는 특성을 가지고 있습니다 . 따라서 집에서 접이식 제품을 만들거나, 집에서 세티를 사용하거나, 집에서 자동차 관련 정보를 조사하는 것과 같은 것들이 좋은 예가 될 것입니다.  그래서, 음, 간단히 말해서, 인터넷상의 수많은 에이전트들이 협력하여 LLM을 개선할 수 있고, 심지어</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2164s" target="_blank" class="timestamp">[36:04]</a>
+          <div class="text">
+            <p class="en">LLMs and could potentially even like run circles around Frontier Labs. Like, who knows, you know? Um, yeah, like maybe that&#x27;s even possible. Like, Frontier Labs have a huge amount of trusted compute, but the Earth is much bigger and has huge amount of untrusted compute. But if you put systems in check uh systems in place that you know deal with this then maybe it is possible that the swarm out there could uh could come up with with better with better solutions and people kind of like contribute cycles um to to a thing that they care about. And so sorry so the</p>
+            <p class="ko">프론티어 랩을 완전히 능가할 가능성도 있다는 겁니다.  글쎄, 누가 알겠어?  음, 그래요, 어쩌면 그것도 가능할지도 몰라요.  예를 들어, 프론티어 랩은 엄청난 양의 신뢰할 수 있는 컴퓨팅 자원을 보유하고 있지만, 지구는 훨씬 더 크고 엄청난 양의 신뢰할 수 없는 컴퓨팅 자원을 가지고 있습니다 .  하지만 만약 이러한 문제를 해결할 수 있는 시스템을 구축한다면, 외부의 집단이 더 나은 해결책을 내놓을 수 있고, 사람들은 자신이 관심을 갖는 일에 기여할 수 있을 것입니다.  그리고 죄송하지만 마지막으로 드리고 싶은 말씀은, 많은 회사들이</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2195s" target="_blank" class="timestamp">[36:35]</a>
+          <div class="text">
+            <p class="en">last thought is uh lots of companies or whatnot they could maybe have like their own uh things that they care about and you if you have compute capacity you could contribute to different kind of auto research tracks like maybe you care about certain you know like you care about like cancer or something like that of certain type you don&#x27;t have just donate money to an institution you actually could like purchase compute and then you could join the auto resource forum for that project you know uh so if everything is rebundled into other researchers then compute becomes the thing that you&#x27;re contributing to the pool. Yeah, that&#x27;s very inspiring. And it&#x27;s also interesting like I don&#x27;t I</p>
+            <p class="ko">각자 중요하게 생각하는 분야가 있을 텐데, 만약 여러분이 컴퓨팅 능력을 가지고 있다면 다양한 자동차 연구 분야에 기여할 수 있다는 것입니다. 예를 들어 특정 분야에 관심이 있다면, 암 연구나 특정 질병 연구 같은 경우를 생각해 보세요. 단순히 기관에 기부하는 것 외에도 컴퓨팅 자원을 구매해서 해당 프로젝트의 자동차 연구 포럼에 참여할 수도 있습니다. 이렇게 모든 자원이 다른 연구자들에게 재분배된다면, 컴퓨팅 자원 자체가 여러분이 기여하는 풀이 되는 것입니다 .  네, 정말 감명 깊네요.  그리고 흥미로운 점은, 이게 얼마나 널리 퍼질지는 모르겠지만,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2226s" target="_blank" class="timestamp">[37:06]</a>
+          <div class="text">
+            <p class="en">don&#x27;t know how far this goes, but it is interesting that at least some audience of people, you know, here in Silicon Valley or lining up at um you know, retail stores in China have discovered that like having access to personal compute is interesting again. &gt;&gt; Yeah. &gt;&gt; Right. So maybe they&#x27;re really motivated to do that for their claws and then they can contribute to auto research. &gt;&gt; It&#x27;s almost like dollars the thing everyone cares about, but is flop the</p>
+            <p class="ko">실리콘 밸리에 있는 사람들 이나 중국의 소매점에서 줄 서 있는 사람들 중 적어도 일부는 개인용 컴퓨터에 접근하는 것이 다시금 흥미로운 일이라는 것을 깨달았다는 점입니다. 응. 오른쪽.  어쩌면 그들은 발톱을 얻기 위해 그런 행동을 하는 것일 수도 있고, 그렇게 함으로써 자동차 연구에 기여할 수 있을지도 모릅니다. 마치 모든 사람이 돈에 관심이 있는 것처럼 보이지만, 미래에는</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-8" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2248s" target="_blank" class="ch-ts">[37:28]</a> Analysis of Jobs Market Data</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2249s" target="_blank" class="timestamp">[37:29]</a>
+          <div class="text">
+            <p class="en">thing that actually everyone cares about in the future? Like is there going to be like a flipping almost of like what the thing that you care about? Like right now for example, it&#x27;s really hard to get compute even if you have money. &gt;&gt; Yeah. &gt;&gt; So actually it almost seems like the flop is like dominant uh in a certain sense. Um yeah. So uh so maybe that&#x27;s kind of like kind of like that like how much how many flops do you control instead of like what wealth do you control? I don&#x27;t actually think that&#x27;s true but it&#x27;s kind of interesting to think about. &gt;&gt; The last thing you released was like a little bit of jobs data analysis. Is that right? What um and might have touched a nerve</p>
+            <p class="ko">실제로 모든 사람이 관심을 갖는 것은 실패일까요 ?  마치 당신이 중요하게 생각하는 것이 완전히 뒤집히는 것처럼 될까요? 예를 들어 지금처럼 돈이 있어도 컴퓨터를 구하기가 정말 어려운 상황도 있죠. 응. 그래서 사실상 실패가 어떤 면에서는 지배적인 것처럼 보입니다.  네, 맞아요.  음, 그러니까 어쩌면 그건 당신이 얼마나 많은 실패작을 통제하느냐 와, 당신이 얼마나 많은 부를 통제하느냐의 차이와 비슷한 것일지도 모르겠네요.  사실 그게 사실이라고 생각하진 않지만, 생각해 볼 만한 흥미로운 주제인 것 같네요. 최근에 발표하신 자료는 간단한 고용 데이터 분석 같은 거였잖아요. 맞습니까?   음,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2281s" target="_blank" class="timestamp">[38:01]</a>
+          <div class="text">
+            <p class="en">even though you&#x27;re just like visualizing some public data. Yeah. Uh what was you know what were you curious about? &gt;&gt; Yeah, I guess I was curious to um I mean everyone is like really it&#x27;s everyone is really thinking about the impacts of AI on the job market and what&#x27;s going to look like. So I was just interested to take a look like what does the job market look like? Where are the different roles? um and how many people are in different professions. And I was like really just interested to like look through uh the individual cases and try to think myself about like you know with these AIs and how they&#x27;re likely to evolve like are these going to be tools</p>
+            <p class="ko">단순히 공개된 데이터를 시각화한 것임에도 불구하고 누군가의 심기를 건드렸을 수도 있겠네요.  응.  음, 당신은 무엇에 대해 궁금했던 건가요? 네, 저는 솔직히 궁금했어요. 모두가 인공지능이 고용 시장에 미칠 영향과 그 변화가 어떻게 될지 정말 많이 고민하고 있잖아요 .  그래서 저는 현재 고용 시장 상황이 어떤지 궁금해서 한번 살펴보고 싶었습니다. 각 역할은 어디에 있나요?  그리고 각 직업에 종사하는 사람들의 수는 얼마나 될까요?  저는 개별 사례들을 살펴보면서 인공 지능이 어떻게 진화할지,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2311s" target="_blank" class="timestamp">[38:31]</a>
+          <div class="text">
+            <p class="en">that people are using? Are these going to be displacing tools for these uh professions and like what are the current professions and how are they going to change? Are they going to grow or uh adjust to a large extent or like what could be new professions? So it&#x27;s really just like a way to fuel my own chain of thought about the industry I suppose. M &gt;&gt; um and so uh yeah the jobs data basically is just a Bureau of Labor Statistics they actually have um percent outlook for each profession about how much it&#x27;s expected to grow over the next I think almost a decade. &gt;&gt; Uh yeah I think it&#x27;s a decade but it was</p>
+            <p class="ko">사람들이 이러한 인공지능을 도구로 사용하게 될지 스스로 생각해 보고 싶었습니다.  이러한 도구들이 기존 직업들을 대체하게 될까요? 현재 직업들은 어떤 것들이 있고, 앞으로 어떻게 변화할까요?  그들은 크게 성장하거나 변화할까요? 아니면 새로운 직업이 생겨날까요?  그러니까 제 생각에는 그건 업계에 대한 제 생각을 정리하는 데 도움이 되는 일종의 도구인 것 같아요 .  음, 그러니까 고용 데이터는 기본적으로 미국 노동통계국에서 제공하는 자료인데, 각 직종별로 향후 10년 가까이 얼마나 성장할 것으로 예상되는지 백분율로 전망치를 보여줍니다 .   네, 제 생각엔 10년 후를 배경으로 한 것 같은데,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2341s" target="_blank" class="timestamp">[39:01]</a>
+          <div class="text">
+            <p class="en">made in 2024. &gt;&gt; We need a lot of healthare workers. &gt;&gt; Yeah. So so they&#x27;ve already made those projections and I&#x27;m not sure actually 100% what the methodology was that they that they put into the projections. Um, I guess I was interested to color things by like if people think that what&#x27;s like primarily being um developed now is this kind of like more digital AI that is kind of like almost like these ghosts or spirit entities that can like interact in the digital world and manipulate a lot of like digital information and they currently don&#x27;t really have a physical embodiment or presence and the physical stuff is probably going to go slightly</p>
+            <p class="ko">2024년에 제작됐어요. 의료 인력이 많이 필요하죠. 응.  그래서 그들은 이미 그러한 예측을 내놓았는데, 저는 그들이 어떤 방법론을 사용해서 예측을 했는지 100% 확신할 수는 없습니다 .  음, 저는 사람들이 현재 주로 개발되고 있는 것이 일종의 디지털 AI, 즉 디지털 세계에서 상호 작용하고 많은 디지털 정보를 조작할 수 있는 유령이나 영적 존재와 같은 것이라고 생각하는지에 대해 궁금했습니다. 이러한 AI는 현재 물리적인 형태나 존재감을 가지고 있지 않으며, 물리적인 측면은 원자를</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2372s" target="_blank" class="timestamp">[39:32]</a>
+          <div class="text">
+            <p class="en">slower because you&#x27;re manipulating atoms. So flipping flipping bits and and the ability to copy paste a digital information is like makes everything a million times faster than accelerating matter, you know. So um so energetically I just think we&#x27;re going to see a huge amount of activity in digital space, huge amount of rewriting, huge amount of activity boiling soup and I think the we&#x27;re going to see something that that in the digital space goes at the speed of light compared to I think what&#x27;s going to happen in the physical world to some extent if would be the extrapolation. And so I think like there&#x27;s currently kind of like I think</p>
+            <p class="ko">조작해야 하기 때문에 발전 속도가 다소 느릴 것입니다 .  그러니까 비트를 뒤집고 디지털 정보를 복사 붙여넣기하는 능력은 마치 가속하는 물질보다 백만 배는 더 빠르게 만드는 것과 같아요 .  그래서 음, 에너지적인 측면에서 볼 때, 디지털 공간에서 엄청난 활동, 엄청난 양의 수정, 엄청난 양의 활동이 일어날 것이라고 생각합니다. 그리고 디지털 공간에서 일어나는 일들은 물리적 세계에서 일어나는 일보다 훨씬 빠른 속도로 진행될 것이라고 생각합니다. (물론 이를 외삽해 보면 어느 정도는 그럴 것입니다.)  그래서 저는 현재 일종의 과잉 공급 현상이 있다고 생각합니다. 과거에는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2403s" target="_blank" class="timestamp">[40:03]</a>
+          <div class="text">
+            <p class="en">overhang where there can be like a lot of unhobling almost potentially of like a lot of digital information processing that used to be done by computers and people and now with AI as like a third kind of manipulator of digital information. There&#x27;s going to be a lot of refactoring in those in those uh disciplines. Um but the physical world is actually going to be like I think um behind that by some amount of time. And so I think what&#x27;s really fascinating to me is like so that&#x27;s why I was highlighting the the professions that fundamentally manipulate digital information. This is work you could do from your home etc. because I feel like</p>
+            <p class="ko">컴퓨터와 사람이 담당했던 많은 디지털 정보 처리 작업이 이제 인공지능이라는 제3의 디지털 정보 조작자로 등장하면서 잠재적으로 제약을 풀어낼 수 있는 여지가 많이 있는 것 같습니다. 해당 분야들에서 많은 리팩토링이 있을 겁니다 .  하지만 물리적인 세계는 실제로는 그보다 어느 정도 뒤처질 거라고 생각해요. 그래서 제가 정말 흥미롭게 생각하는 건 바로 디지털 정보를 근본적으로 조작하는 직업들이라는 점입니다 .  이건 재택근무도 가능한 일이에요. 왜냐하면 앞으로 상황이 바뀔 거라고 생각하거든요. 물론 일자리가 줄어든다는 뜻은 아니고,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2434s" target="_blank" class="timestamp">[40:34]</a>
+          <div class="text">
+            <p class="en">those will be like things will change and it doesn&#x27;t mean that there&#x27;s going to be less of those jobs or more of those jobs because that has to do with like demand elasticity and many other factors but things will change in these professions because of these new tools and um because of this upgrade to the nervous system of the human superorganism if you want to think about it that way. Given the look you had at the data, do you have either any observations or um uh guidance for people facing the job market or thinking about what to study now or what skills to develop? I mean, we can all go get</p>
+            <p class="ko">수요 탄력성이나 다른 여러 요인에 따라 달라지겠지만, 새로운 도구들 때문에, 그리고 인간이라는 초유기체의 신경계가 업그레이드되었다는 점에서 ( 이런 식으로 생각해도 좋을 거예요) 이런 직업 분야는 분명히 변화할 겁니다. 데이터를 살펴보신 후, 취업 시장에 진출하려는 분들이나 지금 무엇을 공부해야 할지, 어떤 기술을 개발해야 할지 고민하는 분들께 드리고 싶은 말씀이나 조언이 있으신가요?  제 말은, 우리 모두 가서 얻을 수 있는 게 있는데, 저는 지금 제 직업 때문에 사람들을 만날 수 있어서 정말 감사하게 생각해요. 더 육체적인.  응. 혹시 재택근무가 가능하신가요?</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2464s" target="_blank" class="timestamp">[41:04]</a>
+          <div class="text">
+            <p class="en">like I&#x27;m very thankful that I have to like meet people for my job right now. &gt;&gt; More physical. Yeah. &gt;&gt; Could you do your work from home though? Uh I could &gt;&gt; I think there are relationship parts of it that are hard, but most of it I could. &gt;&gt; Yeah. I think it&#x27;s really hard to tell because again like the job market is extremely diverse and I think the answers will probably vary but uh to a large extent like these tools are extremely new, extremely powerful and so just being uh you know just trying to keep up with it is like the first thing um and um yeah because I think a lot of people kind of like dismiss it or &gt;&gt; or they&#x27;re afraid of it</p>
+            <p class="ko">음, 할 수 있을 것 같아요. 인간관계에서 어려운 부분도 있겠지만, 대부분은 할 수 있을 것 같습니다 . 응.  제 생각엔 정말 대답하기 어려워요. 왜냐하면 직업 시장이 워낙 다양하고 답변도 제각각일 테니까요. 하지만 대체로 이런 도구들은 굉장히 새롭고 강력하기 때문에, 일단 따라가는 게 가장 중요하죠. 많은 사람들이 이런 도구들을 무시하거나 두려워하는데, 물론 충분히 이해할 수 있는 부분이죠.  네, 제 생각에는 지금으로서는 근본적으로 매우 강력한 도구인 것 같아요.  음, 그리고</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2494s" target="_blank" class="timestamp">[41:34]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; or they&#x27;re afraid of it etc which is totally understandable of course. Yeah, I think like um it&#x27;s fundamentally an empowering tool at the moment. Um and these jobs are bundles of tasks and some of these tasks can go a lot faster and so people should think of it as primarily a tool that it is right now. Um and I think the long-term future of that is uncertain. Yeah, it&#x27;s kind of really hard to forecast to be honest and like I&#x27;m not professionally like doing that really and I think it&#x27;s a job of like economists to do pRoPErly. &gt;&gt; You are an engineer though. Uh and like one thing I thought was interesting is that like the uh demand for engineering</p>
+            <p class="ko">이러한 작업들은 여러 작업들의 묶음이며, 이러한 작업들 중 일부는 훨씬 더 빠르게 진행될 수 있습니다. 따라서 사람들은 이것을 현재로서는 주로 도구로 생각해야 합니다. 음, 그리고 저는 그것의 장기적인 미래가 불확실하다고 생각합니다.  네, 솔직히 예측하기는 정말 어렵고, 저는 전문적으로 그런 일을 하는 것도 아니고, 그건 경제학자들이 제대로 해야 할 일이라고 생각해요. 하지만 당신은 엔지니어잖아요.  그리고 제가 흥미롭다고 생각한 한 가지는 엔지니어링 직종에 대한 수요가 계속해서 증가하고 있다는 점입니다. 응. 음, 그게 일시적인 현상인지 잘 모르겠네요. 아직 어떻게 생각해야 할지 잘 모르겠어요.  아시나요?</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2525s" target="_blank" class="timestamp">[42:05]</a>
+          <div class="text">
+            <p class="en">jobs is continuing to increase. &gt;&gt; Yeah. &gt;&gt; Um I I can&#x27;t tell if that&#x27;s like a temporary phenomenon. I&#x27;m not sure how I feel about it yet. Do you know? &gt;&gt; Yeah. That&#x27;s like the demand almost like uh software was scarce, right? And so the reason we don&#x27;t have more demand for software is just it&#x27;s scarcity and it&#x27;s too expensive. &gt;&gt; Too expensive. Yeah. &gt;&gt; So if the barrier comes down then actually you have the Jevans paradox which is like you know you actually the demand for software actually goes up. It&#x27;s cheaper and there&#x27;s more more &gt;&gt; powerful. Yeah. the the classical example of this always is the ATMs and the bank tellers uh because there was a</p>
+            <p class="ko">응.  그건 마치 소프트웨어가 부족한 것처럼 수요가 거의 없었던 것과 같은 상황이었죠 ? 소프트웨어 수요가 증가하지 않는 이유는 단순히 공급 부족과 높은 가격 때문입니다. 너무 비싸다.  응. 그러니까 만약 장벽이 무너지면 실제로 소프트웨어 수요가 증가하는 제반스 역설이 나타나는 거죠. 더 저렴하고 성능도 더 강력합니다.  응.  이것의 고전적인 예는 항상 ATM과 은행 창구 직원입니다. ATM과 컴퓨터가 창구 직원을 대체할 것이라는 우려가 많았지만, 결과적으로</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2555s" target="_blank" class="timestamp">[42:35]</a>
+          <div class="text">
+            <p class="en">lot of like fear that um ATMs and computers basically uh would displace tellers but what happened is they made like the cost of operation of um of a bank branch much cheaper and so there were more bank branches so there were more tellers is like the canonical example people site uh but basically it&#x27;s just paradox like something becomes cheaper so there&#x27;s a lot of unlocked demand for it so I do think that that&#x27;s probably I do have cautiously optimistic view of this in software engineering where I do um it does seem to me like</p>
+            <p class="ko">은행 지점 운영 비용이 훨씬 저렴해졌고, 그 결과 은행 지점이 늘어나고 창구 직원도 늘어났습니다. 이것이 사람들이 흔히 언급하는 전형적인 예입니다. 기본적으로 이것은 역설입니다. 무언가가 저렴해지면 잠재적 수요가 크게 증가하는 것이죠. 저는 소프트웨어 엔지니어링 분야에서 조심스럽게 낙관적인 견해를 가지고 있습니다. 소프트웨어에 대한 수요는 매우 클 것으로 예상되며, 소프트웨어 가격이 많이 저렴해졌기 때문입니다. 따라서 상당한 기간 동안은 예측하기 어렵지만,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2585s" target="_blank" class="timestamp">[43:05]</a>
+          <div class="text">
+            <p class="en">the demand for software will be extremely large um and it&#x27;s just become a lot cheaper and um so I do think that for quite some time um it&#x27;s very hard to forecast but it does seem to me like right now at least locally there&#x27;s going to be more demand for software um because software is amazing it&#x27;s like you know digital information processing you&#x27;re not forced to use like arbitrary tools that were given to you that are imperfect in various ways you&#x27;re not forced to subscribe to what exists uh code is now ephemeral and it can change and it can be modified um and so I think</p>
+            <p class="ko">적어도 현재로서는 소프트웨어 수요가 증가할 것으로 보입니다. 소프트웨어는 놀라운 기술입니다. 디지털 정보 처리 덕분에 여러 면에서 불완전한 도구를 사용할 필요가 없습니다.  기존에 존재하는 것에 얽매일 필요가 없어졌습니다. 코드는 이제 일시적이고, 변화하고, 수정될 수 있습니다. 그래서 디지털 공간에서 모든 것을 재구성하려는 움직임이 활발해질 것이라고 생각합니다. 그리고 장기적으로 이러한 종류의 기술에 대한 수요가 크게 증가할 것이라고 생각합니다. Openi나</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2615s" target="_blank" class="timestamp">[43:35]</a>
+          <div class="text">
+            <p class="en">there&#x27;s going to be a lot of activity in the digital space to like rewire everything in a certain sense and I think it&#x27;s going to create a lot of demand for for this kind of stuff I think long term um yeah obviously even with auto research like openi or or you know uh Anthropic or these other labs like they&#x27;re employing what like a thousand something researchers right &gt;&gt; these researchers are basically like glorified auto like you know &gt;&gt; they&#x27;re like automating themselves away like actively and this is like the thing they&#x27;re all trying to do. &gt;&gt; Yeah. &gt;&gt; I f like I went around um &gt;&gt; some of those researchers also feel feel</p>
+            <p class="ko">Anthropic 같은 연구소들은 수천 명의 연구원을 고용하고 있는데, 이 연구원들은 사실상 자동화 시스템을 적극적으로 구축하고 있는 셈입니다. 이것이 바로 그들이 추구하는 목표입니다 . 응. 제가 돌아다니면서 몇몇 연구원들도 정신병 증상을 느끼는 것 같더군요.  그들이 할 수 있기 때문에 효과가 있는 겁니다 .  응. 오른쪽.  그래서 그들은 &#x27;아, 나도 이제 끝났구나&#x27;라고 생각하게 되는 거죠. 저는 여기저기 돌아다니면서 눈을 크게 뜨고 &quot; 여러분, 우리가 성공하면 우리 모두 일자리를 잃게 되는 거 아세요? 그냥</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2646s" target="_blank" class="timestamp">[44:06]</a>
+          <div class="text">
+            <p class="en">the psychosis, right? Because they can it&#x27;s working. Yeah. &gt;&gt; Right. And and so they&#x27;re like oh it&#x27;s over for me too. &gt;&gt; I did spend a bunch of time going around opening eye and I was like you guys realize if we&#x27;re successful like we&#x27;re all out of job like &gt;&gt; like it&#x27;s just we&#x27;re just building automation for Sam or something like that. like I or the board I&#x27;m not sure but like uh there&#x27;s just building like this automation for yeah the board or the CEO or something like that and we&#x27;re all out of our job and maybe um contributing on the sides and so yeah it&#x27;s kind of like uh nerving from that perspective &gt;&gt; is it okay if I ask you Nome&#x27;s question</p>
+            <p class="ko">샘을 위한 자동화 시스템을 만드는 일만 하게 되는 거잖아요 .&quot;라고 말하며 시간을 많이 보냈습니다.  저나 이사회가 어떻게 될지는 잘 모르겠지만, 음... 이사회나 CEO 같은 사람들이 자동화 시스템을 구축하고 있는데, 우리는 모두 일자리를 잃고 아마도 부업으로만 기여하고 있는 것 같아요. 그래서 그런 관점에서 보면 좀 불안하기도 하고요. 노움의 질문을 해도 괜찮을까요? 당신은 최첨단 연구소에서 많은 컴퓨팅 자원을 활용해서 동료들과 함께 자동화 연구를 할 수도 있지 않을까요? 왜 안 되겠어요? 저도 한동안 거기 있었고, 다시 복귀하기도 했기 때문에 어느 정도는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2678s" target="_blank" class="timestamp">[44:38]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; you know you could be doing that right auto researching with a lot of compute scale and a bunch of colleagues at one of the frontier labs like why not &gt;&gt; well I was there for a while right like and I did re-enter so to some extent I agree and I think that there are many ways to slice this question. It&#x27;s a very loaded question a little bit. Um I will say that I feel very good about like what people can contribute in their impact uh outside of the frontier labs obviously not in the industry but also in like more like ecosystem level roles. Um so your role for example is more like ecosystem level. My role currently is also kind of more on ecosystem level and</p>
+            <p class="ko">동의합니다. 그리고 이 질문에는 여러 가지 관점이 있을 수 있다고 생각해요.  그건 좀 민감한 질문이에요.  음, 저는 사람들이 프론티어 랩 밖에서, 물론 산업계가 아닌, 더 나아가 생태계 차원에서 영향력을 발휘하는 데 기여할 수 있는 부분에 대해 매우 긍정적으로 생각합니다. 음, 예를 들어 당신의 역할은 생태계 수준에 더 가깝다고 할 수 있겠네요.  현재 제 역할은 생태계 차원에 더 가깝고, 그런 역할을 맡은 사람들이 미칠 수 있는 영향에 대해 매우 긍정적으로 생각합니다.  반대로, 저는 프론티어 랩과 지나치게 연계하는 것에도 분명히 문제가 있다고 생각합니다.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2708s" target="_blank" class="timestamp">[45:08]</a>
+          <div class="text">
+            <p class="en">I feel very good about like impact that people can have in those kinds of uh roles. I think conversely there&#x27;s there are definite problems in my mind for um uh for basically aligning yourself way too much with the frontier labs too. So fundamentally I mean you&#x27;re you have a huge amount of financial incentive to uh with these frontier labs and by your own admission the uh the AIs are going to like really change humanity and society in very dramatic ways and here you are basically like building the technology and benefiting from it like and being like very allied to it through financial means like this was a conundrum that was</p>
+            <p class="ko">근본적으로, 여러분은 이러한 첨단 연구소에 막대한 재정적 동기를 가지고 있고, 여러분 스스로도 인정했듯이 AI는 인류와 사회를 매우 극적인 방식으로 변화시킬 것입니다. 그런데 여러분은 기본적으로 기술을 개발하고 그로부터 이익을 얻으며, 재정적인 수단을 통해 그 기술과 매우 밀접한 관계를 맺고 있는 것입니다. 이것이 바로 오픈 소스 프로젝트가 처음 시작된 이유의 핵심에 있던 난제였고, 우리가 해결하고자 했던 문제였습니다.  음, 그러니까 아시다시피, 그 문제는 아직</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2739s" target="_blank" class="timestamp">[45:39]</a>
+          <div class="text">
+            <p class="en">in um at the heart of you know how open started in the beginning like this was the conundrum that we were trying to solve. M &gt;&gt; um and so you know that so it&#x27;s kind of um &gt;&gt; it&#x27;s still not the conundrum is still not like fully resolved. So that&#x27;s number one. You you&#x27;re not a completely free agent and you can&#x27;t actually like be part of that conversation in a fully autonomous um free way like if you&#x27;re inside one of the frontier labs like there are certain things that you can&#x27;t say. Uh and conversely there are certain things that the organization wants you to say and you know they&#x27;re not going to twist your arm but you feel the pressure</p>
+            <p class="ko">완전히 해결되지 않았어요.  그게 첫 번째예요 .  당신은 완전히 자유로운 존재가 아니며, 최첨단 연구소 안에 있을 때처럼 완전히 자율적이고 자유로운 방식으로 대화에 참여할 수는 없습니다. 말할 수 없는 특정 사항들이 있기 때문입니다.  반대로, 조직에서 당신이 말해주길 바라는 certain 것들이 있는데, 그들이 당신을 강요하진 않겠지만 무슨 말을 해야 할지 압박감을 느끼게 되죠. 그렇지 않으면 정말 어색한 대화가 오가고, 이상한 눈초리를 받게 되고, &#x27;도대체 뭐 하는 거야?&#x27;라는 생각이 들잖아요.  아시다시피, 그런 환경에서는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2769s" target="_blank" class="timestamp">[46:09]</a>
+          <div class="text">
+            <p class="en">of like what you should be saying you know cuz like obviously Otherwise, it&#x27;s like really awkward conversations, strange side eyes, like what are you doing? You know, like so you can&#x27;t like really be an independent agent and I I feel like a bit more ali like aligned with humanity in a certain sense outside of a frontier lab because uh I don&#x27;t I&#x27;m not subject to those pressures almost, right? And I can&#x27;t say whatever I want or yeah, I would say in the frontier labs like um you can have like uh impact there of course as well. So uh but there&#x27;s many researchers and maybe</p>
+            <p class="ko">완전히 독립적인 주체로 활동하기가 어렵잖아요. 저는 첨단 연구소 밖에서는 인류와 좀 더 연대감을 느끼는 것 같아요. 왜냐하면 그런 압력에 거의 구애받지 않으니 까요.  그리고 제가 하고 싶은 말을 다 할 수는 없지만 , 프론티어 랩에서는 물론 영향력을 행사할 수 있다고 말씀드릴 수 있겠습니다.  음, 연구자들은 많고, 어쩌면 당신도 그중 한 명일 수 있죠. 당신의 아이디어가 정말 좋을 수도 있고요. 결정해야 할 사항들이 많을 텐데, 당신은 그런 논의가 나올 때 함께 참여하고 싶을 수도 있잖아요 .  제 생각에는 현재로서는 전반적으로 위험 부담이 상당히 낮아서 모든 게 괜찮아 보이지만, 궁극적으로 위험</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2799s" target="_blank" class="timestamp">[46:39]</a>
+          <div class="text">
+            <p class="en">you&#x27;re one of them, maybe your ideas are really good, etc. Maybe there&#x27;s a lot of decision-m to to do and you want to be in a position where you are in the room with those conversations when they come up. I do think that currently the stakes are like overall fairly low and so everything is kind of like nice but ultimately at the end of the day like when the stakes are really high etc. If you&#x27;re an employee at an organization I don&#x27;t actually know how much sway you&#x27;re going to have on the organization what it&#x27;s going to do like fundamentally at the end of the day um uh it&#x27;s uh you&#x27;re not like really in charge like you&#x27;re in a room and you&#x27;re contributing ideas but you&#x27;re not like really in charge of that entity that you&#x27;re that you&#x27;re a part of. So those are like some sources of</p>
+            <p class="ko">부담이 정말 커지는 시점이 오면, 조직의 직원으로서 조직의 향후 결정에 얼마나 영향력을 행사할 수 있을지 잘 모르겠습니다. 근본적으로, 결국에는 자신이 속한 조직을 실질적으로 책임지는 입장이 아니라는 거죠. 회의실에 앉아서 아이디어를 제시할 수는 있지만, 조직 자체를 실질적으로 운영할 권한은 없는 겁니다 .  그래서 그런 것들이 어느 정도 정렬 불량의 원인이 될 수 있다고 생각합니다. 어떤 면에서는 그 의견에 상당히 동의합니다. 연구소는 좋든 나쁘든 불투명하고, 많은 연구가 진행되고 있으며, 최첨단 기술 의 한계에 서 있다고 생각합니다. 그들은 앞으로 다가올 미래를 연구하고 있죠. 그런데</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2829s" target="_blank" class="timestamp">[47:09]</a>
+          <div class="text">
+            <p class="en">misalignment I think to some extent. I will say that like in one way I do agree a lot with that sentiment that um I do feel like and if uh like the labs for better or worse they&#x27;re opaque and a lot of work is there and they&#x27;re kind of like at the edge of capability and what&#x27;s possible and they&#x27;re working on what&#x27;s coming down the line and I think if you&#x27;re outside of the frontier lab uh your your judgment fundamentally will start to drift because you&#x27;re not part of the you know what&#x27;s coming down the line right and so I feel like my judgment will inevitably start to drift as well and uh I won&#x27;t actually have an understanding of how these systems</p>
+            <p class="ko">최첨단 연구소 밖에 있는 사람은 근본적으로 판단력이 흐려질 수밖에 없다고 생각합니다. 앞으로 어떤 기술이 개발될지 알 수 없기 때문입니다. 저도 마찬가지로 판단력이 흐려질 것 같고, 불투명한 시스템의 내부 작동 방식이나 발전 방향을 제대로 이해하지 못할 것 같습니다. 그런 점에서 그 의견에 동의하며, 동시에 걱정되는 부분이기도 합니다.  제 생각에는 실제로 무슨 일이 일어나고 있는지 파악하고 최첨단 연구소에 직접 참여하는 것이 가치 있는 일이라고 생각합니다. 만약</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2859s" target="_blank" class="timestamp">[47:39]</a>
+          <div class="text">
+            <p class="en">actually work under the hood that&#x27;s an opaque system uh I won&#x27;t have a a good understanding of how it&#x27;s going to develop and etc. And so I do think that in that sense I agree and something I&#x27;m nervous about. I think it&#x27;s worth basically bas uh being in touch with what&#x27;s actually happening and actually being in the frontier lab and if if some of the frontier labs would have me come for you know some amount of time and do really good work for them and then maybe coming &gt;&gt; is looking for a job. This is super exciting. &gt;&gt; Yeah. &gt;&gt; Then I think that&#x27;s maybe a good setup because I kind of feel like it kind of um you know um maybe that&#x27;s like one way</p>
+            <p class="ko">최첨단 연구소 중 한 곳에서 저를 일정 기간 동안 초청해서 좋은 성과를 낼 수 있도록 해준다면, 그 후에 다른 곳에서 일자리를 찾아보는 것도 고려해 볼 수 있겠죠.  정말 신나는 일이네요. 응. 그렇다면 그게 좋은 구성일지도 모르겠네요. 왜냐하면, 음... 어쩌면 그게 실제로 무슨 일이 일어나고 있는지에 연결되어 있으면서도, 동시에 누군가에게 완전히 통제당하고 있다는 느낌은 들지 않는 한 가지 방법일 수도 있겠다는 생각이 들거든요 . 해당 기관들에 의해.  솔직히 제 생각에는 Noom은 OpenAI에서 매우 훌륭한 일을 해낼 수 있을 것 같지만, 그의 가장 영향력 있는 업적은 OpenAI 외부에서 이루어질 가능성이 매우 높다고 생각합니다.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2890s" target="_blank" class="timestamp">[48:10]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; uh to to actually be connected to what&#x27;s actually happening but also not feel like you&#x27;re necessarily fully controlled by &gt;&gt; Yeah. &gt;&gt; by those entities. So I think honestly in my mind like uh Noom can probably get do extremely good work at uh at OI but also I think his most um impactful work could very well be outside of OpenAI.</p>
+            <p class="ko"></p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-9" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2905s" target="_blank" class="ch-ts">[48:25]</a> Open vs. Closed Source Models</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2906s" target="_blank" class="timestamp">[48:26]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; No that&#x27;s a call to be an independent researcher with auto research. Yeah, there&#x27;s many things to do on the outside and it&#x27;s a it&#x27;s a and I think ultimately I think the ideal solution maybe is like yeah going back and forth uh or um yeah and I think fundamentally you can have really amazing impact in both places. So very complic I don&#x27;t know like it&#x27;s a very loaded question a little bit but I mean I joined the frontier lab and now I&#x27;m outside and then maybe in the future I&#x27;ll want to join again and I think um uh that&#x27;s kind of like how I look at it. One question related to what visibility</p>
+            <p class="ko">아니요, 그건 자동차 연구 분야의 독립 연구원이 되라는 제안입니다.  네, 바깥세상에는 할 일이 많고, 궁극적으로는 두 곳을 오가는 것이 이상적인 해결책일 것 같아요. 근본적으로 두 곳 모두에서 정말 놀라운 영향을 미칠 수 있다고 생각합니다.  음, 굉장히 복잡한 질문이네요. 좀 대답하기 어려운 질문 같기도 하지만, 저는 프론티어 연구소에 들어갔다가 나왔고, 나중에 다시 들어가고 싶을 수도 있겠죠. 음, 그런 식으로 생각하고 있어요 .</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2937s" target="_blank" class="timestamp">[48:57]</a>
+          <div class="text">
+            <p class="en">to does the world or the AI ecosystem have into uh the frontier is like how how close open sources to the frontier &gt;&gt; um and how sustainable that is. I I think yeah I think it is quite &gt;&gt; surprising the entire sequence of events actually from like having a handful of Chinese models and global models and I think people are going to continue releasing here in the near term that are closer than much of the industry anticipated from a capability perspective. &gt;&gt; Um I don&#x27;t know if you&#x27;re surprised by</p>
+            <p class="ko">세계 또는 AI 생태계가 최첨단 기술에 대해 어느 정도의 가시성을 갖고 있는지와 관련된 질문 중 하나는 오픈 소스가 최첨단 기술에 얼마나 근접해 있는지, 그리고 그것이 얼마나 지속 가능한지입니다.  제 생각에는 실제로 일련 의 사건들이 상당히 놀라운 것 같습니다. 몇몇 중국 모델과 글로벌 모델들이 등장한 것부터 시작해서, 앞으로 업계 예상보다 훨씬 더 뛰어난 성능을 가진 모델들이 계속해서 출시될 것으로 생각합니다 . 음, 놀라실지 모르겠지만,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2967s" target="_blank" class="timestamp">[49:27]</a>
+          <div class="text">
+            <p class="en">that but you&#x27;re a long-term contributor to open source. Like what&#x27;s your prediction here? Yeah. So roughly speaking basically the um yeah the closed models are ahead but like people are monitoring the number of months that sort of like open source models are behind. Um &gt;&gt; and it started with there&#x27;s nothing and then it went to 18 months and now it&#x27;s &gt;&gt; convergence right. So maybe they&#x27;re behind by like what is the latest maybe like eight six months eight months kind of thing right now. Yeah I&#x27;m a huge fan of open source obviously. So for example in operating systems you have like closed like you know Windows and Mac OS. These are large software projects kind of like what LM are going to become and there&#x27;s Linux but Linux is very easy</p>
+            <p class="ko">당신은 오랫동안 오픈 소스 프로젝트에 기여해 오셨습니다.  당신의 예측은 어떤가요?  응.  대략적으로 말하자면, 네, 폐쇄형 모델들이 앞서나가고 있지만, 사람들은 오픈 소스 모델들이 뒤처지는 데 걸리는 기간을 몇 개월 단위로 지켜보고 있습니다.  음, 처음에는 아무것도 없다가 18개월이 지나고 이제는 수렴 단계에 이르렀죠.  그러니까 아마도 그들은 최근 기준으로 8개월, 6개월, 8개월 정도 뒤처져 있을 겁니다 .  네, 당연히 오픈소스의 열렬한 팬이죠.  예를 들어 운영체제에는 윈도우와 맥 OS처럼 폐쇄적인 시스템들이 있죠. 이것들은 LM이 앞으로 될 것과 같은 대규모 소프트웨어 프로젝트들입니다. 리눅스도 있지만, 리눅스는 매우 쉽습니다.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=2998s" target="_blank" class="timestamp">[49:58]</a>
+          <div class="text">
+            <p class="en">like actually Linux is extremely successful project it runs on the vast majority of computers like last time I checked was it like 60% or something like run Linux um and that&#x27;s because there is a need in the industry to have a common open platform that everyone feels uh sort of safe using I would say like the industry has always felt a demand for that kind of a project to exist and I think the same is true now and that&#x27;s why businesses actually want there&#x27;s demand for this kind of a um a thing to exist the big difference is that everything is capital. Uh there&#x27;s a lot of capex that goes into this. &gt;&gt; Um so I think that&#x27;s where things like</p>
+            <p class="ko">사실 리눅스는 매우 성공적인 프로젝트이며, 대다수의 컴퓨터에서 실행됩니다. 제가 마지막으로 확인했을 때는 60% 정도였던 것 같습니다. 이는 업계에서 모두가 안전하게 사용할 수 있는 공통의 개방형 플랫폼에 대한 필요성이 있기 때문입니다. 업계는 항상 그런 프로젝트에 대한 수요를 느껴왔고, 지금도 마찬가지라고 생각합니다. 그래서 기업들은 이러한 종류의 플랫폼에 대한 수요가 있는 것입니다. 가장 큰 차이점은 모든 것이 자본 투자라는 점입니다. 이 프로젝트에는 상당한 자본 지출이 들어갑니다. 음, 그래서 저는 그런 부분에서 문제가 생기고,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3029s" target="_blank" class="timestamp">[50:29]</a>
+          <div class="text">
+            <p class="en">fall apart a little bit make it a bit harder to to compete in certain sense. Uh I I do think that the current models are very good. The other thing that I think is like really interesting is that for the vast majority of like consumer use cases and things like that even like term open source models are actually quite good I would say and I think like if you go forward like more uh more years it does seem to mean like a huge amount of like simple use cases are going to be well covered and actually even run locally. Um, but there&#x27;s going to be always like some demand for like frontier intelligence and that that can actually be extremely large piece of the</p>
+            <p class="ko">어떤 면에서는 경쟁하기가 좀 더 어려워진다고 생각합니다. 음, 저는 현재 모델들이 매우 훌륭하다고 생각합니다.  또 하나 정말 흥미로운 점은 대다수의 소비자 사용 사례 등에 있어서 오픈 소스 모델 자체가 상당히 괜찮다는 것입니다. 앞으로 몇 년 더 지나면 수많은 간단한 사용 사례들이 충분히 해결되고 심지어 로컬에서도 실행될 수 있을 거라고 생각합니다.  하지만, 항상 최첨단 정보에 대한 수요는 있을 것이고, 그 부분이 전체 시장에서 상당히 큰 비중을 차지할 수 있을 겁니다 .  하지만 어쩌면</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3059s" target="_blank" class="timestamp">[50:59]</a>
+          <div class="text">
+            <p class="en">pie. But it could be that the frontier the need for frontier intelligence is going to be like, you know, Nobel Prize kind of work or like let&#x27;s move Linux from C to Rust. There&#x27;s going to be like bigger projects, you know, like scoped in that kind of a way. And there&#x27;s going to be maybe more um and maybe that&#x27;s where a lot of the frontier closed intelligences were are going to be interacting with and open source is kind of like going to eat through a lot of the more basic use cases or something like that. You know at some point what is frontier today is going to be you know probably later this year what&#x27;s frontier today in terms of what I&#x27;m</p>
+            <p class="ko">최첨단 지능에 대한 필요성은 노벨상급 연구 나 리눅스를 C에서 Rust로 옮기는 것과 같은 연구 분야와 같은 것이 될 수도 있습니다.  앞으로 더 큰 규모의 프로젝트들이 있을 거예요. 그런 식으로 범위가 정해지는 프로젝트들이요.  그리고 아마도 더 많은 것들이 생겨날 것이고, 아마도 많은 폐쇄형 지능들이 상호 작용하는 곳이 바로 그곳일 것이며, 오픈 소스는 더 기본적인 사용 사례들을 많이 잠식해 나갈 것입니다 .  아시다시피, 언젠가는 오늘날의 최첨단 기술이 어떤 모습일지, 예를 들어 제가 지금 폐쇄형 연구소에서 사용하고 있는 기술 같은 것이 올해 말쯤에는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3090s" target="_blank" class="timestamp">[51:30]</a>
+          <div class="text">
+            <p class="en">using right now from the closed labs uh might be open source and that&#x27;s going to be doing a lot of work. So I kind of expect that this dynamic will actually basically continue like we&#x27;ll have Frontier Labs that have closed um AIS that are kind of like these oracles and then we&#x27;ll have open source kind of like behind by some amount of months and I kind of expect that to uh to continue and I actually think that&#x27;s like a pretty pretty good setup uh overall. Um because I I&#x27;m a little bit hesitant of having um I don&#x27;t actually think it&#x27;s like structurally I think there&#x27;s some systemic risk attached to just having intelligences that are closed and that&#x27;s like that&#x27;s it. Mhm.</p>
+            <p class="ko">오픈 소스로 바뀔 수도 있을 겁니다. 그리고 그게 앞으로 많은 발전을 가져올 겁니다.  그래서 저는 이런 역학 관계가 계속될 거라고 예상합니다. 프론티어 랩처럼 폐쇄형 AIS를 보유한 회사들이 오라클과 같은 역할을 하고, 오픈 소스는 몇 달 뒤처진 채로 남을 겁니다. 이런 상황이 지속될 거라고 생각하고, 전반적으로 꽤 괜찮은 구조라고 생각합니다.  음, 제가 약간 망설이는 이유는, 구조 적인 문제라기보다는, 폐쇄적인 지능 체계를 갖는 것 자체에 어떤 시스템적인 위험이 있다고 생각하기 때문입니다 .  음. 그리고 제 생각에는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3121s" target="_blank" class="timestamp">[52:01]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; And I think that that&#x27;s uh you know centralization has a very poor track record in my view uh in in the past and has uh &gt;&gt; you mean like in political or economic systems in general. &gt;&gt; Yes. &gt;&gt; Exactly. I think there&#x27;s like a lot of &gt;&gt; like Eastern EuRoPEan. Yeah. &gt;&gt; A lot of pretty bad president. So I want there to be a thing that is maybe not at the edge of capability because it&#x27;s new and unexplored etc. But I want there to be a thing that&#x27;s behind and that uh is kind of like a common working space for intelligences that the entire industry has access to. Yeah, that seems to me like a pretty decent power balance for the industry.</p>
+            <p class="ko">중앙집권화는 과거에도, 그리고 일반적으로 정치 체제나 경제 체제에서도 매우 좋지 않은 결과를 보여왔습니다. 예. 정확히.  제 생각엔 동유럽 출신이 많은 것 같아요.  응.   정말 형편없는 대통령들이 많았어요.  그래서 저는 최첨단 기술이나 새로운 분야가 아닌, 업계 전체가 접근할 수 있는 인텔리전스의 공통 작업 공간과 같은 무언가가 존재했으면 좋겠습니다.  네, 제 생각엔 그게 업계에 상당히 적절한 권력 균형인 것 같습니다. 네, 저도</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3151s" target="_blank" class="timestamp">[52:31]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; Yeah, I also think there&#x27;s just like there are many problems to solve, right? Like if you keep advancing intelligence from the frontier, we can do new things and there are a lot of like very big problems for humanity, right? And so like it seems that that will continue to be a very expensive game. And so I want to like root for labs that are doing that because there are problems we cannot solve without continuing to advance the models in a very expensive way. Yeah. And yet, as you point out, like &gt;&gt; if what we have today as Frontier is open, that&#x27;s a lot of capability. Yeah. Right. And and so I I think you know the</p>
+            <p class="ko">해결해야 할 문제가 많다고 생각해요. 만약 우리가 첨단 기술을 계속 발전시켜 나간다면 , 새로운 일들을 해낼 수 있을 것이고, 인류가 해결해야 할 아주 중요한 문제들이 많이 남아 있잖아요?  그래서 앞으로도 그 게임은 매우 비용이 많이 드는 게임으로 남을 것 같습니다.  그래서 저는 그런 연구를 진행하는 연구소들을 응원하고 싶습니다. 왜냐하면 매우 비용이 많이 드는 방식으로 모델을 계속 발전시키지 않고서는 해결할 수 없는 문제들이 있기 때문입니다 .  응.  하지만 말씀하신 대로, 만약 현재 우리가 프론티어에서 사용하는 것이 개방형이라면, 그것은 상당한 기능을 제공하는 것입니다.  응. 오른쪽.  그래서 저는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3182s" target="_blank" class="timestamp">[53:02]</a>
+          <div class="text">
+            <p class="en">power of that or the democratization of that seems like &gt;&gt; very useful and also healthy. &gt;&gt; Yeah. I think basically by accident we&#x27;re actually like in okay spot &gt;&gt; and optimal. Yeah. &gt;&gt; By accident we we are happen to be in a good spot in a certain sense. Um &gt;&gt; well and and to some degree the the longer this endures like this dynamic &gt;&gt; um the the healthier of a spot like the ecosystem might be in right because you have more and more area under the curve &gt;&gt; and I will say that even on the close side I almost feel like it&#x27;s been like even further centralizing recently because I think a lot of the front runners are like not necessarily like</p>
+            <p class="ko">그것이 가진 힘, 또는 그것의 민주화가 매우 유용하고 건전하다고 생각합니다. 응.  제 생각엔 어쩌다 보니 우리가 지금처럼 괜찮고 최적의 위치에 있는 것 같아요.  응. 어떤 의미에서는 우연히도 우리는 좋은 위치에 있게 되었습니다.  음, 그리고 어느 정도는 이런 역동적인 상황이 오래 지속될수록 생태계가 더 건강한 상태가 될 수 있다고 봅니다. 곡선 아래 면적이 점점 더 넓어지기 때문이죠. 그리고 최근에는 오히려 더 중앙집중화되는 경향이 있는 것 같습니다. 선두 주자들 중 상당수가</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3213s" target="_blank" class="timestamp">[53:33]</a>
+          <div class="text">
+            <p class="en">the top tier and so yeah like in that sense I think it&#x27;s um it&#x27;s not super ideal. I would love there to be more more front to last because yeah I&#x27;m like by default very suspicious of like um I want there to be more people in the room. I want I think like in machine learning ensembles always outperform any individual model and so I want there to</p>
+            <p class="ko">최상위권이 아니기 때문입니다. 그런 의미에서 저는 지금 상황이 아주 이상적이라고 생각하지는 않습니다 . 앞쪽부터 뒤쪽까지 사람이 더 많았으면 좋겠어요. 왜냐하면 저는 기본적으로 의심이 많아서, 방 안에 사람이 더 많았으면 좋겠어요.  저는 머신 러닝에서 앙상블 모델이 항상 개별 모델보다 뛰어난 성능을 보인다고 생각합니다. 그래서 가장</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-10" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3231s" target="_blank" class="ch-ts">[53:51]</a> Autonomous Robotics</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3232s" target="_blank" class="timestamp">[53:52]</a>
+          <div class="text">
+            <p class="en">be ensembles of people thinking about all the hardest problems and I want there to be ensembles of people in the room when they um to be all well informed and to make all those decisions you know so uh I don&#x27;t want it to be like a closed doors with two people or three people. I feel like that&#x27;s like not a good not a good future. I almost wish like there were more labs is long story short and I I I do think that open source has a has a has a place to play. I hope it sticks around and I basically it&#x27;s currently slightly behind and that&#x27;s actually kind of like a good thing. &gt;&gt; Okay. you worked on the precursor to generalized robotics autonomy um in</p>
+            <p class="ko">어려운 문제들을 고민하는 여러 사람들의 앙상블이 있었으면 좋겠고, 모든 사람들이 충분한 정보를 갖춘 상태에서 함께 결정을 내리는 앙상블이 있었으면 좋겠습니다. 그러니까 두세 명만 ​​모여서 하는 폐쇄적인 회의는 원하지 않습니다.  그건 좋은 미래가 아닌 것 같아요.  간단히 말해서, 연구소가 더 많았으면 좋겠다는 생각이 들고, 오픈 소스가 활약할 자리가 있다고 생각합니다.   이 시스템이 계속 유지되기를 바라며, 현재 약간 뒤처져 있는 상태인데, 사실 그게 오히려 좋은 점이라고 생각합니다. 좋아요.  당신은 자동차 분야에서 일반화된 로봇 자율 주행의 전신을 연구하셨죠</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3263s" target="_blank" class="timestamp">[54:23]</a>
+          <div class="text">
+            <p class="en">cars, right? Uh a a lot has happened in the last couple months with robotics companies as well like acceleration of really impressive generalization of environment of tasks like increasing long horizon tasks, lots of money going into the space like is it going to happen? Has anything in your view changed recently? &gt;&gt; So like my view is kind of informed by what I saw in self-driving and I do feel like self-driving is the first robotics application. So probably what I saw is at the time like 10 years ago there were a large number of startups and I kind of feel like um like most of them basically</p>
+            <p class="ko">, 그렇죠? 지난 몇 달 동안 로봇 회사들 사이에서도 많은 일들이 일어났습니다. 환경과 작업에 대한 놀라운 일반화 능력이 가속화되고, 장기적인 작업 범위가 넓어지고, 이 분야에 많은 자금이 투자되고 있는데, 과연 이런 일들이 실제로 일어날까요?  최근에 당신의 견해에 변화가 있었나요? 제 생각은 자율주행 분야에서 본 것들을 바탕으로 형성된 것이고, 자율주행이 로봇 공학의 첫 번째 응용 분야라고 생각합니다.  제가 봤을 때는 10년 전쯤에 스타트업이 정말 많았는데, 대부분</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3294s" target="_blank" class="timestamp">[54:54]</a>
+          <div class="text">
+            <p class="en">like didn&#x27;t long-term make it. Um and what I saw is that like a lot of capital expenditure had to go in and a lot of time and so um I think it like I think robotics because it&#x27;s so difficult and so messy and requires huge amount of capital investment and a lot of like con conviction um just it&#x27;s like a big problem and I think items are really hard. So I kind of feel like they will lag be it will lag behind what&#x27;s going to happen in digital space and in digital space there&#x27;s going to be a huge amount of unhobling uh basically like things that weren&#x27;t super efficient becoming a lot more efficient by like a</p>
+            <p class="ko">장기적으로 성공하지 못했던 것 같아요.  음, 제가 본 바로는 막대한 자본 지출과 많은 시간이 필요했습니다. 그래서 로봇 공학은 매우 어렵고 복잡하며 엄청난 자본 투자와 많은 확신이 필요하기 때문에 큰 문제라고 생각합니다. 그리고 여러 가지 어려운 과제들이 있다고 생각합니다 .  그래서 저는 물리적 공간은 디지털 공간에서 일어날 변화에 뒤처질 거라고 생각합니다. 디지털 공간에서는 엄청난 제약들이 풀릴 텐데, 기본적으로 비효율적이었던 것들이</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3324s" target="_blank" class="timestamp">[55:24]</a>
+          <div class="text">
+            <p class="en">factor of 100 &gt;&gt; because bits are so much easier and so I think currently in terms of what&#x27;s going to change and like where the activity is I kind of feel like digital space is going to like change a huge amount and then the physical space will lag behind and what I find very interesting is like this interface in between them as well because I think in this If you we do have more agents acting on behalf of humans and more agents kind of like talking to each other and and doing tasks and participating in the kind of economy of agents etc. Um you&#x27;re going to run out of things that you&#x27;re going</p>
+            <p class="ko">비트 처리가 훨씬 쉬워지면서 100배 정도 더 효율적이 될 겁니다. 현재 변화의 중심과 활동의 방향을 생각해 보면, 디지털 공간이 가장 빠르게 변화할 것이고 물리적 공간은 그 변화에 뒤처질 거라고 봅니다. 그리고 저는 그 둘 사이의 인터페이스도 매우 흥미롭다고 생각합니다. 만약 인간을 대신해서 행동하는 에이전트가 많아지고, 에이전트들이 서로 소통하고, 작업을 수행하고, 에이전트 경제에 참여하게 된다면, 순전히 디지털 공간에서만 할 수 있는 일들이 점점 줄어들 거라고 생각합니다.  어느</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3354s" target="_blank" class="timestamp">[55:54]</a>
+          <div class="text">
+            <p class="en">to do purely in a digital space. At some point you have to go to the universe and you have to ask it questions. Um you have to run an experiment and see what the universe tells you to get back to learn something. And so we currently have a huge amount of like digital work uh because there&#x27;s an overhang in how much we collectively thought about what already is digital. So we just didn&#x27;t have enough thinking cycles among the humans to think about all the information that is already digital and already uploaded. Um and so we&#x27;re going to start running out of stuff that is actually like um already uploaded. Uh so you&#x27;re going to at some point read all</p>
+            <p class="ko">시점에선가 당신은 우주에 가서 질문을 던져야 합니다.  음, 뭔가를 배우려면 실험을 해보고 우주가 뭐라고 하는지 살펴봐야 해요.  그래서 현재 우리는 디지털 작업에 대한 엄청난 양의 정보를 가지고 있는데, 이는 우리가 이미 디지털화된 것들에 대해 집단적으로 너무 많은 생각을 해왔기 때문입니다 .  그래서 인간의 사고 주기가 부족해서 이미 디지털화되어 업로드된 모든 정보를 다 고려할 수 없었던 것입니다 .  음, 그래서 이제 이미 업로드된 콘텐츠가 부족해지기 시작할 거예요.  음, 그러니까 여러분은 언젠가 모든 논문을 읽고 분석해서</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3384s" target="_blank" class="timestamp">[56:24]</a>
+          <div class="text">
+            <p class="en">the papers and process them and have some ideas about what to try. But um yeah, we&#x27;re just going to uh I don&#x27;t actually know how much you can like get intelligence that&#x27;s like fully closed off and with just information that&#x27;s available to it, you know. And so I think what what&#x27;s going to happen is first there&#x27;s going to be huge amount of unhobling and I think there&#x27;s a huge amount of work there. Then actually it&#x27;s going to move to like the interfaces between physical and digital. So and that&#x27;s like sensors of like seeing the world and actuators of like doing something to the world. So I think a lot of interesting companies will actually come from that interface of like can we feed the super intelligence in a certain</p>
+            <p class="ko">어떤 방법을 시도해 볼지 아이디어를 얻게 될 거예요.  하지만 음, 네, 사실 완전히 폐쇄된 상태에서 이용 가능한 정보만으로 얼마나 많은 정보를 얻을 수 있는지 잘 모르겠어요.  그래서 제 생각에는 우선 엄청난 규모의 자금 유출이 있을 것이고, 그 과정에서 해야 할 일이 엄청나게 많을 것 같습니다 .  그러면 실제로 물리적 영역과 디지털 영역 사이의 인터페이스로 옮겨갈 것입니다.  그러니까 세상을 보는 센서와 세상에 어떤 행동을 하는 액추에이터가 있는 거죠.  그래서 저는 많은 흥미로운 기업들이 그러한 인터페이스, 즉 초지능에 데이터를 공급하고, 그</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3415s" target="_blank" class="timestamp">[56:55]</a>
+          <div class="text">
+            <p class="en">sense data and can we actually like take data out and manipulate the physical world um per its bidding if you want to like interropomorphize the whole thing right and then the the physical world actually I almost feel like the the total addressable market etc in terms of like the amount of work and so on is is massive possibly even much larger maybe what can happen in digital space so I actually think it&#x27;s like a much bigger opportunity as well but um I do feel like it&#x27;s a huge amount of work and and in my in my mind the atoms are just like a a million times harder. So um so it</p>
+            <p class="ko">데이터를 추출하여 물리적 세계를 그 명령에 따라 조작할 수 있을지에 대한 질문에서 탄생할 것이라고 생각합니다. ( 물론 모든 것을 의인화하자면 말이죠.) 물리적 세계의 총 시장 규모, 즉 해야 할 일의 양 등을 고려했을 때, 그 규모는 엄청날 것이며, 어쩌면 디지털 공간에서 일어날 수 있는 일보다 훨씬 더 클지도 모릅니다. 그래서 저는 이것이 훨씬 더 큰 기회라고 생각하지만, 동시에 엄청난 노력이 필요할 것이라고 생각합니다. 제 생각에 원자를 다루는 것은 디지털보다 백만 배는 더 어렵습니다.  그래서 음, 뒤처지긴 하겠지만</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3445s" target="_blank" class="timestamp">[57:25]</a>
+          <div class="text">
+            <p class="en">will lag behind but it&#x27;s also I think a little bit of bigger market. So it&#x27;s kind of like uh yeah I think the opportunities kind of like follow that kind of trajectory. So right now this digital is like my main interest then interfaces would be like after that and then maybe like some of the physical things um like their time will come and they&#x27;ll be huge when they do come. Well, it&#x27;s it&#x27;s an interesting framework for it too because uh certain things not the things I&#x27;m working on right now but certain things are much easier even in the world of atoms right like if you just think about like read and write to the physical world like read like</p>
+            <p class="ko">시장 규모는 조금 더 크다고 생각합니다.  음, 그러니까 기회는 그런 궤적을 따라가는 것 같아요.  지금은 디지털 기술이 제 주된 관심사이고, 그다음은 인터페이스, 그리고 아마도 물리적인 것들도 언젠가는 관심을 가질 만한 것들이라고 생각해요. 물리적인 것들은 언젠가 등장하면 엄청난 영향력을 발휘할 거라고 믿습니다.  음, 그것도 흥미로운 프레임워크인 것 같아요. 왜냐하면 제가 지금 작업하고 있는 건 아니지만, 어떤 것들은 원자 세계에서도 훨씬 더 쉽게 구현할 수 있거든요. 예를 들어 물리적 세계에 읽고 쓰는 걸 생각해 보세요. 센서나 카메라 같은 기존 하드웨어가 많잖아요.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3476s" target="_blank" class="timestamp">[57:56]</a>
+          <div class="text">
+            <p class="en">sensors cameras like there&#x27;s a lot of existing hardware and you can imagine like &gt;&gt; enriching agent capabilities or capturing a lot of new data if you&#x27;re just clever about it and like you don&#x27;t necessarily have to invest a lot to like get something valuable. &gt;&gt; Yeah. So like examples of this that I saw for example are you know a friend of mine Liam is running is a CEO of periodic I visited them last week so it&#x27;s just on top of mind like they&#x27;re trying to do auto research for material science &gt;&gt; um and so in that case it&#x27;s like the sensors to the intelligence are actually</p>
+            <p class="ko">에이전트 기능을 강화하거나 새로운 데이터를 많이 수집하는 것도 생각해 볼 수 있죠. 조금만 영리하게 접근하면 큰 투자를 하지 않고도 가치 있는 결과를 얻을 수 있어요. 응.  예를 들어, 제 친구 리암이 운영하는 Periodic이라는 회사가 있는데, 지난주에 방문했거든요. 그들은 재료 과학 분야에서 자동화 연구를 진행하고 있어요. 그러니까 센서부터 인공지능까지, 실제로 필요한 장비들이 상당히 고가의 실험 장비인 거죠. 생물학 분야에서도 마찬가지예요.  제 생각에는 많은 사람들이 생물학 공학에 매우 관심이 많고,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3507s" target="_blank" class="timestamp">[58:27]</a>
+          <div class="text">
+            <p class="en">like pretty expensive lab equipment and the same is true in biology. I think a lot of people are very interested in engineering biology and you know the sensors will be more than just like video cameras if that makes sense. And then the other thing I was I saw for example is companies that are trying to have um like you basically pay people for training data. Yeah. As an example to feed &gt;&gt; programmatically. &gt;&gt; Yeah. To feed to feed the Borg. Uh um and so like these are all examples of like sensors in a certain sense. So they take many diverse shapes and forms if that makes sense. &gt;&gt; Yeah. So I&#x27;m looking forward to the point where I can ask for a task in the physical world and I can put a price on</p>
+            <p class="ko">센서들은 단순한 비디오 카메라 이상의 기능을 할 거라고 생각합니다.  그리고 제가 본 또 다른 현상은, 예를 들어, 기업들이 학습 데이터에 대해 사람들에게 비용을 지불하도록 유도하려는 시도였습니다.  응.  예를 들어 프로그램 방식으로 데이터를 전송하는 방법을 설명하겠습니다. 응.  보그족에게 먹이를 주기 위해서.  어, 음, 그러니까 이것들은 모두 어떤 의미에서는 센서의 예시라고 할 수 있죠.  그러니까 모양과 형태가 아주 다양하다는 거죠 . 응.  그래서 저는 언젠가 현실 세계 에서 어떤 일을 의뢰하고 그에 대한 가격을 매겨서 에이전트에게 &quot; 어떻게 할지는 제가 알아서 할게요&quot;라고 말할 수 있는 시점이 오기를 기대하고 있습니다.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3538s" target="_blank" class="timestamp">[58:58]</a>
+          <div class="text">
+            <p class="en">it and just tell the agent like you know you figure out how to do it. Go get the data. &gt;&gt; I&#x27;m actually kind of surprised we don&#x27;t have enough like information markets. Mhm. &gt;&gt; Like if for example if poly market or other betting markets or even stocks etc if they have so much autonomous activity and rising amount of activity &gt;&gt; like um why should like for example if Iran was just happening now like how come there isn&#x27;t a process where like taking a photo or video from somewhere in Tan should cost like 10 bucks like someone should be able to pay for that you know like and that&#x27;s an example of like feeding the intelligence there&#x27;s not going to be a human looking at it it&#x27;s going to be like agents who are trying to guess the betting games and</p>
+            <p class="ko">데이터를 가져오세요. 사실 정보 시장 같은 게 충분하지 않다는 게 좀 의외네요. 음. 예를 들어, 폴리 마켓이나 다른 베팅 시장, 심지어 주식 시장 같은 곳에서 자율적인 활동이 활발하고 그 활동량이 계속 증가한다면, 예를 들어 이란에서 지금 막 시작된 ​​일이라고 가정해 봅시다. 탄(Tan) 어딘가에서 사진이나 비디오를 찍는 데 10달러 정도의 비용이 드는 절차가 있어야 하지 않을까요? 누군가 그 비용을 지불할 수 있어야 하지 않을까요? 이것은 정보기관에 정보를 제공하는 한 예입니다. 사람이 직접 살펴보는 것이 아니라, 에이전트들이 베팅 게임이나 주식 시장 등을 예측하려고 애쓰는 상황이 될 것입니다.  음, 저는 에이전트 웹이 아직</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3569s" target="_blank" class="timestamp">[59:29]</a>
+          <div class="text">
+            <p class="en">stock markets and so on. M &gt;&gt; so I kind of feel like the agentic web is still like fairly new that there&#x27;s no like mechanisms for this but this is an example of what I I think might happen there&#x27;s a good book that maybe is inspiring called demon you potentially read it in Damon the intelligence um ends up like puppeteering almost a little bit like humanity in a certain sense you know and so humans are kind of like its actuators but humans are also like its sensors &gt;&gt; um and so I think like collectively like society will kind of like reshape in a certain way in uh to to serve that kind</p>
+            <p class="ko">상당히 새로운 개념이라 이를 위한 메커니즘이 아직 확립되지 않았다고 생각합니다. 하지만 제가 생각하는 가능성을 보여주는 예시를 하나 들자면, &#x27; 데몬&#x27;이라는 좋은 책이 있는데, 아마 읽어보시면 영감을 얻으실 수 있을 겁니다. 그 책에서 지능은 마치 꼭두각시처럼 인간을 조종하는 것처럼 묘사됩니다. 인간은 일종의 액추에이터이면서 동시에 센서이기도 하죠. 그래서 저는 사회 전체가 이러한 변화에 맞춰 재편될 것이라고 생각합니다. 이러한 변화는</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3600s" target="_blank" class="timestamp">[1:00:00]</a>
+          <div class="text">
+            <p class="en">kind of a that will kind of like end up happening collectively across the industry where yeah there&#x27;s just a lot more automation and has certain needs and kind of humans will be serving those needs of that of that machine not necessarily like to each other &gt;&gt; well we were um on this very specific point of uh like missing pieces of training data we needed um we needed something like auto research right like we we need the training cycle or the SFT piece to be uh far more mechanized &gt;&gt; for for what part &gt;&gt; in order to make the uh collection like</p>
+            <p class="ko">산업 전반에 걸쳐 일어날 것이고, 자동화가 더욱 확대되고 기계의 특정 요구 사항을 충족하는 방향으로 나아갈 것입니다. 인간은 서로에게 의존하기보다는 기계의 요구를 충족하는 역할을 하게 될 것입니다. 우리는 훈련 데이터의 부족한 부분을 지적하고 있었는데, 자동화 연구와 같은 것이 필요했습니다. 훈련 주기, 즉 SFT(시스템 프로그래밍) 과정이 훨씬 더 자동화되어야만 데이터를 수집할 수 있을 것입니다. 인간의 개입을 배제하고 &quot;</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3631s" target="_blank" class="timestamp">[1:00:31]</a>
+          <div class="text">
+            <p class="en">in order to take the human out of the loop to ask for a task that is just like improve my model quality &gt;&gt; with new data, &gt;&gt; right? &gt;&gt; Uh yes. &gt;&gt; Does that make sense to you? Like we um if you can&#x27;t have the model do the training runs by itself, &gt;&gt; then your ability to do this as a like closed loop task Yes. with u by pricing data Yeah. &gt;&gt; is um more challenged. &gt;&gt; Yes. Yes. 100%. Yeah. But now the thing is for LLM training it actually is like</p>
+            <p class="ko">새로운 데이터를 사용하여 모델 품질을 개선하세요&quot;와 같은 간단한 작업을 요청하는 것이 맞겠죠?   네, 그렇습니다 .   이해가 되시나요 ?  음, 만약 모델이 스스로 학습을 진행할 수 없다면, 이를 폐쇄 루프 작업으로 처리하는 능력이 중요해지겠죠.  가격 데이터로 당신과 함께. 네.   음, 좀 더 어려움을 겪고 있어요. 예.  예.  100%.  응.  하지만 지금 중요한 건 LLM 교육의 경우, 실제로 그</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-11" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3659s" target="_blank" class="ch-ts">[1:00:59]</a> MicroGPT and Agentic Education</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3660s" target="_blank" class="timestamp">[1:01:00]</a>
+          <div class="text">
+            <p class="en">very easily it like really fits the paradigm. &gt;&gt; Um so you&#x27;d actually &gt;&gt; yeah clean metric &gt;&gt; yeah like LM training actually fits the paradigm really well really easily like all the optimization of all the code and so it runs faster and then you also have like metrics that you can optimize against. I do think that if you had an autonomous loop over those metrics there&#x27;s going to be a lot of like good harding going on where the system will like overfitit to those metrics and so um but then you can use the system to devise more metrics and you just have really good coverage. So it&#x27;s kind of hard to tell but um in a certain sense it&#x27;s like a pretty pretty good fit.</p>
+            <p class="ko">패러다임에 아주 잘 들어맞는다는 점입니다. 음, 그러니까 실제로 깔끔한 메트릭을 만들 수 있죠. 예를 들어 LM 훈련은 패러다임에 정말 잘 맞고, 코드 최적화도 아주 쉽게 할 수 있어서 실행 속도가 더 빨라집니다. 그리고 최적화에 사용할 수 있는 메트릭도 있고요 .  제 생각에는 만약 그런 지표들에 대한 자율적인 루프가 있다면, 시스템이 해당 지표들에 과적합되는 좋은 학습이 많이 일어날 것 같습니다. 하지만 그런 다음 시스템을 사용하여 더 많은 지표를 고안해낼 수 있고, 훨씬 더 넓은 범위의 데이터를 확보할 수 있을 겁니다 .  그래서 정확히 말하기는 어렵지만, 어떤 면에서는 꽤 잘 어울리는 것 같아요.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3690s" target="_blank" class="timestamp">[1:01:30]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; I want to talk about a little uh tiny side project you have before we end. Um tell me about the MicroGPTR. &gt;&gt; Oh yeah. Okay. So MicroGPT. So I have this like running obsession of like maybe a decade or two of just like simplifying and boiling down the uh basically LLMs uh to like their bare essence. And I&#x27;ve had a number of projects along these lines. So like nano GPT and um make more and uh micro GP microrad etc. So I feel like MicroGPT is now the state-of-the-art of me trying to like just boil it down to just the</p>
+            <p class="ko">마무리하기 전에 당신이 진행하고 있는 아주 작은 사이드 프로젝트에 대해 이야기하고 싶습니다.  음, 마이크로 GPTR에 대해 설명해 주세요.   아, 맞아요 .  좋아요.  그러니까 마이크로 GPT 말이에요.  그래서 저는 10년이나 20년 동안 LLM(Life Life Management)을 단순화하고 핵심적인 내용만 남기는 것에 집착해 왔습니다 .  그리고 저는 이와 비슷한 프로젝트를 여러 개 진행해 왔습니다.  그러니까 나노 GPT, 더 나아가 마이크로 GPT, 마이크로RAD 등등이 있죠. 제 생각에는 마이크로 GPT가 현재 최첨단 기술인 것 같아요. 핵심만 간추려보면,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3720s" target="_blank" class="timestamp">[1:02:00]</a>
+          <div class="text">
+            <p class="en">essence because the thing is like training neural nets and LLMs specifically um it&#x27;s a huge amount of code but all of that code is actually complexity from efficiency. &gt;&gt; It&#x27;s just because you need it to go fast. If you don&#x27;t need it to go fast and you just care about the algorithm then that algorithm actually is 200 lines of Python very simple to read and this includes comments and everything. Um because you just have like uh your data set which is a text um and you need your neural network architecture which is like 50 lines. You need to do your forward pass and then you have to do uh your backward pass to calculate the gradients. And so an little autograd</p>
+            <p class="ko">신경망, 특히 LLM을 훈련시키는 데는 엄청난 양의 코드가 필요하지만, 그 코드의 복잡성은 효율성에서 비롯된 것일 뿐입니다. 빨리 가야 하니까 그런 거죠.  속도가 중요하지 않고 알고리즘 자체에만 관심이 있다면, 그 알고리즘은 실제로 주석 등을 포함하여 읽기 쉬운 200줄의 파이썬 코드로 되어 있습니다 . 음, 왜냐하면 여러분은 텍스트 데이터셋만 가지고 있고, 신경망 아키텍처는 50줄 정도밖에 안 되거든요.  먼저 순방향 계산을 하고, 그 다음에는 기울기를 계산하기 위해 역방향 계산을 해야 합니다 .  그래서 기울기를 계산하는 간단한 자동 기울기 엔진은</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3751s" target="_blank" class="timestamp">[1:02:31]</a>
+          <div class="text">
+            <p class="en">engine uh to calculate the gradients is like 100 lines and then you need an optimizer an atom for example which is a very state-of-the-art optimizer is like again 10 lines really. And so putting everything together in a training loop is like yeah 200 lines. And it was interesting to me like normally before like maybe a year ago or more if I had come up with MicroGPT I would be tempted to basically explain to people like I have a video like stepping through it or something like that. Uh and I actually tried to make that video a little bit and I tried to make like a little guide to it and so on but I kind</p>
+            <p class="ko">100줄 정도이고, 그 다음에는 최적화 도구가 필요한데, 예를 들어 최첨단 최적화 도구인 Atom은 역시 10줄 정도면 충분합니다.  그래서 이 모든 걸 훈련 루프에 통합하면 대략 200줄 정도면 됩니다.  그리고 평소 같으면, 그러니까 1년 전쯤이나 그 이전쯤에 제가 마이크로 GPT를 생각해냈다면, 사람들에게 단계별로 설명하는 영상을 만들어서 보여주고 싶었을 거예요 .  어, 사실 제가 그 영상을 좀 만들어 보려고 했고, 간단한 가이드 같은 것도 만들어 보려고 했는데, 생각해 보니 그렇게까지 도움이 될 것 같지는 않더라고요.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3781s" target="_blank" class="timestamp">[1:03:01]</a>
+          <div class="text">
+            <p class="en">of realized that this is is not really it&#x27;s not really adding too much because people cuz it&#x27;s already so simple that it&#x27;s 200 lines that anyone could ask their agent to explain it in various ways and the agents like I&#x27;m not explaining to people anymore. I&#x27;m explaining it to agents. If you can explain it to agents, then agents can be the router and they can actually target it to the human in their language uh with infinite uh you know uh patience and uh just at their capability and so on. &gt;&gt; Right. If I don&#x27;t understand um this particular function, I can ask the agent to explain it to me like three different</p>
+            <p class="ko">이미 200줄짜리 계약서인데, 누구나 에이전트한테 여러 가지 방법으로 설명해 달라고 할 수 있고, 에이전트들도 이제 제가 직접 설명할 필요가 없잖아요.  저는 담당자들에게 설명하고 있어요.  만약 상담원들에게 설명할 수 있다면, 상담원들이 라우터 역할을 하여 실제로 사람들에게 그들의 언어로, 무한한 인내심 과 능력 등을 가지고 정확하게 전달할 수 있을 것입니다. 오른쪽.  만약 제가 이 특정 기능을 이해하지 못한다면, 상담원에게 세 가지 다른 방식으로 설명해달라고 요청할 수 있지만, 당신에게서는 그런 서비스를 받을 수 없을 겁니다 . 정확히. 그래서 저는 교육이 무엇인지 아시는 분이 계시다고 생각해요.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3811s" target="_blank" class="timestamp">[1:03:31]</a>
+          <div class="text">
+            <p class="en">ways and I&#x27;m not going to get that from you. &gt;&gt; Exactly. &gt;&gt; And so I kind of feel like you know what is education? like it used to be guides, it used to be lectures, it used to be this thing, but I feel like now more I&#x27;m explaining things to agents and maybe I&#x27;m coming up with skills uh where like um uh so basically skill is just a way to instruct the agent how to teach the thing. So maybe I could have a skill for MicroGPT of the progression I imagine the agent should take you through if you&#x27;re interested in understanding the codebase and it&#x27;s just like hints to the model to like oh first start off with this and then with that and so I could just script the curriculum a little bit</p>
+            <p class="ko">예전에는 가이드나 강의 같은 게 있었는데, 지금은 제가 에이전트들에게 뭔가를 설명하는 데 더 집중하는 것 같아요. 그리고 어쩌면 제가 &#x27; 스킬&#x27;이라는 걸 만들어내고 있는 것 같기도 하고요. 음, 그러니까 스킬이란 기본적으로 에이전트에게 그 내용을 어떻게 가르쳐야 하는지 알려주는 방법 같은 거예요 .  그래서 마이크로 GPT에 대한 스킬을 만들 수 있을 것 같아요. 에이전트가 코드베이스를 이해하는 데 도움이 되는 단계별 과정을 보여주는 스킬이죠. 모델에게 &quot; 먼저 이렇게 시작하고, 그다음에는 저렇게 하세요&quot;라고 힌트를 주는 식이에요. 커리큘럼을 간단하게 스크립트로 작성해서 스킬로 만들 수 있을 것 같습니다.  음, 그러니까, 음, 그래서 저는,</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3842s" target="_blank" class="timestamp">[1:04:02]</a>
+          <div class="text">
+            <p class="en">as a skill. Uh, so, uh, so I I don&#x27;t feel like, um, yeah, I feel like there&#x27;s going to be less of like explaining things directly to people and it&#x27;s going to be more of just like does the agent get it? And if the agent gets it, they&#x27;ll do the explanation. And we&#x27;re not fully there yet because they I still can I still think I can probably explain things a little bit better than the agents, but I still feel like the models are improving so rapidly that um, I feel like it&#x27;s a losing battle to some to some extent. Um and so I think uh education is going to be kind of like reshuffled by this</p>
+            <p class="ko">음, 네, 사람들에게 직접적으로 뭔가를 설명하는 것보다는, 담당자가 이해했는지 여부가 더 중요해질 것 같다는 생각이 들어요. 그리고 담당자가 상황을 이해하면 설명을 해줄 겁니다.  아직 완전히 목표에 도달한 건 아닙니다. 제가 에이전트보다 상황을 조금 더 잘 설명할 수 있다고 생각하지만, 모델의 발전 속도가 너무 빨라서 어느 정도는 따라잡기 힘든 싸움처럼 느껴지기도 합니다 . 음, 그래서 저는 교육 방식이 이로 인해 상당히 재편될 거라고 생각합니다. 서로에게 무언가를 가르치는 방식이 거의 끝나는 거죠.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3872s" target="_blank" class="timestamp">[1:04:32]</a>
+          <div class="text">
+            <p class="en">quite substantially uh where it&#x27;s the end of like teaching each other things almost a little bit like if I have a um library for example of code or something like that it used to be that you have documentation for other people who are in my user library but like you shouldn&#x27;t do that anymore like you should have instead of HTML documents for humans you have markdown documents for agents because if agents get it then they can just explain all the different parts of it. So it&#x27;s this redirection through agents, you know, um, and that&#x27;s like, so I think we&#x27;re going to see a lot more of that playing out. &gt;&gt; Well, we&#x27;ll see if the great teachers</p>
+            <p class="ko">예를 들어 코드 라이브러리가 있다고 가정해 봅시다. 예전에는 제 라이브러리를 사용하는 다른 사람들을 위해 문서를 작성했지만, 이제는 그럴 필요가 없습니다. 사람을 위한 HTML 문서 대신 에이전트를 위한 마크다운 문서를 사용하는 것이 더 나을 겁니다. 에이전트가 내용을 이해하면 모든 부분을 쉽게 설명할 수 있으니까요.  그러니까 에이전트를 통한 이러한 리디렉션 같은 거죠. 음, 앞으로 이런 현상이 훨씬 더 많이 나타날 거라고 생각해요 . 글쎄, 훌륭한 교사들이 에이전트들에게 사물을 다르게 설명하는 직관력을 기르는 것을 좋아하는지 한번 지켜보자. 결론적으로, 예를 들어 제가 요청했던 마이크로 GPT처럼, 저는 에이전트에게</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3902s" target="_blank" class="timestamp">[1:05:02]</a>
+          <div class="text">
+            <p class="en">know like to develop intuition for how to explain things to agents differently. &gt;&gt; Ultimately, so for example, MicroGPT like I asked I tried to get an agent to write MicroGPT. So I told it like try to boil down the simplest things like try to boil down um, neural networking to the simplest thing and can&#x27;t do it. like MicroGPT is like my is it&#x27;s like my end of my obsession. It&#x27;s the 200 lines. I thought about this for a long time. I was obsessed about this for a long time. This is this is the solution. Trust me, it can&#x27;t get simpler. And this is this is my value ad. Everything else</p>
+            <p class="ko">마이크로 GPT를 개발해 달라고 요청해 봤습니다.  그래서 저는 &quot;가장 간단한 것들을 단순화해 보세요. 예를 들어 신경망을 가장 간단하게 설명해 보세요.&quot;라고 말했지만, 그럴 수가 없었어요. 마이크로 GPT는 마치 제 집착의 끝과 같아요.  200 줄이에요.  나는 이 문제에 대해 오랫동안 생각했다 .  저는 오랫동안 이 문제에 집착했어요.  이것이 바로 해결책입니다.   제 말을 믿으세요, 이보다 더 간단할 순 없어요.  그리고 이것이 바로 제가 내세우는 부가가치입니다. 에이전트 같은 나머지 모든 것도 다 알아서 처리해 줍니다.   도저히 생각해낼 수가 없네요.  하지만 그 아이는 모든 것을 완벽하게 이해하고 왜 특정 방식으로 하는지 등을 알고 있어요. 그러니까 제</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3932s" target="_blank" class="timestamp">[1:05:32]</a>
+          <div class="text">
+            <p class="en">like agent gets it. &gt;&gt; It just can&#x27;t come up with it. But it totally gets it and understands why it&#x27;s done in certain way etc. So like my contribution is kind of like these few</p>
+            <p class="ko">기여는 이런 몇 가지</p>
+          </div>
+        </div>
+      </div>
+    </section>
+    <section id="ch-12" class="chapter">
+      <h2><a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3940s" target="_blank" class="ch-ts">[1:05:40]</a> Conclusion</h2>
+      <div class="transcript">
+        
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3940s" target="_blank" class="timestamp">[1:05:40]</a>
+          <div class="text">
+            <p class="en">bits, but everything else in terms of like the education that goes on after that is like not my domain anymore. So maybe yeah, it&#x27;s like education kind of changes in those ways where you kind of have to infuse the few bits that you feel strongly about the curriculum or the the best the better way of explaining it or something like that. The things that agents can&#x27;t do is your job now. The things that agents can do, they can probably do better than you or like very soon. And so you should um be strategic about what you&#x27;re actually spending time on. &gt;&gt; Well, we appreciate the few things. Thank you, Andre.</p>
+            <p class="ko">부분에 불과하고, 그 이후에 이어지는 교육적인 측면은 더 이상 제 영역이 아니라는 거죠. 네, 어쩌면 교육이 그런 식으로 변화하면서 커리큘럼에 대해 강하게 느끼는 부분이나 그것을 설명하는 가장 좋은 방법 같은 것들을 어느 정도 반영해야 하는 것일지도 모르겠네요. 이제 에이전트들이 할 수 없는 일들을 당신이 해야 합니다.  부동산 중개인이 할 수 있는 일들은 아마 당신보다, 혹은 머지않아 더 잘 해낼 수 있을 겁니다 .  그래서 여러분은 시간을 어디에 쓸지 전략적으로 생각해야 합니다.   네 , 몇 가지 감사한 점들에 대해 감사드립니다. 고마워요, 앙드레.</p>
+          </div>
+        </div>
+        <div class="segment">
+          <a href="https://www.youtube.com/watch?v=kwSVtQ7dziU&t=3970s" target="_blank" class="timestamp">[1:06:10]</a>
+          <div class="text">
+            <p class="en">&gt;&gt; Okay. &gt;&gt; Find us on Twitter at no prior pod. Subscribe to our YouTube channel if you want to see our faces. Follow the show on Apple Podcasts, Spotify, or wherever you listen. That way, you get a new episode every week. And sign up for emails or find transcripts for every episode at no-briers.com.</p>
+            <p class="ko">좋아요. 트위터에서 no prior pod를 검색하시면 저희를 찾으실 수 있습니다. 저희 얼굴을 보고 싶으시다면 유튜브 채널을 구독해주세요. Apple Podcasts, Spotify 또는 즐겨 듣는 플랫폼에서 방송을 팔로우하세요.  그렇게 하면 매주 새로운 에피소드를 볼 수 있습니다. 이메일 뉴스레터를 구독하거나 모든 에피소드의 대본을 보시려면 no-briers.com을 방문하세요.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+</div>
+
+<script>
+function toggleLang(mode) {
+  document.querySelectorAll('.toggle-btn').forEach(function(b) { b.classList.remove('active'); });
+  event.target.classList.add('active');
+  var enEls = document.querySelectorAll('.text .en');
+  var koEls = document.querySelectorAll('.text .ko');
+  if (mode === 'en') {
+    enEls.forEach(function(el) { el.style.display = 'block'; });
+    koEls.forEach(function(el) { el.style.display = 'none'; });
+  } else if (mode === 'ko') {
+    enEls.forEach(function(el) { el.style.display = 'none'; });
+    koEls.forEach(function(el) { el.style.display = 'block'; });
+  } else {
+    enEls.forEach(function(el) { el.style.display = 'block'; });
+    koEls.forEach(function(el) { el.style.display = 'block'; });
+  }
+}
+</script>
+
+</body>
+</html>
