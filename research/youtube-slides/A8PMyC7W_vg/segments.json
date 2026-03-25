@@ -1,0 +1,4279 @@
+[
+  {
+    "index": 0,
+    "timestamp": "00:00",
+    "timestamp_sec": 0.199,
+    "text": "총네 개의 소프트웨어를 세 개 모델에 시켰으니까 12개가 나오게",
+    "image": "frame_0000_00-00.jpg"
+  },
+  {
+    "index": 1,
+    "timestamp": "00:04",
+    "timestamp_sec": 4.799,
+    "text": "됐었거든요. 이거는 이제 코덱스가 만들어 준 거, 재미나이가 만들어 준",
+    "image": "frame_0001_00-04.jpg"
+  },
+  {
+    "index": 2,
+    "timestamp": "00:08",
+    "timestamp_sec": 8.96,
+    "text": "거. 저희가 다 디자인 시스템나 이런 거는 좀 회기라 돼 있어 가지고 어떤",
+    "image": "frame_0002_00-08.jpg"
+  },
+  {
+    "index": 3,
+    "timestamp": "00:12",
+    "timestamp_sec": 12.84,
+    "text": "모델을 시켜도 똑같은 아웃풋이 나오게 됩니다. 클로드를 쓰든 코덱스를 쓰든",
+    "image": "frame_0003_00-12.jpg"
+  },
+  {
+    "index": 4,
+    "timestamp": "00:16",
+    "timestamp_sec": 16.76,
+    "text": "제미나를 쓰든이 하네스 엔지니어링이라는 기법을 잘 활용하면",
+    "image": "frame_0004_00-16.jpg"
+  },
+  {
+    "index": 5,
+    "timestamp": "00:20",
+    "timestamp_sec": 20.92,
+    "text": "다른 AI 모델을 써도 같은 아웃풋으로 나올 수 있게끔을 강제할",
+    "image": "frame_0005_00-20.jpg"
+  },
+  {
+    "index": 6,
+    "timestamp": "00:25",
+    "timestamp_sec": 25.359,
+    "text": "수 있다. >> 네. 안녕하세요 구독자 여러분. 네. 오늘 하우이 AI 팟캐스트에는 어",
+    "image": "frame_0006_00-25.jpg"
+  },
+  {
+    "index": 7,
+    "timestamp": "00:30",
+    "timestamp_sec": 30.0,
+    "text": "이렇게 이제 디오 대표님이신 황현태 대표님과 여기서 워드 디플로이드",
+    "image": "frame_0007_00-30.jpg"
+  },
+  {
+    "index": 8,
+    "timestamp": "00:34",
+    "timestamp_sec": 34.28,
+    "text": "엔지니어로 일하고 계신 김지훈 님을 모시고 오늘은 어떻게 하면은 실제",
+    "image": "frame_0008_00-34.jpg"
+  },
+  {
+    "index": 9,
+    "timestamp": "00:38",
+    "timestamp_sec": 38.64,
+    "text": "현장에서 강건하게 소프트웨어를 잘",
+    "image": "frame_0009_00-38.jpg"
+  },
+  {
+    "index": 10,
+    "timestamp": "00:41",
+    "timestamp_sec": 41.8,
+    "text": "빌딩하고 일관성 있는 결과물을 전달할지에 대한 내용들을 한번 이야기",
+    "image": "frame_0010_00-41.jpg"
+  },
+  {
+    "index": 11,
+    "timestamp": "00:46",
+    "timestamp_sec": 46.039,
+    "text": "나눠 보도록 해 보겠습니다. 엔터프라이즈에 요즘 굉장히 많은",
+    "image": "frame_0011_00-46.jpg"
+  },
+  {
+    "index": 12,
+    "timestamp": "00:49",
+    "timestamp_sec": 49.48,
+    "text": "사람들이 관심이 많이 있으신 것 같아요. 그러니까 AX라고 해 가지고",
+    "image": "frame_0012_00-49.jpg"
+  },
+  {
+    "index": 13,
+    "timestamp": "00:53",
+    "timestamp_sec": 53.28,
+    "text": "그 트렌드가 확 퍼지고 있고 저 개인적으로는이 변화가 좀 국가적인",
+    "image": "frame_0013_00-53.jpg"
+  },
+  {
+    "index": 14,
+    "timestamp": "00:57",
+    "timestamp_sec": 57.84,
+    "text": "변화다라고 생각을 하고 있는데 그에 있어서 가장 앞서 계신이 두 분 또",
+    "image": "frame_0014_00-57.jpg"
+  },
+  {
+    "index": 15,
+    "timestamp": "01:01",
+    "timestamp_sec": 61.92,
+    "text": "모시고 오늘도 재밌게 한번 이야기를 나눠 보도록 해 보겠습니다. 먼저",
+    "image": "frame_0015_01-01.jpg"
+  },
+  {
+    "index": 16,
+    "timestamp": "01:05",
+    "timestamp_sec": 65.72,
+    "text": "우리 기호 스페이스 Y와의 대표님이신 황현태 대표님 저희 많이 오셨는데",
+    "image": "frame_0016_01-05.jpg"
+  },
+  {
+    "index": 17,
+    "timestamp": "01:10",
+    "timestamp_sec": 70.479,
+    "text": "한번 소개 한번 더 해 주세요. 처음 보시는 분들 많을 테니까.네",
+    "image": "frame_0017_01-10.jpg"
+  },
+  {
+    "index": 18,
+    "timestamp": "01:13",
+    "timestamp_sec": 73.52,
+    "text": ">> 안녕하세요. 엔터프라이즈 AX 기업 스페이스 YY의 대표 황현태입니다.",
+    "image": "frame_0018_01-13.jpg"
+  },
+  {
+    "index": 19,
+    "timestamp": "01:17",
+    "timestamp_sec": 77.32,
+    "text": "반갑습니다. >> 반갑습니다. 네. 유튜브 이번에 여었잖아요. 음. 네. 까칠한",
+    "image": "frame_0019_01-17.jpg"
+  },
+  {
+    "index": 20,
+    "timestamp": "01:21",
+    "timestamp_sec": 81.96,
+    "text": "AI라고 엔터프라이즈 AX 경험담을",
+    "image": "frame_0020_01-21.jpg"
+  },
+  {
+    "index": 21,
+    "timestamp": "01:25",
+    "timestamp_sec": 85.56,
+    "text": "들려드리는 유튜브를 하고 있습니다. 엔터프라이즈 AX 경험이 지금 너무",
+    "image": "frame_0021_01-25.jpg"
+  },
+  {
+    "index": 22,
+    "timestamp": "01:29",
+    "timestamp_sec": 89.28,
+    "text": "다들 적기 때문에이 경험치를 다들 나누어야 된다고 생각을 해요. 그래서",
+    "image": "frame_0022_01-29.jpg"
+  },
+  {
+    "index": 23,
+    "timestamp": "01:33",
+    "timestamp_sec": 93.759,
+    "text": "그런 거를 좀 다 같이 계속 공유할 수 있으면 좋겠습니다.",
+    "image": "frame_0023_01-33.jpg"
+  },
+  {
+    "index": 24,
+    "timestamp": "01:37",
+    "timestamp_sec": 97.84,
+    "text": ">> 네. 너무 좋습니다. 우리 김지은 FD 님. 네.",
+    "image": "frame_0024_01-37.jpg"
+  },
+  {
+    "index": 25,
+    "timestamp": "01:41",
+    "timestamp_sec": 101.159,
+    "text": ">> 네. 안녕하세요. 디오에서 워드 디플로이드 엔지니어로 일을 하고 있는",
+    "image": "frame_0025_01-41.jpg"
+  },
+  {
+    "index": 26,
+    "timestamp": "01:45",
+    "timestamp_sec": 105.799,
+    "text": "김지훈입니다. 잘 부탁드립니다. 네. 어, 포워드 디플로이드 엔지니어로",
+    "image": "frame_0026_01-45.jpg"
+  },
+  {
+    "index": 27,
+    "timestamp": "01:49",
+    "timestamp_sec": 109.52,
+    "text": "어떤 일을 하고 계신가요? >> 아, 결국 직역을 하면 파견형",
+    "image": "frame_0027_01-49.jpg"
+  },
+  {
+    "index": 28,
+    "timestamp": "01:53",
+    "timestamp_sec": 113.56,
+    "text": "엔지니어인데요. 그래서 고객사를 직접 만나뵙고 어, 헤이를 자주 통하면서",
+    "image": "frame_0028_01-53.jpg"
+  },
+  {
+    "index": 29,
+    "timestamp": "01:59",
+    "timestamp_sec": 119.96,
+    "text": "그 헤에서 나오는 피드백들을 정의해 드리고 같이 제로투원을 하는 그",
+    "image": "frame_0029_01-59.jpg"
+  },
+  {
+    "index": 30,
+    "timestamp": "02:04",
+    "timestamp_sec": 124.88,
+    "text": "역할로 봐주시면 >> 아, 네. 알겠습니다. 네. 좋습니다. 네. 요즘 사실 AI",
+    "image": "frame_0030_02-04.jpg"
+  },
+  {
+    "index": 31,
+    "timestamp": "02:09",
+    "timestamp_sec": 129.16,
+    "text": "현장에서 또 많이 나오는 단어가 몇등성이라는 얘기가 있어요. 그",
+    "image": "frame_0031_02-09.jpg"
+  },
+  {
+    "index": 32,
+    "timestamp": "02:12",
+    "timestamp_sec": 132.599,
+    "text": "몇등성이 뭐냐면 일관성과 같이 우리가 생각할 수가 있는데 이런 화재에",
+    "image": "frame_0032_02-12.jpg"
+  },
+  {
+    "index": 33,
+    "timestamp": "02:17",
+    "timestamp_sec": 137.68,
+    "text": "대해서 자세한 사례를 통해서 한번 이야기를 나눠 볼 수 있을 것",
+    "image": "frame_0033_02-17.jpg"
+  },
+  {
+    "index": 34,
+    "timestamp": "02:21",
+    "timestamp_sec": 141.12,
+    "text": "같습니다. 한번 초반부에 어 그 내용에 대해서 간략하게만 소개를 먼저",
+    "image": "frame_0034_02-21.jpg"
+  },
+  {
+    "index": 35,
+    "timestamp": "02:25",
+    "timestamp_sec": 145.16,
+    "text": "해 주시고 바로 소개로 넘어가도 좋을 것 같아요. 네. 말씀해 주실 수",
+    "image": "frame_0035_02-25.jpg"
+  },
+  {
+    "index": 36,
+    "timestamp": "02:28",
+    "timestamp_sec": 148.4,
+    "text": "있을까요? >> 네 >> 오늘 결국 강건성 있는 어 결과물을",
+    "image": "frame_0036_02-28.jpg"
+  },
+  {
+    "index": 37,
+    "timestamp": "02:32",
+    "timestamp_sec": 152.84,
+    "text": "얻기 위해서 가져온 토픽은 한네스 엔지니어링이라는",
+    "image": "frame_0037_02-32.jpg"
+  },
+  {
+    "index": 38,
+    "timestamp": "02:35",
+    "timestamp_sec": 155.84,
+    "text": ">> 아 핫타하죠. 예. 핫타죠. 네. 네. 그 화면에 대해서 좀 계속",
+    "image": "frame_0038_02-35.jpg"
+  },
+  {
+    "index": 39,
+    "timestamp": "02:39",
+    "timestamp_sec": 159.72,
+    "text": "설명해 주시면 너무 좋을 것 같아요. >> 네. 그래서 어 오늘 준비해 온",
+    "image": "frame_0039_02-39.jpg"
+  },
+  {
+    "index": 40,
+    "timestamp": "02:43",
+    "timestamp_sec": 163.239,
+    "text": "거는이 하네스 엔지니어링을 시원하고자",
+    "image": "frame_0040_02-43.jpg"
+  },
+  {
+    "index": 41,
+    "timestamp": "02:46",
+    "timestamp_sec": 166.36,
+    "text": "더미 스펙을 하나 가져왔는데요. 그래서 저희가 흔히 아는 배달",
+    "image": "frame_0041_02-46.jpg"
+  },
+  {
+    "index": 42,
+    "timestamp": "02:49",
+    "timestamp_sec": 169.599,
+    "text": "플랫폼을 예시로 가져왔습니다. 그래서이 배들 플랫폼 같은 경우에는",
+    "image": "frame_0042_02-49.jpg"
+  },
+  {
+    "index": 43,
+    "timestamp": "02:54",
+    "timestamp_sec": 174.2,
+    "text": "크게네 가지 어떤 소프트웨어가 있다라고 전 생각을 하고 있는데",
+    "image": "frame_0043_02-54.jpg"
+  },
+  {
+    "index": 44,
+    "timestamp": "02:58",
+    "timestamp_sec": 178.12,
+    "text": "일반적인 저희가 고객할 고객이 주문할 때 쓰는 고객료 그리고 기사분들께서",
+    "image": "frame_0044_02-58.jpg"
+  },
+  {
+    "index": 45,
+    "timestamp": "03:03",
+    "timestamp_sec": 183.519,
+    "text": "음식을 픽업하고 고객한테 전달해 주시는 그런 속 도구 그리고",
+    "image": "frame_0045_03-03.jpg"
+  },
+  {
+    "index": 46,
+    "timestamp": "03:07",
+    "timestamp_sec": 187.64,
+    "text": "음식점에서는 주문을 수락하고 그리고",
+    "image": "frame_0046_03-07.jpg"
+  },
+  {
+    "index": 47,
+    "timestamp": "03:10",
+    "timestamp_sec": 190.76,
+    "text": "조리로 완료된 걸 알려 주는 속태예요. 그리고이 전체를 관리하는",
+    "image": "frame_0047_03-10.jpg"
+  },
+  {
+    "index": 48,
+    "timestamp": "03:15",
+    "timestamp_sec": 195.56,
+    "text": "어떤 배달 플랫폼의 어드민 이렇게네 개를 생각을 했고요. 그래서이네 개를",
+    "image": "frame_0048_03-15.jpg"
+  },
+  {
+    "index": 49,
+    "timestamp": "03:20",
+    "timestamp_sec": 200.64,
+    "text": "가지고 제가 지금 시도하고 있는 한네스 엔지니어링으로 했을 때 어떻게",
+    "image": "frame_0049_03-20.jpg"
+  },
+  {
+    "index": 50,
+    "timestamp": "03:24",
+    "timestamp_sec": 204.72,
+    "text": "아웃풋이 나오는지 보여 드리려고 오늘 가져왔습니다. 너무 멋집니다. 네.",
+    "image": "frame_0050_03-24.jpg"
+  },
+  {
+    "index": 51,
+    "timestamp": "03:29",
+    "timestamp_sec": 209.04,
+    "text": "저렇게 배달 플랫폼 하나만 설계하는데도 진짜 저게 다 하나의",
+    "image": "frame_0051_03-29.jpg"
+  },
+  {
+    "index": 52,
+    "timestamp": "03:33",
+    "timestamp_sec": 213.439,
+    "text": "조직이거든요. 진짜 하나 큰 조직들인데 그것들을 한꺼번만 설계해",
+    "image": "frame_0052_03-33.jpg"
+  },
+  {
+    "index": 53,
+    "timestamp": "03:38",
+    "timestamp_sec": 218.76,
+    "text": "놓으셨는데 왜 이렇게네 개 정도를 분할해서 저희 얘기 보여 주시는지 좀",
+    "image": "frame_0053_03-38.jpg"
+  },
+  {
+    "index": 54,
+    "timestamp": "03:43",
+    "timestamp_sec": 223.439,
+    "text": "궁금합니다. 네. 아, 근데이 첫 단계로는 이런 요구상 있는 고객사를",
+    "image": "frame_0054_03-43.jpg"
+  },
+  {
+    "index": 55,
+    "timestamp": "03:49",
+    "timestamp_sec": 229.08,
+    "text": "만났다라고 가정을 하고 더미 회의를 진행했다라고 가정을 했습니다. 그러면",
+    "image": "frame_0055_03-49.jpg"
+  },
+  {
+    "index": 56,
+    "timestamp": "03:53",
+    "timestamp_sec": 233.959,
+    "text": "질문 주신 것처럼 이게 꼭 내개여야 하는가는 고객은 모르실 수도 있어요.",
+    "image": "frame_0056_03-53.jpg"
+  },
+  {
+    "index": 57,
+    "timestamp": "03:58",
+    "timestamp_sec": 238.28,
+    "text": "처음에는 그냥 고객이 주문하는 앱만 있으면 되지라고 생각하실 수 있다가도",
+    "image": "frame_0057_03-58.jpg"
+  },
+  {
+    "index": 58,
+    "timestamp": "04:03",
+    "timestamp_sec": 243.159,
+    "text": "점점 대화를 해 보면 아, 기사님 앱도 따로 필요한 것도 알게 되시고",
+    "image": "frame_0058_04-03.jpg"
+  },
+  {
+    "index": 59,
+    "timestamp": "04:07",
+    "timestamp_sec": 247.36,
+    "text": "그러다 보면 또 음식점을 위한 앱도 필요하겠다. 그리고 아 이걸 다",
+    "image": "frame_0059_04-07.jpg"
+  },
+  {
+    "index": 60,
+    "timestamp": "04:11",
+    "timestamp_sec": 251.799,
+    "text": "관리하는 우리 산내 어드민도 필요하겠다. 이런 결론이 되게",
+    "image": "frame_0060_04-11.jpg"
+  },
+  {
+    "index": 61,
+    "timestamp": "04:15",
+    "timestamp_sec": 255.28,
+    "text": "되는데요. 그래서 이렇게네 개가 된 건 아 고객사 입장에서 난 이런 거",
+    "image": "frame_0061_04-15.jpg"
+  },
+  {
+    "index": 62,
+    "timestamp": "04:19",
+    "timestamp_sec": 259.359,
+    "text": "막연이 필요해라고 했을 때 FD로서",
+    "image": "frame_0062_04-19.jpg"
+  },
+  {
+    "index": 63,
+    "timestamp": "04:22",
+    "timestamp_sec": 262.4,
+    "text": "아이 얘기를 들어봤을 때 구성 요소를 뭐 미시하게 쪼개 봤을 때 여기에",
+    "image": "frame_0063_04-22.jpg"
+  },
+  {
+    "index": 64,
+    "timestamp": "04:27",
+    "timestamp_sec": 267.639,
+    "text": "가상의 폐로선은네 개의 분류가 있고 그럼네 개의 분류마다 적합한",
+    "image": "frame_0064_04-27.jpg"
+  },
+  {
+    "index": 65,
+    "timestamp": "04:32",
+    "timestamp_sec": 272.039,
+    "text": "소프트웨어가 필요하겠다 이런 판단을 했다라고 가정하고네 개로",
+    "image": "frame_0065_04-32.jpg"
+  },
+  {
+    "index": 66,
+    "timestamp": "04:36",
+    "timestamp_sec": 276.24,
+    "text": "가져왔습니다. >> 아네 문제 정의를 잘하셨네요.네 네.",
+    "image": "frame_0066_04-36.jpg"
+  },
+  {
+    "index": 67,
+    "timestamp": "04:39",
+    "timestamp_sec": 279.4,
+    "text": "그러면은 그다음에 어 해야 될 일은 뭔가요?",
+    "image": "frame_0067_04-39.jpg"
+  },
+  {
+    "index": 68,
+    "timestamp": "04:42",
+    "timestamp_sec": 282.6,
+    "text": ">> 아, 결국 총 여섯 개의 플로우로 오늘 보여 드리려고 왔고요. 그래서",
+    "image": "frame_0068_04-42.jpg"
+  },
+  {
+    "index": 69,
+    "timestamp": "04:46",
+    "timestamp_sec": 286.8,
+    "text": "방금 말씀드린 요구 사항을 넣었을 때 이걸 분석해서 플랜을 세우고 그",
+    "image": "frame_0069_04-46.jpg"
+  },
+  {
+    "index": 70,
+    "timestamp": "04:51",
+    "timestamp_sec": 291.919,
+    "text": "플랜에 맞게 어떤 아키텍처 강건한 아키텍처를 짜게 되고요. 기능 명세나",
+    "image": "frame_0070_04-51.jpg"
+  },
+  {
+    "index": 71,
+    "timestamp": "04:57",
+    "timestamp_sec": 297.12,
+    "text": "어떤 도메인 모델들이 있어야 하는지 >> 네. 그리고 어떤 아키텍처로 갈 것인지",
+    "image": "frame_0071_04-57.jpg"
+  },
+  {
+    "index": 72,
+    "timestamp": "05:01",
+    "timestamp_sec": 301.759,
+    "text": "이거를 AI가 알아들을 수 있게 코드 레벨로 디자인 설계를 하고 그리고",
+    "image": "frame_0072_05-01.jpg"
+  },
+  {
+    "index": 73,
+    "timestamp": "05:07",
+    "timestamp_sec": 307.16,
+    "text": "저희는 하네스 엔지니어링 구성 요소 중 하나는 또 저는 잘 쓰는게 린터가",
+    "image": "frame_0073_05-07.jpg"
+  },
+  {
+    "index": 74,
+    "timestamp": "05:11",
+    "timestamp_sec": 311.6,
+    "text": "있거든요. 터 기반으로 모든 코드",
+    "image": "frame_0074_05-11.jpg"
+  },
+  {
+    "index": 75,
+    "timestamp": "05:14",
+    "timestamp_sec": 314.919,
+    "text": "아웃풋에 여러 선택지가 있다면 하나로 강제할 수 있게끔 터를 사용하는데",
+    "image": "frame_0075_05-14.jpg"
+  },
+  {
+    "index": 76,
+    "timestamp": "05:18",
+    "timestamp_sec": 318.919,
+    "text": "코드를 만들고 터로서 어떤 결과물을",
+    "image": "frame_0076_05-18.jpg"
+  },
+  {
+    "index": 77,
+    "timestamp": "05:22",
+    "timestamp_sec": 322.199,
+    "text": "검토하고 결국에 제가 오늘 말씀드리고",
+    "image": "frame_0077_05-22.jpg"
+  },
+  {
+    "index": 78,
+    "timestamp": "05:25",
+    "timestamp_sec": 325.319,
+    "text": "싶은 거는 클로드를 쓰든 코덱스를 쓰든 제미나를 쓰든이 하네스",
+    "image": "frame_0078_05-25.jpg"
+  },
+  {
+    "index": 79,
+    "timestamp": "05:29",
+    "timestamp_sec": 329.56,
+    "text": "엔지니어링이라는 기법을 잘 활용하면 다른 AI 모델을 써도 같은",
+    "image": "frame_0079_05-29.jpg"
+  },
+  {
+    "index": 80,
+    "timestamp": "05:33",
+    "timestamp_sec": 333.56,
+    "text": "아웃풋으로 나올 수 있게끔 방향을 강제할 수 있다. 혹은 방향을 조절할",
+    "image": "frame_0080_05-33.jpg"
+  },
+  {
+    "index": 81,
+    "timestamp": "05:37",
+    "timestamp_sec": 337.84,
+    "text": "수 있다. 이런 걸 보여 드리려 왔습니다. >> 아 너무 멋있습니다.",
+    "image": "frame_0081_05-37.jpg"
+  },
+  {
+    "index": 82,
+    "timestamp": "05:41",
+    "timestamp_sec": 341.08,
+    "text": ">> 네. 그래서 지금 처음 단계부터 어떻게 진행이 되고 있는지 좀 더",
+    "image": "frame_0082_05-41.jpg"
+  },
+  {
+    "index": 83,
+    "timestamp": "05:45",
+    "timestamp_sec": 345.16,
+    "text": "자세하게 설명을 주실 수 있을까요? >> 네. 그래서 여기에서도 제가 더미로",
+    "image": "frame_0083_05-45.jpg"
+  },
+  {
+    "index": 84,
+    "timestamp": "05:49",
+    "timestamp_sec": 349.759,
+    "text": "적어 놨지만네 개 막연한 요구 사항을",
+    "image": "frame_0084_05-49.jpg"
+  },
+  {
+    "index": 85,
+    "timestamp": "05:53",
+    "timestamp_sec": 353.12,
+    "text": "각각의 이걸 검증하기 위해서 각각의 클로드랑 제미나이랑 코덱스에",
+    "image": "frame_0085_05-53.jpg"
+  },
+  {
+    "index": 86,
+    "timestamp": "05:58",
+    "timestamp_sec": 358.199,
+    "text": "시킨다라고 가정을 했고요. 그래서 첫 단계는 아",
+    "image": "frame_0086_05-58.jpg"
+  },
+  {
+    "index": 87,
+    "timestamp": "06:01",
+    "timestamp_sec": 361.6,
+    "text": ">> 고객용 어떤 주문 앱이 필요해요라는",
+    "image": "frame_0087_06-01.jpg"
+  },
+  {
+    "index": 88,
+    "timestamp": "06:04",
+    "timestamp_sec": 364.6,
+    "text": "거. 그리고 어 기사님께 어느 위치에",
+    "image": "frame_0088_06-04.jpg"
+  },
+  {
+    "index": 89,
+    "timestamp": "06:08",
+    "timestamp_sec": 368.4,
+    "text": "있고 어디로 가야 되는지 알 수 있는 앱을 만들어 주세요라는이네",
+    "image": "frame_0089_06-08.jpg"
+  },
+  {
+    "index": 90,
+    "timestamp": "06:12",
+    "timestamp_sec": 372.12,
+    "text": "한네 문장의 요구상이 있다라고 가정하고 첫 단계를 시작한 겁니다.",
+    "image": "frame_0090_06-12.jpg"
+  },
+  {
+    "index": 91,
+    "timestamp": "06:16",
+    "timestamp_sec": 376.4,
+    "text": ">> 네. 그러면 그 단계에서 우리가 봐야 될 핵심 뭐 사항이 있나요? 아,",
+    "image": "frame_0091_06-16.jpg"
+  },
+  {
+    "index": 92,
+    "timestamp": "06:20",
+    "timestamp_sec": 380.039,
+    "text": "요건 없습니다. 인풋크 자체는 저희는 고객사나 혹은 고객분들에게",
+    "image": "frame_0092_06-20.jpg"
+  },
+  {
+    "index": 93,
+    "timestamp": "06:25",
+    "timestamp_sec": 385.24,
+    "text": "비정형적으로 편하게 주실 수 있도록 하고 있거든요.",
+    "image": "frame_0093_06-25.jpg"
+  },
+  {
+    "index": 94,
+    "timestamp": "06:28",
+    "timestamp_sec": 388.759,
+    "text": ">> 그러니까 그냥 전체적으로 아, 이런 구조가 있을 것 같다라고 하는 가정을",
+    "image": "frame_0094_06-28.jpg"
+  },
+  {
+    "index": 95,
+    "timestamp": "06:32",
+    "timestamp_sec": 392.96,
+    "text": "먼저 문서다. 뭐 이렇게 생각하시면 좀 편하실 수도 있겠네요. 네. 그럼",
+    "image": "frame_0095_06-32.jpg"
+  },
+  {
+    "index": 96,
+    "timestamp": "06:37",
+    "timestamp_sec": 397.319,
+    "text": "그다음 단계는 플랜에 대해서는 우리가 중점적으로 봐야 될 부분은 뭔가요?",
+    "image": "frame_0096_06-37.jpg"
+  },
+  {
+    "index": 97,
+    "timestamp": "06:41",
+    "timestamp_sec": 401.36,
+    "text": ">> 네. 결국 플랜에서는 각 미팅마다",
+    "image": "frame_0097_06-41.jpg"
+  },
+  {
+    "index": 98,
+    "timestamp": "06:44",
+    "timestamp_sec": 404.919,
+    "text": "FD를 계속 가정을 말씀드리면은 주에 두 세 번을 뱉는데요. 그럼 만약에",
+    "image": "frame_0098_06-44.jpg"
+  },
+  {
+    "index": 99,
+    "timestamp": "06:49",
+    "timestamp_sec": 409.639,
+    "text": "두 번을 뱉는다라고 가정했을 때 회의를 오전과 오후 그러니까 출근",
+    "image": "frame_0099_06-49.jpg"
+  },
+  {
+    "index": 100,
+    "timestamp": "06:55",
+    "timestamp_sec": 415.68,
+    "text": "직후와 퇴근 직전 하게 됩니다. 그럼 총네 번의 미팅이 고정적으로",
+    "image": "frame_0100_06-55.jpg"
+  },
+  {
+    "index": 101,
+    "timestamp": "07:00",
+    "timestamp_sec": 420.199,
+    "text": "됐는데요. >> 그럼 각 헤의마다 직전에 완성된 거랑",
+    "image": "frame_0101_07-00.jpg"
+  },
+  {
+    "index": 102,
+    "timestamp": "07:04",
+    "timestamp_sec": 424.28,
+    "text": "오늘 해야 될 거 혹은 온을 완수한 거 이거를 리뷰하게 됩니다. 그래서",
+    "image": "frame_0102_07-04.jpg"
+  },
+  {
+    "index": 103,
+    "timestamp": "07:09",
+    "timestamp_sec": 429.44,
+    "text": "플랜에서 하는 거는 그 한시간 회의 동안 막연하게 이야기한 거를",
+    "image": "frame_0103_07-09.jpg"
+  },
+  {
+    "index": 104,
+    "timestamp": "07:13",
+    "timestamp_sec": 433.599,
+    "text": "구조적으로 정리하는게 하나의 구성 요소가 있습니다. 그래서 플랜은 총",
+    "image": "frame_0104_07-13.jpg"
+  },
+  {
+    "index": 105,
+    "timestamp": "07:17",
+    "timestamp_sec": 437.4,
+    "text": "세 가지 구성 요소가 있는데 첫 번째 구성 요소는 서로 회의를 되게",
+    "image": "frame_0105_07-17.jpg"
+  },
+  {
+    "index": 106,
+    "timestamp": "07:21",
+    "timestamp_sec": 441.639,
+    "text": "발산적으로 하고 그것을 수렴해서",
+    "image": "frame_0106_07-21.jpg"
+  },
+  {
+    "index": 107,
+    "timestamp": "07:24",
+    "timestamp_sec": 444.879,
+    "text": "정리하는 미팅 로그를 적는 그게 플랜",
+    "image": "frame_0107_07-24.jpg"
+  },
+  {
+    "index": 108,
+    "timestamp": "07:29",
+    "timestamp_sec": 449.28,
+    "text": "중 하나입니다. >> 네. 미팅을 하고 그걸 모두 전사화시킨다가 있는 거죠. 네.",
+    "image": "frame_0108_07-29.jpg"
+  },
+  {
+    "index": 109,
+    "timestamp": "07:33",
+    "timestamp_sec": 453.479,
+    "text": "그래서 결 나왔던 요약을 하고 어떤게",
+    "image": "frame_0109_07-33.jpg"
+  },
+  {
+    "index": 110,
+    "timestamp": "07:37",
+    "timestamp_sec": 457.12,
+    "text": "부족했고 어떤게 잘됐고 어떤 건 필요하지 않고 어떤 거는 직접",
+    "image": "frame_0110_07-37.jpg"
+  },
+  {
+    "index": 111,
+    "timestamp": "07:41",
+    "timestamp_sec": 461.12,
+    "text": "구축하지 않고 어떤 기존을 쐈으나 어떤 솔루션을 사서 쓸 건지 어떤 거",
+    "image": "frame_0111_07-41.jpg"
+  },
+  {
+    "index": 112,
+    "timestamp": "07:45",
+    "timestamp_sec": 465.879,
+    "text": "우리가 직접 구해야 되는지 이런 거를 분석하게 됩니다. >> 그리고 약간 미팅 원칙이 두 개가",
+    "image": "frame_0112_07-45.jpg"
+  },
+  {
+    "index": 113,
+    "timestamp": "07:50",
+    "timestamp_sec": 470.599,
+    "text": "있다면 하나는 제한하지 않는다.",
+    "image": "frame_0113_07-50.jpg"
+  },
+  {
+    "index": 114,
+    "timestamp": "07:53",
+    "timestamp_sec": 473.72,
+    "text": ">> 예. 그냥 하고 싶은 말 다 해 다 하시라. >> 편하게.",
+    "image": "frame_0114_07-53.jpg"
+  },
+  {
+    "index": 115,
+    "timestamp": "07:56",
+    "timestamp_sec": 476.72,
+    "text": ">> 예. 저저만 해도 미팅을 하다 보면은 제한하기도 하거든요. 그건 습관적인",
+    "image": "frame_0115_07-56.jpg"
+  },
+  {
+    "index": 116,
+    "timestamp": "08:01",
+    "timestamp_sec": 481.479,
+    "text": "저의 태도인데 그래서 두 명 정도가",
+    "image": "frame_0116_08-01.jpg"
+  },
+  {
+    "index": 117,
+    "timestamp": "08:05",
+    "timestamp_sec": 485.08,
+    "text": "같이 가면은 서로가 그거를 막습니다.",
+    "image": "frame_0117_08-05.jpg"
+  },
+  {
+    "index": 118,
+    "timestamp": "08:08",
+    "timestamp_sec": 488.36,
+    "text": ">> 고객을 막지 마라라는 거를 느낌적인 느낌으로 눈빛으로 전달하거든요. 그럼",
+    "image": "frame_0118_08-08.jpg"
+  },
+  {
+    "index": 119,
+    "timestamp": "08:12",
+    "timestamp_sec": 492.52,
+    "text": "아차 하면서 그 다 말씀하시라고 이런 식으로 좀 제한하는게 있어요.",
+    "image": "frame_0119_08-12.jpg"
+  },
+  {
+    "index": 120,
+    "timestamp": "08:17",
+    "timestamp_sec": 497.24,
+    "text": ">> 그렇죠. 저도 최근에 이제 AX 하면서 아 고객의 요건을 상세하게",
+    "image": "frame_0120_08-17.jpg"
+  },
+  {
+    "index": 121,
+    "timestamp": "08:22",
+    "timestamp_sec": 502.44,
+    "text": "파악하면 할수록 너무 좋다. 그 모든게 다 데이터가 되니까라는 생각이",
+    "image": "frame_0121_08-22.jpg"
+  },
+  {
+    "index": 122,
+    "timestamp": "08:26",
+    "timestamp_sec": 506.879,
+    "text": "들었는데 어 재밌습니다. 근데 지금 제가 궁금한 거는 저 플랜 단계에서",
+    "image": "frame_0122_08-26.jpg"
+  },
+  {
+    "index": 123,
+    "timestamp": "08:31",
+    "timestamp_sec": 511.599,
+    "text": "재미나이 클로드 코덱스가 저렇게 나뉘져 있는데 왜 그런 거예요? 아,",
+    "image": "frame_0123_08-31.jpg"
+  },
+  {
+    "index": 124,
+    "timestamp": "08:36",
+    "timestamp_sec": 516.88,
+    "text": "저는 지금 클로드만 쓰고 있긴 한데요. >> 다른 AI 모델을 쓰더라도이 하네스",
+    "image": "frame_0124_08-36.jpg"
+  },
+  {
+    "index": 125,
+    "timestamp": "08:42",
+    "timestamp_sec": 522.399,
+    "text": "엔지니어링 기법을 사용하면 뭘 해도 필연적인 결과이 나올 거다라는 걸로",
+    "image": "frame_0125_08-42.jpg"
+  },
+  {
+    "index": 126,
+    "timestamp": "08:48",
+    "timestamp_sec": 528.0,
+    "text": "가져오게 된 겁니다. >> 아, 그러니깐 그 검이 문서조차",
+    "image": "frame_0126_08-48.jpg"
+  },
+  {
+    "index": 127,
+    "timestamp": "08:52",
+    "timestamp_sec": 532.88,
+    "text": "어쩌면 일관성이 있게 나올 수가 있다라고 하는 것이죠.",
+    "image": "frame_0127_08-52.jpg"
+  },
+  {
+    "index": 128,
+    "timestamp": "08:57",
+    "timestamp_sec": 537.0,
+    "text": "재밌는 관점이네요. 아, >> 계속 시기에 따라서 어떤 랭킹이",
+    "image": "frame_0128_08-57.jpg"
+  },
+  {
+    "index": 129,
+    "timestamp": "09:01",
+    "timestamp_sec": 541.279,
+    "text": "바뀌잖아요. 언제는 오퍼스 4.0이 제일 좋았다가 언제는 이제",
+    "image": "frame_0129_09-01.jpg"
+  },
+  {
+    "index": 130,
+    "timestamp": "09:06",
+    "timestamp_sec": 546.2,
+    "text": ">> GPT 5.3이 더 좋았다가 >> 네. 근데 저희는 AI 모델을 만든",
+    "image": "frame_0130_09-06.jpg"
+  },
+  {
+    "index": 131,
+    "timestamp": "09:10",
+    "timestamp_sec": 550.12,
+    "text": "사람은 아니고 AI 모델을 가져다 쓰는 사람이니까 어떻게 하면 정말 잘",
+    "image": "frame_0131_09-10.jpg"
+  },
+  {
+    "index": 132,
+    "timestamp": "09:14",
+    "timestamp_sec": 554.36,
+    "text": "가져다 쓸까? 그래서 다른 모델이 바뀌더라도이 기법은 유효하다. 이게",
+    "image": "frame_0132_09-14.jpg"
+  },
+  {
+    "index": 133,
+    "timestamp": "09:20",
+    "timestamp_sec": 560.279,
+    "text": "중요하거든요. 저한테는 뭔 저희 팀에 그래서 세 개를 가졌습니다. 그",
+    "image": "frame_0133_09-20.jpg"
+  },
+  {
+    "index": 134,
+    "timestamp": "09:24",
+    "timestamp_sec": 564.839,
+    "text": "플랜을 쓰는 그러면 저 문서를 쓰는 별도의 프롬프팅을 좀 빡세게 깎아",
+    "image": "frame_0134_09-24.jpg"
+  },
+  {
+    "index": 135,
+    "timestamp": "09:29",
+    "timestamp_sec": 569.6,
+    "text": "가지고 내놓은 결과가 저거다라고 하는 거라고 보면 되까요?",
+    "image": "frame_0135_09-29.jpg"
+  },
+  {
+    "index": 136,
+    "timestamp": "09:32",
+    "timestamp_sec": 572.76,
+    "text": ">> 네. 아, 그래서 세 개의 그 AI",
+    "image": "frame_0136_09-32.jpg"
+  },
+  {
+    "index": 137,
+    "timestamp": "09:36",
+    "timestamp_sec": 576.519,
+    "text": "모델들을 보여 주셨는데 저 내용들이 어느 정도의 일관성이 존재한다라고",
+    "image": "frame_0137_09-36.jpg"
+  },
+  {
+    "index": 138,
+    "timestamp": "09:40",
+    "timestamp_sec": 580.88,
+    "text": "하는 걸 말씀해 주시는 거군요. >> 아, 재밌습니다. 그럼 그다음 단계는",
+    "image": "frame_0138_09-40.jpg"
+  },
+  {
+    "index": 139,
+    "timestamp": "09:45",
+    "timestamp_sec": 585.0,
+    "text": "어떻게 되나요? 그다음부터 이제 기획의 요소로 가게 됩니다. 그래서",
+    "image": "frame_0139_09-45.jpg"
+  },
+  {
+    "index": 140,
+    "timestamp": "09:49",
+    "timestamp_sec": 589.079,
+    "text": "저희는 가장 하이레벨한 기획 요소는",
+    "image": "frame_0140_09-49.jpg"
+  },
+  {
+    "index": 141,
+    "timestamp": "09:52",
+    "timestamp_sec": 592.56,
+    "text": "컨텍스트 프블럼 솔루션이에요. 그래서 이건 현태님이 초후반에 제안을 해",
+    "image": "frame_0141_09-52.jpg"
+  },
+  {
+    "index": 142,
+    "timestamp": "09:56",
+    "timestamp_sec": 596.839,
+    "text": "주셨는데이 얘기를 듣고 아 어떤 맥락에서 어떤 문제를 겪고 있기",
+    "image": "frame_0142_09-56.jpg"
+  },
+  {
+    "index": 143,
+    "timestamp": "10:01",
+    "timestamp_sec": 601.68,
+    "text": "때문에 우린 어떤 솔루션을 제시해야 될지 우리 어떤 솔루션을 같이",
+    "image": "frame_0143_10-01.jpg"
+  },
+  {
+    "index": 144,
+    "timestamp": "10:05",
+    "timestamp_sec": 605.56,
+    "text": "만들어야 될지를 정리하게 됩니다. 솔루션을 제시한다는 것은 문서랑 어떤",
+    "image": "frame_0144_10-05.jpg"
+  },
+  {
+    "index": 145,
+    "timestamp": "10:10",
+    "timestamp_sec": 610.0,
+    "text": "부분이 다른 건가요? 정확히는 미팅 로그에서도 솔루션을 우리가 생각해 볼",
+    "image": "frame_0145_10-10.jpg"
+  },
+  {
+    "index": 146,
+    "timestamp": "10:13",
+    "timestamp_sec": 613.64,
+    "text": "수 있긴 한데 저거는 지금 보니까는 CPS라고 표현을 하는 거 같아요.",
+    "image": "frame_0146_10-13.jpg"
+  },
+  {
+    "index": 147,
+    "timestamp": "10:17",
+    "timestamp_sec": 617.68,
+    "text": "저게 뭔지에 대해서 좀 더 자세히 설명해 주시면 좋을 것 같아요. >> 아, 일단은 CPS도 문서 유형 중에",
+    "image": "frame_0147_10-17.jpg"
+  },
+  {
+    "index": 148,
+    "timestamp": "10:23",
+    "timestamp_sec": 623.56,
+    "text": "하나고요. 어떻게 보면 생각을 정리하는 프레임워크일 수 있습니다.",
+    "image": "frame_0148_10-23.jpg"
+  },
+  {
+    "index": 149,
+    "timestamp": "10:27",
+    "timestamp_sec": 627.0,
+    "text": "그 저희가 처음에 SKT 프로젝트로 만나게 됐는데 그때 그 어디서 본게",
+    "image": "frame_0149_10-27.jpg"
+  },
+  {
+    "index": 150,
+    "timestamp": "10:32",
+    "timestamp_sec": 632.839,
+    "text": "있었어요. 그 팔란티어는 처음에이 뭔가 자기들끼리 미팅을 할 때",
+    "image": "frame_0150_10-32.jpg"
+  },
+  {
+    "index": 151,
+    "timestamp": "10:36",
+    "timestamp_sec": 636.44,
+    "text": "내부에서 FDA 미팅을 할 때 뭐 머드 미팅, 머드 세션 뭐 이런 걸",
+    "image": "frame_0151_10-36.jpg"
+  },
+  {
+    "index": 152,
+    "timestamp": "10:40",
+    "timestamp_sec": 640.639,
+    "text": "통해서 다양한게 발상을 하고 발산도 하고 수렴을 한다라고 해서 우리는",
+    "image": "frame_0152_10-40.jpg"
+  },
+  {
+    "index": 153,
+    "timestamp": "10:45",
+    "timestamp_sec": 645.399,
+    "text": "어떤 프레임워크를 처음에 도입해 볼까 했을 때 제가 프로덕 매니저일 때는",
+    "image": "frame_0153_10-45.jpg"
+  },
+  {
+    "index": 154,
+    "timestamp": "10:49",
+    "timestamp_sec": 649.0,
+    "text": "저 컨텍스트 프블 솔루션의",
+    "image": "frame_0154_10-49.jpg"
+  },
+  {
+    "index": 155,
+    "timestamp": "10:52",
+    "timestamp_sec": 652.24,
+    "text": "프레임워크로 생각을 많이 했었거든요. 그래서 이걸로 우리가 한번 정리해",
+    "image": "frame_0155_10-52.jpg"
+  },
+  {
+    "index": 156,
+    "timestamp": "10:55",
+    "timestamp_sec": 655.8,
+    "text": "보자라는 얘기를 하게 되었었고요. 이게 그냥 생각 정리를 할 때 고객의",
+    "image": "frame_0156_10-55.jpg"
+  },
+  {
+    "index": 157,
+    "timestamp": "11:01",
+    "timestamp_sec": 661.04,
+    "text": "문제가 뭐냐 그리고 그 문제에 대한 솔루션은 뭐냐 근데이 문제와 솔루션을",
+    "image": "frame_0157_11-01.jpg"
+  },
+  {
+    "index": 158,
+    "timestamp": "11:05",
+    "timestamp_sec": 665.76,
+    "text": "얘기하기 전에 앞단에 우리가 미리 다",
+    "image": "frame_0158_11-05.jpg"
+  },
+  {
+    "index": 159,
+    "timestamp": "11:09",
+    "timestamp_sec": 669.04,
+    "text": "같이 싱크를 맞추고 있는 깔고 있는 컨텍스트 뭐냐 해서 CPS로 문서들을",
+    "image": "frame_0159_11-09.jpg"
+  },
+  {
+    "index": 160,
+    "timestamp": "11:14",
+    "timestamp_sec": 674.079,
+    "text": "정리를 하게 됐습니다. 왜냐면 매번 우리는 플라블륨을 발견하고 솔루션을",
+    "image": "frame_0160_11-14.jpg"
+  },
+  {
+    "index": 161,
+    "timestamp": "11:17",
+    "timestamp_sec": 677.36,
+    "text": "고환하게 되니까 그때마다 컨텍스트는 계속 쌓여 가는 것이고 그래서 CPS",
+    "image": "frame_0161_11-17.jpg"
+  },
+  {
+    "index": 162,
+    "timestamp": "11:21",
+    "timestamp_sec": 681.44,
+    "text": "운서를 많이 썼거든요. >> 너무 좋네요. 컨텍스트가 있는 거 자체가 다른 사람이 보더라도 그",
+    "image": "frame_0162_11-21.jpg"
+  },
+  {
+    "index": 163,
+    "timestamp": "11:26",
+    "timestamp_sec": 686.079,
+    "text": "맥락을 한 번에 이해하고 그것부터 시작을 하기 때문에 백그라운드 기반의",
+    "image": "frame_0163_11-26.jpg"
+  },
+  {
+    "index": 164,
+    "timestamp": "11:29",
+    "timestamp_sec": 689.8,
+    "text": "솔루션이 저렇게 나왔구나라는 형태로 서로 공유가 되는 것이죠. 그런데",
+    "image": "frame_0164_11-29.jpg"
+  },
+  {
+    "index": 165,
+    "timestamp": "11:34",
+    "timestamp_sec": 694.399,
+    "text": "지금 보여주시는 화면도 그러면 각자의 AI 엔진들이 저렇게 유사하게",
+    "image": "frame_0165_11-34.jpg"
+  },
+  {
+    "index": 166,
+    "timestamp": "11:39",
+    "timestamp_sec": 699.36,
+    "text": "결과물도 낼 수가 있었다라고 하는 걸 보여 주시는 거군요. >> 맞습니다.",
+    "image": "frame_0166_11-39.jpg"
+  },
+  {
+    "index": 167,
+    "timestamp": "11:43",
+    "timestamp_sec": 703.079,
+    "text": ">> 그리고 저희는 좀 컨설팅의 성격도 매우 강하거든요. 그래서 고객사",
+    "image": "frame_0167_11-43.jpg"
+  },
+  {
+    "index": 168,
+    "timestamp": "11:47",
+    "timestamp_sec": 707.8,
+    "text": "원하는 솔루션을 고정한 채로 컨텍스트랑 프블럼을 정의해야 될 수도",
+    "image": "frame_0168_11-47.jpg"
+  },
+  {
+    "index": 169,
+    "timestamp": "11:52",
+    "timestamp_sec": 712.16,
+    "text": "있으이 그러면 저거를 궁금한게 이제",
+    "image": "frame_0169_11-52.jpg"
+  },
+  {
+    "index": 170,
+    "timestamp": "11:55",
+    "timestamp_sec": 715.279,
+    "text": "저 문서를 제작을 해서 내부용으로 쓰시나요? 아니면은 저희 클라이언트",
+    "image": "frame_0170_11-55.jpg"
+  },
+  {
+    "index": 171,
+    "timestamp": "11:59",
+    "timestamp_sec": 719.399,
+    "text": "공유용으로 어떻게 쓰시나요? >> 아, 클라트 공유용으로도 씁니다.",
+    "image": "frame_0171_11-59.jpg"
+  },
+  {
+    "index": 172,
+    "timestamp": "12:02",
+    "timestamp_sec": 722.56,
+    "text": ">> 아. 음, 이걸 이제 마크다운 문서로",
+    "image": "frame_0172_12-02.jpg"
+  },
+  {
+    "index": 173,
+    "timestamp": "12:05",
+    "timestamp_sec": 725.88,
+    "text": "파일은 갖고 있다가 PDF로 잘 빌드하는 또 저희 어떤 레이텍",
+    "image": "frame_0173_12-05.jpg"
+  },
+  {
+    "index": 174,
+    "timestamp": "12:10",
+    "timestamp_sec": 730.12,
+    "text": "템플릿이 있거든요. 그걸로 빌드서 드립니다. >> 음. 궁금한게 문서를 먼저 전달을 어",
+    "image": "frame_0174_12-10.jpg"
+  },
+  {
+    "index": 175,
+    "timestamp": "12:16",
+    "timestamp_sec": 736.6,
+    "text": "해 주시는게 선행인지 요즘 사실",
+    "image": "frame_0175_12-16.jpg"
+  },
+  {
+    "index": 176,
+    "timestamp": "12:19",
+    "timestamp_sec": 739.6,
+    "text": "프루프 오브 컨셉 그니까 POC는 결과물 그러니깐 한마디로 약의 끝났고",
+    "image": "frame_0176_12-19.jpg"
+  },
+  {
+    "index": 177,
+    "timestamp": "12:25",
+    "timestamp_sec": 745.079,
+    "text": "바로 미팅투 프로덕트가 되는 시대잖아요. 그죠? 근데 그 미팅",
+    "image": "frame_0177_12-25.jpg"
+  },
+  {
+    "index": 178,
+    "timestamp": "12:29",
+    "timestamp_sec": 749.399,
+    "text": "끝나서 결과물을 바로 보여 주는 형태로",
+    "image": "frame_0178_12-29.jpg"
+  },
+  {
+    "index": 179,
+    "timestamp": "12:32",
+    "timestamp_sec": 752.639,
+    "text": "보통 하시는지 뭐 아니면 이런 식으로 문서를 전달하시는지 그 시점에 대해서",
+    "image": "frame_0179_12-32.jpg"
+  },
+  {
+    "index": 180,
+    "timestamp": "12:37",
+    "timestamp_sec": 757.48,
+    "text": "좀 더 구분해서 설명해 주실 수 있을까요? 이게 해 보니까요. 문서는",
+    "image": "frame_0180_12-37.jpg"
+  },
+  {
+    "index": 181,
+    "timestamp": "12:41",
+    "timestamp_sec": 761.48,
+    "text": "총 POC 기간 중 두 번 정도 공유 드리게 되는데 그니까 첫 번째는 어느",
+    "image": "frame_0181_12-41.jpg"
+  },
+  {
+    "index": 182,
+    "timestamp": "12:46",
+    "timestamp_sec": 766.44,
+    "text": "정도 1차 스펙이 확장됐을 때 드리게 되고 그리고 두 번째는 프로젝트 다",
+    "image": "frame_0182_12-46.jpg"
+  },
+  {
+    "index": 183,
+    "timestamp": "12:51",
+    "timestamp_sec": 771.04,
+    "text": "끝났을 때 오히려 역기획해서 드리게 됩니다. 그래서 결국 말씀 주신",
+    "image": "frame_0183_12-51.jpg"
+  },
+  {
+    "index": 184,
+    "timestamp": "12:56",
+    "timestamp_sec": 776.32,
+    "text": "것처럼 매번 소프트웨어 결과물만 가져와요. 대부분은. 그렇지만 어",
+    "image": "frame_0184_12-56.jpg"
+  },
+  {
+    "index": 185,
+    "timestamp": "13:01",
+    "timestamp_sec": 781.839,
+    "text": "고객 입장에서도이 문서화된 살투물도 필요하시다 보니까 프로젝트 한",
+    "image": "frame_0185_13-01.jpg"
+  },
+  {
+    "index": 186,
+    "timestamp": "13:06",
+    "timestamp_sec": 786.56,
+    "text": "초반에는 아 우리가 이야기한 기능 명세는 이렇고 어떤",
+    "image": "frame_0186_13-06.jpg"
+  },
+  {
+    "index": 187,
+    "timestamp": "13:11",
+    "timestamp_sec": 791.92,
+    "text": "분석 과정을 통해서 얻게 됐다 이런 거를 문서를 드리게 됩니다. 그래서",
+    "image": "frame_0187_13-11.jpg"
+  },
+  {
+    "index": 188,
+    "timestamp": "13:17",
+    "timestamp_sec": 797.0,
+    "text": "어 이거이 문서는 초항이고 우리 얼마든지 발산할 수 있고 산출물이",
+    "image": "frame_0188_13-17.jpg"
+  },
+  {
+    "index": 189,
+    "timestamp": "13:21",
+    "timestamp_sec": 801.88,
+    "text": "확정됐을 때 또다시 역께 계속 드리겠다 이런 식으로 하게 됩니다.",
+    "image": "frame_0189_13-21.jpg"
+  },
+  {
+    "index": 190,
+    "timestamp": "13:26",
+    "timestamp_sec": 806.0,
+    "text": "아 기획서가 그럼 계속 업데이트가 되지 않나요? 계속 결국 굴론적으로",
+    "image": "frame_0190_13-26.jpg"
+  },
+  {
+    "index": 191,
+    "timestamp": "13:30",
+    "timestamp_sec": 810.48,
+    "text": "네. 그러니까 결국은 미팅할 때마다 저는 새로운 요건들이 다시 나오고",
+    "image": "frame_0191_13-30.jpg"
+  },
+  {
+    "index": 192,
+    "timestamp": "13:34",
+    "timestamp_sec": 814.6,
+    "text": "사람들 사람이 이렇거든요. 해보니까 결과 딱 갖고 왔는데 저희 생각에는",
+    "image": "frame_0192_13-34.jpg"
+  },
+  {
+    "index": 193,
+    "timestamp": "13:39",
+    "timestamp_sec": 819.04,
+    "text": "이게 좀 더 이렇게 됐으면 좋겠는데요가 되게 많아요. >> 음. 그래서 그러면은 그거를 또 항상",
+    "image": "frame_0193_13-39.jpg"
+  },
+  {
+    "index": 194,
+    "timestamp": "13:44",
+    "timestamp_sec": 824.519,
+    "text": "담을 수 있는 버전투쓰 4어의 운서를",
+    "image": "frame_0194_13-44.jpg"
+  },
+  {
+    "index": 195,
+    "timestamp": "13:48",
+    "timestamp_sec": 828.519,
+    "text": "우리가 계속해서 업데이트를 할 수가 있다. 네라고 판단하면 되는 것이고",
+    "image": "frame_0195_13-48.jpg"
+  },
+  {
+    "index": 196,
+    "timestamp": "13:52",
+    "timestamp_sec": 832.399,
+    "text": "그리고 그거가 업 최종적으로 업데이트가 된다고 했었을 때는",
+    "image": "frame_0196_13-52.jpg"
+  },
+  {
+    "index": 197,
+    "timestamp": "13:55",
+    "timestamp_sec": 835.88,
+    "text": "프로젝트가 완수가 됐을 때 같이 전달드릴 수가 있는 그런",
+    "image": "frame_0197_13-55.jpg"
+  },
+  {
+    "index": 198,
+    "timestamp": "13:59",
+    "timestamp_sec": 839.04,
+    "text": "산출물이다라고 보면 되겠네요. >> 맞습니다. 고객사 입장에서는 저의",
+    "image": "frame_0198_13-59.jpg"
+  },
+  {
+    "index": 199,
+    "timestamp": "14:03",
+    "timestamp_sec": 843.24,
+    "text": "깃터 초대들이기 때문에이 CPS 군수 필요하던 매번 업데이트가 됩니다.",
+    "image": "frame_0199_14-03.jpg"
+  },
+  {
+    "index": 200,
+    "timestamp": "14:07",
+    "timestamp_sec": 847.88,
+    "text": "그래서 매번 보실 수 있는데 저희가 형식적으로 전달드리는 거는 그럼 매번",
+    "image": "frame_0200_14-07.jpg"
+  },
+  {
+    "index": 201,
+    "timestamp": "14:11",
+    "timestamp_sec": 851.88,
+    "text": "업데이트 됐다고 드리면 좀 너무 버스하잖아요. 그래서 한 두 번 정도",
+    "image": "frame_0201_14-11.jpg"
+  },
+  {
+    "index": 202,
+    "timestamp": "14:16",
+    "timestamp_sec": 856.959,
+    "text": ">> 아 그렇게 해서 >> 어 전체적으로이 내용이 전체적 외법이",
+    "image": "frame_0202_14-16.jpg"
+  },
+  {
+    "index": 203,
+    "timestamp": "14:20",
+    "timestamp_sec": 860.6,
+    "text": "다 됐습니다라고 하는 것까지 한 출물로 전달을 한다. 네.",
+    "image": "frame_0203_14-20.jpg"
+  },
+  {
+    "index": 204,
+    "timestamp": "14:23",
+    "timestamp_sec": 863.759,
+    "text": ">> 어 깔끔하고 좋네요.네 너무 좋습니다. 그러면 그다음 단계는",
+    "image": "frame_0204_14-23.jpg"
+  },
+  {
+    "index": 205,
+    "timestamp": "14:27",
+    "timestamp_sec": 867.6,
+    "text": "어떻게 되나요? 그 다음 단계 점점 정통의 기획 방식으로 넘어가게",
+    "image": "frame_0205_14-27.jpg"
+  },
+  {
+    "index": 206,
+    "timestamp": "14:31",
+    "timestamp_sec": 871.0,
+    "text": "되는데요. 그럼 PRD를 작성하고 그다음에는",
+    "image": "frame_0206_14-31.jpg"
+  },
+  {
+    "index": 207,
+    "timestamp": "14:35",
+    "timestamp_sec": 875.0,
+    "text": "결국 디자인 쪽으로 넘어가게 되는데 이때도 어떤 스펙인지 결국 플레인이랑",
+    "image": "frame_0207_14-35.jpg"
+  },
+  {
+    "index": 208,
+    "timestamp": "14:39",
+    "timestamp_sec": 879.56,
+    "text": "디자인은 굉장히 맞다 있긴 하지만요. CPS 이후에는 저희가 흔히 아는",
+    "image": "frame_0208_14-39.jpg"
+  },
+  {
+    "index": 209,
+    "timestamp": "14:44",
+    "timestamp_sec": 884.32,
+    "text": "기획 문서 넘어가게 됩니다. >> 아, 그렇군요. PRD를 플라트께서",
+    "image": "frame_0209_14-44.jpg"
+  },
+  {
+    "index": 210,
+    "timestamp": "14:48",
+    "timestamp_sec": 888.88,
+    "text": "다 보시나요? 어, 엄밀히 리뷰하지는",
+    "image": "frame_0210_14-48.jpg"
+  },
+  {
+    "index": 211,
+    "timestamp": "14:52",
+    "timestamp_sec": 892.24,
+    "text": "않는 거 같아요. 그거를 논의하기도",
+    "image": "frame_0211_14-52.jpg"
+  },
+  {
+    "index": 212,
+    "timestamp": "14:55",
+    "timestamp_sec": 895.56,
+    "text": "전에 산출문을 보고 정말 다양한",
+    "image": "frame_0212_14-55.jpg"
+  },
+  {
+    "index": 213,
+    "timestamp": "14:59",
+    "timestamp_sec": 899.399,
+    "text": "레벨에서 그러니까 어,이 여기 있는 버튼 마음에 안 들어도 되고 아,",
+    "image": "frame_0213_14-59.jpg"
+  },
+  {
+    "index": 214,
+    "timestamp": "15:04",
+    "timestamp_sec": 904.04,
+    "text": "우리 소프트웨어가 하나 더 필요할 것 같아요. 아니면 이건 굳이 합쳐도 될",
+    "image": "frame_0214_15-04.jpg"
+  },
+  {
+    "index": 215,
+    "timestamp": "15:07",
+    "timestamp_sec": 907.36,
+    "text": "거 같아요. 같은 시스템적인 어떤 되게 하이레벨한 리뷰도 하게",
+    "image": "frame_0215_15-07.jpg"
+  },
+  {
+    "index": 216,
+    "timestamp": "15:10",
+    "timestamp_sec": 910.6,
+    "text": "되거든요. 그래서 문서는 정말 어 EPOC 기간 전체 내에 했던",
+    "image": "frame_0216_15-10.jpg"
+  },
+  {
+    "index": 217,
+    "timestamp": "15:15",
+    "timestamp_sec": 915.04,
+    "text": "이야기를 잘 구조적으로 정리한 어떤 산출문인 거고이 문서 자체를 잘",
+    "image": "frame_0217_15-15.jpg"
+  },
+  {
+    "index": 218,
+    "timestamp": "15:20",
+    "timestamp_sec": 920.12,
+    "text": "리뷰하진 않습니다. 그렇지만 그래도 프로젝트가 계속 진행이 되면서",
+    "image": "frame_0218_15-20.jpg"
+  },
+  {
+    "index": 219,
+    "timestamp": "15:23",
+    "timestamp_sec": 923.88,
+    "text": "업데이트는 수시로 이루어진다는 거잖아요. 그죠? 저 전체적인 문서가",
+    "image": "frame_0219_15-23.jpg"
+  },
+  {
+    "index": 220,
+    "timestamp": "15:27",
+    "timestamp_sec": 927.72,
+    "text": "예를 들면 뭐 열 개짜리야라고 한다고 하면 PRD 있고 아까 CPS 있고",
+    "image": "frame_0220_15-27.jpg"
+  },
+  {
+    "index": 221,
+    "timestamp": "15:32",
+    "timestamp_sec": 932.44,
+    "text": "뭐 디자인의 인플렉테이션 문서 이런 실행 문서가 있고 이런 것들이 그냥",
+    "image": "frame_0221_15-32.jpg"
+  },
+  {
+    "index": 222,
+    "timestamp": "15:36",
+    "timestamp_sec": 936.68,
+    "text": "계속 그 프로젝트 주기 내내 업데이트가 된다라고 판단하면 되나요?",
+    "image": "frame_0222_15-36.jpg"
+  },
+  {
+    "index": 223,
+    "timestamp": "15:40",
+    "timestamp_sec": 940.68,
+    "text": "맞습니다. 아, 그래서 메인 브렌치에 계속 그게 존재하고 그것들이 커지는",
+    "image": "frame_0223_15-40.jpg"
+  },
+  {
+    "index": 224,
+    "timestamp": "15:44",
+    "timestamp_sec": 944.8,
+    "text": "그런 느낌인 거군요. 아, 네.",
+    "image": "frame_0224_15-44.jpg"
+  },
+  {
+    "index": 225,
+    "timestamp": "15:47",
+    "timestamp_sec": 947.839,
+    "text": "그래서 이게 미팅 로그가 미팅 한 횟수만큼 생길 거잖아요. 그럼 모든",
+    "image": "frame_0225_15-47.jpg"
+  },
+  {
+    "index": 226,
+    "timestamp": "15:51",
+    "timestamp_sec": 951.759,
+    "text": "미팅 로그를 종합한 하나의 CPS가 결국 특정될 거고요.",
+    "image": "frame_0226_15-51.jpg"
+  },
+  {
+    "index": 227,
+    "timestamp": "15:56",
+    "timestamp_sec": 956.399,
+    "text": ">> 네. >> 그리고 또 미팅 로그를 다 종합한 하고 하나의 CPS 결정된게 또로",
+    "image": "frame_0227_15-56.jpg"
+  },
+  {
+    "index": 228,
+    "timestamp": "16:01",
+    "timestamp_sec": 961.199,
+    "text": "결정될 거고요. >> 네. 기가 막히네요.",
+    "image": "frame_0228_16-01.jpg"
+  },
+  {
+    "index": 229,
+    "timestamp": "16:05",
+    "timestamp_sec": 965.079,
+    "text": "아, 그렇구나. 아, 이해했습니다. 네. 저렇게까지 쪼갠다. 네. 의외로",
+    "image": "frame_0229_16-05.jpg"
+  },
+  {
+    "index": 230,
+    "timestamp": "16:10",
+    "timestamp_sec": 970.72,
+    "text": "고객사분들께서 저희의이 설계를",
+    "image": "frame_0230_16-10.jpg"
+  },
+  {
+    "index": 231,
+    "timestamp": "16:13",
+    "timestamp_sec": 973.839,
+    "text": "궁금해하시는 경우도 꽤 많습니다. 그리고 필요한 경우도 있고 그래서 첫",
+    "image": "frame_0231_16-13.jpg"
+  },
+  {
+    "index": 232,
+    "timestamp": "16:17",
+    "timestamp_sec": 977.839,
+    "text": "번째 생각이 들었던 거는",
+    "image": "frame_0232_16-17.jpg"
+  },
+  {
+    "index": 233,
+    "timestamp": "16:20",
+    "timestamp_sec": 980.88,
+    "text": "이게 요즘 딸깍하면 잘 나온다는 거는 이제 고객사들도 잘 알고 계시니까",
+    "image": "frame_0233_16-20.jpg"
+  },
+  {
+    "index": 234,
+    "timestamp": "16:25",
+    "timestamp_sec": 985.6,
+    "text": "어떤 세계관에서 어떻게 설계됐을는 경우가 되게 많아요. 그거를 한번",
+    "image": "frame_0234_16-25.jpg"
+  },
+  {
+    "index": 235,
+    "timestamp": "16:30",
+    "timestamp_sec": 990.56,
+    "text": "알려 달라. 그래서 그거를 그 주님이 만든 그 PDF를",
+    "image": "frame_0235_16-30.jpg"
+  },
+  {
+    "index": 236,
+    "timestamp": "16:36",
+    "timestamp_sec": 996.079,
+    "text": "문서를 기반으로 한번 쭉 설명을 드리는 경우도 있어요. 왜냐면은 결국",
+    "image": "frame_0236_16-36.jpg"
+  },
+  {
+    "index": 237,
+    "timestamp": "16:40",
+    "timestamp_sec": 1000.319,
+    "text": "그들이 좀 더 아이디어를 더 발상을 잘해 내려면 우리의 구현 세계관을",
+    "image": "frame_0237_16-40.jpg"
+  },
+  {
+    "index": 238,
+    "timestamp": "16:45",
+    "timestamp_sec": 1005.199,
+    "text": "알아야 그다음에 아이디어도 더 잘 줄 수 있는 경우도 있어서 그게 하나",
+    "image": "frame_0238_16-45.jpg"
+  },
+  {
+    "index": 239,
+    "timestamp": "16:48",
+    "timestamp_sec": 1008.519,
+    "text": "있었고 두 번째는 그래서 그 세계관을 이해하기 위해서 우리 저희한테 발표를",
+    "image": "frame_0239_16-48.jpg"
+  },
+  {
+    "index": 240,
+    "timestamp": "16:53",
+    "timestamp_sec": 1013.279,
+    "text": "시키기도 하지만 그 문서를 가지고 충분히 공부를 하셔서 그다음 미팅에",
+    "image": "frame_0240_16-53.jpg"
+  },
+  {
+    "index": 241,
+    "timestamp": "16:58",
+    "timestamp_sec": 1018.079,
+    "text": "딱 갔더니 아 이제는 세계관을 이해했다. 아키텍처도 이해했다.",
+    "image": "frame_0241_16-58.jpg"
+  },
+  {
+    "index": 242,
+    "timestamp": "17:02",
+    "timestamp_sec": 1022.72,
+    "text": "그렇게 해서 조금 훨씬 커뮤니케이션 좋았거든요. 그래서",
+    "image": "frame_0242_17-02.jpg"
+  },
+  {
+    "index": 243,
+    "timestamp": "17:06",
+    "timestamp_sec": 1026.48,
+    "text": ">> 예 문서가 주는 매력도 있습니다. 맞네요. 저 같은 경우에는 그 항상",
+    "image": "frame_0243_17-06.jpg"
+  },
+  {
+    "index": 244,
+    "timestamp": "17:11",
+    "timestamp_sec": 1031.0,
+    "text": "구현을 하고 나서 이렇게 구현을 했습니다라고 하는 보고서를 저도 항상",
+    "image": "frame_0244_17-11.jpg"
+  },
+  {
+    "index": 245,
+    "timestamp": "17:14",
+    "timestamp_sec": 1034.6,
+    "text": "전달을 하긴 해 드려요. 근데 이제 저는 플레이라이트 MCP로 넣어",
+    "image": "frame_0245_17-14.jpg"
+  },
+  {
+    "index": 246,
+    "timestamp": "17:17",
+    "timestamp_sec": 1037.76,
+    "text": "가지고 화면 다 해서 이런 식으로 약간 매뉴얼화를 해서 하는 형태로",
+    "image": "frame_0246_17-17.jpg"
+  },
+  {
+    "index": 247,
+    "timestamp": "17:21",
+    "timestamp_sec": 1041.919,
+    "text": "그냥 주드리거든요. 네. 그냥",
+    "image": "frame_0247_17-21.jpg"
+  },
+  {
+    "index": 248,
+    "timestamp": "17:24",
+    "timestamp_sec": 1044.919,
+    "text": "스크린샷이랑 이거 같이 보시고 그냥 만화처럼 이해하셔라. 이런 식으로",
+    "image": "frame_0248_17-24.jpg"
+  },
+  {
+    "index": 249,
+    "timestamp": "17:28",
+    "timestamp_sec": 1048.64,
+    "text": "저는 전달하는 형태를 하고 있는데 이런 문서를 지속적으로 공유해서 어",
+    "image": "frame_0249_17-28.jpg"
+  },
+  {
+    "index": 250,
+    "timestamp": "17:33",
+    "timestamp_sec": 1053.48,
+    "text": "파 회의 전에 이제 파악도 해보고 계속이 해도를 서로 높여가는이",
+    "image": "frame_0250_17-33.jpg"
+  },
+  {
+    "index": 251,
+    "timestamp": "17:37",
+    "timestamp_sec": 1057.28,
+    "text": "커뮤니케이션이 너무너무 좋은 거 같아요. 저는. 네. 그것도 너무",
+    "image": "frame_0251_17-37.jpg"
+  },
+  {
+    "index": 252,
+    "timestamp": "17:40",
+    "timestamp_sec": 1060.799,
+    "text": "좋고 일관성 있는 결과물도 너무 좋은 거 같은데 실제로 이런 그 기획",
+    "image": "frame_0252_17-40.jpg"
+  },
+  {
+    "index": 253,
+    "timestamp": "17:44",
+    "timestamp_sec": 1064.84,
+    "text": "문서들이라든가 이런 것들이 정말 일관성이게 나오게 하시려면 어떻게",
+    "image": "frame_0253_17-44.jpg"
+  },
+  {
+    "index": 254,
+    "timestamp": "17:49",
+    "timestamp_sec": 1069.919,
+    "text": "한스를 좀 하셨는지에 대해서 조금 더 공유해 주실 수 있을까요?",
+    "image": "frame_0254_17-49.jpg"
+  },
+  {
+    "index": 255,
+    "timestamp": "17:53",
+    "timestamp_sec": 1073.0,
+    "text": ">> 아, 네. 우선 목차를 먼저 보여 드리면은 이게 설계 분석인데요.",
+    "image": "frame_0255_17-53.jpg"
+  },
+  {
+    "index": 256,
+    "timestamp": "17:58",
+    "timestamp_sec": 1078.6,
+    "text": ">> 원칙을 세우게 됩니다. >> 아, >> 각 프로젝트마다 원칙이 다를 순",
+    "image": "frame_0256_17-58.jpg"
+  },
+  {
+    "index": 257,
+    "timestamp": "18:02",
+    "timestamp_sec": 1082.88,
+    "text": "있지만 뭐 예를 들면 대부분 뭐 에이전트 프로젝트를 하게 되면 휴머",
+    "image": "frame_0257_18-02.jpg"
+  },
+  {
+    "index": 258,
+    "timestamp": "18:07",
+    "timestamp_sec": 1087.08,
+    "text": "인더비나 혹은 뭐 할루시니션이 없어야 된다거나 혹은 어딘 로그가 잘 남아야",
+    "image": "frame_0258_18-07.jpg"
+  },
+  {
+    "index": 259,
+    "timestamp": "18:12",
+    "timestamp_sec": 1092.2,
+    "text": "된다거나 이런 것들이 있을 수 있는데 이런 대전제 원칙들을 세우게 되고요.",
+    "image": "frame_0259_18-12.jpg"
+  },
+  {
+    "index": 260,
+    "timestamp": "18:16",
+    "timestamp_sec": 1096.96,
+    "text": "그리고 우리가 고객사분들과 같이 하면서 개념 정의도 내리게 됩니다.",
+    "image": "frame_0260_18-16.jpg"
+  },
+  {
+    "index": 261,
+    "timestamp": "18:22",
+    "timestamp_sec": 1102.4,
+    "text": "그럼이 두 개만 돼도 각 개념의 하이어라키를 정하게 되면 구조를 짤",
+    "image": "frame_0261_18-22.jpg"
+  },
+  {
+    "index": 262,
+    "timestamp": "18:27",
+    "timestamp_sec": 1107.32,
+    "text": "수 있게 되고 그 구조에 맞게 데이터를 어떻게 주고받을지 기술적으로",
+    "image": "frame_0262_18-27.jpg"
+  },
+  {
+    "index": 263,
+    "timestamp": "18:32",
+    "timestamp_sec": 1112.12,
+    "text": "설계를 하면 결국 결과물들이 필적인",
+    "image": "frame_0263_18-32.jpg"
+  },
+  {
+    "index": 264,
+    "timestamp": "18:35",
+    "timestamp_sec": 1115.24,
+    "text": "방향으로 가게 된다라고 저는 생각을 하고 있습니다. >> 음. 음. 음. 야, 유저 멘탈",
+    "image": "frame_0264_18-35.jpg"
+  },
+  {
+    "index": 265,
+    "timestamp": "18:39",
+    "timestamp_sec": 1119.76,
+    "text": "모델도 넣어 놨다. 너무 대단하시네요. 저렇게 프린플을 세워",
+    "image": "frame_0265_18-39.jpg"
+  },
+  {
+    "index": 266,
+    "timestamp": "18:43",
+    "timestamp_sec": 1123.919,
+    "text": "놓는데 있어서 가장 중점적으로 봤던 뭐 그런 음, 사례라든가 혹은",
+    "image": "frame_0266_18-43.jpg"
+  },
+  {
+    "index": 267,
+    "timestamp": "18:48",
+    "timestamp_sec": 1128.76,
+    "text": "저렇게까지 하셨던 배경에 대해서 좀만 더 설명해 줄 수 있을까요? 아직은",
+    "image": "frame_0267_18-48.jpg"
+  },
+  {
+    "index": 268,
+    "timestamp": "18:53",
+    "timestamp_sec": 1133.799,
+    "text": "어떻다라고 뭔가 말씀드리기 어려운 거 같아요. 근데 왜 어렵냐면 굉장히",
+    "image": "frame_0268_18-53.jpg"
+  },
+  {
+    "index": 269,
+    "timestamp": "18:58",
+    "timestamp_sec": 1138.159,
+    "text": "트렌드도 많이 타고요. 이런 설계 기법은 또 엔지니어로만의 관점으로도",
+    "image": "frame_0269_18-58.jpg"
+  },
+  {
+    "index": 270,
+    "timestamp": "19:03",
+    "timestamp_sec": 1143.2,
+    "text": "안 되고 >> 어떤 창업자로에서 로서만의 관정도 안",
+    "image": "frame_0270_19-03.jpg"
+  },
+  {
+    "index": 271,
+    "timestamp": "19:07",
+    "timestamp_sec": 1147.08,
+    "text": "되고 그니까 정말 보고 듣는게 너무 많기도 하고 그거의",
+    "image": "frame_0271_19-07.jpg"
+  },
+  {
+    "index": 272,
+    "timestamp": "19:12",
+    "timestamp_sec": 1152.88,
+    "text": "레퍼런스가 정말 레퍼런스도 있고 그냥 누군가의 카더라 이야기도 있고 이러다",
+    "image": "frame_0272_19-12.jpg"
+  },
+  {
+    "index": 273,
+    "timestamp": "19:17",
+    "timestamp_sec": 1157.6,
+    "text": "보니까 어 어떤 걸 봐서 이렇게 됐는가에 대한 명쾌한 답변은 아직",
+    "image": "frame_0273_19-17.jpg"
+  },
+  {
+    "index": 274,
+    "timestamp": "19:22",
+    "timestamp_sec": 1162.679,
+    "text": "드릴 수는 없을 것 같지만네 그렇습니다. 한마디로 이게 굳어진",
+    "image": "frame_0274_19-22.jpg"
+  },
+  {
+    "index": 275,
+    "timestamp": "19:26",
+    "timestamp_sec": 1166.44,
+    "text": "어떤 구조적인 관점이라기보다는 지금까지 이제 내가 배웠던 어떤 지식",
+    "image": "frame_0275_19-26.jpg"
+  },
+  {
+    "index": 276,
+    "timestamp": "19:31",
+    "timestamp_sec": 1171.4,
+    "text": "같은 것들을 녹여다 보니까 어쨌든 상위 레벨에서 이제 원칙들을 세우게",
+    "image": "frame_0276_19-31.jpg"
+  },
+  {
+    "index": 277,
+    "timestamp": "19:36",
+    "timestamp_sec": 1176.0,
+    "text": "됐고 그 원칙들이 이제 상세하게 데피니션으로도 넘어가게 됐고 그리고",
+    "image": "frame_0277_19-36.jpg"
+  },
+  {
+    "index": 278,
+    "timestamp": "19:41",
+    "timestamp_sec": 1181.0,
+    "text": "그다음에 그 원 그 데피니션 정의 다음에는 스트럭처 구조로 빠지게 되는",
+    "image": "frame_0278_19-41.jpg"
+  },
+  {
+    "index": 279,
+    "timestamp": "19:45",
+    "timestamp_sec": 1185.2,
+    "text": "형태로 갔다. 결과 결론적으로는 어쨌든 우리는 되게 매시브한 부분에서",
+    "image": "frame_0279_19-45.jpg"
+  },
+  {
+    "index": 280,
+    "timestamp": "19:49",
+    "timestamp_sec": 1189.48,
+    "text": "계속 미시하게 파고 들어가는 그런 과정들을 했었는데 AI 엔지니어링을",
+    "image": "frame_0280_19-49.jpg"
+  },
+  {
+    "index": 281,
+    "timestamp": "19:54",
+    "timestamp_sec": 1194.0,
+    "text": "같이 하다 보니까 저런 내용들이 좀 쪼개졌던 거 같다라고 인식하면 될 거",
+    "image": "frame_0281_19-54.jpg"
+  },
+  {
+    "index": 282,
+    "timestamp": "19:59",
+    "timestamp_sec": 1199.159,
+    "text": "같네요. >> 맞습니다. 이런 운서 적을 때 저도",
+    "image": "frame_0282_19-59.jpg"
+  },
+  {
+    "index": 283,
+    "timestamp": "20:02",
+    "timestamp_sec": 1202.6,
+    "text": "미시한지 엄청나게 분석을 많이 하는데요. 근데 그걸 하다 보면 너무",
+    "image": "frame_0283_20-02.jpg"
+  },
+  {
+    "index": 284,
+    "timestamp": "20:06",
+    "timestamp_sec": 1206.4,
+    "text": "시간이 오래 걸리기도 합니다. >> 그래서 양쪽의 관점을 다 갖고 있게",
+    "image": "frame_0284_20-06.jpg"
+  },
+  {
+    "index": 285,
+    "timestamp": "20:11",
+    "timestamp_sec": 1211.159,
+    "text": "되거든요. 그래서 정말 엄밀하고",
+    "image": "frame_0285_20-11.jpg"
+  },
+  {
+    "index": 286,
+    "timestamp": "20:14",
+    "timestamp_sec": 1214.44,
+    "text": "고결한 설계를 하는 것과 동시에 당장",
+    "image": "frame_0286_20-14.jpg"
+  },
+  {
+    "index": 287,
+    "timestamp": "20:18",
+    "timestamp_sec": 1218.039,
+    "text": "내일 혹은 오늘 오후에 산출물도 뽑아내야 되다 보니까 그런 너무",
+    "image": "frame_0287_20-18.jpg"
+  },
+  {
+    "index": 288,
+    "timestamp": "20:23",
+    "timestamp_sec": 1223.0,
+    "text": "안정적인 설계와 당장의 선출물을",
+    "image": "frame_0288_20-23.jpg"
+  },
+  {
+    "index": 289,
+    "timestamp": "20:26",
+    "timestamp_sec": 1226.24,
+    "text": "어떤 트레이드오프를 하게 됩니다. 네. 그렇군요. 그렇게 했을 때 이게",
+    "image": "frame_0289_20-26.jpg"
+  },
+  {
+    "index": 290,
+    "timestamp": "20:31",
+    "timestamp_sec": 1231.4,
+    "text": "지금 지우 님 본인 스스로만",
+    "image": "frame_0290_20-31.jpg"
+  },
+  {
+    "index": 291,
+    "timestamp": "20:34",
+    "timestamp_sec": 1234.559,
+    "text": "공유하는게 아니라 디오 팀 내에서도 같이 공유가 돼야 되는 건",
+    "image": "frame_0291_20-34.jpg"
+  },
+  {
+    "index": 292,
+    "timestamp": "20:38",
+    "timestamp_sec": 1238.88,
+    "text": "사실이잖아요. >> 지금 어떻게 하고 계세요? 지금 이제",
+    "image": "frame_0292_20-38.jpg"
+  },
+  {
+    "index": 293,
+    "timestamp": "20:42",
+    "timestamp_sec": 1242.76,
+    "text": "되게 고전적인 방식인데 >> 다른 프로젝트에 들어갈 때",
+    "image": "frame_0293_20-42.jpg"
+  },
+  {
+    "index": 294,
+    "timestamp": "20:47",
+    "timestamp_sec": 1247.0,
+    "text": ">> 어 예를 들면 이제 지우님의 경험을",
+    "image": "frame_0294_20-47.jpg"
+  },
+  {
+    "index": 295,
+    "timestamp": "20:50",
+    "timestamp_sec": 1250.24,
+    "text": "같이 공유받는 방식을 쓰고요. 그때 그때 지우 님",
+    "image": "frame_0295_20-50.jpg"
+  },
+  {
+    "index": 296,
+    "timestamp": "20:54",
+    "timestamp_sec": 1254.039,
+    "text": "요거할 때 어떻게 하셨어요? 왜 뭐 고객한테 공유할 때 어떻게 하세요?",
+    "image": "frame_0296_20-54.jpg"
+  },
+  {
+    "index": 297,
+    "timestamp": "20:57",
+    "timestamp_sec": 1257.36,
+    "text": "하면서 옛날에는 개발자들 협업할 때",
+    "image": "frame_0297_20-57.jpg"
+  },
+  {
+    "index": 298,
+    "timestamp": "21:00",
+    "timestamp_sec": 1260.88,
+    "text": "코드 레벨 단위 뭐 라이브러리 요런 걸로 모 코드 모듈로서 경험치를",
+    "image": "frame_0298_21-00.jpg"
+  },
+  {
+    "index": 299,
+    "timestamp": "21:05",
+    "timestamp_sec": 1265.08,
+    "text": "공유를 했다면 지금은 요런 방법론",
+    "image": "frame_0299_21-05.jpg"
+  },
+  {
+    "index": 300,
+    "timestamp": "21:08",
+    "timestamp_sec": 1268.08,
+    "text": "요런 사상 그리고 요런 하우트 요런",
+    "image": "frame_0300_21-08.jpg"
+  },
+  {
+    "index": 301,
+    "timestamp": "21:11",
+    "timestamp_sec": 1271.24,
+    "text": "노하우를 공유를 하게 되더라고요. >> 그 개발자분들끼리 서로 이제 팀으로",
+    "image": "frame_0301_21-11.jpg"
+  },
+  {
+    "index": 302,
+    "timestamp": "21:15",
+    "timestamp_sec": 1275.6,
+    "text": "일할 때 이제 컨벤션을 항상 공유를 많이 했었잖아요. 예전부터. 그죠?",
+    "image": "frame_0302_21-15.jpg"
+  },
+  {
+    "index": 303,
+    "timestamp": "21:20",
+    "timestamp_sec": 1280.039,
+    "text": "네. 이제 코드 컨벤션이든 어쨌든 위키 컨벤션이든 이런 것들을 굉장히",
+    "image": "frame_0303_21-20.jpg"
+  },
+  {
+    "index": 304,
+    "timestamp": "21:24",
+    "timestamp_sec": 1284.44,
+    "text": "공유를 많이 하고 그 원칙대로 우리는 이렇게 일을 하자라고 하는 형태로",
+    "image": "frame_0304_21-24.jpg"
+  },
+  {
+    "index": 305,
+    "timestamp": "21:27",
+    "timestamp_sec": 1287.76,
+    "text": "일을 하는 것으로 저는 이해를 하고 있어요. 근데 지금은 저런 문서로서",
+    "image": "frame_0305_21-27.jpg"
+  },
+  {
+    "index": 306,
+    "timestamp": "21:32",
+    "timestamp_sec": 1292.64,
+    "text": "작업을 할 수가 있는 것이고 그걸 퍼뜨리는 일을 지금 지우 님께서 내부적으로 하고 있다라고 판단을 하면",
+    "image": "frame_0306_21-32.jpg"
+  },
+  {
+    "index": 307,
+    "timestamp": "21:37",
+    "timestamp_sec": 1297.76,
+    "text": "되겠네요. >> 네. 근데 가짜 마디 문서 스타일이 있고요. 이걸 공유하는 거는 그 만든",
+    "image": "frame_0307_21-37.jpg"
+  },
+  {
+    "index": 308,
+    "timestamp": "21:41",
+    "timestamp_sec": 1301.96,
+    "text": "사람이 결정하는 거 같아요. 그러니까 저도 고객사 분들이 이야기를 듣고이",
+    "image": "frame_0308_21-41.jpg"
+  },
+  {
+    "index": 309,
+    "timestamp": "21:45",
+    "timestamp_sec": 1305.799,
+    "text": "원칙이 결국 최종 결과물에 굉장히",
+    "image": "frame_0309_21-45.jpg"
+  },
+  {
+    "index": 310,
+    "timestamp": "21:49",
+    "timestamp_sec": 1309.44,
+    "text": "영향을 크게 준다는 걸 아니까 >> 그럼 저는 회의를 열어서 리뷰를",
+    "image": "frame_0310_21-49.jpg"
+  },
+  {
+    "index": 311,
+    "timestamp": "21:54",
+    "timestamp_sec": 1314.0,
+    "text": "드립니다. 제가 각자의 어떤 강점이",
+    "image": "frame_0311_21-54.jpg"
+  },
+  {
+    "index": 312,
+    "timestamp": "21:58",
+    "timestamp_sec": 1318.08,
+    "text": "있고 관점이 있다 보니까 이런 식으로 설계를 했을 때 어떻게 보이는지",
+    "image": "frame_0312_21-58.jpg"
+  },
+  {
+    "index": 313,
+    "timestamp": "22:02",
+    "timestamp_sec": 1322.36,
+    "text": "어떻게 들리는지 타당한지 이런 거를 여쭤보고요. 저희는 그래서 워라수모큰",
+    "image": "frame_0313_22-02.jpg"
+  },
+  {
+    "index": 314,
+    "timestamp": "22:07",
+    "timestamp_sec": 1327.84,
+    "text": "다 파견을 가는게 아니라 팀 내에 모여서 이런 걸 리뷰하는 고정",
+    "image": "frame_0314_22-07.jpg"
+  },
+  {
+    "index": 315,
+    "timestamp": "22:11",
+    "timestamp_sec": 1331.919,
+    "text": "요일들도 있거든요. 네. 그때 오픈하고 저는 이런 식으로 설계하지만",
+    "image": "frame_0315_22-11.jpg"
+  },
+  {
+    "index": 316,
+    "timestamp": "22:17",
+    "timestamp_sec": 1337.52,
+    "text": "또 다른 분 다른게 설계하게 되는데 서로 영향을 주고 받으면서 집단",
+    "image": "frame_0316_22-17.jpg"
+  },
+  {
+    "index": 317,
+    "timestamp": "22:21",
+    "timestamp_sec": 1341.2,
+    "text": "지성을 만들어 가고 있습니다. >> 음. 그렇게 이제 기존 멤버들과",
+    "image": "frame_0317_22-21.jpg"
+  },
+  {
+    "index": 318,
+    "timestamp": "22:24",
+    "timestamp_sec": 1344.52,
+    "text": "협업을 그런 식으로 하고 있는데 그러면은 이게 공유가 되는데 그",
+    "image": "frame_0318_22-24.jpg"
+  },
+  {
+    "index": 319,
+    "timestamp": "22:29",
+    "timestamp_sec": 1349.2,
+    "text": "어디에 공유가 되나요? 보통 DO에서는 어쨌든 그러면 그런 형태로",
+    "image": "frame_0319_22-29.jpg"
+  },
+  {
+    "index": 320,
+    "timestamp": "22:34",
+    "timestamp_sec": 1354.279,
+    "text": "조직 내에서는 어떻게 이런이 컨벤션을",
+    "image": "frame_0320_22-34.jpg"
+  },
+  {
+    "index": 321,
+    "timestamp": "22:37",
+    "timestamp_sec": 1357.36,
+    "text": "좀 더 공유하시는지를 좀 듣고 싶었어요. 말 그대로 그냥 이제 주관",
+    "image": "frame_0321_22-37.jpg"
+  },
+  {
+    "index": 322,
+    "timestamp": "22:42",
+    "timestamp_sec": 1362.08,
+    "text": "회의를 해서 나누는 수준이 아니라 우리가 다음 달 다음 단계의 레벨은",
+    "image": "frame_0322_22-42.jpg"
+  },
+  {
+    "index": 323,
+    "timestamp": "22:47",
+    "timestamp_sec": 1367.159,
+    "text": "이게 엔지니어들 간의 합의된 어떤 메인 브렌치 같은게 있지 않을까라는",
+    "image": "frame_0323_22-47.jpg"
+  },
+  {
+    "index": 324,
+    "timestamp": "22:51",
+    "timestamp_sec": 1371.919,
+    "text": "그런 생각은 좀 있었었거든요. 우선 현대님 이야기도 들어봐야겠지만 일단",
+    "image": "frame_0324_22-51.jpg"
+  },
+  {
+    "index": 325,
+    "timestamp": "22:56",
+    "timestamp_sec": 1376.039,
+    "text": "제가 경험하고 있는 바로는 저희는 어떤 업무 어떤 방식 자체를 통일하진",
+    "image": "frame_0325_22-56.jpg"
+  },
+  {
+    "index": 326,
+    "timestamp": "23:02",
+    "timestamp_sec": 1382.6,
+    "text": "않아요. 제 생각에는 저의 멘탈 모델을 일치시키는 거에 더 집중하는",
+    "image": "frame_0326_23-02.jpg"
+  },
+  {
+    "index": 327,
+    "timestamp": "23:07",
+    "timestamp_sec": 1387.159,
+    "text": "거 >> 아 그래요? 어, >> 근데 모든 산출물은 저희는 다 오픈이",
+    "image": "frame_0327_23-07.jpg"
+  },
+  {
+    "index": 328,
+    "timestamp": "23:11",
+    "timestamp_sec": 1391.799,
+    "text": "되어 있어요. 저희 깃업 팀 깃업에 다 오픈이 되어 있고 그리고 모든",
+    "image": "frame_0328_23-11.jpg"
+  },
+  {
+    "index": 329,
+    "timestamp": "23:15",
+    "timestamp_sec": 1395.64,
+    "text": "어떤 로그들은 노션에 다 있고 그리고 슬랙이 있고 저희 그렇게 세 개밖에",
+    "image": "frame_0329_23-15.jpg"
+  },
+  {
+    "index": 330,
+    "timestamp": "23:20",
+    "timestamp_sec": 1400.039,
+    "text": "안 쓰는데요. 거기에서 서로가 서로의",
+    "image": "frame_0330_23-20.jpg"
+  },
+  {
+    "index": 331,
+    "timestamp": "23:23",
+    "timestamp_sec": 1403.08,
+    "text": "프로젝트 이어받을 수도 있고 뭐 넘겨 받을 수도 있거든요. 그때는 그걸",
+    "image": "frame_0331_23-23.jpg"
+  },
+  {
+    "index": 332,
+    "timestamp": "23:27",
+    "timestamp_sec": 1407.159,
+    "text": "살펴보지만이 사람은 어떤 코딩 컨벤션으로 하지까지는 회기를 하진",
+    "image": "frame_0332_23-27.jpg"
+  },
+  {
+    "index": 333,
+    "timestamp": "23:31",
+    "timestamp_sec": 1411.919,
+    "text": "않습니다. >> 음. >> 왜 멘탈 모델만 공유를 하게 되나요?",
+    "image": "frame_0333_23-31.jpg"
+  },
+  {
+    "index": 334,
+    "timestamp": "23:36",
+    "timestamp_sec": 1416.76,
+    "text": "이해 보니까 좀 느꼈던 건데 프로젝트마다 지향하는 꼴이 아",
+    "image": "frame_0334_23-36.jpg"
+  },
+  {
+    "index": 335,
+    "timestamp": "23:42",
+    "timestamp_sec": 1422.279,
+    "text": "KPI가 프로젝트마다 다르잖아요. 그러다 보니까",
+    "image": "frame_0335_23-42.jpg"
+  },
+  {
+    "index": 336,
+    "timestamp": "23:47",
+    "timestamp_sec": 1427.32,
+    "text": "뭘 제1 원칙으로 두냐라고 했을 때",
+    "image": "frame_0336_23-47.jpg"
+  },
+  {
+    "index": 337,
+    "timestamp": "23:50",
+    "timestamp_sec": 1430.52,
+    "text": "우리는 고객이 뭘 기대하냐 그거를",
+    "image": "frame_0337_23-50.jpg"
+  },
+  {
+    "index": 338,
+    "timestamp": "23:54",
+    "timestamp_sec": 1434.44,
+    "text": "훨씬 띄어넘 우리의 하우트나 아니면은",
+    "image": "frame_0338_23-54.jpg"
+  },
+  {
+    "index": 339,
+    "timestamp": "23:57",
+    "timestamp_sec": 1437.76,
+    "text": "아웃풋이 뭐냐 요거를 계속 생각을 하게 되더라고요. 이게 처음에는 뭐",
+    "image": "frame_0339_23-57.jpg"
+  },
+  {
+    "index": 340,
+    "timestamp": "24:02",
+    "timestamp_sec": 1442.52,
+    "text": "고객한테 보이는 거를 뭐 100% 스펙으로 가져가야 된다. 아니면은 뭐",
+    "image": "frame_0340_24-02.jpg"
+  },
+  {
+    "index": 341,
+    "timestamp": "24:07",
+    "timestamp_sec": 1447.4,
+    "text": "200%의 속도로 가져가야 된다. 뭐 이런 거를 여러 가지 정하고 뭐",
+    "image": "frame_0341_24-07.jpg"
+  },
+  {
+    "index": 342,
+    "timestamp": "24:11",
+    "timestamp_sec": 1451.4,
+    "text": "거기에 따른 하우트나 뭐 에이전트 MD 무슨 공유하는 이런 것도",
+    "image": "frame_0342_24-11.jpg"
+  },
+  {
+    "index": 343,
+    "timestamp": "24:15",
+    "timestamp_sec": 1455.12,
+    "text": "썼었잖아요. 모델 컨텍스트 클라우드라고 있습니다. 여튼 그런 >> 아 잘 쓰고 있습니다. 어, 그런",
+    "image": "frame_0343_24-15.jpg"
+  },
+  {
+    "index": 344,
+    "timestamp": "24:19",
+    "timestamp_sec": 1459.279,
+    "text": "거를 쓰기도 했는데 결국 >> 모이고 모여서 보니까 그 방법론들이",
+    "image": "frame_0344_24-19.jpg"
+  },
+  {
+    "index": 345,
+    "timestamp": "24:24",
+    "timestamp_sec": 1464.72,
+    "text": "워낙 달라 가지고 그것보다는 우리가 진짜 지켜야 될 원칙 몇 가지만 정해",
+    "image": "frame_0345_24-24.jpg"
+  },
+  {
+    "index": 346,
+    "timestamp": "24:29",
+    "timestamp_sec": 1469.72,
+    "text": "놓는게 지금으로서는 초기에는 우리가",
+    "image": "frame_0346_24-29.jpg"
+  },
+  {
+    "index": 347,
+    "timestamp": "24:32",
+    "timestamp_sec": 1472.84,
+    "text": "하고 있는 방식이 >> 제 생각에는 이제 비즈니스의 성격 때문에 그런 거 같아요. 제 생각은",
+    "image": "frame_0347_24-32.jpg"
+  },
+  {
+    "index": 348,
+    "timestamp": "24:37",
+    "timestamp_sec": 1477.24,
+    "text": "그냥 고객의 성공을 도아야 되는 일인데 고객의 성공을 돕기 위해서",
+    "image": "frame_0348_24-37.jpg"
+  },
+  {
+    "index": 349,
+    "timestamp": "24:41",
+    "timestamp_sec": 1481.64,
+    "text": "사실 우리나라에 있는 수많은 에이전와이 컨설턴가 있는데 그 컨설턴",
+    "image": "frame_0349_24-41.jpg"
+  },
+  {
+    "index": 350,
+    "timestamp": "24:47",
+    "timestamp_sec": 1487.36,
+    "text": "중에 일단 고전적으로는 예전에 이제 메킹지나 혹은 BCG 같은 회사들은",
+    "image": "frame_0350_24-47.jpg"
+  },
+  {
+    "index": 351,
+    "timestamp": "24:52",
+    "timestamp_sec": 1492.52,
+    "text": "기획 방법론 같은 것들 자기들끼리 책으로 만들고 배포하고 막 이런",
+    "image": "frame_0351_24-52.jpg"
+  },
+  {
+    "index": 352,
+    "timestamp": "24:55",
+    "timestamp_sec": 1495.96,
+    "text": "식으로 일을 하긴 했었거든요. 근데 이제 AI 같은 경우에는 이제 막",
+    "image": "frame_0352_24-55.jpg"
+  },
+  {
+    "index": 353,
+    "timestamp": "24:59",
+    "timestamp_sec": 1499.96,
+    "text": "탄생하는 개념이다 보니까 그런 것들이 고정화된다든가 정형화 된다든가 이런",
+    "image": "frame_0353_24-59.jpg"
+  },
+  {
+    "index": 354,
+    "timestamp": "25:04",
+    "timestamp_sec": 1504.84,
+    "text": "것에 당장을 만들기간 어렵지 않을까 하는 생각도 첫 번째 들었고 두",
+    "image": "frame_0354_25-04.jpg"
+  },
+  {
+    "index": 355,
+    "timestamp": "25:08",
+    "timestamp_sec": 1508.84,
+    "text": "번째로는 저 고객사 내부의이 프로세스가 좀 더 심어지려면 우리가",
+    "image": "frame_0355_25-08.jpg"
+  },
+  {
+    "index": 356,
+    "timestamp": "25:14",
+    "timestamp_sec": 1514.039,
+    "text": "어떻게 해야 되는가 하는 생각도 전 좀 있었었습니다. 이게 그들의 문제는",
+    "image": "frame_0356_25-14.jpg"
+  },
+  {
+    "index": 357,
+    "timestamp": "25:19",
+    "timestamp_sec": 1519.64,
+    "text": "제 생각은 이런 단계는 사실 상상도",
+    "image": "frame_0357_25-19.jpg"
+  },
+  {
+    "index": 358,
+    "timestamp": "25:22",
+    "timestamp_sec": 1522.64,
+    "text": "못 하고 물론이 클로드 코드나 뭐이 하네스가 뭔지부터 배워야 되는게",
+    "image": "frame_0358_25-22.jpg"
+  },
+  {
+    "index": 359,
+    "timestamp": "25:27",
+    "timestamp_sec": 1527.52,
+    "text": "작금의 현실이겠지만 그래도 그",
+    "image": "frame_0359_25-27.jpg"
+  },
+  {
+    "index": 360,
+    "timestamp": "25:30",
+    "timestamp_sec": 1530.559,
+    "text": "내부적으로이 정확히 자산화를 할 수 있는 그리고",
+    "image": "frame_0360_25-30.jpg"
+  },
+  {
+    "index": 361,
+    "timestamp": "25:34",
+    "timestamp_sec": 1534.24,
+    "text": "서로의 이제 통합된 어떤 원칙 같은 것들은 이제 좀 만들어야 된다고",
+    "image": "frame_0361_25-34.jpg"
+  },
+  {
+    "index": 362,
+    "timestamp": "25:37",
+    "timestamp_sec": 1537.48,
+    "text": "생각하고 있거든요. 근데 그거는 결국은 AI 문서다라고 저는 생각은",
+    "image": "frame_0362_25-37.jpg"
+  },
+  {
+    "index": 363,
+    "timestamp": "25:42",
+    "timestamp_sec": 1542.0,
+    "text": "하고는 있어요. 근데 그 힌트를 좀 같이 찾아 나갔으면 하는 바람이",
+    "image": "frame_0363_25-42.jpg"
+  },
+  {
+    "index": 364,
+    "timestamp": "25:45",
+    "timestamp_sec": 1545.919,
+    "text": "있습니다. 저도 네. >> 그러 그게 원래 저희도 시작할 때",
+    "image": "frame_0364_25-45.jpg"
+  },
+  {
+    "index": 365,
+    "timestamp": "25:49",
+    "timestamp_sec": 1549.679,
+    "text": "거대한 꿈을 안고 포워드 디플로이드 엔지니어링이라는",
+    "image": "frame_0365_25-49.jpg"
+  },
+  {
+    "index": 366,
+    "timestamp": "25:54",
+    "timestamp_sec": 1554.08,
+    "text": "레포를지 만들어서 거기서 뭔가 여러",
+    "image": "frame_0366_25-54.jpg"
+  },
+  {
+    "index": 367,
+    "timestamp": "25:57",
+    "timestamp_sec": 1557.08,
+    "text": "가지 정의하고 규율을 좀 만들어 보려고 했는데 이게",
+    "image": "frame_0367_25-57.jpg"
+  },
+  {
+    "index": 368,
+    "timestamp": "26:02",
+    "timestamp_sec": 1562.6,
+    "text": "제 생각에 스타텀 레벨에서 뭔가를 할 때는 그냥 아무렇게나 하고 자유도를",
+    "image": "frame_0368_26-02.jpg"
+  },
+  {
+    "index": 369,
+    "timestamp": "26:07",
+    "timestamp_sec": 1567.2,
+    "text": "높게 가져가는게 되게 중요하다고 생각하거든요. 트렌드를 빨리 쫓아. 근데 또 엔터프라이즈에서는 어느 정도",
+    "image": "frame_0369_26-07.jpg"
+  },
+  {
+    "index": 370,
+    "timestamp": "26:12",
+    "timestamp_sec": 1572.559,
+    "text": "방법론과 프레임을 가지고 하는게 중요한데 엔터프라이즈 경험치를 그렇게",
+    "image": "frame_0370_26-12.jpg"
+  },
+  {
+    "index": 371,
+    "timestamp": "26:17",
+    "timestamp_sec": 1577.48,
+    "text": "많이 쌓기가 쉽지가 않은 거예요. >> 예. 그게 그래서 저희가 그 레포",
+    "image": "frame_0371_26-17.jpg"
+  },
+  {
+    "index": 372,
+    "timestamp": "26:21",
+    "timestamp_sec": 1581.799,
+    "text": "만들어 놓고 진행했 이후에 저희가 결국 따낸 계약이 뭐 다섯 개, 여섯",
+    "image": "frame_0372_26-21.jpg"
+  },
+  {
+    "index": 373,
+    "timestamp": "26:26",
+    "timestamp_sec": 1586.679,
+    "text": "개 그렇거든요. 그러니까 그 경험치 싸는게 좀 어렵더라고요. 그래서 다",
+    "image": "frame_0373_26-26.jpg"
+  },
+  {
+    "index": 374,
+    "timestamp": "26:31",
+    "timestamp_sec": 1591.36,
+    "text": "같이 힘을 모아야 됩니다.이 엔터프라이즈 레벨 특정 사이즈 이상의",
+    "image": "frame_0374_26-31.jpg"
+  },
+  {
+    "index": 375,
+    "timestamp": "26:36",
+    "timestamp_sec": 1596.039,
+    "text": "어떤 팀을 대상으로 AX를 한 사람들의 어떤 경험치가 다들 모여야",
+    "image": "frame_0375_26-36.jpg"
+  },
+  {
+    "index": 376,
+    "timestamp": "26:39",
+    "timestamp_sec": 1599.919,
+    "text": "되고맞아요.이 >> 김준 님이 막 재밌는 시도를 많이 하는데 포워드 디플로이드",
+    "image": "frame_0376_26-39.jpg"
+  },
+  {
+    "index": 377,
+    "timestamp": "26:44",
+    "timestamp_sec": 1604.24,
+    "text": "엔지니어링으로 지금 막 논문 초안도 작성하고 막 그러고 있거든요.",
+    "image": "frame_0377_26-44.jpg"
+  },
+  {
+    "index": 378,
+    "timestamp": "26:48",
+    "timestamp_sec": 1608.52,
+    "text": "그러니까 이게 진짜 우리가 세팅해 나가야 할 어떤 분야라고 생각이",
+    "image": "frame_0378_26-48.jpg"
+  },
+  {
+    "index": 379,
+    "timestamp": "26:54",
+    "timestamp_sec": 1614.0,
+    "text": "들어요. >> 저도 진짜 동감하고요. 정말 100%",
+    "image": "frame_0379_26-54.jpg"
+  },
+  {
+    "index": 380,
+    "timestamp": "26:57",
+    "timestamp_sec": 1617.039,
+    "text": "어 아직 초기 단계이지만 그래도 이만큼 많이 발전을 해서 보여 주신게",
+    "image": "frame_0380_26-57.jpg"
+  },
+  {
+    "index": 381,
+    "timestamp": "27:01",
+    "timestamp_sec": 1621.36,
+    "text": "너무 감사하다라는 생각이 또 듭니다. 네. 그럼 다음 단계에도 확실히 뭐",
+    "image": "frame_0381_27-01.jpg"
+  },
+  {
+    "index": 382,
+    "timestamp": "27:05",
+    "timestamp_sec": 1625.279,
+    "text": "보여줄 수 있을까요? >> 네. 그래서 설계가 잘되게 되면 이제",
+    "image": "frame_0382_27-05.jpg"
+  },
+  {
+    "index": 383,
+    "timestamp": "27:08",
+    "timestamp_sec": 1628.799,
+    "text": "코드 레벨로 넘어가게 됩니다. 그래서 방금 말씀드렸던 어떤 어떤 대전제와",
+    "image": "frame_0383_27-08.jpg"
+  },
+  {
+    "index": 384,
+    "timestamp": "27:14",
+    "timestamp_sec": 1634.279,
+    "text": "어떤 도메인 저희 흔히 하는 도메인 드리븐 디자인을 저는 채택해서 많이",
+    "image": "frame_0384_27-14.jpg"
+  },
+  {
+    "index": 385,
+    "timestamp": "27:18",
+    "timestamp_sec": 1638.64,
+    "text": "사용하는데 그 요구상에 맞는 도메인",
+    "image": "frame_0385_27-18.jpg"
+  },
+  {
+    "index": 386,
+    "timestamp": "27:21",
+    "timestamp_sec": 1641.799,
+    "text": "모델이 몇 개가 있고 어떤 아키텍처 어떤 하이어라키로 되어야 되는지가",
+    "image": "frame_0386_27-21.jpg"
+  },
+  {
+    "index": 387,
+    "timestamp": "27:26",
+    "timestamp_sec": 1646.08,
+    "text": "결정이 되면 사실 코드는 쭉 작성이 되면 되거든요. 그래서이 코드",
+    "image": "frame_0387_27-26.jpg"
+  },
+  {
+    "index": 388,
+    "timestamp": "27:30",
+    "timestamp_sec": 1650.919,
+    "text": "작성하는데 걸리는데 노력이 매우 줄어들었으니까 이제 그 설계안을",
+    "image": "frame_0388_27-30.jpg"
+  },
+  {
+    "index": 389,
+    "timestamp": "27:35",
+    "timestamp_sec": 1655.12,
+    "text": "가지고 AI 요청만 하면 되는데 여기 보면 실제 작성되는 코드들이거든요.",
+    "image": "frame_0389_27-35.jpg"
+  },
+  {
+    "index": 390,
+    "timestamp": "27:40",
+    "timestamp_sec": 1660.96,
+    "text": "그럼 저는 여기서부터 다 링터를 통해서이",
+    "image": "frame_0390_27-40.jpg"
+  },
+  {
+    "index": 391,
+    "timestamp": "27:46",
+    "timestamp_sec": 1666.0,
+    "text": "코드의 아웃풋을 해결하게 됩니다. 그래서 어떻게 해결을 하게 되냐면이",
+    "image": "frame_0391_27-46.jpg"
+  },
+  {
+    "index": 392,
+    "timestamp": "27:51",
+    "timestamp_sec": 1671.76,
+    "text": "레스토란스 페이지라는게 있는데요. 이게 누구는 레스토랑 리스트",
+    "image": "frame_0392_27-51.jpg"
+  },
+  {
+    "index": 393,
+    "timestamp": "27:55",
+    "timestamp_sec": 1675.48,
+    "text": "페이지라고도 할 수도 있고 뭐 레스토랑 서치 페이지라고도 할 수",
+    "image": "frame_0393_27-55.jpg"
+  },
+  {
+    "index": 394,
+    "timestamp": "27:59",
+    "timestamp_sec": 1679.32,
+    "text": "있거든요. 근데 저는 도메인 관점에서 레스토랑이 모여 있으면 복수형의",
+    "image": "frame_0394_27-59.jpg"
+  },
+  {
+    "index": 395,
+    "timestamp": "28:04",
+    "timestamp_sec": 1684.08,
+    "text": "페이지로 강제하게 됩니다. 윈터를. 그래서 뭐 레스토랑 페이지도 레스토랑",
+    "image": "frame_0395_28-04.jpg"
+  },
+  {
+    "index": 396,
+    "timestamp": "28:09",
+    "timestamp_sec": 1689.64,
+    "text": "디테일 페이지 이런 식으로 명명을 하기도 하거든요. 근데 디테일 뭐",
+    "image": "frame_0396_28-09.jpg"
+  },
+  {
+    "index": 397,
+    "timestamp": "28:14",
+    "timestamp_sec": 1694.0,
+    "text": "리스트 이런 거는 파일명에 못 들어가게끔 전 터로 강장. 그래서",
+    "image": "frame_0397_28-14.jpg"
+  },
+  {
+    "index": 398,
+    "timestamp": "28:18",
+    "timestamp_sec": 1698.039,
+    "text": "어떤 AI 모델을 써도 무조건이 파일으로 가게 돼 있고요.",
+    "image": "frame_0398_28-18.jpg"
+  },
+  {
+    "index": 399,
+    "timestamp": "28:23",
+    "timestamp_sec": 1703.36,
+    "text": "그럼이 파일명으로 강제되면은이",
+    "image": "frame_0399_28-23.jpg"
+  },
+  {
+    "index": 400,
+    "timestamp": "28:26",
+    "timestamp_sec": 1706.48,
+    "text": "코드의 하위 클래스나 하이 헬퍼 메소드의 명칭도 강제할 수가 있겠죠.",
+    "image": "frame_0400_28-26.jpg"
+  },
+  {
+    "index": 401,
+    "timestamp": "28:32",
+    "timestamp_sec": 1712.08,
+    "text": "그리고 저는 임포트 문의 알파벳 순서랑 네. 그리고 어 임포트 가능한",
+    "image": "frame_0401_28-32.jpg"
+  },
+  {
+    "index": 402,
+    "timestamp": "28:37",
+    "timestamp_sec": 1717.96,
+    "text": "파일, 임포트가 안 되는 파일, 그리고 익스포트 할 때 만드는 배럴",
+    "image": "frame_0402_28-37.jpg"
+  },
+  {
+    "index": 403,
+    "timestamp": "28:42",
+    "timestamp_sec": 1722.2,
+    "text": "파일의 어떤 규칙 이런 것도 다 린토를 하게 됩니다. 그 저렇게",
+    "image": "frame_0403_28-42.jpg"
+  },
+  {
+    "index": 404,
+    "timestamp": "28:47",
+    "timestamp_sec": 1727.039,
+    "text": "코드를 강제하게 됐었을 때에 이제",
+    "image": "frame_0404_28-47.jpg"
+  },
+  {
+    "index": 405,
+    "timestamp": "28:50",
+    "timestamp_sec": 1730.32,
+    "text": "저는 이게 그 일장 일단이 있다는 생각이 개인적으로 좀 들었어요.",
+    "image": "frame_0405_28-50.jpg"
+  },
+  {
+    "index": 406,
+    "timestamp": "28:55",
+    "timestamp_sec": 1735.32,
+    "text": "그러니깐 마치 이런 거 같아요. 저는 디자이너다 보니까 디자이너 입장에서",
+    "image": "frame_0406_28-55.jpg"
+  },
+  {
+    "index": 407,
+    "timestamp": "28:59",
+    "timestamp_sec": 1739.48,
+    "text": "해석하면 이제 결과물을 우리는 어떤",
+    "image": "frame_0407_28-59.jpg"
+  },
+  {
+    "index": 408,
+    "timestamp": "29:02",
+    "timestamp_sec": 1742.84,
+    "text": "브랜드 가인에 맞춰서 디자인 시스템에 맞춰서만 내 놓을 거야. 대신에",
+    "image": "frame_0408_29-02.jpg"
+  },
+  {
+    "index": 409,
+    "timestamp": "29:06",
+    "timestamp_sec": 1746.96,
+    "text": "일관성이 굉장히 있고 디자인이 품질이 코퀄리티야라고 하는 쪽으로 저희는",
+    "image": "frame_0409_29-06.jpg"
+  },
+  {
+    "index": 410,
+    "timestamp": "29:12",
+    "timestamp_sec": 1752.08,
+    "text": "일을 하거든요. 디자인 시스템을 그래서 만드는 거죠. 근데 이거는",
+    "image": "frame_0410_29-12.jpg"
+  },
+  {
+    "index": 411,
+    "timestamp": "29:15",
+    "timestamp_sec": 1755.24,
+    "text": "이제 코드에 말 그대로 시스템을 딱 강제해 가지고 그대로 나오게끔 해서",
+    "image": "frame_0411_29-15.jpg"
+  },
+  {
+    "index": 412,
+    "timestamp": "29:19",
+    "timestamp_sec": 1759.039,
+    "text": "퀄리티를 유지하겠다. 그리고 일관 몇등성을 가져가겠다라고 하는 그런",
+    "image": "frame_0412_29-19.jpg"
+  },
+  {
+    "index": 413,
+    "timestamp": "29:23",
+    "timestamp_sec": 1763.72,
+    "text": "접근 방식인 거잖아요. 맞습니다. 그죠? 그랬을 때 장단점이 있지",
+    "image": "frame_0413_29-23.jpg"
+  },
+  {
+    "index": 414,
+    "timestamp": "29:27",
+    "timestamp_sec": 1767.279,
+    "text": "않을까 싶기는 해요. 아, >> 네. >> 우선 반점은 현태님께 한번 들어보는",
+    "image": "frame_0414_29-27.jpg"
+  },
+  {
+    "index": 415,
+    "timestamp": "29:33",
+    "timestamp_sec": 1773.159,
+    "text": "걸라고요. 저 장점밖에 안 제가 설",
+    "image": "frame_0415_29-33.jpg"
+  },
+  {
+    "index": 416,
+    "timestamp": "29:36",
+    "timestamp_sec": 1776.32,
+    "text": ">> 장점밖에 생각이 안 나 가지고 >> 좋아요. 네. 근데 저는 이렇게",
+    "image": "frame_0416_29-36.jpg"
+  },
+  {
+    "index": 417,
+    "timestamp": "29:39",
+    "timestamp_sec": 1779.96,
+    "text": "시도한 이유는 그 AI로 바이브코딩 하기 전에도 항상 코드는 해결적이고",
+    "image": "frame_0417_29-39.jpg"
+  },
+  {
+    "index": 418,
+    "timestamp": "29:46",
+    "timestamp_sec": 1786.44,
+    "text": "단일 선택지만 남기도록 선택을 고민",
+    "image": "frame_0418_29-46.jpg"
+  },
+  {
+    "index": 419,
+    "timestamp": "29:49",
+    "timestamp_sec": 1789.519,
+    "text": "했었는데요. 코드 리뷰어 입장에서도 그 작성하시는 분이 어떤 생각으로",
+    "image": "frame_0419_29-49.jpg"
+  },
+  {
+    "index": 420,
+    "timestamp": "29:56",
+    "timestamp_sec": 1796.24,
+    "text": "썼는지 알 수 있게끔 그 도구를 만드는 거에 추천 많이 했었어요.",
+    "image": "frame_0420_29-56.jpg"
+  },
+  {
+    "index": 421,
+    "timestamp": "30:00",
+    "timestamp_sec": 1800.399,
+    "text": "그니까 그 이유가 뭐냐면 어떤 해당",
+    "image": "frame_0421_30-00.jpg"
+  },
+  {
+    "index": 422,
+    "timestamp": "30:03",
+    "timestamp_sec": 1803.399,
+    "text": "기능이 망가졌다라고 판단이 됐을 때 그 파일을 아예 지우고 새로 작성하는",
+    "image": "frame_0422_30-03.jpg"
+  },
+  {
+    "index": 423,
+    "timestamp": "30:07",
+    "timestamp_sec": 1807.279,
+    "text": "식으로 했었습니다. AI 나오기 전에도",
+    "image": "frame_0423_30-07.jpg"
+  },
+  {
+    "index": 424,
+    "timestamp": "30:10",
+    "timestamp_sec": 1810.84,
+    "text": "왜냐면 그거를 리페토링 하면 당연히 좋겠지만 그것보다도 항상 그",
+    "image": "frame_0424_30-10.jpg"
+  },
+  {
+    "index": 425,
+    "timestamp": "30:15",
+    "timestamp_sec": 1815.399,
+    "text": "선택지로는 해당 페이 해당 어떤",
+    "image": "frame_0425_30-15.jpg"
+  },
+  {
+    "index": 426,
+    "timestamp": "30:18",
+    "timestamp_sec": 1818.919,
+    "text": "코드에 버그가 있고 이게 단순한",
+    "image": "frame_0426_30-18.jpg"
+  },
+  {
+    "index": 427,
+    "timestamp": "30:22",
+    "timestamp_sec": 1822.12,
+    "text": "수정으로 어려울 것 같다. 그러면 그 코드의 역할이 뭔지로서",
+    "image": "frame_0427_30-22.jpg"
+  },
+  {
+    "index": 428,
+    "timestamp": "30:27",
+    "timestamp_sec": 1827.799,
+    "text": "다 강제가 되어 있었다면은 얘를 그대로 덜어내서 원래 연결되 있던",
+    "image": "frame_0428_30-27.jpg"
+  },
+  {
+    "index": 429,
+    "timestamp": "30:32",
+    "timestamp_sec": 1832.32,
+    "text": "인터페이스랑 구현체가 무엇인지 다시 역객해서 다시 구현할 식으로",
+    "image": "frame_0429_30-32.jpg"
+  },
+  {
+    "index": 430,
+    "timestamp": "30:36",
+    "timestamp_sec": 1836.679,
+    "text": ">> 음 >> 근데 그거에 대한 노력이 AI는 너무 쉽게 되잖아요. 네.",
+    "image": "frame_0430_30-36.jpg"
+  },
+  {
+    "index": 431,
+    "timestamp": "30:40",
+    "timestamp_sec": 1840.32,
+    "text": ">> 그래서 저는이 필연적인 >> 코드가 나올 수 있도록 많이 추정하고",
+    "image": "frame_0431_30-40.jpg"
+  },
+  {
+    "index": 432,
+    "timestamp": "30:45",
+    "timestamp_sec": 1845.039,
+    "text": "있어요. >> 아 들어보니까 확실히 설득이 되네요.",
+    "image": "frame_0432_30-45.jpg"
+  },
+  {
+    "index": 433,
+    "timestamp": "30:48",
+    "timestamp_sec": 1848.48,
+    "text": "혹시 단점 같은게 있어요? 정 있어요. 그 저희가 원하는 품질을",
+    "image": "frame_0433_30-48.jpg"
+  },
+  {
+    "index": 434,
+    "timestamp": "30:52",
+    "timestamp_sec": 1852.799,
+    "text": "일관성 있게 맞추려고 하는 작업이다 보니까 이게",
+    "image": "frame_0434_30-52.jpg"
+  },
+  {
+    "index": 435,
+    "timestamp": "30:58",
+    "timestamp_sec": 1858.039,
+    "text": "제가 생각하는 겁니다. 그 원래 AI가 읽기 편한 AI가 이해하기",
+    "image": "frame_0435_30-58.jpg"
+  },
+  {
+    "index": 436,
+    "timestamp": "31:04",
+    "timestamp_sec": 1864.279,
+    "text": "편한 그리고 생성하기 편한 어떤 스타일이 분명히 존재할 거라고",
+    "image": "frame_0436_31-04.jpg"
+  },
+  {
+    "index": 437,
+    "timestamp": "31:07",
+    "timestamp_sec": 1867.639,
+    "text": "생각해요. 지금요 방식들은 우리가",
+    "image": "frame_0437_31-07.jpg"
+  },
+  {
+    "index": 438,
+    "timestamp": "31:11",
+    "timestamp_sec": 1871.6,
+    "text": "생각하는 어떤 가드레이를 쳐 놓는 거기 때문에 어쩌면 AI가 인풋",
+    "image": "frame_0438_31-11.jpg"
+  },
+  {
+    "index": 439,
+    "timestamp": "31:15",
+    "timestamp_sec": 1875.919,
+    "text": "토큰으로 받아들이거나 할 때는 오히려 비효율일 수도 있거든요. 근데이",
+    "image": "frame_0439_31-15.jpg"
+  },
+  {
+    "index": 440,
+    "timestamp": "31:20",
+    "timestamp_sec": 1880.72,
+    "text": "단점을 넘어서는 엄청난 장점이 있다면 이거는 인간과의 협업을 위하는",
+    "image": "frame_0440_31-20.jpg"
+  },
+  {
+    "index": 441,
+    "timestamp": "31:25",
+    "timestamp_sec": 1885.799,
+    "text": "겁니다. 이게 결국에 우리가 만들어 놓은 지금 제가 생각했을 때 바이브",
+    "image": "frame_0441_31-25.jpg"
+  },
+  {
+    "index": 442,
+    "timestamp": "31:30",
+    "timestamp_sec": 1890.32,
+    "text": "코딩으로 엔터프라이즈에 딸깍한 다음에 그거 유지보수까지 넘어간 사례는",
+    "image": "frame_0442_31-30.jpg"
+  },
+  {
+    "index": 443,
+    "timestamp": "31:33",
+    "timestamp_sec": 1893.84,
+    "text": "없거든요. 왜냐면 시기적으로 없어요. 왜냐면 6개월 이후에 유지보수로",
+    "image": "frame_0443_31-33.jpg"
+  },
+  {
+    "index": 444,
+    "timestamp": "31:38",
+    "timestamp_sec": 1898.039,
+    "text": "넘어가니까 작년 9월부터였으니까 시기적으로 맞지 않고 그러면은이",
+    "image": "frame_0444_31-38.jpg"
+  },
+  {
+    "index": 445,
+    "timestamp": "31:41",
+    "timestamp_sec": 1901.639,
+    "text": "유지보수를 일반 SI 팀에서 받아서 해야 될 수도 있거든요. 그러면은 그",
+    "image": "frame_0445_31-41.jpg"
+  },
+  {
+    "index": 446,
+    "timestamp": "31:46",
+    "timestamp_sec": 1906.039,
+    "text": "휴먼 리더블 한 코드가 중요하고 그들의 가이드라인과 그들의 뭔가",
+    "image": "frame_0446_31-46.jpg"
+  },
+  {
+    "index": 447,
+    "timestamp": "31:50",
+    "timestamp_sec": 1910.519,
+    "text": "가득성에 맞춘게 중요합니다. 우리 옛날에 코딩할 때 보면 임포트 같은",
+    "image": "frame_0447_31-50.jpg"
+  },
+  {
+    "index": 448,
+    "timestamp": "31:54",
+    "timestamp_sec": 1914.32,
+    "text": "거 쓸 때 >> 쭉 긁어 가지고 컨트롤 커맨드 옵션",
+    "image": "frame_0448_31-54.jpg"
+  },
+  {
+    "index": 449,
+    "timestamp": "31:58",
+    "timestamp_sec": 1918.72,
+    "text": "L 눌러서 막 뭐 중복 정리하고 막 정리를 하고 이런 플레이들 많이",
+    "image": "frame_0449_31-58.jpg"
+  },
+  {
+    "index": 450,
+    "timestamp": "32:02",
+    "timestamp_sec": 1922.519,
+    "text": "했는데 저는 지금 이걸 우리가 왜 하고 앉아 있어야 되나 생각을 많이",
+    "image": "frame_0450_32-02.jpg"
+  },
+  {
+    "index": 451,
+    "timestamp": "32:06",
+    "timestamp_sec": 1926.08,
+    "text": "하거든요. 근데 그게 결국에 받는 사람이 바이브 코딩을 안 할 거면",
+    "image": "frame_0451_32-06.jpg"
+  },
+  {
+    "index": 452,
+    "timestamp": "32:10",
+    "timestamp_sec": 1930.36,
+    "text": "그리고 거기서 인터넷도 안 되는 데서 코딩을 해야 되는 어떤 환경이면은",
+    "image": "frame_0452_32-10.jpg"
+  },
+  {
+    "index": 453,
+    "timestamp": "32:13",
+    "timestamp_sec": 1933.679,
+    "text": "우리는 거기에 맞게 완벽한 어떤 예쁜",
+    "image": "frame_0453_32-13.jpg"
+  },
+  {
+    "index": 454,
+    "timestamp": "32:18",
+    "timestamp_sec": 1938.159,
+    "text": "패키징된 그런 소스를 줘야 된다 생각하고 그것 때문에 이게 되게",
+    "image": "frame_0454_32-18.jpg"
+  },
+  {
+    "index": 455,
+    "timestamp": "32:22",
+    "timestamp_sec": 1942.279,
+    "text": "중요한 거 같아요. 지금 저희가 같이 일하고 있는 어떤 엔터프라이즈에도",
+    "image": "frame_0455_32-22.jpg"
+  },
+  {
+    "index": 456,
+    "timestamp": "32:26",
+    "timestamp_sec": 1946.32,
+    "text": "그거를 해야 되는 상황이 생길 거 같거든요. 그렇기 때문에 우리가",
+    "image": "frame_0456_32-26.jpg"
+  },
+  {
+    "index": 457,
+    "timestamp": "32:30",
+    "timestamp_sec": 1950.32,
+    "text": "자유롭게 블루프린트 많이 세팅을 해 놓더라도",
+    "image": "frame_0457_32-30.jpg"
+  },
+  {
+    "index": 458,
+    "timestamp": "32:33",
+    "timestamp_sec": 1953.72,
+    "text": ">> 결국 아웃풋을 이런 구성에 맞게",
+    "image": "frame_0458_32-33.jpg"
+  },
+  {
+    "index": 459,
+    "timestamp": "32:36",
+    "timestamp_sec": 1956.72,
+    "text": "진짜이 엔지니어 레벨에서의 그 코드 레벨에서의 아웃풋을 내 줘야 되는",
+    "image": "frame_0459_32-36.jpg"
+  },
+  {
+    "index": 460,
+    "timestamp": "32:40",
+    "timestamp_sec": 1960.799,
+    "text": "그게 진짜 중요한 거 같습니다. >> 맞는 말씀인 거 같고 저도 확실히",
+    "image": "frame_0460_32-40.jpg"
+  },
+  {
+    "index": 461,
+    "timestamp": "32:44",
+    "timestamp_sec": 1964.08,
+    "text": "느끼는게 결국은 유지보수의 문제로 빠지거든요. 이런 것들이. 근데 지금",
+    "image": "frame_0461_32-44.jpg"
+  },
+  {
+    "index": 462,
+    "timestamp": "32:48",
+    "timestamp_sec": 1968.72,
+    "text": "어쨌든 FD는 그 회사에 영원히 일해 주는게 아니잖아요. 근데 이런",
+    "image": "frame_0462_32-48.jpg"
+  },
+  {
+    "index": 463,
+    "timestamp": "32:52",
+    "timestamp_sec": 1972.279,
+    "text": "한네스가 먼저 어 설정적으로 잘 되어",
+    "image": "frame_0463_32-52.jpg"
+  },
+  {
+    "index": 464,
+    "timestamp": "32:55",
+    "timestamp_sec": 1975.799,
+    "text": "있고 그게 결란적으로 유지보수에 넘",
+    "image": "frame_0464_32-55.jpg"
+  },
+  {
+    "index": 465,
+    "timestamp": "32:59",
+    "timestamp_sec": 1979.2,
+    "text": "관점으로 넘어갔을 때 누가 들어오더라도 어떤 개발자가 새로",
+    "image": "frame_0465_32-59.jpg"
+  },
+  {
+    "index": 466,
+    "timestamp": "33:03",
+    "timestamp_sec": 1983.0,
+    "text": "들어왔었을 때 아이 규칙 관련된 문서가 있구나 그리고이 규칙은 어떤",
+    "image": "frame_0466_33-03.jpg"
+  },
+  {
+    "index": 467,
+    "timestamp": "33:08",
+    "timestamp_sec": 1988.399,
+    "text": "식으로 어 정리가 되어 있어라고 하는 것이 이제 약간 유지보수를 하게 되는",
+    "image": "frame_0467_33-08.jpg"
+  },
+  {
+    "index": 468,
+    "timestamp": "33:13",
+    "timestamp_sec": 1993.639,
+    "text": "시점 자체에서 학습이 좀 더 되고 이어지게끔 하는 형태에 있어서는이",
+    "image": "frame_0468_33-13.jpg"
+  },
+  {
+    "index": 469,
+    "timestamp": "33:17",
+    "timestamp_sec": 1997.96,
+    "text": "방식이 참 좋다. 저도 그렇게 느껴지는 것 같습니다. 네. 너무",
+    "image": "frame_0469_33-17.jpg"
+  },
+  {
+    "index": 470,
+    "timestamp": "33:21",
+    "timestamp_sec": 2001.559,
+    "text": "재밌는 거 같고요. 그러면이 다음 단계는 결국 평가 단계로 들어가는 거",
+    "image": "frame_0470_33-21.jpg"
+  },
+  {
+    "index": 471,
+    "timestamp": "33:25",
+    "timestamp_sec": 2005.24,
+    "text": "같은데요. >> 네. >> 유효한가에 대한 그런 내용인데 지금",
+    "image": "frame_0471_33-25.jpg"
+  },
+  {
+    "index": 472,
+    "timestamp": "33:28",
+    "timestamp_sec": 2008.32,
+    "text": "보면은 저렇게 그래프가 되어 있는데 저건 무슨 뜻인가요? >> 아, 결국 제가 계속 말씀드리고자",
+    "image": "frame_0472_33-28.jpg"
+  },
+  {
+    "index": 473,
+    "timestamp": "33:33",
+    "timestamp_sec": 2013.2,
+    "text": "했던 키워드 중 하나는 몇등성이잖아요. >> 네.이",
+    "image": "frame_0473_33-33.jpg"
+  },
+  {
+    "index": 474,
+    "timestamp": "33:36",
+    "timestamp_sec": 2016.679,
+    "text": ">> 여태까지이 거대한 요구 사항을 넣었을 때 한 번에 어떤 마크다운 문서만",
+    "image": "frame_0474_33-36.jpg"
+  },
+  {
+    "index": 475,
+    "timestamp": "33:41",
+    "timestamp_sec": 2021.6,
+    "text": "가지고도 한 번에 제 요구 사항 맞출 수도 있고 아무리 제가 그 요구",
+    "image": "frame_0475_33-41.jpg"
+  },
+  {
+    "index": 476,
+    "timestamp": "33:46",
+    "timestamp_sec": 2026.32,
+    "text": "사항을 마크한 잘 정리 해 놓더라도 빼먹을 수가 있거든요.",
+    "image": "frame_0476_33-46.jpg"
+  },
+  {
+    "index": 477,
+    "timestamp": "33:49",
+    "timestamp_sec": 2029.399,
+    "text": ">> 네. 그래서 린터를 사용하게 되는 거고요. 제가 계속 어떤 프롬프트",
+    "image": "frame_0477_33-49.jpg"
+  },
+  {
+    "index": 478,
+    "timestamp": "33:53",
+    "timestamp_sec": 2033.76,
+    "text": "엔지니 엔지니어링만 가지고 이거를 항상 강제할 수가 없다 보니까 그니까",
+    "image": "frame_0478_33-53.jpg"
+  },
+  {
+    "index": 479,
+    "timestamp": "33:58",
+    "timestamp_sec": 2038.44,
+    "text": "제가 클로드한테 커밋 해 줘라고 했을 때 커밋 시도할 때 윈터가 무조건",
+    "image": "frame_0479_33-58.jpg"
+  },
+  {
+    "index": 480,
+    "timestamp": "34:03",
+    "timestamp_sec": 2043.36,
+    "text": "실행되도록 합니다. 그러면 제가 코드 구조를 잘 만족시켰어라고 묻지 않아도",
+    "image": "frame_0480_34-03.jpg"
+  },
+  {
+    "index": 481,
+    "timestamp": "34:08",
+    "timestamp_sec": 2048.28,
+    "text": "커밋을 시도할 때 윈트 테스트를 하면서 틀린 걸 알게 되면 아",
+    "image": "frame_0481_34-08.jpg"
+  },
+  {
+    "index": 482,
+    "timestamp": "34:11",
+    "timestamp_sec": 2051.76,
+    "text": "익스포트에 내가 붙여서 안 되는 서픽스를 뭔가 했구나를 알게 되면",
+    "image": "frame_0482_34-11.jpg"
+  },
+  {
+    "index": 483,
+    "timestamp": "34:16",
+    "timestamp_sec": 2056.119,
+    "text": "결국 제가 스몰 A부터 스몰 F까지",
+    "image": "frame_0483_34-16.jpg"
+  },
+  {
+    "index": 484,
+    "timestamp": "34:19",
+    "timestamp_sec": 2059.359,
+    "text": "넣었던 요구 사항이랑 라지 A부터 라지 C까지 넣었던 요구 사항이랑",
+    "image": "frame_0484_34-19.jpg"
+  },
+  {
+    "index": 485,
+    "timestamp": "34:23",
+    "timestamp_sec": 2063.8,
+    "text": "결국 동치에 아웃풋이 나오게 되는 거죠. 그래서 몇등성이 된다라고",
+    "image": "frame_0485_34-23.jpg"
+  },
+  {
+    "index": 486,
+    "timestamp": "34:27",
+    "timestamp_sec": 2067.8,
+    "text": "말씀드리고 싶은 거고 그래서 여기서",
+    "image": "frame_0486_34-27.jpg"
+  },
+  {
+    "index": 487,
+    "timestamp": "34:30",
+    "timestamp_sec": 2070.879,
+    "text": "보여 드리는 거는 >> 서로 AI 모델마다 어떤 거는 한",
+    "image": "frame_0487_34-30.jpg"
+  },
+  {
+    "index": 488,
+    "timestamp": "34:34",
+    "timestamp_sec": 2074.56,
+    "text": "번에 오래 걸리더라도 한 번에 아풋이 맞게 나오는게 있을 수도 있고 어떤",
+    "image": "frame_0488_34-34.jpg"
+  },
+  {
+    "index": 489,
+    "timestamp": "34:38",
+    "timestamp_sec": 2078.399,
+    "text": "거는 작게 여러 번 시도해서 나올 수도 있는데 결국엔이 저희가 꾸리고",
+    "image": "frame_0489_34-38.jpg"
+  },
+  {
+    "index": 490,
+    "timestamp": "34:43",
+    "timestamp_sec": 2083.32,
+    "text": "있는 한해 통해서는 어떤 정교화되는 형태로 간다. 음",
+    "image": "frame_0490_34-43.jpg"
+  },
+  {
+    "index": 491,
+    "timestamp": "34:46",
+    "timestamp_sec": 2086.639,
+    "text": ">> 노말 폼으로 간다. 이거를 시각하 보고 싶었습니다. 해서 결국 총네",
+    "image": "frame_0491_34-46.jpg"
+  },
+  {
+    "index": 492,
+    "timestamp": "34:52",
+    "timestamp_sec": 2092.32,
+    "text": "개의 소프트웨어를 세 개 모델에 시켰으니까 12개가 나오게",
+    "image": "frame_0492_34-52.jpg"
+  },
+  {
+    "index": 493,
+    "timestamp": "34:56",
+    "timestamp_sec": 2096.32,
+    "text": "됐었거든요. >> 네. >> 그래서 이거는 이제 코덱스가 만들어",
+    "image": "frame_0493_34-56.jpg"
+  },
+  {
+    "index": 494,
+    "timestamp": "34:59",
+    "timestamp_sec": 2099.92,
+    "text": "준 거. 이것은 재미나이가 만들어 준 거. 저희가 다 디자인 시스템이나",
+    "image": "frame_0494_34-59.jpg"
+  },
+  {
+    "index": 495,
+    "timestamp": "35:04",
+    "timestamp_sec": 2104.52,
+    "text": "이런 거는 좀 회기라 돼 있어 가지고 >> 아 네네. >> 결국 어디 어떤 모델을 시켜도 똑같은",
+    "image": "frame_0495_35-04.jpg"
+  },
+  {
+    "index": 496,
+    "timestamp": "35:09",
+    "timestamp_sec": 2109.88,
+    "text": "아웃풋이 나오게 됩니다. >> 오 그렇구나.",
+    "image": "frame_0496_35-09.jpg"
+  },
+  {
+    "index": 497,
+    "timestamp": "35:13",
+    "timestamp_sec": 2113.52,
+    "text": ">> 그 저희는 주로 프로토타입을 처음에 가져가니까",
+    "image": "frame_0497_35-13.jpg"
+  },
+  {
+    "index": 498,
+    "timestamp": "35:16",
+    "timestamp_sec": 2116.76,
+    "text": "디자인의 색깔을 거의 안 입히고 >> 네. 톤 다운해 가져가거든요.",
+    "image": "frame_0498_35-16.jpg"
+  },
+  {
+    "index": 499,
+    "timestamp": "35:22",
+    "timestamp_sec": 2122.079,
+    "text": "그래서 보시는 것처럼 어떤 AR 모델을 맡겨도 도메인이 고정돼 있었고",
+    "image": "frame_0499_35-22.jpg"
+  },
+  {
+    "index": 500,
+    "timestamp": "35:27",
+    "timestamp_sec": 2127.24,
+    "text": "설계도 구현하면 똑같은 아프게 됩니다. 네. 오늘 보이고 보여",
+    "image": "frame_0500_35-27.jpg"
+  },
+  {
+    "index": 501,
+    "timestamp": "35:30",
+    "timestamp_sec": 2130.839,
+    "text": "드리고자 했던 건 딱 이거였습니다. >> 너무 재밌습니다. 네. 뭐 굉장히",
+    "image": "frame_0501_35-30.jpg"
+  },
+  {
+    "index": 502,
+    "timestamp": "35:35",
+    "timestamp_sec": 2135.88,
+    "text": "상세하고 좋은 내용을 좀 공유해 주셔 가지고 저도 큰 영감이 됐고요. 어",
+    "image": "frame_0502_35-35.jpg"
+  },
+  {
+    "index": 503,
+    "timestamp": "35:40",
+    "timestamp_sec": 2140.4,
+    "text": "이거를 결론적으로는 저희가 이걸 보시는 분들이 이렇게 처음부터 접근을",
+    "image": "frame_0503_35-40.jpg"
+  },
+  {
+    "index": 504,
+    "timestamp": "35:46",
+    "timestamp_sec": 2146.76,
+    "text": "하셔야 된다라고 하는 점이 좀 있으실 것 같아요. 그러니까 처음으로 우리가",
+    "image": "frame_0504_35-46.jpg"
+  },
+  {
+    "index": 505,
+    "timestamp": "35:51",
+    "timestamp_sec": 2151.16,
+    "text": "아 나도 이거 얘기를 듣다 보니까 나도 몇등성을 지키고 싶고 한네스",
+    "image": "frame_0505_35-51.jpg"
+  },
+  {
+    "index": 506,
+    "timestamp": "35:55",
+    "timestamp_sec": 2155.4,
+    "text": "엔지니어링을 좀 더 잘해 보고 싶어. 그럼 어디서부터나 접근하면 좋을까에",
+    "image": "frame_0506_35-55.jpg"
+  },
+  {
+    "index": 507,
+    "timestamp": "35:59",
+    "timestamp_sec": 2159.68,
+    "text": "대한 그런 그 약간 초심자의 관점에서는 어떻게 하면 좋을지에",
+    "image": "frame_0507_35-59.jpg"
+  },
+  {
+    "index": 508,
+    "timestamp": "36:03",
+    "timestamp_sec": 2163.8,
+    "text": "대해서 좀 조언을 주실 수 있을까요? >> 음. 그러니까 저희가 생각하는 거는",
+    "image": "frame_0508_36-03.jpg"
+  },
+  {
+    "index": 509,
+    "timestamp": "36:08",
+    "timestamp_sec": 2168.839,
+    "text": "그 하네스에서 살겠단을 꽉 잡아 놓는 것도 중요하지만은 진짜 잘",
+    "image": "frame_0509_36-08.jpg"
+  },
+  {
+    "index": 510,
+    "timestamp": "36:12",
+    "timestamp_sec": 2172.64,
+    "text": "만들어졌는지에 대해서 체크하는 것도 되게 중요하다고 생각을 하고요.",
+    "image": "frame_0510_36-12.jpg"
+  },
+  {
+    "index": 511,
+    "timestamp": "36:16",
+    "timestamp_sec": 2176.0,
+    "text": ">> 그래서 >> 어 지금 저희가 또 하나 집중하고",
+    "image": "frame_0511_36-16.jpg"
+  },
+  {
+    "index": 512,
+    "timestamp": "36:19",
+    "timestamp_sec": 2179.4,
+    "text": "있는 거는 이밸루에이션 쪽입니다. 근데 이밸루에이션은",
+    "image": "frame_0512_36-19.jpg"
+  },
+  {
+    "index": 513,
+    "timestamp": "36:22",
+    "timestamp_sec": 2182.48,
+    "text": ">> 하나 자료를 공유하려고 들고 왔는데 진짜 이게 잘 돌아가고 있는지를",
+    "image": "frame_0513_36-22.jpg"
+  },
+  {
+    "index": 514,
+    "timestamp": "36:26",
+    "timestamp_sec": 2186.52,
+    "text": "어떻게 아냐라고 했을 때 뭐 당연히 저희가 좋아하는 랭체인 덕분에 여러",
+    "image": "frame_0514_36-26.jpg"
+  },
+  {
+    "index": 515,
+    "timestamp": "36:31",
+    "timestamp_sec": 2191.96,
+    "text": "가지 이밸루에이션을 많이 저희는 할 수 있죠. 할 수 있는데 엔터프라이즈",
+    "image": "frame_0515_36-31.jpg"
+  },
+  {
+    "index": 516,
+    "timestamp": "36:35",
+    "timestamp_sec": 2195.52,
+    "text": "레벨에서는 법적인 이밸루에이션이 아니라 조직에 맞는 이밸루에이션이 좀",
+    "image": "frame_0516_36-35.jpg"
+  },
+  {
+    "index": 517,
+    "timestamp": "36:39",
+    "timestamp_sec": 2199.72,
+    "text": "필요하거든요. 예를 들어서 지금 여기 보면 이거는이네 가지 지표는 기본적인",
+    "image": "frame_0517_36-39.jpg"
+  },
+  {
+    "index": 518,
+    "timestamp": "36:45",
+    "timestamp_sec": 2205.44,
+    "text": "겁니다. 그 보통 AI 이밸루에이션에서 많이 쓰이는 거.",
+    "image": "frame_0518_36-45.jpg"
+  },
+  {
+    "index": 519,
+    "timestamp": "36:50",
+    "timestamp_sec": 2210.079,
+    "text": "이게 컨택 문맥에 맞는 답변을 하고 있나? 문맥에 어긋난 건 아닌가?",
+    "image": "frame_0519_36-50.jpg"
+  },
+  {
+    "index": 520,
+    "timestamp": "36:54",
+    "timestamp_sec": 2214.24,
+    "text": "제대로 된 결과를 들고 있나? 제대로 된 소스 데이터를 들고 있나?",
+    "image": "frame_0520_36-54.jpg"
+  },
+  {
+    "index": 521,
+    "timestamp": "36:57",
+    "timestamp_sec": 2217.72,
+    "text": "이상한게 빠지진 않았나?이 이 여러 가지네 개에 대한 어떻게 뭐 레그",
+    "image": "frame_0521_36-57.jpg"
+  },
+  {
+    "index": 522,
+    "timestamp": "37:01",
+    "timestamp_sec": 2221.839,
+    "text": "시스템에 대한 이밸루에이션 메소드들이 있습니다. 근데 그런 것들을 기반으로",
+    "image": "frame_0522_37-01.jpg"
+  },
+  {
+    "index": 523,
+    "timestamp": "37:07",
+    "timestamp_sec": 2227.88,
+    "text": "우리 조직에는 어떤 것들이 적합할까를",
+    "image": "frame_0523_37-07.jpg"
+  },
+  {
+    "index": 524,
+    "timestamp": "37:11",
+    "timestamp_sec": 2231.24,
+    "text": "보장을 해 줘야 돼요. 옛날에 우리 보면은 서비스 하나 만들면은 응답",
+    "image": "frame_0524_37-11.jpg"
+  },
+  {
+    "index": 525,
+    "timestamp": "37:15",
+    "timestamp_sec": 2235.599,
+    "text": "속도나 이런 것들 가지고 품질 표준을 딱 잡지 않습니까? 그런 것처럼",
+    "image": "frame_0525_37-15.jpg"
+  },
+  {
+    "index": 526,
+    "timestamp": "37:19",
+    "timestamp_sec": 2239.599,
+    "text": "AI도 만들어 놓고 나면 진짜 괜찮게 우아하는 거 말고 이게 내일도 모해도",
+    "image": "frame_0526_37-19.jpg"
+  },
+  {
+    "index": 527,
+    "timestamp": "37:24",
+    "timestamp_sec": 2244.8,
+    "text": "1년 후에도 맨날 맨날 이게 잘 작동하는지 저는 그래서 이거를 옛날에",
+    "image": "frame_0527_37-24.jpg"
+  },
+  {
+    "index": 528,
+    "timestamp": "37:28",
+    "timestamp_sec": 2248.48,
+    "text": "데이터 도그처럼 에이전트 도그 같다 이렇게 많이 부르거든요. 그래서",
+    "image": "frame_0528_37-28.jpg"
+  },
+  {
+    "index": 529,
+    "timestamp": "37:31",
+    "timestamp_sec": 2251.839,
+    "text": "이거를 매일매일 체크가 되면서이 품질이 유지되고 있는지 그리고이",
+    "image": "frame_0529_37-31.jpg"
+  },
+  {
+    "index": 530,
+    "timestamp": "37:36",
+    "timestamp_sec": 2256.28,
+    "text": "에이전트별로 뭐 답변 관련성이나 이런 것들이 진짜 괜찮은지 그리고 100번",
+    "image": "frame_0530_37-36.jpg"
+  },
+  {
+    "index": 531,
+    "timestamp": "37:41",
+    "timestamp_sec": 2261.24,
+    "text": "물었을 때 한 번 틀렸는게 좋은 건지 나쁜 건지 우리 조직에선 100번",
+    "image": "frame_0531_37-41.jpg"
+  },
+  {
+    "index": 532,
+    "timestamp": "37:45",
+    "timestamp_sec": 2265.52,
+    "text": "물었을 때 10열 번 틀리더라도 답을 아예 안 했으면 좋겠다. 아니면 어떤",
+    "image": "frame_0532_37-45.jpg"
+  },
+  {
+    "index": 533,
+    "timestamp": "37:49",
+    "timestamp_sec": 2269.359,
+    "text": "조직은 20번 틀리더라도 틀린 답이라도 했으면 좋겠다. 이게",
+    "image": "frame_0533_37-49.jpg"
+  },
+  {
+    "index": 534,
+    "timestamp": "37:52",
+    "timestamp_sec": 2272.4,
+    "text": "조직별로 스타일이 다르거든요. 그래서 이밸류에 메소드는 그 조직의 조직",
+    "image": "frame_0534_37-52.jpg"
+  },
+  {
+    "index": 535,
+    "timestamp": "37:57",
+    "timestamp_sec": 2277.839,
+    "text": "문화랑도 맞다 있습니다. 그래서 이런 엔터프라이즈 a 엔터프라이즈 AI",
+    "image": "frame_0535_37-57.jpg"
+  },
+  {
+    "index": 536,
+    "timestamp": "38:03",
+    "timestamp_sec": 2283.319,
+    "text": "에이전트에서 그 평가 프레임은 그 랭체인이나 이런 데서 하는 법적인",
+    "image": "frame_0536_38-03.jpg"
+  },
+  {
+    "index": 537,
+    "timestamp": "38:07",
+    "timestamp_sec": 2287.56,
+    "text": "거에서 우리 조직에 맞게끔 조금 더 변경된 이런 퍼포먼스가 필요하고 요런",
+    "image": "frame_0537_38-07.jpg"
+  },
+  {
+    "index": 538,
+    "timestamp": "38:12",
+    "timestamp_sec": 2292.8,
+    "text": "것들을 이제 지속적으로 모니터링 해 나가는게 키다. 이렇게 말씀드리면",
+    "image": "frame_0538_38-12.jpg"
+  },
+  {
+    "index": 539,
+    "timestamp": "38:17",
+    "timestamp_sec": 2297.48,
+    "text": "그럼 이제 앞단에서도 잡히고 코드 레벨로 잡힌 다음에 AI의",
+    "image": "frame_0539_38-17.jpg"
+  },
+  {
+    "index": 540,
+    "timestamp": "38:21",
+    "timestamp_sec": 2301.96,
+    "text": "답변질까지도 딱 잡히면은 이게 통으로가 통으로 가면 이제 이게 다",
+    "image": "frame_0540_38-21.jpg"
+  },
+  {
+    "index": 541,
+    "timestamp": "38:26",
+    "timestamp_sec": 2306.88,
+    "text": "잡히는 거죠. 어떻게 보면. 그래서 이게 FD가이 안에서 이제 FD들이",
+    "image": "frame_0541_38-26.jpg"
+  },
+  {
+    "index": 542,
+    "timestamp": "38:31",
+    "timestamp_sec": 2311.64,
+    "text": "막 놀아도 상관이 없는 겁니다. 앞이 잡힐 거고 뒤가 잡힐 거니까 공격과",
+    "image": "frame_0542_38-31.jpg"
+  },
+  {
+    "index": 543,
+    "timestamp": "38:35",
+    "timestamp_sec": 2315.68,
+    "text": "소비가 다쳐야 돼. 그래서 이제 그런 식으로 하는 것이 지금 또",
+    "image": "frame_0543_38-35.jpg"
+  },
+  {
+    "index": 544,
+    "timestamp": "38:40",
+    "timestamp_sec": 2320.359,
+    "text": "엔터프라이즈 AI 에이전트 AI 빌드의 키이다. 공유드리고 싶었어요.",
+    "image": "frame_0544_38-40.jpg"
+  },
+  {
+    "index": 545,
+    "timestamp": "38:46",
+    "timestamp_sec": 2326.04,
+    "text": ">> 아 그 평가 같은 경우에는 그러면이",
+    "image": "frame_0545_38-46.jpg"
+  },
+  {
+    "index": 546,
+    "timestamp": "38:49",
+    "timestamp_sec": 2329.04,
+    "text": "프로젝트마다이 품질 관리 대시보드를 별도로 제작을",
+    "image": "frame_0546_38-49.jpg"
+  },
+  {
+    "index": 547,
+    "timestamp": "38:53",
+    "timestamp_sec": 2333.8,
+    "text": "해서 제작 납품을 하시는지 아니면은 그냥 내부에 통합된 어떤 뭐 솔루션",
+    "image": "frame_0547_38-53.jpg"
+  },
+  {
+    "index": 548,
+    "timestamp": "38:59",
+    "timestamp_sec": 2339.359,
+    "text": "같은 걸 하나 만드셔 가지고 거기다가 하나 둘 셋 이렇게 붙여서 하시는지",
+    "image": "frame_0548_38-59.jpg"
+  },
+  {
+    "index": 549,
+    "timestamp": "39:02",
+    "timestamp_sec": 2342.72,
+    "text": "그런 포인트가 좀 궁금하거든요. 어떻게 보면 통합된 방법론는 있을 수",
+    "image": "frame_0549_39-02.jpg"
+  },
+  {
+    "index": 550,
+    "timestamp": "39:07",
+    "timestamp_sec": 2347.24,
+    "text": "있는데요. 당연히 고객사마다 다르게 들어가고요. 왜냐면 요즘 딸각으로 다",
+    "image": "frame_0550_39-07.jpg"
+  },
+  {
+    "index": 551,
+    "timestamp": "39:10",
+    "timestamp_sec": 2350.76,
+    "text": "만들 수 있으니까. 대신에 그 고객사마다 어떤 이밸루에이션",
+    "image": "frame_0551_39-10.jpg"
+  },
+  {
+    "index": 552,
+    "timestamp": "39:15",
+    "timestamp_sec": 2355.72,
+    "text": "메돌로지를 활용할지는 이제 고객사의 성향을 보고 저희가 판단을 해야 되는",
+    "image": "frame_0552_39-15.jpg"
+  },
+  {
+    "index": 553,
+    "timestamp": "39:20",
+    "timestamp_sec": 2360.04,
+    "text": "상황입니다. 그거를 같이 논의하게 되는 것이고요. >> 이게 좋은게 어쨌든 우리가 만든 사람",
+    "image": "frame_0553_39-20.jpg"
+  },
+  {
+    "index": 554,
+    "timestamp": "39:25",
+    "timestamp_sec": 2365.0,
+    "text": "입장에서도 계속 이밸루에이션을 트래킹을 할 수 있다는 것이고 그리고",
+    "image": "frame_0554_39-25.jpg"
+  },
+  {
+    "index": 555,
+    "timestamp": "39:28",
+    "timestamp_sec": 2368.319,
+    "text": "상대방 그 클라이언트 입장에서도 아 이게 지금 계속 잘 작동되고",
+    "image": "frame_0555_39-28.jpg"
+  },
+  {
+    "index": 556,
+    "timestamp": "39:31",
+    "timestamp_sec": 2371.92,
+    "text": "있구나라고 하는 안심을 줄 수가 있는 것이고 그죠. 네. 그렇게 진행이",
+    "image": "frame_0556_39-31.jpg"
+  },
+  {
+    "index": 557,
+    "timestamp": "39:36",
+    "timestamp_sec": 2376.28,
+    "text": "됨에 있어서 좋은데 프로젝트를 계속",
+    "image": "frame_0557_39-36.jpg"
+  },
+  {
+    "index": 558,
+    "timestamp": "39:39",
+    "timestamp_sec": 2379.56,
+    "text": "이어 주게끔 해 주는 어떤 연결도",
+    "image": "frame_0558_39-39.jpg"
+  },
+  {
+    "index": 559,
+    "timestamp": "39:43",
+    "timestamp_sec": 2383.28,
+    "text": "들기는 하는 거 같아요. 그러니까 지금 그냥 하나에 한 번에 들어가서",
+    "image": "frame_0559_39-43.jpg"
+  },
+  {
+    "index": 560,
+    "timestamp": "39:46",
+    "timestamp_sec": 2386.92,
+    "text": "구축을 쫙 끝내는 빠져나오는 그런 것뿐만 아니라 뭔가 유지보수도 되고",
+    "image": "frame_0560_39-46.jpg"
+  },
+  {
+    "index": 561,
+    "timestamp": "39:53",
+    "timestamp_sec": 2393.04,
+    "text": ">> 끈을 유지하는 >> 끈을 유지하는 그런 >> 느낌도 있는 거 같다는 생각이",
+    "image": "frame_0561_39-53.jpg"
+  },
+  {
+    "index": 562,
+    "timestamp": "39:57",
+    "timestamp_sec": 2397.599,
+    "text": "들었었어요. 그럴 수도 있는데 저희가 생각하는 사실 이상적인 거는 저희가",
+    "image": "frame_0562_39-57.jpg"
+  },
+  {
+    "index": 563,
+    "timestamp": "40:02",
+    "timestamp_sec": 2402.28,
+    "text": "구축해 놓고 가면 이제 그 안에 내부에 있으신 분이 이걸 유지보소할",
+    "image": "frame_0563_40-02.jpg"
+  },
+  {
+    "index": 564,
+    "timestamp": "40:06",
+    "timestamp_sec": 2406.48,
+    "text": "수 있게끔 우리가 영량을 세팅해 드리고 나와야 된다이긴 하거든요.",
+    "image": "frame_0564_40-06.jpg"
+  },
+  {
+    "index": 565,
+    "timestamp": "40:10",
+    "timestamp_sec": 2410.72,
+    "text": "그분을 위한 다양한 무기를 세팅해 드리는 거긴 합니다. 그래서 유지보수",
+    "image": "frame_0565_40-10.jpg"
+  },
+  {
+    "index": 566,
+    "timestamp": "40:15",
+    "timestamp_sec": 2415.44,
+    "text": "관점에서 그거를 이제 어떤 C를 뿌려 놓고 우리가 이제 계속해서 뭔가",
+    "image": "frame_0566_40-15.jpg"
+  },
+  {
+    "index": 567,
+    "timestamp": "40:20",
+    "timestamp_sec": 2420.56,
+    "text": "컨택을 유지할 만한 어떤 요소가 될 수도 있는데 그것보다는 AI는 어쩔",
+    "image": "frame_0567_40-20.jpg"
+  },
+  {
+    "index": 568,
+    "timestamp": "40:25",
+    "timestamp_sec": 2425.64,
+    "text": "수 없이 불확정성이 너무 큰 엔진이기 때문에",
+    "image": "frame_0568_40-25.jpg"
+  },
+  {
+    "index": 569,
+    "timestamp": "40:29",
+    "timestamp_sec": 2429.24,
+    "text": ">> 그거를 또 잡아낼 수 있는 여러 가지 무기를 이제 그 유지보스러에게 드리는",
+    "image": "frame_0569_40-29.jpg"
+  },
+  {
+    "index": 570,
+    "timestamp": "40:34",
+    "timestamp_sec": 2434.0,
+    "text": "거죠. 그게 이제 기회가 좋아 가지고 저희한테 그 유지보수의 사명이",
+    "image": "frame_0570_40-34.jpg"
+  },
+  {
+    "index": 571,
+    "timestamp": "40:38",
+    "timestamp_sec": 2438.16,
+    "text": "맡겨진다면 너무 땡크고요. 돈 버는 거니까. 근데 그게 아니라 저희는",
+    "image": "frame_0571_40-38.jpg"
+  },
+  {
+    "index": 572,
+    "timestamp": "40:42",
+    "timestamp_sec": 2442.119,
+    "text": "지속 가능하려면 내부 인원이 그거를 가능하게 만들어야 된다 생각하고 그럴",
+    "image": "frame_0572_40-42.jpg"
+  },
+  {
+    "index": 573,
+    "timestamp": "40:46",
+    "timestamp_sec": 2446.4,
+    "text": "때 이제 이런 한네스 뭐든 다 세팅이 되는 거고 그 중에 하나 굉장히",
+    "image": "frame_0573_40-46.jpg"
+  },
+  {
+    "index": 574,
+    "timestamp": "40:50",
+    "timestamp_sec": 2450.0,
+    "text": "중요한게 이밸루에이션 프레임하고 되겠습니다. >> 예. 충분히 이해했어요. 너무 좋은",
+    "image": "frame_0574_40-50.jpg"
+  },
+  {
+    "index": 575,
+    "timestamp": "40:54",
+    "timestamp_sec": 2454.359,
+    "text": "말씀입니다. 네. 어 마지막으로 좀 하고 싶으신 말씀 있으실까요? 혹시",
+    "image": "frame_0575_40-54.jpg"
+  },
+  {
+    "index": 576,
+    "timestamp": "40:58",
+    "timestamp_sec": 2458.76,
+    "text": "뭐 이제 마무리를 좀 해 보려고 하는데 우리 지우 님께서는 오늘",
+    "image": "frame_0576_40-58.jpg"
+  },
+  {
+    "index": 577,
+    "timestamp": "41:02",
+    "timestamp_sec": 2462.24,
+    "text": "인터뷰 어떠셨는지 소감한 말씀만 해 주시면 감사할 것 같아요. >> 아, 네. 아, 저 하나 말씀드리고",
+    "image": "frame_0577_41-02.jpg"
+  },
+  {
+    "index": 578,
+    "timestamp": "41:07",
+    "timestamp_sec": 2467.4,
+    "text": "싶 토픽도 하나 있습니다. >> 네. 제가 왜 이렇게 어떤 필연적인",
+    "image": "frame_0578_41-07.jpg"
+  },
+  {
+    "index": 579,
+    "timestamp": "41:12",
+    "timestamp_sec": 2472.52,
+    "text": "방향을 고민하게 됐는지에 대한 일화가 하나 있는데요.",
+    "image": "frame_0579_41-12.jpg"
+  },
+  {
+    "index": 580,
+    "timestamp": "41:16",
+    "timestamp_sec": 2476.319,
+    "text": ">> 저는 하드웨어 프로젝트를 잘 그니까",
+    "image": "frame_0580_41-16.jpg"
+  },
+  {
+    "index": 581,
+    "timestamp": "41:19",
+    "timestamp_sec": 2479.56,
+    "text": "성공적으로 끝내지 못한 경험이 있어요. 그 하드웨어 프로젝트를",
+    "image": "frame_0581_41-19.jpg"
+  },
+  {
+    "index": 582,
+    "timestamp": "41:23",
+    "timestamp_sec": 2483.64,
+    "text": "하면서 어떤 역할을 했었냐면 페로도 설계했었어야 됐고 펌웨어도 구현을",
+    "image": "frame_0582_41-23.jpg"
+  },
+  {
+    "index": 583,
+    "timestamp": "41:28",
+    "timestamp_sec": 2488.92,
+    "text": "했었어 됐어요. 근데 펌웨어를 구현하는 건 CE 코드였는데요.",
+    "image": "frame_0583_41-28.jpg"
+  },
+  {
+    "index": 584,
+    "timestamp": "41:32",
+    "timestamp_sec": 2492.88,
+    "text": "그러니까 그 당시에 제가 시코드로 많이 구현했었어서 어 잘 할 수 있을",
+    "image": "frame_0584_41-32.jpg"
+  },
+  {
+    "index": 585,
+    "timestamp": "41:37",
+    "timestamp_sec": 2497.8,
+    "text": "거라 생각했는데 카드 구현하면서 뭔가",
+    "image": "frame_0585_41-37.jpg"
+  },
+  {
+    "index": 586,
+    "timestamp": "41:41",
+    "timestamp_sec": 2501.079,
+    "text": "잘 안 되는 거예요. 그래서 안 된다고 어떤 멘토분이나 혹은 전문가분",
+    "image": "frame_0586_41-41.jpg"
+  },
+  {
+    "index": 587,
+    "timestamp": "41:46",
+    "timestamp_sec": 2506.319,
+    "text": "찾아가면은 포맷을 해오라는 걸 말씀해",
+    "image": "frame_0587_41-46.jpg"
+  },
+  {
+    "index": 588,
+    "timestamp": "41:49",
+    "timestamp_sec": 2509.56,
+    "text": "주시는 거예요. 포맷을 하면 돼요.",
+    "image": "frame_0588_41-49.jpg"
+  },
+  {
+    "index": 589,
+    "timestamp": "41:52",
+    "timestamp_sec": 2512.68,
+    "text": "그래서 저는이 상황이 그 당시에 되게",
+    "image": "frame_0589_41-52.jpg"
+  },
+  {
+    "index": 590,
+    "timestamp": "41:56",
+    "timestamp_sec": 2516.0,
+    "text": "어려웠었어요. 그 소프트에어 전공자로서는 근데 아 보니까 다시",
+    "image": "frame_0590_41-56.jpg"
+  },
+  {
+    "index": 591,
+    "timestamp": "42:02",
+    "timestamp_sec": 2522.88,
+    "text": "제로로 돌아갔을 때 그 결과물로 가는",
+    "image": "frame_0591_42-02.jpg"
+  },
+  {
+    "index": 592,
+    "timestamp": "42:06",
+    "timestamp_sec": 2526.28,
+    "text": "단계가 어 몇 등이야 되는구나를 뭔가",
+    "image": "frame_0592_42-06.jpg"
+  },
+  {
+    "index": 593,
+    "timestamp": "42:10",
+    "timestamp_sec": 2530.44,
+    "text": "그 겪은 문제의 솔루션은 아니지만 뭔가 내가 어떤 짓을 했는지를 모르면",
+    "image": "frame_0593_42-10.jpg"
+  },
+  {
+    "index": 594,
+    "timestamp": "42:15",
+    "timestamp_sec": 2535.119,
+    "text": "결국 포맷을 해서 처음부터 다시 윈도우부터 설치하고 매고 초기한",
+    "image": "frame_0594_42-15.jpg"
+  },
+  {
+    "index": 595,
+    "timestamp": "42:19",
+    "timestamp_sec": 2539.4,
+    "text": "다음에 컴파일러 다시 설치하고 그렇게",
+    "image": "frame_0595_42-19.jpg"
+  },
+  {
+    "index": 596,
+    "timestamp": "42:22",
+    "timestamp_sec": 2542.68,
+    "text": "해야 기본 제공해 주는 예제 코드를",
+    "image": "frame_0596_42-22.jpg"
+  },
+  {
+    "index": 597,
+    "timestamp": "42:26",
+    "timestamp_sec": 2546.0,
+    "text": "실행하는데 도 그렇게 해야 되더라고요. >> 음. >> 그래서 아 그러면서 그때 경험이 이제",
+    "image": "frame_0597_42-26.jpg"
+  },
+  {
+    "index": 598,
+    "timestamp": "42:32",
+    "timestamp_sec": 2552.52,
+    "text": "지금의 영향을 주고 있는 거 같아요. 그 본인의 어떤 경험에서에 들어나온",
+    "image": "frame_0598_42-32.jpg"
+  },
+  {
+    "index": 599,
+    "timestamp": "42:37",
+    "timestamp_sec": 2557.52,
+    "text": "그 기억은 사실 강렬하죠. 그 문제를",
+    "image": "frame_0599_42-37.jpg"
+  },
+  {
+    "index": 600,
+    "timestamp": "42:41",
+    "timestamp_sec": 2561.48,
+    "text": "내가 직접 경험했으니까 풀고 싶다라고 하는게 저도 저도 예전에 한번 겪었던",
+    "image": "frame_0600_42-41.jpg"
+  },
+  {
+    "index": 601,
+    "timestamp": "42:46",
+    "timestamp_sec": 2566.319,
+    "text": "적은 있었던 비슷한 문제가 있었던 거 같아요. 충분히 공감이 되는",
+    "image": "frame_0601_42-46.jpg"
+  },
+  {
+    "index": 602,
+    "timestamp": "42:50",
+    "timestamp_sec": 2570.559,
+    "text": "말씀이었던 거 같습니다. 네. 한네스 엔지니어링 오늘 정말 많이 배우셨을",
+    "image": "frame_0602_42-50.jpg"
+  },
+  {
+    "index": 603,
+    "timestamp": "42:54",
+    "timestamp_sec": 2574.24,
+    "text": "수 있을 것 같고 또 지운 FD님",
+    "image": "frame_0603_42-54.jpg"
+  },
+  {
+    "index": 604,
+    "timestamp": "42:57",
+    "timestamp_sec": 2577.359,
+    "text": "이제 링크드인 주소도 남겨 놓을테니까 많은 분들 찾아셨으면 좋겠고네 이렇게",
+    "image": "frame_0604_42-57.jpg"
+  },
+  {
+    "index": 605,
+    "timestamp": "43:01",
+    "timestamp_sec": 2581.76,
+    "text": "해서 오늘 이렇게 스페이스와 황현패 대표님 그리고 김지훈 FD도 모시고",
+    "image": "frame_0605_43-01.jpg"
+  },
+  {
+    "index": 606,
+    "timestamp": "43:06",
+    "timestamp_sec": 2586.48,
+    "text": "우리 한네스 엔지니어링에 대해서 좀 깊이 있게 얘기를 나눠봤는데 저는",
+    "image": "frame_0606_43-06.jpg"
+  },
+  {
+    "index": 607,
+    "timestamp": "43:10",
+    "timestamp_sec": 2590.16,
+    "text": "개인적으로 너무 재밌었습니다. 성공적인 녹화였고 여러분들도 그게 꼭",
+    "image": "frame_0607_43-10.jpg"
+  },
+  {
+    "index": 608,
+    "timestamp": "43:14",
+    "timestamp_sec": 2594.559,
+    "text": "전달 되셨으리라 전 생각을 하고요. 저희는 또 다음번에 또 나와 주셔",
+    "image": "frame_0608_43-14.jpg"
+  },
+  {
+    "index": 609,
+    "timestamp": "43:18",
+    "timestamp_sec": 2598.599,
+    "text": "가지고 또 많은 토픽도 나눴으면 좋겠습니다.네 네. 오늘 고생",
+    "image": "frame_0609_43-18.jpg"
+  },
+  {
+    "index": 610,
+    "timestamp": "43:22",
+    "timestamp_sec": 2602.0,
+    "text": "많으셨습니다. 고맙습니다. >> 감사합니다. >> 감사합니다.",
+    "image": "frame_0610_43-22.jpg"
+  }
+]
