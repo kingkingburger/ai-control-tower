@@ -18,6 +18,8 @@ AI 관련 실험을 위한 작업 공간. 유저 환경에 적용하기 전에 �
   - `youtube-slides/` — 유튜브 영상 프레임 추출 (`{VIDEO_ID}/slides.html`, `slides.md`, `images/`)
   - `domain-model/` — 도메인 모델 문서 (원본 + readable 버전)
   - `til/` — Today I Learned 기록 (`YYYY-MM-DD-주제.md`)
+- `docs/` — 프로젝트별 상세 문서
+  - `ouroboros/{YYYY-MM-DD}-{project}/` — Ouroboros 3단계 산출물 (`01-requirements.md`, `02-design.md`, `03-verification.md`)
 - `scripts/` — 유틸리티 스크립트 (`gen_html.py`: YouTube 트랜스크립트 HTML 생성, `capture_frames.py`: 영상 프레임 추출, `generate_output.py`: 슬라이드 HTML/MD 변환)
 - `sync/` — 팀 채널 위클리 요약 등 외부 정보 싱크
 
