@@ -30,4 +30,5 @@ AI 관련 실험을 위한 작업 공간. 유저 환경에 적용하기 전에 �
 - 발표 시: F11 전체화면 + 화살표 키
 
 ## Known Issues
-- Notion 플러그인 MCP 충돌: Claude AI 내장 통합과 플러그인이 동일한 "notion" 서버를 등록하여 스킵됨. 플러그인의 `.mcp.json`을 비워서 해결. 업데이트 시 재발 가능.
+- ~~Notion 플러그인 MCP 충돌: Claude AI 내장 통합과 플러그인이 동일한 "notion" 서버를 등록하여 스킵됨.~~ → **해결됨 (2026-03-31)**: 빌트인 OAuth로 Notion MCP 연결. 플러그인 방식 폐기.
+- Notion OAuth `resource` 파라미터 오류: OAuth URL에 `resource` 파라미터가 포함되면 `invalid_target` 에러 발생. URL에서 `resource` 파라미터를 제거하면 해결. (Admin 권한 없이 Integration 생성 불가 → OAuth 방식 사용)
