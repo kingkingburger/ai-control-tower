@@ -1,0 +1,999 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>AI에게 맡기는 건 쉽다 — 실용주의 프로그래머 7·8장</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700;800&family=JetBrains+Mono:wght@400;500&family=Noto+Sans+KR:wght@300;400;500;700&display=swap" rel="stylesheet">
+  <style>
+    :root {
+      --bg:       #0C0A08;
+      --bg2:      #141210;
+      --paper:    #F2EDE4;
+      --ink:      #EAE4D9;
+      --ink2:     #7A7060;
+      --gold:     #C8972A;
+      --gold-dim: rgba(200,151,42,0.12);
+      --gold-mid: rgba(200,151,42,0.35);
+      --green:    #4A7A5A;
+      --red:      #994040;
+      --serif:    'Nanum Myeongjo', 'Noto Serif KR', Georgia, serif;
+      --sans:     'Noto Sans KR', 'Apple SD Gothic Neo', sans-serif;
+      --mono:     'JetBrains Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: var(--sans);
+      background: var(--bg);
+      width: 100vw;
+      height: 100vh;
+      overflow: hidden;
+    }
+
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='300' height='300'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.75' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='300' height='300' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+      opacity: 0.028;
+      pointer-events: none;
+      z-index: 9999;
+    }
+
+    .deck { position: relative; width: 100vw; height: 100vh; }
+
+    .slide {
+      position: absolute;
+      inset: 0;
+      display: none;
+      flex-direction: column;
+      justify-content: center;
+      padding: 72px 108px;
+      opacity: 0;
+      transition: opacity 0.25s ease;
+    }
+
+    .slide.active { display: flex; opacity: 1; }
+
+    .s-dark  { background: var(--bg);  color: var(--ink); }
+    .s-dark2 { background: var(--bg2); color: var(--ink); }
+    .s-warm  { background: #1C1408;    color: var(--ink); }
+
+    .rule {
+      width: 48px;
+      height: 2px;
+      background: var(--gold);
+      margin-bottom: 24px;
+    }
+
+    .tag {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 20px;
+    }
+
+    h1 {
+      font-family: var(--serif);
+      font-size: clamp(42px, 5.5vw, 68px);
+      font-weight: 800;
+      line-height: 1.3;
+      color: var(--ink);
+      margin-bottom: 24px;
+    }
+
+    h1 em {
+      font-style: italic;
+      color: var(--gold);
+      font-weight: 400;
+    }
+
+    h2 {
+      font-family: var(--serif);
+      font-size: clamp(34px, 4vw, 52px);
+      font-weight: 700;
+      line-height: 1.35;
+      color: var(--ink);
+      margin-bottom: 32px;
+    }
+
+    .lead {
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 300;
+      line-height: 1.9;
+      color: var(--ink2);
+      max-width: 680px;
+    }
+
+    .items {
+      list-style: none;
+      padding: 0;
+      margin-top: 8px;
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .items li {
+      font-size: clamp(20px, 2.2vw, 26px);
+      font-weight: 400;
+      line-height: 1.6;
+      color: var(--ink);
+      display: flex;
+      align-items: baseline;
+      gap: 14px;
+    }
+
+    .items li::before {
+      content: '—';
+      color: var(--gold);
+      font-family: var(--serif);
+      flex-shrink: 0;
+      font-size: 0.9em;
+    }
+
+    .big-q {
+      font-family: var(--serif);
+      font-size: clamp(28px, 3.5vw, 46px);
+      font-weight: 400;
+      font-style: italic;
+      line-height: 1.55;
+      color: var(--ink);
+      border-left: 3px solid var(--gold);
+      padding-left: 28px;
+      margin-top: 8px;
+      max-width: 760px;
+    }
+
+    .badge {
+      display: inline-block;
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      padding: 3px 10px;
+      border-radius: 2px;
+      vertical-align: middle;
+      margin-right: 6px;
+    }
+
+    .badge-gold { background: var(--gold); color: var(--bg); }
+    .badge-dim  { background: rgba(200,151,42,0.15); color: var(--gold); }
+
+    /* obs grid */
+    .obs-col-label {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      margin-bottom: 4px;
+    }
+
+    .obs-col-label.muted { color: var(--ink2); }
+    .obs-col-label.gold  { color: var(--gold); }
+
+    .obs-item {
+      display: flex;
+      gap: 12px;
+      align-items: flex-start;
+      padding: 11px 14px;
+      border-radius: 6px;
+      font-size: 16px;
+      line-height: 1.55;
+      color: var(--ink);
+    }
+
+    .bad-item  { background: rgba(255,255,255,0.03); border: 1px solid rgba(255,255,255,0.07); }
+    .good-item { background: rgba(200,151,42,0.06);  border: 1px solid rgba(200,151,42,0.18); }
+
+    .obs-dot {
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      margin-top: 5px;
+    }
+
+    .bad-dot  { background: var(--ink2); }
+    .good-dot { background: var(--gold); }
+
+    .obs-sub {
+      display: block;
+      font-size: 13px;
+      color: var(--ink2);
+      margin-top: 3px;
+    }
+
+    /* prompt items */
+    .prompt-item {
+      margin-bottom: 12px;
+      padding: 12px 16px;
+      background: rgba(200,151,42,0.05);
+      border: 1px solid rgba(200,151,42,0.15);
+      border-radius: 6px;
+    }
+
+    .prompt-q {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 16px;
+      color: var(--ink);
+      line-height: 1.65;
+      margin-bottom: 6px;
+    }
+
+    .prompt-why {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.08em;
+      color: var(--gold);
+      text-transform: uppercase;
+    }
+
+    /* principle grid */
+    .principle-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .principle-row {
+      display: grid;
+      grid-template-columns: 1fr 28px 1.4fr;
+      align-items: center;
+      gap: 12px;
+      padding: 12px 16px;
+      border-radius: 6px;
+      background: rgba(200,151,42,0.05);
+      border: 1px solid rgba(200,151,42,0.1);
+    }
+
+    .principle-book {
+      font-size: 16px;
+      font-weight: 500;
+      color: var(--ink2);
+      line-height: 1.55;
+    }
+
+    .principle-arrow {
+      font-family: var(--mono);
+      font-size: 17px;
+      color: var(--gold);
+      text-align: center;
+    }
+
+    .principle-ai {
+      font-size: 17px;
+      font-weight: 400;
+      color: var(--ink);
+      line-height: 1.55;
+    }
+
+    /* role split */
+    .role-split {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+    }
+
+    .role-box {
+      flex: 1;
+      border-radius: 8px;
+      padding: 20px 24px;
+      text-align: center;
+    }
+
+    .ai-box {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+    }
+
+    .me-box {
+      background: rgba(200,151,42,0.08);
+      border: 1px solid rgba(200,151,42,0.3);
+    }
+
+    .role-label {
+      font-family: var(--mono);
+      font-size: 13px;
+      letter-spacing: 0.10em;
+      text-transform: uppercase;
+      color: var(--gold);
+      margin-bottom: 8px;
+    }
+
+    .role-desc {
+      font-size: 19px;
+      font-weight: 500;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .role-sub {
+      font-size: 15px;
+      color: var(--ink2);
+      font-weight: 400;
+    }
+
+    .role-connector {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 4px;
+      width: 60px;
+    }
+
+    .role-conn-line {
+      width: 1px;
+      height: 20px;
+      background: rgba(200,151,42,0.3);
+    }
+
+    .role-conn-label {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+    }
+
+    /* debt items */
+    .debt-item {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      padding: 14px 18px;
+      border-radius: 6px;
+      background: rgba(255,255,255,0.03);
+      border: 1px solid rgba(255,255,255,0.07);
+    }
+
+    .debt-num {
+      font-family: var(--mono);
+      font-size: 13px;
+      font-weight: 500;
+      color: var(--gold);
+      letter-spacing: 0.1em;
+      flex-shrink: 0;
+      padding-top: 2px;
+    }
+
+    .debt-title {
+      font-family: var(--sans);
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
+
+    .debt-desc {
+      font-size: 16px;
+      color: var(--ink2);
+      line-height: 1.7;
+    }
+
+    /* flow */
+    .flow-row {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      flex-wrap: nowrap;
+    }
+
+    .flow-box {
+      padding: 9px 14px;
+      border-radius: 4px;
+      font-size: 15px;
+      line-height: 1.4;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .flow-box.muted {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.1);
+      color: var(--ink2);
+    }
+
+    .flow-box.gold-box {
+      background: rgba(200,151,42,0.15);
+      border: 1px solid rgba(200,151,42,0.4);
+      color: var(--ink);
+      font-weight: 500;
+    }
+
+    .flow-arr { font-size: 18px; }
+    .flow-arr.muted { color: rgba(255,255,255,0.15); }
+    .flow-arr.gold  { color: var(--gold); }
+
+    /* final line */
+    .final-line {
+      margin-top: 24px;
+      padding-top: 20px;
+      border-top: 1px solid rgba(200,151,42,0.2);
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: clamp(17px, 1.8vw, 22px);
+      color: var(--ink);
+      line-height: 1.7;
+    }
+
+    /* nav */
+    .nav {
+      position: fixed;
+      bottom: 32px;
+      left: 50%;
+      transform: translateX(-50%);
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      z-index: 1000;
+      background: rgba(12,10,8,0.7);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(200,151,42,0.2);
+      border-radius: 999px;
+      padding: 8px 16px;
+    }
+
+    .nav-btn {
+      width: 30px;
+      height: 30px;
+      border: none;
+      background: transparent;
+      color: var(--ink2);
+      font-size: 16px;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: color 0.15s;
+      border-radius: 50%;
+    }
+
+    .nav-btn:hover { color: var(--gold); }
+    .nav-btn:disabled { opacity: 0.2; cursor: default; }
+
+    .nav-counter {
+      font-family: var(--mono);
+      font-size: 13px;
+      color: var(--ink2);
+      min-width: 44px;
+      text-align: center;
+    }
+
+    .dots {
+      display: flex;
+      gap: 5px;
+      align-items: center;
+    }
+
+    .dot {
+      width: 4px;
+      height: 4px;
+      border-radius: 50%;
+      background: var(--ink2);
+      transition: all 0.2s;
+      cursor: pointer;
+    }
+
+    .dot.active {
+      background: var(--gold);
+      width: 16px;
+      border-radius: 2px;
+    }
+
+    /* question cards */
+    .q-card {
+      padding: 14px 18px;
+      border-radius: 6px;
+      background: rgba(200,151,42,0.05);
+      border: 1px solid rgba(200,151,42,0.15);
+      margin-bottom: 10px;
+    }
+
+    .q-card .q-text {
+      font-family: var(--serif);
+      font-style: italic;
+      font-size: 17px;
+      color: var(--ink);
+      line-height: 1.6;
+    }
+
+    .q-card .q-sub {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--gold);
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      margin-top: 6px;
+    }
+
+    /* cycle */
+    .cycle-step {
+      display: flex;
+      gap: 16px;
+      align-items: flex-start;
+      padding: 14px 18px;
+      border-radius: 6px;
+      background: rgba(200,151,42,0.06);
+      border: 1px solid rgba(200,151,42,0.18);
+    }
+
+    .cycle-num {
+      font-family: var(--mono);
+      font-size: 28px;
+      font-weight: 500;
+      color: rgba(200,151,42,0.3);
+      flex-shrink: 0;
+      line-height: 1;
+      padding-top: 4px;
+    }
+
+    .cycle-title {
+      font-size: 18px;
+      font-weight: 600;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .cycle-desc {
+      font-size: 15px;
+      color: var(--ink2);
+      line-height: 1.6;
+    }
+  </style>
+</head>
+<body>
+
+<div class="deck" id="deck">
+
+  <!-- 1. 타이틀 -->
+  <div class="slide s-dark active">
+    <div class="rule"></div>
+    <div class="tag">실용주의 프로그래머 7·8장 — 프로젝트 전에 &amp; 실용주의 프로젝트</div>
+    <h1>AI에게 맡기는 건 쉽다.<br/><em>내 이름을 거는 건 어렵다.</em></h1>
+    <p class="lead">요구사항을 묻고, 퍼즐을 풀고, 함께 일하고,<br/>끝내 내 이름으로 보증하는 이야기.</p>
+  </div>
+
+  <!-- 2. 오프닝 -->
+  <div class="slide s-warm">
+    <div class="rule"></div>
+    <div class="tag">오프닝</div>
+    <h2 style="font-size: clamp(32px, 3.8vw, 52px); margin-bottom: 40px; line-height: 1.3;">
+      7장의 결론은 하나였습니다.<br/>
+      <em style="font-style:italic; color:var(--gold);">결정을 설명할 수 있느냐.</em>
+    </h2>
+    <p style="font-family: var(--serif); font-style: italic; font-size: clamp(18px, 2vw, 24px); color: var(--ink2); line-height: 1.75; max-width: 640px;">
+      8장은 그 다음 질문을 던집니다.<br/>
+      <span style="color: var(--ink);">그래서, 누구를 위해 결정하는가?</span>
+    </p>
+  </div>
+
+  <!-- 3. Topic 45: 요구사항 -->
+  <div class="slide s-dark2">
+    <div class="rule"></div>
+    <div class="tag">Topic 45 — 요구사항의 구덩이</div>
+    <h2>의뢰인은 자기가 뭘 원하는지<br/>모른다</h2>
+    <div class="big-q" style="margin-bottom: 32px;">
+      "프로그래머는 의뢰인이 원하는 걸<br/>깨닫게 도와주는 역할이다."
+    </div>
+    <ul class="items">
+      <li>옆에서 물어봐주고, 시각화해주는 존재가 있으면 — 비로소 안다</li>
+      <li>긴밀하고 자주 소통해야 좋은 요구사항이 나온다</li>
+      <li><span class="badge badge-gold">AI 시대</span> AI가 프로그래머, 내가 의뢰인이 되는 상황</li>
+    </ul>
+  </div>
+
+  <!-- 4. Topic 45 확장: AI와 요구사항 -->
+  <div class="slide s-dark" style="padding: 56px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 45 — AI 시대의 역전</div>
+    <h2 style="font-size: clamp(28px, 3.2vw, 42px); margin-bottom: 28px;">역할이 뒤집혔다</h2>
+
+    <div class="role-split">
+      <div class="role-box me-box">
+        <div class="role-label">나 (의뢰인)</div>
+        <div class="role-desc">원하는 걸 설명한다<br/><span class="role-sub">무엇을, 왜 (what &amp; why)</span></div>
+      </div>
+      <div class="role-connector">
+        <div class="role-conn-line"></div>
+        <div class="role-conn-label">소통</div>
+        <div class="role-conn-line"></div>
+      </div>
+      <div class="role-box ai-box">
+        <div class="role-label">AI (프로그래머)</div>
+        <div class="role-desc">구현한다<br/><span class="role-sub">어떻게 (how)</span></div>
+      </div>
+    </div>
+
+    <p style="font-size: 17px; color: var(--ink2); line-height: 1.8; margin-bottom: 20px;">
+      책에서 말하는 "프로그래머의 의무"가 그대로 AI에게 넘어갔다.<br/>
+      그런데 AI는 물어보지 않는다 — <strong style="color: var(--ink);">내가 먼저 말해야 한다.</strong>
+    </p>
+
+    <div class="prompt-item">
+      <div class="prompt-q">"내가 진짜 원하는 건 뭐지?"를<br/>AI에게 묻기 전에, 나한테 먼저 물어야 한다.</div>
+      <div class="prompt-why">피드백 루프의 시작점은 나</div>
+    </div>
+  </div>
+
+  <!-- 5. Topic 46: 불가능한 퍼즐 풀기 -->
+  <div class="slide s-dark2" style="padding: 56px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 46 — 불가능한 퍼즐 풀기</div>
+    <h2 style="font-size: clamp(28px, 3.2vw, 42px); margin-bottom: 24px;">틀을 벗어나려 하지 마라.<br/>틀이 어딘지 먼저 알아라.</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 10px; margin-bottom: 28px;">
+      <div class="q-card">
+        <div class="q-text">왜 이 문제를 풀고 있는가?</div>
+        <div class="q-sub">목적 확인</div>
+      </div>
+      <div class="q-card">
+        <div class="q-text">문제를 풀어서 얻는 것이 있는가?</div>
+        <div class="q-sub">가치 판단</div>
+      </div>
+      <div class="q-card">
+        <div class="q-text">풀려고 하는 문제가 특수한 경우인가? 특수한 경우를 없앨 수 없나?</div>
+        <div class="q-sub">일반화</div>
+      </div>
+      <div class="q-card">
+        <div class="q-text">관련된 문제 중에 내가 풀 수 있는 더 간단한 문제는 없나?</div>
+        <div class="q-sub">분할</div>
+      </div>
+    </div>
+
+    <p style="font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--gold); line-height: 1.6;">
+      AI에게 "이거 해결해줘"라고 던지기 전에,<br/>
+      이 네 가지 질문을 먼저 나한테 던져야 한다.
+    </p>
+  </div>
+
+  <!-- 6. Topic 47: 함께 일하기 -->
+  <div class="slide s-dark" style="padding: 56px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 47 — 함께 일하기</div>
+    <h2 style="font-size: clamp(28px, 3.2vw, 42px); margin-bottom: 28px;">페어가 AI로 바뀌었다</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 32px; align-items: start;">
+
+      <div>
+        <div class="obs-col-label muted" style="margin-bottom: 14px;">책이 말하는 것</div>
+        <div class="obs-item bad-item" style="margin-bottom: 10px;">
+          <div class="obs-dot bad-dot"></div>
+          <div>페어 프로그래밍<br/><span class="obs-sub">둘이서 한 화면을 보며 코딩</span></div>
+        </div>
+        <div class="obs-item bad-item" style="margin-bottom: 10px;">
+          <div class="obs-dot bad-dot"></div>
+          <div>몹 프로그래밍<br/><span class="obs-sub">여럿이 우르르 몰려와 문제 해결</span></div>
+        </div>
+        <div class="obs-item bad-item">
+          <div class="obs-dot bad-dot"></div>
+          <div>사람의 자원은 비싸고 느리다<br/><span class="obs-sub">하지만 정확성과 신뢰성이 높다</span></div>
+        </div>
+      </div>
+
+      <div style="background: rgba(200,151,42,0.15); width: 1px; height: 100%;"></div>
+
+      <div>
+        <div class="obs-col-label gold" style="margin-bottom: 14px;">AI 시대의 변화</div>
+        <div class="obs-item good-item" style="margin-bottom: 10px;">
+          <div class="obs-dot good-dot"></div>
+          <div>AI 페어는 싸고 빠르다<br/><span class="obs-sub">심지어 더 많은 정보를 가지고 있다</span></div>
+        </div>
+        <div class="obs-item good-item" style="margin-bottom: 10px;">
+          <div class="obs-dot good-dot"></div>
+          <div>정확성과 신뢰성은 떨어질 수 있다<br/><span class="obs-sub">검증은 내 몫</span></div>
+        </div>
+        <div class="obs-item good-item">
+          <div class="obs-dot good-dot"></div>
+          <div>페어를 하는 게 내 실력이 된다<br/><span class="obs-sub">방관과 코드, 둘 다 해봐야 한다</span></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 7. Topic 48: 애자일 -->
+  <div class="slide s-dark2" style="padding: 56px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 48 — 애자일의 본질</div>
+    <h2 style="font-size: clamp(28px, 3.2vw, 42px); margin-bottom: 28px;">피드백 루프를 만드는 것</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px;">
+      <div class="cycle-step">
+        <div class="cycle-num">1</div>
+        <div>
+          <div class="cycle-title">내가 어디에 있는지 알 것</div>
+          <div class="cycle-desc">현재 상태를 정직하게 파악한다. 모르면 모른다고 인정한다.</div>
+        </div>
+      </div>
+      <div style="text-align: center; color: var(--gold); font-size: 18px;">↓</div>
+      <div class="cycle-step">
+        <div class="cycle-num">2</div>
+        <div>
+          <div class="cycle-title">도달하고 싶은 곳을 향해 가능한 작게 옮기기</div>
+          <div class="cycle-desc">의미 있는 발걸음을, 가능한 한 작게. 큰 도약이 아니라 작은 반복.</div>
+        </div>
+      </div>
+      <div style="text-align: center; color: var(--gold); font-size: 18px;">↓</div>
+      <div class="cycle-step">
+        <div class="cycle-num">3</div>
+        <div>
+          <div class="cycle-title">어디에 도착했는지 평가하고, 망가진 것을 고쳐라</div>
+          <div class="cycle-desc">이 과정이 설계를 주도한다. 계획이 아니라 피드백이 방향을 정한다.</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink); line-height: 1.6;">
+      AI와의 작업도 같다 — <span style="color: var(--gold);">한 번에 완성하려 하지 말고, 작게 반복하라.</span>
+    </p>
+  </div>
+
+  <!-- 8. Topic 49-50: 팀 적용 + 화물 숭배 -->
+  <div class="slide s-dark" style="padding: 56px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 49 · 50 — 팀에 적용하기 &amp; 코코넛만으로 부족해</div>
+    <h2 style="font-size: clamp(26px, 3vw, 40px); margin-bottom: 24px;">배끼면 부작용이 온다</h2>
+
+    <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 32px; align-items: start;">
+
+      <div>
+        <div class="obs-col-label gold" style="margin-bottom: 14px;">Topic 49 — 팀에 적용</div>
+        <p style="font-size: 16px; color: var(--ink2); line-height: 1.8; margin-bottom: 16px;">
+          개구리, 소통, 예광탄, 중복 제거 —<br/>
+          지금까지 배운 스킬들을 팀에 적용하면<br/>
+          <strong style="color: var(--ink);">효과는 배가 된다.</strong>
+        </p>
+        <div class="obs-item good-item" style="margin-bottom: 10px;">
+          <div class="obs-dot good-dot"></div>
+          <div>깨진 창문을 두지 않는다<br/><span class="obs-sub">팀 전체가 함께 유지</span></div>
+        </div>
+        <div class="obs-item good-item">
+          <div class="obs-dot good-dot"></div>
+          <div>포트폴리오도 다 같이 관리한다<br/><span class="obs-sub">개인이 아닌 팀의 자산</span></div>
+        </div>
+      </div>
+
+      <div style="background: rgba(200,151,42,0.15); width: 1px; height: 100%;"></div>
+
+      <div>
+        <div class="obs-col-label gold" style="margin-bottom: 14px;">Topic 50 — 화물 숭배</div>
+        <p style="font-size: 16px; color: var(--ink2); line-height: 1.8; margin-bottom: 16px;">
+          원주민은 코코넛으로 공항을 세웠다.<br/>
+          기계 새가 올 리가 없다.<br/>
+          <strong style="color: var(--ink);">무작정 배끼는 건 부작용을 가져온다.</strong>
+        </p>
+        <div class="prompt-item">
+          <div class="prompt-q">"왜 이 방법을 썼을까?"</div>
+          <div class="prompt-why">맥락을 먼저 이해</div>
+        </div>
+        <div class="prompt-item">
+          <div class="prompt-q">"내가 저 경지에 도달하려면<br/>어떤 걸 가져와야 할까?"</div>
+          <div class="prompt-why">나에게 맞게 변형</div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 9. Topic 51: 실용주의 시작 도구 -->
+  <div class="slide s-dark2" style="padding: 56px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 51 — 실용주의 시작 도구</div>
+    <h2 style="font-size: clamp(28px, 3.2vw, 42px); margin-bottom: 28px;">이미 쓰고 있는 것들이었다</h2>
+
+    <div style="display: flex; flex-direction: column; gap: 14px; margin-bottom: 28px;">
+      <div class="debt-item">
+        <div class="debt-num">01</div>
+        <div class="debt-content">
+          <div class="debt-title">버전 관리</div>
+          <div class="debt-desc">Git. 코드뿐 아니라 결정의 역사를 남긴다. 되돌릴 수 있다는 건 실험할 수 있다는 뜻이다.</div>
+        </div>
+      </div>
+      <div class="debt-item">
+        <div class="debt-num">02</div>
+        <div class="debt-content">
+          <div class="debt-title">가차 없고 지속적인 테스트</div>
+          <div class="debt-desc">테스트는 안전망이자 문서다. AI가 만든 코드라면 더더욱 — 의도를 테스트로 명시한다.</div>
+        </div>
+      </div>
+      <div class="debt-item">
+        <div class="debt-num">03</div>
+        <div class="debt-content">
+          <div class="debt-title">자동화</div>
+          <div class="debt-desc">반복되는 것은 자동화한다. 손으로 하면 실수한다. CI/CD, 린팅, 포맷팅 — 전부 자동화의 산물.</div>
+        </div>
+      </div>
+    </div>
+
+    <p style="font-family: var(--serif); font-style: italic; font-size: 18px; color: var(--ink2); line-height: 1.6;">
+      알게 모르게 우리 삶에 적용되고 있었다.<br/>
+      <span style="color: var(--ink);">이걸 문자로 표현한 과거 선인들에게 존경심을 느낀다.</span>
+    </p>
+  </div>
+
+  <!-- 10. Topic 52: 사용자를 기쁘게 하라 -->
+  <div class="slide s-dark" style="padding: 60px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 52 — 사용자를 기쁘게 하라</div>
+    <h2 style="font-size: clamp(30px, 3.4vw, 46px); margin-bottom: 32px;">코드가 중요한 게 아니다</h2>
+
+    <div class="big-q" style="margin-bottom: 36px; font-size: clamp(24px, 3vw, 38px);">
+      실제로 사용하는 사람에게 맞춰서<br/>
+      개발하고, 소통하고, 공감해야 한다.
+    </div>
+
+    <div class="principle-grid" style="gap: 10px; max-width: 700px;">
+      <div class="principle-row" style="padding: 10px 16px;">
+        <div class="principle-book">시스템이 완벽해도</div>
+        <div class="principle-arrow">→</div>
+        <div class="principle-ai">사용자가 불편하면 실패다</div>
+      </div>
+      <div class="principle-row" style="padding: 10px 16px;">
+        <div class="principle-book">기술적으로 부족해도</div>
+        <div class="principle-arrow">→</div>
+        <div class="principle-ai">사용자가 기뻐하면 성공이다</div>
+      </div>
+      <div class="principle-row" style="padding: 10px 16px;">
+        <div class="principle-book">AI가 아무리 잘 만들어도</div>
+        <div class="principle-arrow">→</div>
+        <div class="principle-ai">사용자를 모르면 의미 없다</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 11. Topic 53: 오만과 편견 — 클로징 -->
+  <div class="slide s-warm" style="padding: 72px 108px;">
+    <div class="rule"></div>
+    <div class="tag">Topic 53 — 오만과 편견</div>
+
+    <div style="font-family: var(--serif); font-style: italic; font-size: clamp(22px, 2.5vw, 32px); color: var(--ink); border-left: 3px solid var(--gold); padding-left: 24px; margin-bottom: 40px; line-height: 1.55;">
+      "내가 이걸 만들었고,<br/>
+      내 작품의 품질을 보증합니다."
+    </div>
+
+    <div style="display: grid; grid-template-columns: 1fr 1px 1fr; gap: 28px; align-items: start; margin-bottom: 36px;">
+      <div>
+        <div style="font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--ink2); margin-bottom: 12px;">책임 회피</div>
+        <div style="font-size: 17px; color: var(--ink2); line-height: 1.75;">
+          "AI가 만든 거라서요"<br/>
+          "GPT한테 물어보니까 이렇게 나와서요"<br/>
+          "일단 돌아가긴 해요"<br/><br/>
+          이름을 걸지 않는다.
+        </div>
+      </div>
+      <div style="background: rgba(200,151,42,0.2); width: 1px; height: 100%;"></div>
+      <div>
+        <div style="font-family: var(--mono); font-size: 13px; letter-spacing: 0.1em; text-transform: uppercase; color: var(--gold); margin-bottom: 12px;">실용주의 긍지</div>
+        <div style="font-size: 17px; color: var(--ink); line-height: 1.75;">
+          AI가 만들었어도 내가 검증했다.<br/>
+          왜 이 결정인지 설명할 수 있다.<br/>
+          내 이름이 보증 수표다.<br/><br/>
+          <strong style="color: var(--gold);">책임을 지는 건 나다.</strong>
+        </div>
+      </div>
+    </div>
+
+    <div style="font-family: var(--serif); font-style: italic; font-size: clamp(20px, 2.2vw, 28px); color: var(--ink); line-height: 1.6; border-top: 1px solid rgba(200,151,42,0.2); padding-top: 28px;">
+      배운 것들을 실천하고, 다른 사람에게도 알려야 한다.<br/>
+      적어도 <span style="color: var(--gold);">내 이름에 대한 긍지</span>를 가지자는 대목이 좋았다.
+    </div>
+  </div>
+
+  <!-- 12. 마무리 -->
+  <div class="slide s-dark" style="padding: 0; justify-content: flex-start; overflow: hidden;">
+
+    <div style="position: absolute; inset: 0; background-image: radial-gradient(circle, rgba(200,151,42,0.055) 1px, transparent 1px); background-size: 24px 24px; pointer-events: none; z-index: 0;"></div>
+    <div style="position: absolute; top: 0; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, var(--gold) 0%, rgba(200,151,42,0.12) 100%); z-index: 1;"></div>
+
+    <div style="position: relative; z-index: 2; padding: 56px 80px 40px; width: 100%; height: 100%; display: flex; flex-direction: column;">
+
+      <div class="tag" style="margin-bottom: 28px;">정리 — 7·8장을 관통하는 하나의 흐름</div>
+
+      <div style="display: flex; flex-direction: column; gap: 14px; flex: 1; justify-content: center; max-width: 900px;">
+
+        <div class="flow-row" style="gap: 12px; flex-wrap: wrap; justify-content: center; margin-bottom: 24px;">
+          <div class="flow-box gold-box" style="padding: 14px 20px; font-size: 16px;">요구사항을<br/>깨닫는다</div>
+          <div class="flow-arr gold">→</div>
+          <div class="flow-box muted" style="padding: 14px 20px; font-size: 16px;">퍼즐의 틀을<br/>먼저 파악한다</div>
+          <div class="flow-arr gold">→</div>
+          <div class="flow-box muted" style="padding: 14px 20px; font-size: 16px;">AI와 함께<br/>풀어간다</div>
+          <div class="flow-arr gold">→</div>
+          <div class="flow-box muted" style="padding: 14px 20px; font-size: 16px;">작게 반복하며<br/>피드백한다</div>
+          <div class="flow-arr gold">→</div>
+          <div class="flow-box gold-box" style="padding: 14px 20px; font-size: 16px;">내 이름으로<br/>보증한다</div>
+        </div>
+
+        <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 12px;">
+          <div class="debt-item">
+            <div class="debt-num">45</div>
+            <div><div class="debt-title">요구사항</div><div class="debt-desc">AI에게 묻기 전에 나에게 먼저 물어라</div></div>
+          </div>
+          <div class="debt-item">
+            <div class="debt-num">46</div>
+            <div><div class="debt-title">퍼즐</div><div class="debt-desc">틀이 어딘지 먼저 알아야 벗어날 수 있다</div></div>
+          </div>
+          <div class="debt-item">
+            <div class="debt-num">47</div>
+            <div><div class="debt-title">함께 일하기</div><div class="debt-desc">AI 페어의 약점을 아는 것이 내 실력이다</div></div>
+          </div>
+          <div class="debt-item">
+            <div class="debt-num">48</div>
+            <div><div class="debt-title">애자일</div><div class="debt-desc">한 번에 완성이 아니라, 작게 반복하라</div></div>
+          </div>
+          <div class="debt-item">
+            <div class="debt-num">50</div>
+            <div><div class="debt-title">화물 숭배</div><div class="debt-desc">맥락 없이 복제하면 코코넛 공항이 된다</div></div>
+          </div>
+          <div class="debt-item">
+            <div class="debt-num">53</div>
+            <div><div class="debt-title">긍지</div><div class="debt-desc">내 이름이 보증 수표가 되어야 한다</div></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="final-line">
+        "AI에게 맡기는 건 쉽다. 내 이름을 거는 건 어렵다.<br/>
+        하지만 그 어려움이 실용주의 프로그래머의 긍지다."
+      </div>
+
+    </div>
+  </div>
+
+</div>
+
+<!-- 네비게이션 -->
+<div class="nav">
+  <button class="nav-btn" id="prev" onclick="move(-1)">&#8592;</button>
+  <div class="dots" id="dots"></div>
+  <span class="nav-counter" id="counter">1 / 12</span>
+  <button class="nav-btn" id="next" onclick="move(1)">&#8594;</button>
+</div>
+
+<script>
+  const slides = document.querySelectorAll('.slide');
+  const counter = document.getElementById('counter');
+  const dotsEl  = document.getElementById('dots');
+  let current = 0;
+
+  slides.forEach((_, i) => {
+    const d = document.createElement('div');
+    d.className = 'dot' + (i === 0 ? ' active' : '');
+    d.onclick = () => goTo(i);
+    dotsEl.appendChild(d);
+  });
+
+  function goTo(n) {
+    slides[current].classList.remove('active');
+    dotsEl.children[current].classList.remove('active');
+    current = Math.max(0, Math.min(n, slides.length - 1));
+    slides[current].classList.add('active');
+    dotsEl.children[current].classList.add('active');
+    counter.textContent = `${current + 1} / ${slides.length}`;
+    document.getElementById('prev').disabled = current === 0;
+    document.getElementById('next').disabled = current === slides.length - 1;
+  }
+
+  function move(dir) { goTo(current + dir); }
+
+  document.addEventListener('keydown', e => {
+    if (e.key === 'ArrowRight' || e.key === 'ArrowDown') move(1);
+    if (e.key === 'ArrowLeft'  || e.key === 'ArrowUp')   move(-1);
+  });
+
+  goTo(0);
+</script>
+
+</body>
+</html>
