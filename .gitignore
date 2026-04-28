@@ -64,3 +64,11 @@ htmlcov/
 *.webm
 research/youtube-slides/*/source/
 research/youtube-slides/*/images/
+
+# swimming_watcher
+scripts/swimming_watcher/config.json
+scripts/swimming_watcher/state.json
+scripts/swimming_watcher/watch.log
+
+# Playwright MCP snapshots
+.playwright-mcp/
