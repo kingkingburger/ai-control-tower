@@ -1,0 +1,4 @@
+interface:
+  display_name: "My Harness"
+  short_description: "개인 하네스 초기화, 감사, 종료 루프를 실행합니다."
+  default_prompt: "Use my-harness to initialize or operate my personal repository harness."
