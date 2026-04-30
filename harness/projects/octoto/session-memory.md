@@ -4,6 +4,15 @@
 
 ## Entries
 
+### 2026-04-30 서비스 삭제 500 회귀
+
+- 완료한 작업: `test2` 서비스 삭제 시 500이 나는 원인을 `role_groups.service_code` FK의 `ON DELETE SET NULL`과 partial unique index 충돌 가능성으로 좁히고, 서비스 삭제 로직에서 서비스 귀속 RoleGroup을 먼저 soft-delete하도록 수정했다.
+- 검증: `bun test tests/unit/service.service.test.ts` 통과, `bunx biome check src/domains/service/service.service.ts` 통과. 전체 `bun run lint`는 기존 unrelated 포맷 이슈(`action.routes.ts`, `menu-sync.routes.ts`, `role-group.routes.ts`)로 실패했다.
+- 배운 점: 서비스 스코프 테이블이나 `services.code` 참조 FK를 추가한 뒤에는 `deleteService()`/`updateService()` 연쇄 정리 경로를 반드시 재점검해야 한다. 특히 DB cascade에 기대면 실제 FK 옵션, unique index, soft-delete 정책이 엇갈려 500이 날 수 있다.
+- 주의할 점: 서비스 삭제는 `role_groups.service_code`, `role_group_service_visibility`, `user_role_group_join`, `user_service_access`, `role_group_service_access`, `auth_requests`, `service_menus`, `actions`를 한 묶음으로 본다.
+- 추가 탐색 결과: `role_group_service_visibility.service_code`의 `ON UPDATE no action`도 서비스 코드 변경 500을 만들 수 있는 같은 계열 위험이었다. FK를 `ON UPDATE cascade`로 보강하고 코드 변경 시 캐시 무효화 대상을 넓혔다.
+- 하네스 증강: `projects/octoto/service-scope-cascade-rules.md`에 서비스 스코프 cascade 점검 규칙을 추가했다.
+
 ### 2026-04-29
 
 - 맥락: 사용자는 세션 종료를 커밋과 `closing-lite` 누적으로 정의했다.
