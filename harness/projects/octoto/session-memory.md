@@ -4,6 +4,15 @@
 
 ## Entries
 
+### 2026-05-06 권한그룹 멤버십 캐시 무효화 회귀
+
+- 완료한 작업: 사용자-권한그룹 편집에서 부서 권한그룹을 해제해도 서비스 권한그룹 상세 모달의 구성원 목록이 바로 갱신되지 않는 문제를 조사하고, `UserRoleFinder.vue`가 membership 변경 후 관련 Query 캐시를 함께 무효화하도록 수정했다.
+- 원인: `bulkAssignUserRoles()`가 `user_role_group_join`을 바꾸지만 프론트는 `user-role-matrix`, `users`, `role-groups`만 무효화했고, 같은 DB 변경을 읽는 `role-group-users` 및 `service-members` 캐시는 남아 있었다. 또한 bulk unassign 0건도 성공처럼 안내되어 사용자가 실제 삭제 여부를 오해할 수 있었다.
+- 검증: `cd frontend && bun run test --run src/test/components/UserRoleMatrix.test.ts`, `cd frontend && bunx tsgo --noEmit`.
+- 커밋: `4ebde5f fix(role-groups): 권한그룹 변경 후 구성원 캐시까지 갱신`.
+- 배운 점: API를 하나로 합치기보다 mutation이 변경하는 도메인 membership을 기준으로 캐시 fan-out을 정의해야 한다. 같은 DB source를 읽는 화면이 여러 개면 화면 소유 캐시까지 같이 비워야 한다.
+- 하네스 증강: core 검증 정책에 프론트엔드 mutation의 Query cache fan-out 확인과 bulk summary 0건 처리 검증 규칙을 추가했다.
+
 ### 2026-04-30 서비스 삭제 500 회귀
 
 - 완료한 작업: `test2` 서비스 삭제 시 500이 나는 원인을 `role_groups.service_code` FK의 `ON DELETE SET NULL`과 partial unique index 충돌 가능성으로 좁히고, 서비스 삭제 로직에서 서비스 귀속 RoleGroup을 먼저 soft-delete하도록 수정했다.

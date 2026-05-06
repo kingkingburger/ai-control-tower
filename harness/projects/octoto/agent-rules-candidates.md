@@ -21,3 +21,11 @@
   "왜 이 경계로 뺐는지"와 "어떤 회귀를 막는지"를 코드 가까운 주석이나 문서에
   남긴다. 단순 구현 설명은 피하고, 정책 경계·race 방지·저장 payload와 화면 상태
   불일치처럼 다음 작업자가 배워야 하는 이유를 우선 기록한다.
+- `user_role_group_join` 또는 `user_service_access`처럼 권한 membership을 바꾸는
+  프론트엔드 mutation을 수정할 때는 API별로 보지 말고 같은 DB source를 읽는 Query
+  cache fan-out을 먼저 확인한다. Octoto의 대표 대상은 `user-role-matrix`,
+  `user-role-groups/matrix`, `user-roles`, `role-group-users`, `role-groups`,
+  `role-group`, `service-members`이다.
+- bulk 권한 mutation이 200을 반환해도 `summary.assigned`/`summary.unassigned`가
+  0이면 성공으로 안내하지 않는다. 실제 변경 0건은 선택 service나 대상 조인 불일치
+  가능성이 있으므로 경고 또는 변경 없음으로 드러내고 회귀 테스트에 포함한다.
