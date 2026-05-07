@@ -1,0 +1,2 @@
+#!/usr/bin/env sh
+exec powershell.exe -NoProfile -ExecutionPolicy Bypass -File "D:\\reference2\\ai-control-tower\\harness\\bin\\octoto-harness.ps1" commit-msg -CommitMessageFile "$1"
