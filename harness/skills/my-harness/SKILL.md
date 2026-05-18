@@ -7,7 +7,7 @@ description: Personal harness workflow for initializing, auditing, operating, an
 
 개인 control tower 하네스를 대상 저장소 위에 overlay처럼 적용한다. 공유 프로젝트
 문서는 깨끗하게 유지하고, 개인 메모리는
-`D:\reference2\ai-control-tower\harness`에 둔다.
+이 저장소의 `harness/` 아래에 둔다.
 
 ## 우선순위
 
@@ -70,6 +70,7 @@ description: Personal harness workflow for initializing, auditing, operating, an
 ## 참고 문서
 
 - `../../core/principles.md`
+- `../../core/work-style.md`
 - `../../core/git.md`
 - `../../core/ask-user-question.md`
 - `../../core/language.md`

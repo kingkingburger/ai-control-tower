@@ -1,6 +1,6 @@
 # Octoto Private Overlay
 
-대상 저장소: `D:\reference2\octoto`
+대상 저장소: Octoto checkout (`<octoto-repo>`)
 
 ## 경계
 
@@ -12,7 +12,7 @@
 
 ## 시작 순서
 
-1. `D:\reference2\octoto\AGENTS.md`를 읽는다.
+1. `<octoto-repo>/AGENTS.md`를 읽는다.
 2. `CLAUDE.md`, `frontend/CLAUDE.md`, `src/CLAUDE.md`, 관련
    `.claude/rules/*`처럼 참조된 프로젝트 지침을 읽는다.
 3. 이 private overlay를 읽는다.

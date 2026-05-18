@@ -13,6 +13,8 @@
 ## 구조
 
 - `core/`: 재사용 가능한 하네스 규칙과 운영 정책.
+  - `work-style.md`: 언어와 프레임워크에 종속되지 않는 사용자 작업 스타일과
+    에이전트 운영 기본값.
 - `templates/`: 프로젝트 문서 템플릿.
 - `projects/`: 특정 저장소용 private overlay.
 - `skills/my-harness/`: 이 하네스를 실행하기 위한 Codex 스킬.
