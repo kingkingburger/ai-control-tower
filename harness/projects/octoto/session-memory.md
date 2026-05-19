@@ -4,6 +4,15 @@
 
 ## Entries
 
+### 2026-05-19 Hub front Sidebar Octoto 권한 아이콘 경계 보정
+
+- 완료한 작업: `D:\reference2\octopus`의 `packages/web/components/Sidebar/index.vue`에서 Hub 사이드바의 Octoto `/users` 권한 진입 아이콘을 Octoto super admin 또는 Hub service admin에게만 보이도록 좁혔다.
+- 커밋: `2edc7a59c fix(hub): 권한 아이콘을 Octoto 관리자에게만 노출`.
+- 판단: `isHubUiAdmin`은 `hubServerIsAdmin`까지 포함하는 Hub UI admin bypass이므로 Octoto-owned admin affordance의 노출 조건으로는 너무 넓다. 이 경우 `octotoIsSuperAdmin || octotoIsHubServiceAdmin`을 직접 사용해야 한다.
+- 검증: `git diff --check` 통과, Hub dev server `http://127.0.0.1:8091/` 200 응답 확인 후 종료.
+- 남은 위험: 실제 사용자 fixture 3종(Octoto super admin, Octoto Hub service admin, Hub-server-only admin)으로 브라우저 노출 여부를 확인하는 회귀 테스트가 아직 없다.
+- 검증 blocker: Hub front `vue-tsc@1.8.27`은 `supportedTSExtensions` crash로 중단되고, build는 기존 `@jvmr/pptx-to-html` resolve 실패로 중단된다. 공통 Sidebar 파일에는 기존 lint debt도 있다.
+
 ### 2026-05-06 권한그룹 멤버십 캐시 무효화 회귀
 
 - 완료한 작업: 사용자-권한그룹 편집에서 부서 권한그룹을 해제해도 서비스 권한그룹 상세 모달의 구성원 목록이 바로 갱신되지 않는 문제를 조사하고, `UserRoleFinder.vue`가 membership 변경 후 관련 Query 캐시를 함께 무효화하도록 수정했다.

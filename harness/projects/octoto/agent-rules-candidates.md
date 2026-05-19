@@ -5,6 +5,10 @@
 
 ## Candidates
 
+- admin-like flag를 UI 노출 조건으로 쓸 때는 이름만 믿지 말고 소유 시스템과 포함 범위를 먼저 확인한다.
+  Hub/Octoto 통합에서는 `isHubUiAdmin`처럼 합성된 bypass 플래그가 legacy `hubServerIsAdmin`까지 포함할 수 있으므로,
+  Octoto-owned affordance는 `octotoIsSuperAdmin`/`octotoIsHubServiceAdmin`처럼 원천 시스템 기준 필드로 제한한다.
+
 - 프로젝트별 세션 메모리는 Octoto 안의 명시된 메모리 문서에 둔다.
 - 세션 종료 때 대상 저장소 작업을 먼저 정리한 뒤, 프로젝트 메모리를 갱신한다.
 - 위험하거나 선호가 중요한 결정에는 가능한 경우 구조화 질문을 사용한다. 사용할
