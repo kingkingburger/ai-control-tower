@@ -17,6 +17,8 @@
     에이전트 운영 기본값.
 - `templates/`: 프로젝트 문서 템플릿.
 - `projects/`: 특정 저장소용 private overlay.
+  - `ai-control-tower/2026-06-07-codex-final-stage-roadmap.md`: Codex 운영
+    체계를 최종 단계로 끌어올리기 위한 현재 진단과 실행 로드맵.
 - `skills/my-harness/`: 이 하네스를 실행하기 위한 Codex 스킬.
 
 ## 언어
