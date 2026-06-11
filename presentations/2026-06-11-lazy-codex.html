@@ -134,9 +134,9 @@
   }
 
   .cover {
-    grid-template-columns: minmax(0, 1fr) 240px;
+    grid-template-columns: minmax(0, 1fr) minmax(360px, 0.68fr);
     grid-template-rows: auto 1fr auto;
-    column-gap: 80px;
+    column-gap: 56px;
   }
 
   .cover-main {
@@ -153,6 +153,69 @@
     height: 1px;
     margin: 48px 0 0;
     background: var(--line);
+  }
+
+  .cover-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 34px;
+  }
+
+  .cover-tags span {
+    padding: 8px 14px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 15px;
+    font-weight: 700;
+    border: 1px solid var(--line);
+    background: rgba(255,255,255,0.72);
+  }
+
+  .visual-shell {
+    align-self: center;
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+    padding: 14px;
+    background: rgba(255,255,255,0.82);
+    border: 1px solid var(--line);
+    box-shadow: 0 28px 60px rgba(24, 20, 12, 0.12);
+  }
+
+  .visual-shell.dark {
+    background: #121212;
+    border-color: #2d2d2d;
+    box-shadow: 0 30px 70px rgba(0, 0, 0, 0.24);
+  }
+
+  .visual-shell img {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .visual-shell.contain img {
+    object-fit: contain;
+    background: #111;
+  }
+
+  .visual-caption {
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .dark .visual-caption {
+    color: #b8b3a8;
+  }
+
+  .cover-visual {
+    height: min(56vh, 520px);
   }
 
   .meta-rail {
@@ -183,6 +246,39 @@
     display: grid;
     align-content: center;
     gap: 36px;
+  }
+
+  .split-content,
+  .proof-content,
+  .matrix-proof {
+    align-items: center;
+  }
+
+  .split-content {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, 0.86fr);
+    gap: 42px;
+  }
+
+  .proof-content {
+    grid-template-columns: minmax(0, 1fr) minmax(300px, 0.44fr);
+    gap: 38px;
+  }
+
+  .matrix-proof {
+    grid-template-columns: minmax(0, 0.9fr) minmax(420px, 0.8fr);
+    gap: 42px;
+  }
+
+  .visual-wide {
+    height: min(50vh, 430px);
+  }
+
+  .visual-tall {
+    height: min(54vh, 460px);
+  }
+
+  .visual-proof {
+    height: min(50vh, 420px);
   }
 
   .lede {
@@ -256,11 +352,22 @@
     margin-top: 10px;
   }
 
+  .split-content .pillars {
+    grid-template-columns: 1fr;
+    gap: 18px;
+    margin-top: 0;
+  }
+
   .pillar {
     min-height: 170px;
     padding: 40px 32px;
     border: 1px solid var(--line);
     background: var(--panel);
+  }
+
+  .split-content .pillar {
+    min-height: 104px;
+    padding: 28px 30px;
   }
 
   .pillar:nth-child(1) {
@@ -284,6 +391,10 @@
     font-size: 56px;
   }
 
+  .split-content .code {
+    font-size: 42px;
+  }
+
   .blue { color: var(--blue); }
   .cyan { color: var(--cyan); }
   .amber { color: var(--amber); }
@@ -297,12 +408,23 @@
     margin-top: 10px;
   }
 
+  .split-content .ops-strip {
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-top: 0;
+  }
+
   .ops-strip::before,
   .ops-strip::after {
     content: "";
     flex: 1;
     height: 1px;
     background: var(--line);
+  }
+
+  .split-content .ops-strip::before,
+  .split-content .ops-strip::after {
+    display: none;
   }
 
   .op {
@@ -317,12 +439,24 @@
     border: 1px solid var(--line);
   }
 
+  .split-content .op {
+    min-width: 104px;
+    padding: 9px 14px;
+    font-size: 14px;
+  }
+
   .flow {
     display: grid;
     grid-template-columns: repeat(5, minmax(130px, 1fr));
     gap: 30px;
     align-items: stretch;
     margin-top: 34px;
+  }
+
+  .proof-content .flow {
+    grid-template-columns: repeat(5, minmax(82px, 1fr));
+    gap: 16px;
+    margin-top: 0;
   }
 
   .flow-node {
@@ -332,6 +466,11 @@
     text-align: center;
     background: var(--panel);
     border: 1px solid var(--line);
+  }
+
+  .proof-content .flow-node {
+    min-height: 126px;
+    padding: 34px 12px 18px;
   }
 
   .flow-node:not(:last-child)::after {
@@ -345,12 +484,21 @@
     font-weight: 700;
   }
 
+  .proof-content .flow-node:not(:last-child)::after {
+    right: -18px;
+    font-size: 16px;
+  }
+
   .flow-node strong {
     display: block;
     margin-bottom: 14px;
     font-family: "JetBrains Mono", monospace;
     color: var(--text);
     font-size: 44px;
+  }
+
+  .proof-content .flow-node strong {
+    font-size: 30px;
   }
 
   .flow-node span {
@@ -365,6 +513,12 @@
     gap: 34px;
     max-width: 1040px;
     margin: 20px auto 0;
+  }
+
+  .matrix-proof .matrix {
+    max-width: none;
+    gap: 22px;
+    margin: 0;
   }
 
   .matrix::before {
@@ -395,10 +549,19 @@
     border: 1px solid var(--line);
   }
 
+  .matrix-proof .quadrant {
+    min-height: 132px;
+    padding: 28px;
+  }
+
   .quadrant strong {
     display: block;
     margin-bottom: 12px;
     font-size: 60px;
+  }
+
+  .matrix-proof .quadrant strong {
+    font-size: 38px;
   }
 
   .quadrant p {
@@ -540,6 +703,24 @@
       margin-top: 24px;
     }
 
+    .cover-tags {
+      margin-top: 24px;
+    }
+
+    .cover-tags span {
+      font-size: 13px;
+    }
+
+    .cover-visual,
+    .visual-wide,
+    .visual-proof {
+      height: min(48vh, 340px);
+    }
+
+    .visual-tall {
+      height: min(50vh, 360px);
+    }
+
     .callout {
       gap: 16px;
       padding-top: 20px;
@@ -559,6 +740,21 @@
       font-size: 48px;
     }
 
+    .split-content .code {
+      font-size: 34px;
+    }
+
+    .split-content .pillar {
+      min-height: 82px;
+      padding: 20px 24px;
+    }
+
+    .split-content,
+    .proof-content,
+    .matrix-proof {
+      gap: 26px;
+    }
+
     .flow {
       gap: 22px;
       margin-top: 22px;
@@ -571,6 +767,28 @@
 
     .flow-node strong {
       font-size: 38px;
+    }
+
+    .proof-content .flow {
+      gap: 12px;
+    }
+
+    .proof-content .flow-node {
+      min-height: 98px;
+      padding: 28px 10px 14px;
+    }
+
+    .proof-content .flow-node strong {
+      font-size: 22px;
+    }
+
+    .matrix-proof .quadrant {
+      min-height: 106px;
+      padding: 22px;
+    }
+
+    .matrix-proof .quadrant strong {
+      font-size: 30px;
     }
 
     .path {
@@ -618,7 +836,10 @@
     .path,
     .pillars,
     .matrix,
-    .flow {
+    .flow,
+    .split-content,
+    .proof-content,
+    .matrix-proof {
       grid-template-columns: 1fr;
     }
 
@@ -633,6 +854,21 @@
     .controls {
       display: none;
     }
+
+    .visual-shell {
+      padding: 10px;
+    }
+
+    .cover-visual,
+    .visual-wide,
+    .visual-tall,
+    .visual-proof {
+      height: 260px;
+    }
+
+    .split-content .pillars {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
@@ -644,13 +880,17 @@
         <div class="kicker">INTERNAL TECH SHARE</div>
         <h1>Lazy Codex<br>활용기</h1>
         <p>큰 작업은 루프로 다룬다.</p>
+        <div class="cover-tags" aria-label="발표 키워드">
+          <span>Codex App</span>
+          <span>Git Bash</span>
+          <span>octoto</span>
+        </div>
         <div class="cover-line"></div>
       </div>
-      <aside class="meta-rail" aria-label="발표 메타데이터">
-        <div class="meta-item"><strong>DT1</strong><span></span></div>
-        <div class="meta-item"><strong>1주차</strong><span></span></div>
-        <div class="meta-item"><strong>Loop</strong><span></span></div>
-      </aside>
+      <figure class="visual-shell dark cover-visual">
+        <img src="assets/lazy-codex/codex-cli-workspace.png" alt="Codex 앱에서 octoto 프로젝트를 열어둔 작업 화면">
+        <figcaption class="visual-caption">real workspace: Codex app + octoto</figcaption>
+      </figure>
       <div class="footer"><span>Source: Notion page "lazy codex를 활용한 개발"</span><span>01 / 07</span></div>
     </section>
 
@@ -659,27 +899,33 @@
         <div class="kicker blue">WHAT IT IS</div>
         <h2>Lazy Codex는<br>harness다.</h2>
       </header>
-      <div class="content">
-        <div class="pillars">
-          <article class="pillar">
-            <strong class="code blue">ulw-plan</strong>
-            <p></p>
-          </article>
-          <article class="pillar">
-            <strong class="code cyan">ulw-loop</strong>
-            <p></p>
-          </article>
-          <article class="pillar">
-            <strong class="code amber">start-work</strong>
-            <p></p>
-          </article>
+      <div class="content split-content">
+        <div>
+          <div class="pillars">
+            <article class="pillar">
+              <strong class="code blue">ulw-plan</strong>
+              <p></p>
+            </article>
+            <article class="pillar">
+              <strong class="code cyan">ulw-loop</strong>
+              <p></p>
+            </article>
+            <article class="pillar">
+              <strong class="code amber">start-work</strong>
+              <p></p>
+            </article>
+          </div>
+          <div class="ops-strip">
+            <span class="op">hook</span>
+            <span class="op">agent</span>
+            <span class="op">goal</span>
+            <span class="op">verification</span>
+          </div>
         </div>
-        <div class="ops-strip">
-          <span class="op">hook</span>
-          <span class="op">agent</span>
-          <span class="op">goal</span>
-          <span class="op">verification</span>
-        </div>
+        <figure class="visual-shell contain visual-wide">
+          <img src="assets/lazy-codex/lazycodex-site.png" alt="LazyCodex 소개 페이지 캡처">
+          <figcaption class="visual-caption">agent harness for complex codebases</figcaption>
+        </figure>
       </div>
       <div class="footer"><span>Source: Notion + LazyCodex links</span><span>02 / 07</span></div>
     </section>
@@ -689,18 +935,24 @@
         <div class="kicker cyan">LOOP MODEL</div>
         <h2>핵심은 루프다.</h2>
       </header>
-      <div class="content">
-        <div class="flow">
-          <div class="flow-node"><strong>요청</strong><span></span></div>
-          <div class="flow-node"><strong>계획</strong><span></span></div>
-          <div class="flow-node"><strong>실행</strong><span></span></div>
-          <div class="flow-node"><strong>피드백</strong><span></span></div>
-          <div class="flow-node"><strong>검증</strong><span></span></div>
+      <div class="content proof-content">
+        <div>
+          <div class="flow">
+            <div class="flow-node"><strong>요청</strong><span></span></div>
+            <div class="flow-node"><strong>계획</strong><span></span></div>
+            <div class="flow-node"><strong>실행</strong><span></span></div>
+            <div class="flow-node"><strong>피드백</strong><span></span></div>
+            <div class="flow-node"><strong>검증</strong><span></span></div>
+          </div>
+          <div class="callout">
+            <strong>한 줄 요약</strong>
+            <p>끝났다고 말하기 전에 다시 돈다.</p>
+          </div>
         </div>
-        <div class="callout">
-          <strong>한 줄 요약</strong>
-          <p>끝났다고 말하기 전에 다시 돈다.</p>
-        </div>
+        <figure class="visual-shell dark contain visual-tall">
+          <img src="assets/lazy-codex/ulw-plan-example.png" alt="Lazy Codex hook 설정 화면">
+          <figcaption class="visual-caption">hooks before, after, and session start</figcaption>
+        </figure>
       </div>
       <div class="footer"><span>Source: Notion command descriptions</span><span>03 / 07</span></div>
     </section>
@@ -710,7 +962,7 @@
         <div class="kicker amber">EXPERIENCE MATRIX</div>
         <h2>작은 일엔 무겁다.</h2>
       </header>
-      <div class="content">
+      <div class="content matrix-proof">
         <div class="matrix">
           <article class="quadrant">
             <strong class="rose">작은 일</strong>
@@ -729,6 +981,10 @@
             <p>여러 관점을 분리하고 빠뜨린 경로를 다시 묻게 하는 힘</p>
           </article>
         </div>
+        <figure class="visual-shell dark visual-proof">
+          <img src="assets/lazy-codex/agent-hook-flow.png" alt="Codex 대화와 하위 에이전트가 함께 보이는 작업 화면">
+          <figcaption class="visual-caption">multi-agent work feels heavy until the task gets big</figcaption>
+        </figure>
       </div>
       <div class="footer"><span>Source: Notion usage reflection</span><span>04 / 07</span></div>
     </section>
