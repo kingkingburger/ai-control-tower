@@ -1,0 +1,871 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>lazy codex를 활용한 개발</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=JetBrains+Mono:wght@400;600;700&display=swap');
+
+  :root {
+    --ink: #fbfaf6;
+    --panel: #ffffff;
+    --panel-2: #f2efe8;
+    --line: #d8d2c6;
+    --text: #101010;
+    --soft: #222222;
+    --muted: #5c574f;
+    --blue: #2d4a63;
+    --cyan: #2f6058;
+    --amber: #6a5524;
+    --green: #385d3c;
+    --rose: #784348;
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  html,
+  body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+
+  body {
+    font-family: "Noto Sans KR", sans-serif;
+    background: var(--ink);
+    color: var(--text);
+  }
+
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: linear-gradient(180deg, rgba(255,255,255,0.74), rgba(255,255,255,0) 58%);
+  }
+
+  .deck {
+    position: relative;
+    width: 100vw;
+    height: 100vh;
+    isolation: isolate;
+  }
+
+  .slide {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    grid-template-columns: 1fr;
+    grid-template-rows: auto 1fr auto;
+    gap: 36px;
+    padding: 72px 96px 56px;
+    opacity: 0;
+    transform: translateX(36px) scale(0.992);
+    transition: opacity 360ms ease, transform 360ms ease;
+    pointer-events: none;
+  }
+
+  .slide.active {
+    opacity: 1;
+    transform: translateX(0) scale(1);
+    pointer-events: auto;
+  }
+
+  .slide.prev {
+    transform: translateX(-36px) scale(0.992);
+  }
+
+  .top-rule {
+    position: fixed;
+    z-index: 5;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: #a99672;
+  }
+
+  .kicker {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 20px;
+    font-weight: 700;
+    letter-spacing: 0;
+    color: var(--muted);
+  }
+
+  .kicker::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    background: currentColor;
+  }
+
+  h1,
+  h2 {
+    letter-spacing: 0;
+  }
+
+  h1 {
+    max-width: 1180px;
+    font-size: 136px;
+    line-height: 0.98;
+    font-weight: 900;
+  }
+
+  h2 {
+    max-width: 1180px;
+    font-size: 106px;
+    line-height: 1.03;
+    font-weight: 900;
+  }
+
+  p {
+    color: var(--soft);
+    font-size: 50px;
+    line-height: 1.18;
+  }
+
+  .cover {
+    grid-template-columns: minmax(0, 1fr) 240px;
+    grid-template-rows: auto 1fr auto;
+    column-gap: 80px;
+  }
+
+  .cover-main {
+    align-self: center;
+  }
+
+  .cover-main p {
+    max-width: 760px;
+    margin-top: 42px;
+  }
+
+  .cover-line {
+    width: min(620px, 80%);
+    height: 1px;
+    margin: 48px 0 0;
+    background: var(--line);
+  }
+
+  .meta-rail {
+    align-self: center;
+    display: grid;
+    gap: 32px;
+  }
+
+  .meta-item {
+    border-top: 1px solid var(--line);
+    padding-top: 20px;
+  }
+
+  .meta-item strong {
+    display: block;
+    margin-bottom: 6px;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--soft);
+    font-size: 44px;
+  }
+
+  .meta-item span {
+    color: var(--muted);
+    font-size: 0;
+  }
+
+  .content {
+    display: grid;
+    align-content: center;
+    gap: 36px;
+  }
+
+  .lede {
+    max-width: 960px;
+  }
+
+  .two-up {
+    display: grid;
+    grid-template-columns: 1fr 60px 1fr;
+    align-items: center;
+    gap: 42px;
+    margin-top: 8px;
+  }
+
+  .arrow {
+    font-family: "JetBrains Mono", monospace;
+    color: var(--cyan);
+    font-size: 42px;
+    font-weight: 700;
+    text-align: center;
+  }
+
+  .panel {
+    min-height: 170px;
+    padding: 38px;
+    background: rgba(255,255,255,0.88);
+    border: 1px solid var(--line);
+  }
+
+  .panel strong {
+    display: block;
+    margin-bottom: 0;
+    font-size: 64px;
+    color: var(--text);
+  }
+
+  .panel p,
+  .panel li {
+    color: var(--soft);
+    font-size: 0;
+    line-height: 1.55;
+  }
+
+  .callout {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    max-width: 980px;
+    margin: 10px 0 0;
+    padding: 28px 0 0;
+    background: transparent;
+    border: 0;
+    border-top: 1px solid var(--line);
+  }
+
+  .callout strong {
+    color: var(--muted);
+    font-size: 24px;
+  }
+
+  .callout p {
+    color: var(--text);
+    font-size: 58px;
+    font-weight: 800;
+  }
+
+  .pillars {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-top: 10px;
+  }
+
+  .pillar {
+    min-height: 170px;
+    padding: 40px 32px;
+    border: 1px solid var(--line);
+    background: var(--panel);
+  }
+
+  .pillar:nth-child(1) {
+    border-color: var(--line);
+    background: var(--panel);
+  }
+
+  .pillar:nth-child(2) {
+    border-color: var(--line);
+    background: var(--panel);
+  }
+
+  .pillar:nth-child(3) {
+    border-color: var(--line);
+    background: var(--panel);
+  }
+
+  .code {
+    font-family: "JetBrains Mono", monospace;
+    font-weight: 700;
+    font-size: 56px;
+  }
+
+  .blue { color: var(--blue); }
+  .cyan { color: var(--cyan); }
+  .amber { color: var(--amber); }
+  .green { color: var(--green); }
+  .rose { color: var(--rose); }
+
+  .ops-strip {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+    margin-top: 10px;
+  }
+
+  .ops-strip::before,
+  .ops-strip::after {
+    content: "";
+    flex: 1;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .op {
+    padding: 10px 24px;
+    min-width: 120px;
+    text-align: center;
+    font-family: "JetBrains Mono", monospace;
+    font-size: 17px;
+    font-weight: 700;
+    color: var(--muted);
+    background: transparent;
+    border: 1px solid var(--line);
+  }
+
+  .flow {
+    display: grid;
+    grid-template-columns: repeat(5, minmax(130px, 1fr));
+    gap: 30px;
+    align-items: stretch;
+    margin-top: 34px;
+  }
+
+  .flow-node {
+    position: relative;
+    min-height: 172px;
+    padding: 44px 18px 24px;
+    text-align: center;
+    background: var(--panel);
+    border: 1px solid var(--line);
+  }
+
+  .flow-node:not(:last-child)::after {
+    content: "->";
+    position: absolute;
+    top: 44%;
+    right: -31px;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 20px;
+    font-weight: 700;
+  }
+
+  .flow-node strong {
+    display: block;
+    margin-bottom: 14px;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--text);
+    font-size: 44px;
+  }
+
+  .flow-node span {
+    color: var(--muted);
+    font-size: 0;
+  }
+
+  .matrix {
+    position: relative;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 34px;
+    max-width: 1040px;
+    margin: 20px auto 0;
+  }
+
+  .matrix::before {
+    content: "";
+    position: absolute;
+    top: -18px;
+    bottom: -18px;
+    left: 50%;
+    width: 1px;
+    background: var(--line);
+  }
+
+  .matrix::after {
+    content: "";
+    position: absolute;
+    left: -34px;
+    right: -34px;
+    top: 50%;
+    height: 1px;
+    background: var(--line);
+  }
+
+  .quadrant {
+    z-index: 1;
+    min-height: 172px;
+    padding: 40px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+  }
+
+  .quadrant strong {
+    display: block;
+    margin-bottom: 12px;
+    font-size: 60px;
+  }
+
+  .quadrant p {
+    font-size: 0;
+  }
+
+  .path {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 34px;
+    margin-top: 30px;
+  }
+
+  .step {
+    min-height: 238px;
+    padding: 42px;
+    background: var(--panel);
+    border: 1px solid var(--line);
+  }
+
+  .step-num {
+    display: inline-grid;
+    place-items: center;
+    width: 56px;
+    height: 56px;
+    margin-bottom: 30px;
+    font-size: 22px;
+    font-family: "JetBrains Mono", monospace;
+    color: var(--soft);
+    background: transparent;
+    border: 1px solid var(--line);
+  }
+
+  .step strong {
+    display: block;
+    font-size: 56px;
+    line-height: 1.08;
+  }
+
+  .takeaways {
+    display: grid;
+    gap: 30px;
+    max-width: 1080px;
+    margin-top: 34px;
+  }
+
+  .takeaway {
+    display: grid;
+    grid-template-columns: 86px 1fr;
+    align-items: center;
+    gap: 26px;
+  }
+
+  .takeaway code {
+    display: grid;
+    place-items: center;
+    height: 68px;
+    font-size: 26px;
+    color: var(--soft);
+    background: transparent;
+    border: 1px solid var(--line);
+  }
+
+  .takeaway p {
+    color: var(--text);
+    font-size: 56px;
+    font-weight: 900;
+  }
+
+  .footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--muted);
+    font-family: "JetBrains Mono", monospace;
+    font-size: 12px;
+  }
+
+  .footer span:first-child {
+    display: none;
+  }
+
+  .progress {
+    position: fixed;
+    z-index: 10;
+    left: 0;
+    bottom: 0;
+    height: 4px;
+    width: 0;
+    background: #735f2e;
+    transition: width 240ms ease;
+  }
+
+  .controls {
+    position: fixed;
+    z-index: 10;
+    right: 24px;
+    bottom: 20px;
+    display: flex;
+    gap: 8px;
+  }
+
+  .controls button {
+    width: 38px;
+    height: 34px;
+    color: var(--soft);
+    background: rgba(255,255,255,0.9);
+    border: 1px solid var(--line);
+    cursor: pointer;
+  }
+
+  @media (max-height: 780px) {
+    .slide {
+      gap: 22px;
+      padding: 46px 72px 38px;
+    }
+
+    h1 {
+      font-size: 112px;
+    }
+
+    h2 {
+      font-size: 82px;
+    }
+
+    p {
+      font-size: 42px;
+    }
+
+    .content {
+      gap: 24px;
+    }
+
+    .cover-main p {
+      margin-top: 28px;
+    }
+
+    .cover-line {
+      margin-top: 24px;
+    }
+
+    .callout {
+      gap: 16px;
+      padding-top: 20px;
+    }
+
+    .callout p {
+      font-size: 48px;
+    }
+
+    .panel strong,
+    .quadrant strong {
+      font-size: 54px;
+    }
+
+    .code,
+    .step strong {
+      font-size: 48px;
+    }
+
+    .flow {
+      gap: 22px;
+      margin-top: 22px;
+    }
+
+    .flow-node {
+      min-height: 140px;
+      padding: 34px 14px 20px;
+    }
+
+    .flow-node strong {
+      font-size: 38px;
+    }
+
+    .path {
+      gap: 24px;
+      margin-top: 20px;
+    }
+
+    .step {
+      min-height: 190px;
+      padding: 32px;
+    }
+
+    .step-num {
+      margin-bottom: 20px;
+    }
+
+    .takeaways {
+      gap: 20px;
+      margin-top: 20px;
+    }
+
+    .takeaway code {
+      height: 58px;
+    }
+
+    .takeaway p {
+      font-size: 48px;
+    }
+  }
+
+  .controls button:hover {
+    border-color: var(--cyan);
+    color: var(--cyan);
+  }
+
+  @media (max-width: 860px) {
+    .slide {
+      padding: 38px 26px 58px;
+      gap: 18px;
+      overflow-y: auto;
+    }
+
+    .cover,
+    .two-up,
+    .path,
+    .pillars,
+    .matrix,
+    .flow {
+      grid-template-columns: 1fr;
+    }
+
+    .arrow,
+    .flow-node:not(:last-child)::after,
+    .matrix::before,
+    .matrix::after {
+      display: none;
+    }
+
+    .meta-rail,
+    .controls {
+      display: none;
+    }
+  }
+</style>
+</head>
+<body>
+  <div class="top-rule"></div>
+  <main class="deck" aria-live="polite">
+    <section class="slide cover active">
+      <div class="cover-main">
+        <div class="kicker">INTERNAL TECH SHARE</div>
+        <h1>Lazy Codex<br>활용기</h1>
+        <p>큰 작업은 루프로 다룬다.</p>
+        <div class="cover-line"></div>
+      </div>
+      <aside class="meta-rail" aria-label="발표 메타데이터">
+        <div class="meta-item"><strong>DT1</strong><span></span></div>
+        <div class="meta-item"><strong>1주차</strong><span></span></div>
+        <div class="meta-item"><strong>Loop</strong><span></span></div>
+      </aside>
+      <div class="footer"><span>Source: Notion page "lazy codex를 활용한 개발"</span><span>01 / 08</span></div>
+    </section>
+
+    <section class="slide">
+      <header>
+        <h2>처음엔 답답했다.</h2>
+      </header>
+      <div class="content">
+        <div class="two-up">
+          <article class="panel">
+            <strong class="amber">알아서 정리</strong>
+            <p></p>
+          </article>
+          <div class="arrow">-></div>
+          <article class="panel">
+            <strong class="blue">좁고 정확</strong>
+            <p></p>
+          </article>
+        </div>
+        <div class="callout">
+          <strong>필요했던 것</strong>
+          <p>운영 루프</p>
+        </div>
+      </div>
+      <div class="footer"><span>Source: Notion reflection section</span><span>02 / 08</span></div>
+    </section>
+
+    <section class="slide">
+      <header>
+        <div class="kicker blue">WHAT IT IS</div>
+        <h2>Lazy Codex는<br>harness다.</h2>
+      </header>
+      <div class="content">
+        <div class="pillars">
+          <article class="pillar">
+            <strong class="code blue">ulw-plan</strong>
+            <p></p>
+          </article>
+          <article class="pillar">
+            <strong class="code cyan">ulw-loop</strong>
+            <p></p>
+          </article>
+          <article class="pillar">
+            <strong class="code amber">start-work</strong>
+            <p></p>
+          </article>
+        </div>
+        <div class="ops-strip">
+          <span class="op">hook</span>
+          <span class="op">agent</span>
+          <span class="op">goal</span>
+          <span class="op">verification</span>
+        </div>
+      </div>
+      <div class="footer"><span>Source: Notion + LazyCodex links</span><span>03 / 08</span></div>
+    </section>
+
+    <section class="slide">
+      <header>
+        <div class="kicker cyan">LOOP MODEL</div>
+        <h2>핵심은 루프다.</h2>
+      </header>
+      <div class="content">
+        <div class="flow">
+          <div class="flow-node"><strong>요청</strong><span></span></div>
+          <div class="flow-node"><strong>계획</strong><span></span></div>
+          <div class="flow-node"><strong>실행</strong><span></span></div>
+          <div class="flow-node"><strong>피드백</strong><span></span></div>
+          <div class="flow-node"><strong>검증</strong><span></span></div>
+        </div>
+        <div class="callout">
+          <strong>한 줄 요약</strong>
+          <p>끝났다고 말하기 전에 다시 돈다.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Source: Notion command descriptions</span><span>04 / 08</span></div>
+    </section>
+
+    <section class="slide">
+      <header>
+        <div class="kicker amber">EXPERIENCE MATRIX</div>
+        <h2>작은 일엔 무겁다.</h2>
+      </header>
+      <div class="content">
+        <div class="matrix">
+          <article class="quadrant">
+            <strong class="rose">작은 일</strong>
+            <p>스킬이 켜지면 기다림이 더 크게 느껴질 수 있음</p>
+          </article>
+          <article class="quadrant">
+            <strong class="cyan">큰 일</strong>
+            <p>계획, 피드백, 검증이 붙으면서 든든함으로 전환</p>
+          </article>
+          <article class="quadrant">
+            <strong class="amber">단발 작업</strong>
+            <p>순정 Codex를 명확히 지시하는 편이 빠를 수 있음</p>
+          </article>
+          <article class="quadrant">
+            <strong class="green">영향 큰 작업</strong>
+            <p>여러 관점을 분리하고 빠뜨린 경로를 다시 묻게 하는 힘</p>
+          </article>
+        </div>
+      </div>
+      <div class="footer"><span>Source: Notion usage reflection</span><span>05 / 08</span></div>
+    </section>
+
+    <section class="slide">
+      <header>
+        <div class="kicker blue">ADOPTION RULE</div>
+        <h2>바로 붙이지 않는다.</h2>
+      </header>
+      <div class="content">
+        <div class="path">
+          <article class="step">
+            <span class="step-num">1</span>
+            <strong>순정 Codex</strong>
+            <p></p>
+          </article>
+          <article class="step">
+            <span class="step-num">2</span>
+            <strong>스킬 실험</strong>
+            <p></p>
+          </article>
+          <article class="step">
+            <span class="step-num">3</span>
+            <strong>큰 작업</strong>
+            <p></p>
+          </article>
+        </div>
+        <div class="callout">
+          <strong class="amber">주의</strong>
+          <p>작은 일은 작게.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Source: Notion recommendation paragraph</span><span>06 / 08</span></div>
+    </section>
+
+    <section class="slide">
+      <header>
+        <div class="kicker cyan">TAKEAWAY</div>
+        <h2>작업에 맞는<br>루프를 고른다.</h2>
+      </header>
+      <div class="content">
+        <div class="takeaways">
+          <div class="takeaway"><code>01</code><p>작은 일은 작게</p></div>
+          <div class="takeaway"><code>02</code><p>큰 일은 루프로</p></div>
+          <div class="takeaway"><code>03</code><p>검증 전엔 끝이 아님</p></div>
+        </div>
+        <div class="cover-line"></div>
+      </div>
+      <div class="footer"><span>Source: Notion page synthesis</span><span>07 / 08</span></div>
+    </section>
+
+    <section class="slide">
+      <header>
+        <div class="kicker green">HOW I LEARNED</div>
+        <h2>사례를 보면서<br>알았다.</h2>
+      </header>
+      <div class="content">
+        <div class="takeaways">
+          <div class="takeaway"><code>01</code><p>YouTube</p></div>
+          <div class="takeaway"><code>02</code><p>LinkedIn</p></div>
+          <div class="takeaway"><code>03</code><p>Threads</p></div>
+        </div>
+        <div class="callout">
+          <strong>핵심</strong>
+          <p>다른 사람들이 어떻게 쓰는지 본다.</p>
+        </div>
+      </div>
+      <div class="footer"><span>Source: usage examples from social channels</span><span>08 / 08</span></div>
+    </section>
+  </main>
+  <div class="progress" aria-hidden="true"></div>
+  <nav class="controls" aria-label="슬라이드 이동">
+    <button type="button" data-action="prev" aria-label="이전 슬라이드">&#8592;</button>
+    <button type="button" data-action="next" aria-label="다음 슬라이드">&#8594;</button>
+  </nav>
+<script>
+  const slides = [...document.querySelectorAll(".slide")];
+  const progress = document.querySelector(".progress");
+  let current = 0;
+
+  function showSlide(index) {
+    const next = Math.max(0, Math.min(index, slides.length - 1));
+    slides.forEach((slide, i) => {
+      slide.classList.toggle("active", i === next);
+      slide.classList.toggle("prev", i < next);
+    });
+    current = next;
+    progress.style.width = `${((current + 1) / slides.length) * 100}%`;
+    window.location.hash = `slide-${current + 1}`;
+  }
+
+  function move(delta) {
+    showSlide(current + delta);
+  }
+
+  document.querySelector('[data-action="prev"]').addEventListener("click", () => move(-1));
+  document.querySelector('[data-action="next"]').addEventListener("click", () => move(1));
+
+  window.addEventListener("keydown", (event) => {
+    if (["ArrowRight", "PageDown", " "].includes(event.key)) {
+      event.preventDefault();
+      move(1);
+    }
+    if (["ArrowLeft", "PageUp"].includes(event.key)) {
+      event.preventDefault();
+      move(-1);
+    }
+    if (event.key === "Home") showSlide(0);
+    if (event.key === "End") showSlide(slides.length - 1);
+  });
+
+  const initial = Number((window.location.hash.match(/slide-(\d+)/) || [])[1]);
+  showSlide(Number.isFinite(initial) && initial > 0 ? initial - 1 : 0);
+</script>
+</body>
+</html>
