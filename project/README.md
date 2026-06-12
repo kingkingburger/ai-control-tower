@@ -13,3 +13,4 @@
 ## Current Documents
 
 - [roadmaps/2026-06-07-codex-final-stage-roadmap.md](roadmaps/2026-06-07-codex-final-stage-roadmap.md)
+- [runbooks/folder-cleanup-criteria.md](runbooks/folder-cleanup-criteria.md)

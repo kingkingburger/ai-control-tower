@@ -14,7 +14,7 @@ AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트�
 | `agent/` | 재사용 가능한 에이전트 정의. 현재 `atlas.md`가 저장소 맥락 파악용 에이전트 역할을 한다. |
 | `decisions/` | 의사결정 기록과 Agent Arena 결과. 날짜 기반 파일명으로 남긴다. |
 | `harness/` | 개인 AI 엔지니어링 하네스 원본. core 규칙, 프로젝트별 overlay, 템플릿, git hook, Codex 스킬을 포함한다. |
-| `outputs/` | 수동 실행이나 변환 과정에서 생긴 임시 산출물. 장기 원본으로 보지 않는다. |
+| `outputs/` | 필요할 때 생성되는 임시 산출물 위치. 장기 원본으로 보지 않고 비어 있으면 제거한다. |
 | `presentations/` | 발표용 HTML 슬라이드와 발표 스크립트. `assets/`에는 발표 보조 자산을 둔다. |
 | `problem-finding/` | 반복되는 불편을 실행 가능한 문제 후보로 바꾸는 기록 공간. |
 | `project/` | `ai-control-tower` 자체 운영 문서. roadmap, inventory, distribution sync, runbook으로 나눈다. |
@@ -33,6 +33,7 @@ AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트�
 | `CLAUDE.md` | 저장소 목적, 기본 디렉터리 설명, 발표 제작 규칙, 알려진 이슈. |
 | `harness/README.md` | 개인 하네스의 목적, 구조, 승격 규칙, 세션 종료 메모리 원칙. |
 | `project/README.md` | `project/` 하위 운영 문서의 분류 기준. |
+| `project/runbooks/folder-cleanup-criteria.md` | 폴더 유지, 통합, 아카이브, 삭제 기준. |
 | `problem-finding/README.md` | 문제 발견 기록 방식과 평가 기준. |
 | `skills-lock.json` | `.claude/skills/`에 들어온 스킬의 source와 hash lock. |
 

@@ -15,13 +15,26 @@ AI 관련 실험을 위한 작업 공간. 유저 환경에 적용하기 전에 �
 - `requirements/` — 요구사항 문서 (`YYYY-MM-DD-주제.md`)
 - `research/` — 리서치 자료
   - `readings/youtube/` — 유튜브 강의 자료 정리
-  - `youtube-slides/` — 유튜브 영상 프레임 추출 (`{VIDEO_ID}/slides.html`, `slides.md`, `images/`)
+  - `digests/` — 콘텐츠 digest와 학습 자료
   - `domain-model/` — 도메인 모델 문서 (원본 + readable 버전)
   - `til/` — Today I Learned 기록 (`YYYY-MM-DD-주제.md`)
-- `docs/` — 프로젝트별 상세 문서
-  - `ouroboros/{YYYY-MM-DD}-{project}/` — Ouroboros 3단계 산출물 (`01-requirements.md`, `02-design.md`, `03-verification.md`)
+- `project/` — 이 저장소 자체의 운영 문서
+  - `roadmaps/` — 단계별 목표와 최종 상태
+  - `inventories/` — 스킬, 훅, 배포 대상 같은 자산 목록
+  - `distribution-sync/` — 원본/배포본 동기화 정책과 drift 처리
+  - `runbooks/` — 반복 운영 절차와 정리 기준
+- `harness/` — 개인 하네스 원본, 프로젝트별 private overlay, 템플릿, 스킬
+- `agent/` — 재사용 가능한 에이전트 정의
+- `problem-finding/` — 반복되는 불편을 실행 가능한 문제 후보로 바꾸는 기록
+- `reports/` — 일일 보고서와 목표 기반 결과 보고서
+- `reviews/` — 설계나 문서 리뷰
 - `scripts/` — 유틸리티 스크립트 (`gen_html.py`: YouTube 트랜스크립트 HTML 생성, `capture_frames.py`: 영상 프레임 추출, `generate_output.py`: 슬라이드 HTML/MD 변환)
 - `sync/` — 팀 채널 위클리 요약 등 외부 정보 싱크
+
+## 폴더 정리 기준
+- 유지, 통합, 아카이브, 삭제 기준은 `project/runbooks/folder-cleanup-criteria.md`를 따른다.
+- 추적 파일, 문서 참조, 도구 상태 여부, 원본/배포본 구분, 재생성 경로를 확인하지 않은 폴더는 `unused`가 아니라 `검토 필요`로 둔다.
+- 비어 있는 임시 산출물 폴더는 제거해도 되지만, 날짜 기반 기록과 스킬 원본은 별도 인벤토리 없이 삭제하지 않는다.
 
 ## Presentation 제작
 - 템플릿: `templates/slide-deck.html` 기반
