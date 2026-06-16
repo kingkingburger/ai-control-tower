@@ -1,0 +1,4 @@
+interface:
+  display_name: "Project Team"
+  short_description: "프로젝트별 에이전트 팀과 shared 규칙을 적용합니다."
+  default_prompt: "Use project-team to initialize or operate a project-specific agent team."

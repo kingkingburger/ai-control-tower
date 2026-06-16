@@ -11,7 +11,7 @@
 폴더를 정리하기 전에는 아래 5가지를 먼저 확인한다.
 
 1. `git ls-files <folder>`에 추적 파일이 있는가.
-2. `README.md`, `CLAUDE.md`, `project/`, `harness/` 문서에서 참조되는가.
+2. `README.md`, `CLAUDE.md`, `project/`, `projects/`, `shared/` 문서에서 참조되는가.
 3. 특정 도구가 런타임에 자동 생성하거나 갱신하는 상태 폴더인가.
 4. 장기 원본인지, 배포본인지, 임시 산출물인지 구분되는가.
 5. 삭제해도 재생성 경로나 복구 경로가 명확한가.
@@ -24,14 +24,15 @@
 
 다음 중 하나라도 해당하면 유지한다.
 
-- 현재 roadmap, README, 하네스 문서에서 원본 위치로 정의되어 있다.
+- 현재 roadmap, README, 프로젝트 팀 문서에서 원본 위치로 정의되어 있다.
 - 날짜 기반 문서, 발표 자료, 리서치처럼 장기 기록의 원본이다.
 - 실행 가능한 스킬, 에이전트, 템플릿, 스크립트를 담고 있다.
 - 삭제하면 기존 문서 링크나 사용 흐름이 깨진다.
 
 현재 유지 대상:
 
-- `harness/`: 개인 하네스 원본.
+- `projects/`: 프로젝트별 에이전트 팀, 프로필, 메모리, 워크플로우.
+- `shared/`: 여러 프로젝트 팀이 공유하는 규칙, 템플릿, 스킬.
 - `project/`: 이 저장소 운영 문서.
 - `agent/`: repo map과 실행 브리프용 에이전트 정의.
 - `.claude/`: Claude 계열 스킬 자산. 단, 장기적으로는 원본/배포본 여부를 다시
@@ -44,8 +45,8 @@
 
 역할이 겹치지만 즉시 삭제하면 정보 손실이 생기는 폴더는 먼저 통합한다.
 
-- `.claude/skills/`와 `harness/skills/`: 스킬 원본이 둘로 보인다. 기준은
-  `harness/skills/`를 원본 후보로 두고, `.claude/skills/`는 Claude 배포본인지
+- `.claude/skills/`와 `shared/skills/`: 스킬 원본이 둘로 보인다. 기준은
+  `shared/skills/`를 공통 원본 후보로 두고, `.claude/skills/`는 Claude 배포본인지
   레거시 원본인지 인벤토리에서 확정한다.
 - `CLAUDE.md`와 `README.md`: `CLAUDE.md`는 에이전트 실행 지침, `README.md`는
   사람용 탐색 인덱스로 유지한다. 오래된 폴더 설명은 `README.md` 기준으로
@@ -89,23 +90,23 @@
   않는다.
 - `.obsidian/`과 `.omc/`는 `.gitignore` 대상이다. 저장소 원본 정리 대상이 아니라
   로컬 도구 상태로 취급한다.
-- `harness/bin/`은 비어 있지만 roadmap에서 `harness/bin/octoto-harness.ps1`
-  누락을 명시하고 있다. 삭제 후보가 아니라 "복구 또는 hook 제거 결정" 후보로
-  둔다.
+- 기존 `shared/git-hooks/octoto/*` 훅은 존재하지 않는
+  `shared/bin/octoto-harness.ps1`를 호출하던 깨진 자산이라 제거했다. 훅 자동화가
+  다시 필요하면 새 `shared/bin/` runner와 함께 재도입한다.
 - `CLAUDE.md`에는 현재 존재하지 않는 `docs/`와 과거 구조인
   `research/youtube-slides/` 설명이 남아 있다. 폴더 삭제보다 문서 경계 교정이
   먼저다.
-- `.claude/skills/`와 `harness/skills/`는 둘 다 스킬을 담고 있어 단일 원본 결정이
+- `.claude/skills/`와 `shared/skills/`는 둘 다 스킬을 담고 있어 단일 원본 결정이
   필요하다.
 
 ## 실행 순서
 
 1. 빈 임시 산출물 폴더를 삭제한다.
 2. `CLAUDE.md`의 오래된 폴더 설명을 현재 구조에 맞춘다.
-3. `.claude/skills/`와 `harness/skills/`를 인벤토리 문서에서 `원본`, `배포본`,
+3. `.claude/skills/`와 `shared/skills/`를 인벤토리 문서에서 `원본`, `배포본`,
    `폐기 후보`, `검토 필요`로 분류한다.
-4. `harness/bin/octoto-harness.ps1`는 복구할지, `harness/git-hooks/octoto/*`에서
-   호출을 제거할지 결정한다.
+4. 훅 자동화가 다시 필요하면 `shared/bin/` runner와 `shared/git-hooks/`를 같은
+   커밋에서 재도입한다.
 5. 이동이나 삭제가 필요한 추적 파일은 한 번에 많이 묶지 말고 분류별로 작은
    커밋을 만든다.
 

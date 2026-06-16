@@ -13,16 +13,17 @@ AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트�
 | `.omc/` | OMC/mission-control 계열의 세션, 체크포인트, 프로젝트 상태 파일. 지속 문서의 원본이 아니라 도구 상태에 가깝다. |
 | `agent/` | 재사용 가능한 에이전트 정의. 현재 `atlas.md`가 저장소 맥락 파악용 에이전트 역할을 한다. |
 | `decisions/` | 의사결정 기록과 Agent Arena 결과. 날짜 기반 파일명으로 남긴다. |
-| `harness/` | 개인 AI 엔지니어링 하네스 원본. core 규칙, 프로젝트별 overlay, 템플릿, git hook, Codex 스킬을 포함한다. |
 | `outputs/` | 필요할 때 생성되는 임시 산출물 위치. 장기 원본으로 보지 않고 비어 있으면 제거한다. |
 | `presentations/` | 발표용 HTML 슬라이드와 발표 스크립트. `assets/`에는 발표 보조 자산을 둔다. |
 | `problem-finding/` | 반복되는 불편을 실행 가능한 문제 후보로 바꾸는 기록 공간. |
 | `project/` | `ai-control-tower` 자체 운영 문서. roadmap, inventory, distribution sync, runbook으로 나눈다. |
+| `projects/` | 프로젝트별 에이전트 팀, 프로필, 메모리, 워크플로우를 관리한다. |
 | `reports/` | 일일 보고서나 목표 기반 결과 보고서. |
 | `requirements/` | 기능이나 실험의 요구사항 문서. |
 | `research/` | 학습, 리서치, TIL, 도메인 모델, 콘텐츠 digest 자료. |
 | `reviews/` | 설계나 문서에 대한 리뷰 결과. |
 | `scripts/` | YouTube, 프레젠테이션, 저장소 메타데이터 작업용 유틸리티 스크립트. |
+| `shared/` | 여러 프로젝트 팀이 공유하는 에이전트 역할, 규칙, 템플릿, 스킬을 둔다. |
 | `sync/` | 팀 채널 요약, 주간 싱크 등 외부 정보 동기화 기록. |
 | `templates/` | 발표와 플래너 같은 재사용 템플릿. |
 
@@ -31,10 +32,11 @@ AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트�
 | 파일 | 내용 |
 | --- | --- |
 | `CLAUDE.md` | 저장소 목적, 기본 디렉터리 설명, 발표 제작 규칙, 알려진 이슈. |
-| `harness/README.md` | 개인 하네스의 목적, 구조, 승격 규칙, 세션 종료 메모리 원칙. |
 | `project/README.md` | `project/` 하위 운영 문서의 분류 기준. |
 | `project/runbooks/folder-cleanup-criteria.md` | 폴더 유지, 통합, 아카이브, 삭제 기준. |
+| `projects/README.md` | 프로젝트별 에이전트 팀 구조와 shared 자산 사용 규칙. |
 | `problem-finding/README.md` | 문제 발견 기록 방식과 평가 기준. |
+| `shared/README.md` | 공통 규칙, 템플릿, 스킬의 역할과 승격 규칙. |
 | `skills-lock.json` | `.claude/skills/`에 들어온 스킬의 source와 hash lock. |
 
 ## 도구와 스킬
@@ -54,14 +56,16 @@ AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트�
 | `session-wrap` | 세션 종료 시 변경사항, 학습, 후속 작업을 정리한다. |
 | `team-assemble` | 복잡한 작업을 전문가 역할로 나누고 팀 단위 실행 흐름을 설계한다. |
 
-### 에이전트와 하네스
+### 에이전트와 프로젝트 팀
 
 | 도구 | 위치 | 용도 |
 | --- | --- | --- |
 | Atlas agent | `agent/atlas.md` | 저장소 구조, 관련 파일, 검증 경로를 짧은 실행 브리프로 정리한다. |
-| My Harness skill | `harness/skills/my-harness/SKILL.md` | 개인 하네스를 다른 저장소에 overlay처럼 적용하고 세션 종료 메모리를 관리한다. |
-| Harness core rules | `harness/core/` | 작업 스타일, git, 검증, 언어, 메모리 승격 같은 반복 규칙을 보관한다. |
-| Harness templates | `harness/templates/` | `AGENTS.md`, `CLAUDE.md`, 아키텍처/보안/신뢰성 문서 템플릿. |
+| Project Team skill | `shared/skills/project-team/SKILL.md` | 프로젝트별 팀 프로필과 shared 규칙을 조합해 작업을 운영한다. |
+| Project profiles | `projects/<project>/` | 프로젝트별 에이전트 팀, 운영 메모리, 워크플로우를 보관한다. |
+| Shared agents | `shared/agents/README.md` | 여러 프로젝트 팀이 공통으로 참조하는 에이전트 역할 목록. |
+| Shared rules | `shared/rules/` | 작업 스타일, git, 검증, 언어, 메모리 승격 같은 반복 규칙을 보관한다. |
+| Shared templates | `shared/templates/` | `AGENTS.md`, `CLAUDE.md`, 아키텍처/보안/신뢰성 문서 템플릿. |
 
 ### 스크립트
 
@@ -100,11 +104,11 @@ python scripts/generate_output.py "<output_dir>" --title "<title>" --url "<url>"
 만든다. 발표 원고가 필요하면 같은 날짜와 제목으로 `*-speaker-script.md` 또는
 `*-script.md`를 둔다.
 
-### 하네스 작업
+### 프로젝트 팀 작업
 
-`harness/`는 공유 프로젝트 문서가 아니라 개인 운영 규칙을 모으는 곳이다.
-프로젝트에 반복 적용할 만큼 안정된 내용만 대상 저장소의 `AGENTS.md`나 문서로
-승격하고, 개인 선호나 임시 관찰은 `harness/projects/<project>/`에 남긴다.
+프로젝트별 맥락은 `projects/<project>/`에서 관리한다. 여러 프로젝트에 반복되는
+에이전트 규칙, 템플릿, 스킬만 `shared/`로 올리고, 대상 저장소에 남길 내용은
+해당 프로젝트의 `AGENTS.md`나 docs에 맞게 별도로 승격한다.
 
 ## 기록 규칙
 
