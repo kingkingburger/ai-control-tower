@@ -80,6 +80,7 @@ AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트�
 | `scripts/capture_frames.py` | 영상과 JSON3 자막을 받아 프레임 이미지와 `segments.json`을 만든다. `ffmpeg`가 필요하다. |
 | `scripts/generate_output.py` | `segments.json`을 `slides.md`와 `slides.html`로 변환한다. |
 | `scripts/gen_html.py` | 기존 YouTube digest 데이터를 특정 HTML 문서로 변환하는 하드코딩된 레거시 스크립트다. |
+| `scripts/hub_deploy_mattermost.py` | Hub front/server 감시 브랜치의 새 커밋을 Mattermost 배포 알림으로 보낸다. |
 | `scripts/pptx_to_html.py` | PPTX를 레이아웃 보존 HTML로 변환한다. `python-pptx`가 필요하다. |
 | `scripts/update_repos.sh` | GitHub CLI로 `kingkingburger/*` 저장소 description과 topics를 일괄 업데이트한다. |
 

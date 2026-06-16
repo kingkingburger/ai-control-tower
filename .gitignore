@@ -55,6 +55,7 @@ htmlcov/
 
 # Claude / OMC
 .omc/
+.omo/
 
 # Large media files
 *.mp4
