@@ -13,11 +13,13 @@
 ## 구조
 
 - `agents/`: 여러 프로젝트 팀이 참조하는 공통 에이전트 역할.
+- `harnesses/`: 여러 작업 표면에서 재사용하는 팀 운영 하네스와 manifest.
 - `rules/`: 재사용 가능한 작업 규칙과 운영 정책.
   - `work-style.md`: 언어와 프레임워크에 종속되지 않는 사용자 작업 스타일과
     에이전트 운영 기본값.
 - `templates/`: 프로젝트 문서 템플릿.
 - `skills/project-team/`: 프로젝트 팀 프로필과 shared 규칙을 적용하는 Codex 스킬.
+- `skills/deep-goal-council/`: Deep Goal Council 하네스를 실행하는 스킬 어댑터.
 
 ## 언어
 

@@ -1,0 +1,4 @@
+interface:
+  display_name: "깊은 목표 협의회"
+  short_description: "경쟁 에이전트 팀으로 더 깊은 목표와 방향을 설계한다."
+  default_prompt: "깊은 목표 협의회를 사용해서 내 현재 상황을 경쟁 목표 제안과 심사 가능한 패킷으로 바꿔줘."
