@@ -1,12 +1,12 @@
-# Analysis Patterns for Session Analyzer
+# Session Analyzer 분석 패턴
 
-Detailed grep/search patterns for extracting information from Claude Code debug logs.
+Claude Code 디버그 로그에서 정보를 추출할 때 쓰는 상세 grep/search 패턴.
 
 ---
 
-## Debug Log Structure
+## 디버그 로그 구조
 
-Debug logs are located at `~/.claude/debug/{sessionId}.txt` and contain timestamped entries:
+디버그 로그는 `~/.claude/debug/{sessionId}.txt`에 있으며 timestamp가 붙은 항목을 포함한다.
 
 ```
 2026-01-13T09:39:26.905Z [DEBUG] {message}
@@ -14,198 +14,198 @@ Debug logs are located at `~/.claude/debug/{sessionId}.txt` and contain timestam
 
 ---
 
-## SubAgent Patterns
+## SubAgent 패턴
 
-### SubAgent Start
+### SubAgent 시작
 ```bash
-# Pattern
+# 패턴
 grep "SubagentStart with query:" debug.txt
 
-# Example output
+# 예시 출력
 2026-01-13T09:39:26.905Z [DEBUG] Getting matching hook commands for SubagentStart with query: Explore
 ```
 
-### SubAgent Stop
+### SubAgent 종료
 ```bash
-# Pattern
+# 패턴
 grep "SubagentStop with query:" debug.txt
 
-# With agent ID (session tracking)
+# agent ID 포함(세션 추적)
 grep "agent_id.*agent_transcript_path" debug.txt
 ```
 
-### SubAgent Session Registration
+### SubAgent 세션 등록
 ```bash
-# Pattern - shows when hooks are registered for subagent
+# 패턴 - SubAgent용 훅이 등록되는 시점을 보여준다
 grep "Registered.*frontmatter hook.*from agent" debug.txt
 
-# Example
+# 예시
 2026-01-13T09:43:08.203Z [DEBUG] Registered 1 frontmatter hook(s) from agent 'gap-analyzer' for session a373157
 ```
 
 ---
 
-## Hook Patterns
+## 훅 패턴
 
-### PreToolUse Hook Trigger
+### PreToolUse 훅 트리거
 ```bash
-# Pattern
+# 패턴
 grep "executePreToolHooks called for tool:" debug.txt
 
-# Example
+# 예시
 2026-01-13T09:39:40.000Z [DEBUG] executePreToolHooks called for tool: Write
 ```
 
-### Hook Matcher Check
+### 훅 matcher 확인
 ```bash
-# Pattern
+# 패턴
 grep "Getting matching hook commands for PreToolUse with query:" debug.txt
 
-# With match count
+# 매칭 개수 포함
 grep "Matched.*unique hooks for query" debug.txt
 
-# Example
+# 예시
 2026-01-13T09:39:40.000Z [DEBUG] Matched 1 unique hooks for query "Write" (1 before deduplication)
 ```
 
-### Hook Permission Decision
+### 훅 권한 결정
 ```bash
-# Pattern
+# 패턴
 grep "permissionDecision" debug.txt
 
-# Example (allow)
+# 예시(allow)
 "permissionDecision": "allow"
 
-# Example (deny)
+# 예시(deny)
 "permissionDecision": "deny"
 ```
 
-### Prompt-Based Hook Processing
+### 프롬프트 기반 훅 처리
 ```bash
-# Pattern - hook is being processed
+# 패턴 - 훅 처리 중
 grep "Hooks: Processing prompt hook with prompt:" debug.txt
 
-# Pattern - model response
+# 패턴 - 모델 응답
 grep "Hooks: Model response:" debug.txt
 
-# Pattern - condition result
+# 패턴 - 조건 결과
 grep "Prompt hook condition was" debug.txt
 
-# Example (met)
+# 예시(충족)
 2026-01-13T09:48:09.076Z [DEBUG] Hooks: Prompt hook condition was met
 
-# Example (not met)
+# 예시(미충족)
 2026-01-13T09:45:59.297Z [DEBUG] Hooks: Prompt hook condition was not met: REJECT - ...
 ```
 
-### Stop Hook Events
+### Stop 훅 이벤트
 ```bash
-# Pattern
+# 패턴
 grep "Getting matching hook commands for Stop" debug.txt
 ```
 
-### SubagentStop Hook Events
+### SubagentStop 훅 이벤트
 ```bash
-# Pattern - converted from Stop to SubagentStop
+# 패턴 - Stop에서 SubagentStop으로 변환됨
 grep "Converting Stop hook to SubagentStop" debug.txt
 
-# Example
+# 예시
 2026-01-13T09:43:08.202Z [DEBUG] Converting Stop hook to SubagentStop for agent 'gap-analyzer'
 ```
 
 ---
 
-## Tool Usage Patterns
+## 도구 사용 패턴
 
-### Tool Execution
+### 도구 실행
 ```bash
-# Pattern
+# 패턴
 grep "executePreToolHooks called for tool:" debug.txt
 ```
 
-### File Write Operations
+### 파일 쓰기 작업
 ```bash
-# Pattern - file creation/modification
+# 패턴 - 파일 생성/수정
 grep "FileHistory: Tracked file modification for" debug.txt
 
-# Pattern - atomic write
+# 패턴 - atomic write
 grep "File.*written atomically" debug.txt
 
-# Example
+# 예시
 2026-01-13T09:39:40.036Z [DEBUG] File /path/to/file.md written atomically
 ```
 
-### Bash Command Execution
+### Bash 명령 실행
 ```bash
-# Pattern - PreToolHooks for Bash
+# 패턴 - Bash용 PreToolHooks
 grep "executePreToolHooks called for tool: Bash" debug.txt
 ```
 
 ---
 
-## Skill/Session Patterns
+## 스킬/세션 패턴
 
-### Skill Loading
+### 스킬 로딩
 ```bash
-# Pattern - skill hooks registered
+# 패턴 - 스킬 훅 등록
 grep "Added session hook for event" debug.txt
 grep "Registered.*hooks from skill" debug.txt
 
-# Example
+# 예시
 2026-01-13T09:39:14.449Z [DEBUG] Added session hook for event PreToolUse in session 3cc71c9f-...
 2026-01-13T09:39:14.449Z [DEBUG] Registered 2 hooks from skill 'specify'
 ```
 
-### Session Hook Cleanup
+### 세션 훅 정리
 ```bash
-# Pattern
+# 패턴
 grep "Cleared all session hooks for session" debug.txt
 ```
 
 ---
 
-## AskUserQuestion Patterns
+## AskUserQuestion 패턴
 
 ```bash
-# Pattern - PreToolHooks
+# 패턴 - PreToolHooks
 grep "executePreToolHooks called for tool: AskUserQuestion" debug.txt
 
-# Pattern - PostToolHooks
+# 패턴 - PostToolHooks
 grep "PostToolUse with query: AskUserQuestion" debug.txt
 ```
 
 ---
 
-## Error Patterns
+## 오류 패턴
 
-### Hook Errors
+### 훅 오류
 ```bash
-# Pattern
+# 패턴
 grep -i "error\|failed\|exception" debug.txt | grep -i hook
 ```
 
-### Tool Errors
+### 도구 오류
 ```bash
-# Pattern
+# 패턴
 grep "Tool.*error\|Tool.*failed" debug.txt
 ```
 
 ---
 
-## Reviewer-Specific Patterns
+## reviewer 전용 패턴
 
-### Reviewer Verdict Extraction
+### reviewer 판정 추출
 ```bash
-# Pattern - look for model response containing OKAY or REJECT
+# 패턴 - OKAY 또는 REJECT가 포함된 모델 응답 찾기
 grep -A5 "Hooks: Model response:" debug.txt | grep -E '"ok":|"reason":'
 
-# Example (OKAY)
+# 예시(OKAY)
 {
   "ok": true,
   "reason": "Plan approved by reviewer..."
 }
 
-# Example (REJECT)
+# 예시(REJECT)
 {
   "ok": false,
   "reason": "REJECT - The plan has a critical contradiction..."
@@ -214,56 +214,56 @@ grep -A5 "Hooks: Model response:" debug.txt | grep -E '"ok":|"reason":'
 
 ---
 
-## Artifact Patterns
+## 산출물 패턴
 
-### Draft File Operations
+### draft 파일 작업
 ```bash
-# Pattern - draft creation
+# 패턴 - draft 생성
 grep "\.dev-flow/drafts/" debug.txt | grep "written atomically"
 
-# Pattern - draft deletion (look for rm command)
+# 패턴 - draft 삭제(rm 명령 찾기)
 grep "rm.*\.dev-flow/drafts/" debug.txt
 ```
 
-### Plan File Operations
+### plan 파일 작업
 ```bash
-# Pattern - plan creation
+# 패턴 - plan 생성
 grep "\.dev-flow/plans/" debug.txt | grep "written atomically"
 ```
 
 ---
 
-## Timeline Reconstruction
+## timeline 재구성
 
-To reconstruct a session timeline:
+세션 timeline을 재구성하려면 다음을 사용한다.
 
 ```bash
-# Extract all timestamped events for key operations
+# 주요 작업의 timestamp 포함 이벤트를 모두 추출
 grep -E "(SubagentStart|SubagentStop|executePreToolHooks|Prompt hook condition|written atomically)" debug.txt | sort
 ```
 
 ---
 
-## Combined Analysis Query
+## 통합 분석 쿼리
 
-Full analysis of a specify skill session:
+specify 스킬 세션 전체 분석:
 
 ```bash
-# 1. Check Explore agents
+# 1. Explore 에이전트 확인
 grep "SubagentStart with query: Explore" debug.txt | wc -l
 
-# 2. Check gap-analyzer
+# 2. gap-analyzer 확인
 grep "SubagentStart with query: gap-analyzer" debug.txt
 
-# 3. Check reviewer calls and results
+# 3. reviewer 호출과 결과 확인
 grep -E "(SubagentStart with query: reviewer|Prompt hook condition)" debug.txt
 
-# 4. Check plan-guard.sh hook
+# 4. plan-guard.sh 훅 확인
 grep "permissionDecision" debug.txt
 
-# 5. Check artifacts
+# 5. 산출물 확인
 grep -E "(\.dev-flow/drafts/|\.dev-flow/plans/).*written atomically" debug.txt
 
-# 6. Final Stop hook result
+# 6. 최종 Stop 훅 결과
 grep -A10 "Getting matching hook commands for Stop" debug.txt | tail -20
 ```

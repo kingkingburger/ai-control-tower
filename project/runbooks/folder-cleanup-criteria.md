@@ -1,4 +1,4 @@
-# Folder Cleanup Criteria
+# 폴더 정리 기준
 
 작성일: 2026-06-13
 

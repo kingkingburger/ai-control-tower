@@ -123,9 +123,9 @@
 
 **Important (M1 구현 중 병행)**
 - [ ] (I1) 일정 8일로 재산정
-- [ ] (I2) Nodemailer + Bun PoC (Day 1)
+- [ ] (I2) Nodemailer + Bun PoC(1일차)
 - [ ] (I3) opossum circuit breaker 설정값 문서화
-- [ ] (I4) DKIM/SPF/DMARC + rate limiting
+- [ ] (I4) DKIM/SPF/DMARC + rate limiting 적용
 - [ ] (I5) audit_logs 테이블 M1 스코프 포함
 - [ ] (I6) notification 도메인 분리 기준 문서화
 - [ ] (I7) expires_at 만료 cron 구현

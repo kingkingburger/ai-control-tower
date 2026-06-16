@@ -1,31 +1,31 @@
 ---
 name: history-insight
-description: This skill should be used when user wants to access, capture, or reference Claude Code session history. Trigger when user says "capture session", "save session history", or references past/current conversation as a source - whether for saving, extracting, summarizing, or reviewing. This includes any mention of "what we discussed", "today's work", "session history", or when user treats the conversation itself as source material (e.g., "from our conversation").
+description: 사용자가 Claude Code 세션 히스토리에 접근, 캡처, 참조하길 원할 때 사용한다. 사용자가 "세션 캡처", "세션 히스토리 저장"이라고 말하거나 저장, 추출, 요약, 리뷰 목적과 관계없이 과거/현재 대화를 소스로 참조할 때 트리거한다. "우리가 논의한 내용", "오늘 작업", "세션 히스토리" 언급이나 "우리 대화에서"처럼 대화 자체를 원자료로 다루는 경우를 포함한다.
 version: 1.1.0
 user-invocable: true
 ---
 
-# History Insight
+# History Insight 스킬
 
 Claude Code 세션 히스토리를 분석하고 인사이트를 추출합니다.
 
 ---
 
-## Data Location
+## 데이터 위치
 
 ```
 ~/.claude/projects/<encoded-cwd>/*.jsonl
 ```
 
-**Path Encoding:** `/Users/foo/project` → `-Users-foo-project`
+**경로 인코딩:** `/Users/foo/project` → `-Users-foo-project`
 
 > 상세 파일 포맷: `${baseDir}/references/session-file-format.md`
 
 ---
 
-## Execution Algorithm
+## 실행 알고리즘
 
-### Step 1: Ask Scope [MANDATORY]
+### 1단계: 범위 확인 [필수]
 
 **스코프 결정:**
 
@@ -43,13 +43,13 @@ Claude Code 세션 히스토리를 분석하고 인사이트를 추출합니다.
 
 ---
 
-### Step 2: Find Session Files
+### 2단계: 세션 파일 찾기
 
 ```bash
-# Current project only
+# 현재 프로젝트만
 find ~/.claude/projects/<encoded-cwd> -name "*.jsonl" -type f
 
-# All sessions (모든 프로젝트)
+# 모든 세션
 find ~/.claude/projects -name "*.jsonl" -type f
 ```
 
@@ -59,26 +59,26 @@ find ~/.claude/projects -name "*.jsonl" -type f
 
 ---
 
-### Step 3: Process Sessions
+### 3단계: 세션 처리
 
-#### Decision Tree
+#### 결정 트리
 
 ```
-Session files found?
-├─ No → Error: "No sessions found"
-└─ Yes → How many files?
-    ├─ 1-3 files → Direct Read + parse
-    └─ 4+ files → Batch Extract Pipeline
+세션 파일을 찾았는가?
+├─ 아니오 → 오류: "No sessions found"
+└─ 예 → 파일이 몇 개인가?
+    ├─ 1-3개 파일 → 직접 Read + 파싱
+    └─ 4개 이상 파일 → 배치 추출 파이프라인
 ```
 
-#### 1-3 Files
+#### 1-3개 파일
 
 직접 Read로 JSONL 파싱. 파일이 크면(≥5000 tokens) `extract-session.sh` 사용:
 ```bash
 ${baseDir}/scripts/extract-session.sh <session.jsonl>
 ```
 
-#### 4+ Files: Batch Extract Pipeline
+#### 4개 이상 파일: 배치 추출 파이프라인
 
 1. 캐시 디렉토리 생성 (`/tmp/cc-cache/<analysis-name>/`)
 2. 세션 목록 저장 (`sessions.txt`)
@@ -105,39 +105,39 @@ ${baseDir}/scripts/extract-session.sh <session.jsonl>
 
 ---
 
-### Step 4: Report Results
+### 4단계: 결과 보고
 
 ```markdown
-## Session Capture Complete
+## 세션 캡처 완료
 
-- **Sessions:** N files processed
-- **Messages:** X total, Y after filter
+- **세션:** N개 파일 처리
+- **메시지:** 전체 X개, 필터 후 Y개
 
-### Extracted Insights
+### 추출된 인사이트
 [분석 결과]
 ```
 
 ---
 
-## Error Handling
+## 에러 처리
 
-| Scenario | Response |
+| 시나리오 | 응답 |
 |----------|----------|
-| No session files found | "No session files found for this project." |
-| File too large | Auto-preprocess with extract-session.sh |
-| jq not installed | "Error: jq is required. Install with: brew install jq" |
-| Task failed | "Warning: Could not process [file]. Skipping." |
-| 0 relevant sessions | "No sessions matched your criteria." |
+| 세션 파일 없음 | "이 프로젝트의 세션 파일을 찾지 못했습니다." |
+| 파일이 너무 큼 | extract-session.sh로 자동 전처리 |
+| jq 미설치 | "오류: jq가 필요합니다. brew install jq로 설치하세요." |
+| Task 실패 | "경고: [file]을 처리하지 못했습니다. 건너뜁니다." |
+| 관련 세션 0개 | "조건에 맞는 세션이 없습니다." |
 
 ---
 
-## Security Notes
+## 보안 참고사항
 
 - 출력에 전체 경로 노출 금지 (`~` prefix 사용)
 
 ---
 
-## Related Resources
+## 관련 리소스
 
 - **`${baseDir}/scripts/extract-session.sh`** - JSONL 압축 (thinking, tool_use 제거)
 - **`${baseDir}/references/session-file-format.md`** - JSONL 구조 및 파싱

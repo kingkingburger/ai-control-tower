@@ -8,7 +8,7 @@ triggers:
   - "컨텍스트 싱크"
 ---
 
-# My Context Sync
+# My Context Sync 스킬
 
 흩어진 정보를 한곳에 모아 정리하는 스킬.
 

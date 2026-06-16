@@ -1,9 +1,9 @@
 ---
 name: project-team
-description: Project-centered agent team workflow for initializing, auditing, operating, and closing work across repositories. Use when the user asks for project teams, project harnesses, team profiles, shared rules, session close or wrap-up, closing-lite style memory accumulation, or project-specific agent context.
+description: 저장소별 프로젝트 팀을 초기화, 점검, 운영, 마무리하는 프로젝트 중심 에이전트 워크플로우. 사용자가 프로젝트 팀, 프로젝트 하네스, 팀 프로필, shared rules, session close/wrap-up, closing-lite식 메모리 누적, 프로젝트별 에이전트 맥락을 요청할 때 사용한다.
 ---
 
-# Project Team
+# 프로젝트 팀
 
 `ai-control-tower`의 프로젝트별 팀 프로필을 대상 저장소 위에 적용한다. 프로젝트
 맥락은 `projects/<project>/`에서 시작하고, 여러 프로젝트에 반복되는 규칙과
@@ -28,7 +28,7 @@ description: Project-centered agent team workflow for initializing, auditing, op
 
 ## 명령 흐름
 
-### Init
+### 초기화
 
 새 프로젝트 팀을 적용할 때 사용한다.
 
@@ -39,7 +39,7 @@ description: Project-centered agent team workflow for initializing, auditing, op
 4. 사용자가 명시적으로 원하거나 프로젝트에 필수 에이전트 지침이 없을 때만 대상
    저장소 문서를 추가한다.
 
-### Audit
+### 감사
 
 프로젝트에 충분한 에이전트 맥락이 있는지 점검할 때 사용한다.
 
@@ -57,7 +57,7 @@ description: Project-centered agent team workflow for initializing, auditing, op
 3. 여러 프로젝트에 반복되는 규칙은 `shared/`로, 해당 프로젝트에만 필요한
    규칙은 `projects/<project>/`로 정리한다.
 
-### Close
+### 종료
 
 사용자가 세션 종료, 마무리, wrap-up을 요청할 때 사용한다.
 

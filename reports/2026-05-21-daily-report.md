@@ -1,8 +1,8 @@
-# Daily Work Report - 2026-05-21
+# 일일 작업 보고서 - 2026-05-21
 
 작성 시점: 2026-05-22 KST 작성, 기간 2026-05-21 00:00~23:59 KST
 
-## 1. Executive Summary
+## 1. 요약
 
 - 핵심 작업은 `octoto`와 `octopus-hub-server`가 같이 사용하는 DB dialect를 PG와 Oracle 양쪽에서 모두 안정적으로 기동/마이그레이션할 수 있도록 정리한 것이다.
 - Hub server가 Oracle을 사용할 때 typeorm sync/migration이 깨지는 원인을 추적하고, 메뉴 seed 누락, JSON 집계 경로 Oracle 비호환, 권한그룹 공유 시 userId 검증 차단 등 후속 회귀를 잡았다.
@@ -10,10 +10,10 @@
 - `octopus/apps/web/hub`는 dynamic-api, data-integration-v2, 시스템 설정 탭, 이메일/리포트 모달 등 UI 측 리팩토링 커밋이 다수 일어났다.
 - Hub front ↔ Hub server 연동 후 E2E로 자동 테스트할 수 있는지 시도했고, 캡처/리포트 경로(`common-utils/uploads`)를 확인했다. 동시에 레포트 캡처 모듈을 Octoto RS256 토큰 기반으로 전환했다.
 - 운영 지원으로 DataGrip Oracle introspection level 조정(테이블만 보이고 컬럼 미노출), Oracle 관리자(system) 계정 비밀번호 초기 설정, SDI 시절 Oracle 사용 이력 비교 같은 디버깅 질의가 있었다.
-- 잡담/Q&A: 오리 요리 갈색 소스(해선장/북경오리장)와 가정 레시피, 대한민국 맹견 분류와 도사견, 동물/식물 개량과 교배 방식.
+- 잡담/Q&답변: 오리 요리 갈색 소스(해선장/북경오리장)와 가정 레시피, 대한민국 맹견 분류와 도사견, 동물/식물 개량과 교배 방식.
 - 현재 상태: 핵심 회귀 수정은 다수 커밋 완료. `ai-control-tower`, `plugin-mh`, `octopus-simulator-engine`에는 어제 자 커밋이 없다. `octopus`에는 다수 미커밋 변경이 남아 있지만, 이는 다른 워크스트림(agentic-ai 앱 신규 추가 등)으로 보이며 본 보고서 범위 밖이다.
 
-## 2. Timeline
+## 2. 타임라인
 
 | Time | Project | Event | Evidence |
 |------|---------|-------|----------|
@@ -36,7 +36,7 @@
 | 18:17 | `octopus/apps/web/hub` 등 | Hub front UI 정리 작업이 종료됐다. 자세한 커밋은 §3 참고. | Hub front commits 09:39~18:16 |
 | 17:58-18:17 | Hub 통합 | Hub front ↔ Hub server 연동 후 E2E 자동 테스트 가능 여부를 확인했다. 캡처/리포트 경로를 점검했다. | Codex log `019e498a-*` |
 
-## 3. Work By Project
+## 3. 프로젝트별 작업
 
 ### `D:\reference2\octoto`
 
@@ -111,7 +111,7 @@
 - 어제 자 커밋 없음, 워킹 트리 깨끗.
 - daily-report 스킬 자체는 5/20에 적용된 상태이며 추가 변경 없음.
 
-### General Q&A / Operations Support
+### 일반 질의응답 / 운영 지원
 
 - DB/도구:
   - DataGrip에서 Oracle 접속 시 테이블은 보이는데 컬럼 상세가 안 나오는 문제를 introspection level과 스키마 노출 옵션으로 해결했다. 동일 서비스 이름에서 테이블이 중복 표시되는 부분도 정리했다.
@@ -121,7 +121,7 @@
   - 오리 요리에 곁들이는 갈색 소스가 해선장(Hoisin sauce)이고, 북경오리 소스와의 차이, 가정에서 만드는 레시피를 정리했다.
   - 대한민국 맹견 분류(도사견 포함), "개량"이 동물·식물에서 어떻게 이뤄지는지, 동물 교배 방식을 설명했다.
 
-## 4. Decisions
+## 4. 결정 사항
 
 | Decision | Reason | Impact | Evidence |
 |----------|--------|--------|----------|
@@ -132,9 +132,9 @@
 | 권한그룹 공유에서는 userId 검증을 통과시킨다. | "공유" 동작 자체는 다른 사용자에게 권한을 부여하는 절차이므로 본인 userId 검증으로 막히면 안 된다. | v2 대시보드 권한그룹 공유 경로 정상화. | commit `51b1d302` |
 | SQL을 직접 쓸 때는 식별자(스키마/테이블/컬럼) 처리를 명시적으로 한다. | "내가 바로 갖다 썼다가" Oracle 식별자 대소문자/따옴표 처리에서 깨지는 일이 발생했다. | 메모리/문서에 규칙으로 저장. 이후 SQL 작성 시 따옴표/스키마 명시. | Codex `019e4915-*` |
 
-## 5. Problems And Resolutions
+## 5. 문제와 해결
 
-| Problem | Cause | Resolution | Remaining Risk |
+| 문제 | 원인 | 해결 | 남은 위험 |
 |---------|-------|------------|----------------|
 | Hub Oracle에서 typeorm migration이 동작하지 않는다. | entity 추가, oracledb 드라이버 동작, 이전 dialect 시드 부재 등 다층 원인. | 부팅 설정을 PG와 동일 구조로 맞추고, seed/migration 경로를 분리. SDI 이력과 비교해 누락된 보정 포인트 식별. | 일부 entity의 Oracle 전용 type cast가 여전히 필요할 수 있음 |
 | 첫 로그인 시 사이드바 메뉴가 비어 있다. | Oracle dialect에서 기본 메뉴 seed가 누락. | 기본 사이드바 메뉴 seed 보정 커밋. | seed 수정 SQL의 멱등성(없으면 insert, 있으면 pass) 검증 지속 필요 |
@@ -145,7 +145,7 @@
 | DataGrip에서 Oracle 테이블 컬럼 상세 미노출/중복 스키마 표시. | introspection level이 얕고, system 권한으로 본인 외 스키마를 포함해 두 번 노출됨. | introspection 상향 + 스키마 노출 옵션 조정. | DataGrip 설정 의존이라 팀 공유 시 별도 안내 필요 |
 | 레포트 캡처 캡처물/리포트가 생성되지 않음. | 인증 방식과 저장 경로(`common-utils/uploads`) 미스매치. | RS256 토큰 기반으로 전환, 저장 경로 확인. | 캡처 산출물 retention/정리 정책 부재 |
 
-## 6. Files And Artifacts
+## 6. 파일과 산출물
 
 - 생성: `D:\reference2\ai-control-tower\reports\2026-05-21-daily-report.md`
 - 주요 커밋(요약):
@@ -156,7 +156,7 @@
   - Hub server: main-service Oracle 부팅 설정, 메뉴 seed, 대시보드/집계 SQL, 권한그룹 공유, auth 마이그레이션 타겟, 레포트 캡처 인증
   - Hub front: dynamic-api/data-integration-v2 페이지, 시스템 설정 탭 분리, 이메일/리포트 모달 톤다운, 게이트웨이 Hook/Middleware 에디터
 
-## 7. Follow-Ups
+## 7. 후속 조치
 
 - octoto/Hub server 마이그레이션 흐름을 "서버 기동 없이 단독 실행"으로 정착시키고, 운영 매뉴얼에 표준 명령을 명시한다.
 - Hub server seed의 멱등성(없으면 insert, 있으면 pass)을 PG/Oracle 양쪽에서 회귀 테스트로 보장한다.
@@ -166,9 +166,9 @@
 - `D:\reference2\octopus` 워킹 트리의 `agentic-ai` 신규 앱 및 Dockerfile 변경은 다른 워크스트림이므로 커밋 단위와 담당자를 별도로 정리한다.
 - SQL 직접 작성 시 식별자/대소문자/스키마를 명시하는 규칙을 octoto agent-memory에 더해, hub server 쪽 메모리에도 함께 동기화한다.
 
-## 8. Evidence Sources
+## 8. 증거 출처
 
-### Read Sources
+### 읽은 출처
 
 - Codex session logs under `C:\Users\dnjsa\.codex\sessions\2026\05\21\*.jsonl` (총 19개)
   - 09-23-48-019e47ea, 09-27-48-019e47ee, 09-29-11-019e47ef-afe9, 09-29-14-019e47ef-bc84, 09-29-16-019e47ef-c723, 09-29-31-019e47ef-fff8, 09-56-47-019e4808, 10-07-36-019e4812, 10-25-33-019e4823, 10-42-32-019e4832, 10-47-28-019e4837, 13-30-14-019e48cc, 13-42-57-019e48d8, 14-50-12-019e4915, 15-41-35-019e4944, 15-50-48-019e494d, 15-54-26-019e4950, 16-43-44-019e497d, 16-58-12-019e498a
@@ -179,7 +179,7 @@
   - `D:\reference2\ai-control-tower\reports\2026-05-20-daily-report.md`
   - `C:\Users\dnjsa\.claude\projects\D--reference2-ai-control-tower\memory\MEMORY.md`
 
-### Unread Or Limited Sources
+### 읽지 않았거나 제한된 출처
 
 - Codex 세션 본문(메시지/도구 출력): 각 파일이 100KB+로 커서 `role:user` 인풋만 그렙으로 추출했다. assistant 응답과 tool 호출 본문은 부분만 확인했고, 보고서의 상세 묘사는 Codex 사용자 발화 + 같은 시간대 git 커밋 메시지를 교차 검증한 결과다.
 - Claude Code projects 로그(`C:\Users\dnjsa\.claude\projects\...`): 어제 자 transcript는 본 보고서 작성 시점까지 별도로 읽지 않았다(파일이 매우 많고, 어제 자 활동의 대부분이 Codex CLI 쪽 세션이었다).

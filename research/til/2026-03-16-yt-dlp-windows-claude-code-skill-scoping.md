@@ -5,7 +5,7 @@ session: yt-dlp Windows 사용 및 Claude Code Skill 스코핑 탐구
 
 # TIL: yt-dlp Windows 환경 함정 및 Claude Code Skill 스코핑
 
-## 1. Technical Learnings
+## 1. 기술적 배움
 
 ### yt-dlp: pip 설치 후 PATH 미등록 문제
 
@@ -48,7 +48,7 @@ session: yt-dlp Windows 사용 및 Claude Code Skill 스코핑 탐구
 - **`npx skills add` 동작**: `.claude/skills/`와 `.agents/skills/` 양쪽에 설치하며, 경우에 따라 `omc-learned`에도 복사된다. 설치 후 어느 위치에 들어갔는지 확인이 필요하다.
 - **규칙**: 특정 프로젝트에서만 쓸 스킬은 `.claude/skills/`에, 범용 스킬은 `~/.claude/skills/omc-learned/`에 두는 것이 의도된 구분이다.
 
-## 2. Workflow Patterns (잘 된 것)
+## 2. 워크플로우 패턴 (잘 된 것)
 
 ### Python 모듈 직접 실행 패턴
 
@@ -58,7 +58,7 @@ PATH 문제를 우회하는 가장 빠른 해결책. `pip install` 후 바로 `p
 
 Windows에서 Python 외부 도구를 Bash로 호출할 때 `PYTHONIOENCODING=utf-8`을 항상 앞에 붙이는 습관을 들이면 한글 관련 인코딩 오류를 사전에 차단할 수 있다.
 
-## 3. Mistakes & Inefficiencies (개선점)
+## 3. 실수와 비효율 (개선점)
 
 ### PATH 문제를 늦게 인지
 
@@ -69,7 +69,7 @@ Windows에서 Python 외부 도구를 Bash로 호출할 때 `PYTHONIOENCODING=ut
 
 - 오래된 레퍼런스를 그대로 복붙해서 deprecated 플래그를 사용했다. yt-dlp는 업데이트가 빠른 도구이므로 명령어 레퍼런스를 항상 `--help`로 확인해야 한다.
 
-## 4. Reusable Patterns (향후 적용)
+## 4. 재사용 가능한 패턴 (향후 적용)
 
 | 패턴 | 설명 | 적용 시점 |
 |------|------|----------|

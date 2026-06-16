@@ -1,4 +1,4 @@
-# Creative Preferences
+# 창작 선호
 
 ## 나폴리탄 괴담 세계관
 

@@ -1,4 +1,4 @@
-# Codex final-stage roadmap
+# Codex 최종 단계 로드맵
 
 작성일: 2026-06-07
 

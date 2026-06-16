@@ -1,4 +1,4 @@
-# yt-w Project Profile
+# yt-w 프로젝트 프로필
 
 대상 저장소: `D:\reference2\yt-w`
 

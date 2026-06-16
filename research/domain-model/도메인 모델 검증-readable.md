@@ -2,7 +2,7 @@
 
 ---
 
-## Executive Summary
+## 핵심 요약
 
 이 문서는 알람 시스템의 도메인 모델이 올바르게 설계되었는지 검증하기 위한 종합 명세서다. 크게 네 파트로 구성된다.
 
@@ -320,7 +320,7 @@ event 타입은 상태 전이가 아닌 "발생 이벤트"만 존재한다. Dedu
 
 ---
 
-## 3. GroupAlarmState
+## 3. GroupAlarmState 상태 모델
 
 > 룰+GroupKey 조합의 현재 알람 상태를 추적하는 런타임 객체(Redis 저장).
 > AlarmHistory가 개별 알람 이력이라면, GroupAlarmState는 "현재 미해결 알람이 있는가"를 표현한다.
@@ -363,7 +363,7 @@ stateDiagram-v2
 
 ---
 
-## 4. SuppressionRuntimeState
+## 4. SuppressionRuntimeState 실행 상태
 
 > SuppressionRuntimeState는 두 개의 독립적인 상태 변수(maintenanceMode, manualOverride)로 구성된다.
 > 각각 독립 전이 테이블로 작성한다.
@@ -478,7 +478,7 @@ stateDiagram-v2
 
 ---
 
-### 5-A. cooldown
+### 5-A. cooldown 냉각
 
 > 마지막 발행 후 N초 동안 추가 발행을 차단한다. Active→Cleared 전이 시에도 타이머가 유지된다(재발생 억제 목적).
 
@@ -498,7 +498,7 @@ stateDiagram-v2
 
 ---
 
-### 5-B. debounce
+### 5-B. debounce 흔들림 제거
 
 > N초 동안 어떤 메시지도 수신되지 않아야 통과. 메시지가 계속 오면 영원히 발행 안 됨.
 
@@ -516,7 +516,7 @@ stateDiagram-v2
 
 ---
 
-### 5-C. consecutiveCount
+### 5-C. consecutiveCount 연속 횟수
 
 > 조건이 N회 연속으로 충족되어야 통과. 조건 미충족 시 카운터 0으로 리셋.
 
@@ -535,7 +535,7 @@ stateDiagram-v2
 
 ---
 
-### 5-D. sustainedDuration
+### 5-D. sustainedDuration 지속 시간
 
 > 조건이 N초 동안 끊기지 않고 지속되어야 통과. 조건 미충족 시 타이머 리셋.
 > debounce와의 차이: debounce는 메시지 자체가 없어야 통과, sustainedDuration은 조건 충족 상태 유지.
@@ -555,7 +555,7 @@ stateDiagram-v2
 
 ---
 
-### 5-E. noMessageTimeout
+### 5-E. noMessageTimeout 무메시지 제한시간
 
 > N초간 메시지가 없으면 알람 발행. 첫 메시지 수신 이후부터 타이머 동작(warm-up 오탐 방지).
 
@@ -574,7 +574,7 @@ stateDiagram-v2
 
 ---
 
-### 5-F. windowAggregation
+### 5-F. windowAggregation 창 집계
 
 > 텀블링 윈도우 집계 후 threshold 비교. 첫 메시지 수신 시점 기준으로 고정 구간 시작.
 
@@ -593,7 +593,7 @@ stateDiagram-v2
 
 ---
 
-### 5-G. onStateChange
+### 5-G. onStateChange 상태 변경
 
 > 조건 결과(true/false)가 이전과 달라질 때만 통과. deduplication과 동시 사용 불가(V-SC4).
 
@@ -629,7 +629,7 @@ stateDiagram-v2
 
 ---
 
-### 5-I. enrichPrevious
+### 5-I. enrichPrevious 이전 상태 보강
 
 | 상태 | 설명 |
 |------|------|
@@ -645,7 +645,7 @@ stateDiagram-v2
 
 ---
 
-### 5-J. batch
+### 5-J. batch 일괄 처리
 
 | 상태 | 설명 |
 |------|------|
@@ -662,7 +662,7 @@ stateDiagram-v2
 
 ---
 
-### 5-K. stateDwell
+### 5-K. stateDwell 상태 체류
 
 > 조건 결과가 변경된 후 N초 동안 변경 없이 체류해야 통과. 체류 중 재변경 시 타이머 리셋.
 
@@ -1118,7 +1118,7 @@ Redis 키 삭제, DB CASCADE
 
 ---
 
-### EC01 — AND + debounce + schedule + maintenanceMode
+### EC01 — AND + debounce + schedule + maintenanceMode 조합
 
 **전제 조건**
 

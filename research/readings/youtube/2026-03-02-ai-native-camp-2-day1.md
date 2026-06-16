@@ -82,7 +82,7 @@ Claude Code 설치, 로그인, 기본 설정.
 
 - **설치**: `npm install -g @anthropic-ai/claude-code` (Mac), 윈도우는 Git Bash 설치 후 진행
 - **CLI vs GUI**: CLI(터미널)에서 써야 Claude Code의 모든 능력 활용 가능. 코워크(웹)는 기능 제한
-- **설정 추천**: Output Style → Explanatory, Language → Korean, Auto Update Channel → Latest, Verbose Output → True
+- **설정 추천**: 출력 스타일(Output Style) → Explanatory, 언어(Language) → Korean, 자동 업데이트 채널(Auto Update Channel) → Latest, 상세 출력(Verbose Output) → True
 - **에디터**: VS Code / Cursor / AntiGravity 중 선택. AI 기능은 쓰지 않고 파일 뷰어로만 활용 추천
 - **Rewind 기능**: 잘못 쌓은 컨텍스트를 되돌리는 기능
 

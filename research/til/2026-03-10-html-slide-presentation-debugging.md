@@ -21,7 +21,7 @@ source_file: research/readings/youtube/ai-native-camp-2-presentation.html
 - **이유**: CSS 스펙상, `position: absolute` 요소는 `position: static`이 아닌 가장 가까운 조상을 containing block으로 사용한다. `absolute` 자체가 `static`이 아니므로 containing block 역할을 충분히 수행한다. `relative`가 없어도 된다.
 - **실용 규칙**: 자식에 `absolute` positioning이 필요할 때 부모에 굳이 `position: relative`를 넣을 필요 없다 -- 부모가 이미 `absolute`, `fixed`, `sticky` 중 하나이면 그 자체로 containing block이 된다.
 
-## 2. JavaScript DOM API
+## 2. JavaScript DOM API 관련
 
 ### `classList.add('')`는 SyntaxError를 던진다
 
@@ -51,12 +51,12 @@ source_file: research/readings/youtube/ai-native-camp-2-presentation.html
 - **문제**: 페이지가 `about:blank`로 크래시. 브라우저가 이전 탐색/렌더링을 완료하기 전에 다음 명령이 들어오면 페이지 상태가 불안정해짐.
 - **교훈**: Playwright 자동화에서 순차적 DOM 조작 시, 각 단계 사이에 적절한 대기(`waitForSelector`, `waitForTimeout`)를 넣어야 한다. 특히 CSS transition이 있는 UI에서는 transition duration 이상의 대기가 필요.
 
-## 4. Reusable Patterns
+## 4. 재사용 가능한 패턴
 
 | 패턴 | 설명 | 적용 시점 |
 |------|------|----------|
-| **Guard before classList** | `classList.add/remove/toggle`에 동적 값을 넘기기 전 falsy 체크 | DOM 클래스 동적 조작 시 항상 |
-| **HTTP server for local HTML** | `python -m http.server`로 로컬 파일에 HTTP 접근 | Playwright, CORS, Service Worker 등 file:// 제한 상황 |
-| **Position inheritance 인식** | `absolute` 부모는 그 자체로 containing block -- `relative` 불필요 | CSS 레이아웃 설계 시 |
-| **Inline style 주의** | Playwright evaluate로 인라인 스타일 주입 시 CSS 클래스 동작 무력화 가능 | E2E 테스트에서 스타일 조작 시 |
-| **Sequential Playwright ops** | 빠른 연속 조작 대신 waitFor 패턴으로 안정적 순차 실행 | Playwright 자동화 전반 |
+| **classList 호출 전 가드** | `classList.add/remove/toggle`에 동적 값을 넘기기 전 falsy 체크 | DOM 클래스 동적 조작 시 항상 |
+| **로컬 HTML용 HTTP 서버** | `python -m http.server`로 로컬 파일에 HTTP 접근 | Playwright, CORS, Service Worker 등 file:// 제한 상황 |
+| **position 상속 관계 인식** | `absolute` 부모는 그 자체로 containing block -- `relative` 불필요 | CSS 레이아웃 설계 시 |
+| **인라인 스타일 주의** | Playwright evaluate로 인라인 스타일 주입 시 CSS 클래스 동작 무력화 가능 | E2E 테스트에서 스타일 조작 시 |
+| **Playwright 순차 조작** | 빠른 연속 조작 대신 waitFor 패턴으로 안정적 순차 실행 | Playwright 자동화 전반 |

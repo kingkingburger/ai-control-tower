@@ -1,8 +1,8 @@
-# Daily Work Report - 2026-05-20
+# 일일 작업 보고서 - 2026-05-20
 
 작성 시점: 2026-05-20 14:47 KST 기준
 
-## 1. Executive Summary
+## 1. 요약
 
 - 오늘의 핵심 작업은 `octoto`, `octopus-hub-server`, `octopus/apps/web/hub` 3개 repo에서 Hub 중복 인증 테이블 제거 계획을 실제 구현 단위로 밀어낸 것이다.
 - Hub server가 Octoto JWT를 검증하고, 내부 hydrate API/client를 통해 사용자/권한그룹 정보를 서버 간 호출로 가져오는 방향을 확정했다.
@@ -12,7 +12,7 @@
 - 운영 지원으로 Codex under-development warning 원인 확인, Notion MCP 재로그인, Zellij 세션 저장 명령 안내, 과학/문학/엔터테인먼트 Q&A가 있었다.
 - 현재 상태: 핵심 구현은 다수 커밋 완료, 일부 변경은 진행 중이다. `octoto`에는 `.env.docker` 로컬 변경, `octopus-hub-server`에는 `octoto-legacy-permission-client.service.ts` 미커밋 변경, `plugin-mh`에는 daily-report 관련 미커밋 변경이 남아 있다.
 
-## 2. Timeline
+## 2. 타임라인
 
 | Time | Project | Event | Evidence |
 |------|---------|-------|----------|
@@ -34,7 +34,7 @@
 | 14:30-14:38 | `octopus-hub-server`, `octoto docs` | `/user/v2/currInfo`를 `CurrentUserModule`로 분리하고 Octoto permission 기반 `menuRoles` 보강을 추가했다. | commits `4c54e1c4`, `aa7274b1`, `c39246c` |
 | 14:46 | `octopus-hub-server` | Hub server legacy `role-group` API를 Octoto 권한그룹 API로 전환하는 첫 핵심 단위를 커밋했다. | commit `a3657779` |
 
-## 3. Work By Project
+## 3. 프로젝트별 작업
 
 ### `D:\reference2\octoto`
 
@@ -90,7 +90,7 @@
   - `git diff` 기준 미커밋 변경은 없다.
   - `git log --all`에는 같은 날짜의 custom-alarm 계열 타 브랜치 커밋도 보였지만, 이번 보고서는 Codex 세션 로그와 현재 branch의 Hub 중복 제거 작업에 매핑되는 커밋만 핵심 작업으로 분류했다.
 
-### `D:\reference2\plugin-mh` / local Codex config
+### `D:\reference2\plugin-mh` / 로컬 Codex config
 
 - 목표: Codex 전체 대화를 하루 작업 보고서로 정리하는 도구 비종속 `daily-report` 스킬을 만든다.
 - 수행 작업:
@@ -115,20 +115,20 @@
   - `ai-control-tower` 자체에는 오늘 커밋이 없었다.
   - 이 보고서 파일 생성으로 작업공간에 새 변경이 생겼다.
 
-### General Q&A / Operations Support
+### 일반 질의응답 / 운영 지원
 
 - Codex 시작 시 `default_mode_request_user_input` under-development warning이 뜨는 이유를 확인했다. Notion MCP refresh token 문제와 별개이며, 경고 suppress 설정이 필요하다고 정리했다.
 - `mcp login notion`을 실행해 Notion MCP 재로그인을 완료했다.
 - Zellij 세션 저장 명령을 확인해 `zellij action save-session`, 레이아웃 저장은 `zellij action dump-layout > layout.kdl`이라고 안내했다.
-- 과학/일상 Q&A:
+- 과학/일상 Q&답변:
   - 칼로리는 음식의 에너지량을 `kcal`로 표현한 값이며, 영양소별 계산 기준을 설명했다.
   - 열, 에너지, 물 온도 상승, 분자 운동의 관계를 설명했다.
   - 붓기는 칼로리보다 염분/수분 균형 영향이 크다고 정리했다.
-- 문화/엔터테인먼트 Q&A:
+- 문화/엔터테인먼트 Q&답변:
   - 리센느 멤버/특징/곡 분류 관련 질문에 답했다.
   - 일본 문학상, 아쿠타가와상, 아쿠타가와 류노스케와 「라쇼몽」을 설명했다.
 
-## 4. Decisions
+## 4. 결정 사항
 
 | Decision | Reason | Impact | Evidence |
 |----------|--------|--------|----------|
@@ -138,9 +138,9 @@
 | 실제 DB drop은 아직 금지한다. | `UserModule`, 권한 모듈, startup seed, entity registry, 도메인 FK, 외부 앱 user/role/menu store가 남아 있다. | migration/CLI는 준비됐지만 실행 조건은 inventory 문서에 blocker로 남겼다. | commits `c39246c`, `73d29af`, current docs |
 | `daily-report`는 Codex 전용 session closing이 아니라 도구 비종속 증거 수집 스킬로 만든다. | 사용자는 Codex 로그뿐 아니라 Claude/기타 로그, git, 노트까지 소스로 삼는 보고서를 원했다. | plugin-mh와 local Codex에 skill/prompt가 추가됐다. | Codex log `019e43b9-*`, local files |
 
-## 5. Problems And Resolutions
+## 5. 문제와 해결
 
-| Problem | Cause | Resolution | Remaining Risk |
+| 문제 | 원인 | 해결 | 남은 위험 |
 |---------|-------|------------|----------------|
 | Hub server가 Octoto를 부를 때 사용자 token이 필요한 문제 | Hub local user table을 없애려면 Hub server가 필요한 사용자/권한 정보를 다른 방식으로 얻어야 한다. | 내부 공유 토큰 기반 hydrate API/client를 추가했다. | internal token 운영 주입과 로테이션 정책은 별도 관리 필요 |
 | 사용자가 “무인증 API면 안 되나”라고 물을 정도로 구조 설명이 복잡해짐 | JWT, hydrate, projection, DB table 제거 범위가 한 흐름에 섞였다. | “Hub server 전용 internal API + 양쪽 env secret” 구조로 재설명하고 진행했다. | 후속 문서에서 더 짧은 아키텍처 다이어그램이 필요할 수 있음 |
@@ -149,7 +149,7 @@
 | Hub front 전체 lint/typecheck가 깨짐 | 기존 `AiChat`, `chat-bot`, `custom-menu`, `vue-tsc@1.8.27` crash 등 unrelated debt가 있었다. | 변경 파일 중심 eslint로 검증했다. | 전체 front 품질 게이트 복구 필요 |
 | plugin-mh daily-report 작업이 적용됐지만 미커밋 | 사용자는 적용을 요청했으나 커밋 요청은 하지 않았다. | validation은 통과했고, uncommitted 상태를 보고서에 명시했다. | 후속 커밋/배포 필요 |
 
-## 6. Files And Artifacts
+## 6. 파일과 산출물
 
 - 생성: `D:\reference2\plugin-mh\skills\daily-report\SKILL.md`
 - 생성: `D:\reference2\plugin-mh\codex\prompts\daily-report.md`
@@ -160,7 +160,7 @@
 - 주요 Hub server modules: `octoto-jwt-verifier`, `octoto-hydrate-client`, `octoto-auth-client`, `octoto-permission-client`, `octoto-legacy-permission-client`, `current-user`
 - 주요 Hub front stores: `userCurrent.ts`, `authRequestManage.ts`, `user.ts`, `userRole.ts`, `currentCustomer.ts`
 
-## 7. Follow-Ups
+## 7. 후속 조치
 
 - `plugin-mh`의 daily-report 변경을 리뷰 후 커밋할지 결정한다.
 - `octoto`의 `.env.docker` 로컬 변경은 민감값/운영값 여부를 확인하고 커밋 제외 또는 안전한 example 문서 반영을 분리한다.
@@ -170,9 +170,9 @@
 - typecheck/lint baseline debt를 별도 작업으로 정리하면 향후 focused validation 의존을 줄일 수 있다.
 - Oracle 통합 후속으로 `/api/permissions`, audit-log aggregate, mutation parity smoke를 넓히는 회귀 하네스가 필요하다.
 
-## 8. Evidence Sources
+## 8. 증거 출처
 
-### Read Sources
+### 읽은 출처
 
 - Codex session logs under `C:\Users\dnjsa\.codex\sessions\2026\05\20\*.jsonl`
   - `rollout-2026-05-20T09-27-08-019e42c7-762c-7380-bde4-35845f060b13.jsonl`
@@ -187,7 +187,7 @@
   - `rollout-2026-05-20T13-51-48-019e43b9-c3f7-7f81-94cc-9febf1255d60.jsonl`
   - `rollout-2026-05-20T14-26-44-019e43d9-c0cd-7ef1-b80d-467eef0b07e9.jsonl`
   - `rollout-2026-05-20T14-44-33-019e43ea-0edf-7603-9a64-060b24879c06.jsonl`
-- Git status/log/diff for:
+- 다음 대상의 Git status/log/diff:
   - `D:\reference2\ai-control-tower`
   - `D:\reference2\octoto`
   - `D:\reference2\octopus-hub-server`
@@ -199,12 +199,12 @@
   - `C:\Users\dnjsa\.codex\skills\daily-report\SKILL.md`
   - `C:\Users\dnjsa\.codex\prompts\daily-report.md`
   - `C:\Users\dnjsa\.codex\memories\MEMORY.md` quick search results
-- Validation run during report generation:
+- 보고서 생성 중 실행한 검증:
   - `powershell -ExecutionPolicy Bypass -File .\scripts\validate-plugin.ps1` in `D:\reference2\plugin-mh`
 
-### Unread Or Limited Sources
+### 읽지 않았거나 제한된 출처
 
 - Claude Code logs: searched `C:\Users\dnjsa\.claude\projects` for files modified on 2026-05-20, but no matching files were found.
-- Notion/Gmail/remote issue trackers: not searched because the user asked for local daily-report and no external source was specified.
+- Notion/Gmail/remote issue tracker: 사용자가 local daily-report를 요청했고 외부 출처를 지정하지 않아 검색하지 않았다.
 - Sensitive env contents: `.env.docker` changes were detected but values were intentionally not printed or copied into this report.
-- Concurrent work caveat: the Hub duplicate-auth session appeared active near the report cutoff. This report reflects the snapshot observed at 2026-05-20 14:47 KST.
+- 동시 작업 주의: 보고서 마감 시점 근처에 Hub duplicate-auth 세션이 활성 상태로 보였다. 이 보고서는 2026-05-20 14:47 KST에 관찰한 snapshot을 반영한다.

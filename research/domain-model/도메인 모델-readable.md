@@ -2,7 +2,7 @@
 
 ---
 
-## Executive Summary
+## 핵심 요약
 
 이 문서는 **알람 시스템(Alarm System)**의 핵심 도메인 모델을 정의한다. 알람 시스템은 외부 데이터 소스(MQTT 등)로부터 메시지를 수신하고, 사전 정의된 조건을 평가하여, 조건 충족 시 알람을 발생시키고 관련 액션(알림, 웹훅 등)을 실행하는 시스템이다.
 
@@ -345,7 +345,7 @@ AlarmRule
 └── updatedAt: timestamptz
 ```
 
-#### Spec Table
+#### 사양 표
 
 | 필드                      | 타입                | 필수  | 제약                                                                              | 설명                                               |
 | ----------------------- | ----------------- | --- | ------------------------------------------------------------------------------- | ------------------------------------------------ |
@@ -453,7 +453,7 @@ DataSource
 └── description?: string
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -682,7 +682,7 @@ LeafNode extends ConditionNode ── 평가식 노드
 └── severity?: Severity
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -918,7 +918,7 @@ StreamControl
 ├── pipeline: StreamOperator[] ──── 순서대로 적용
 ```
 
-##### Spec Table
+##### 사양 표
 
 | type | 파라미터 | 설명 | 제약 | FR 참조 |
 |------|----------|------|------|---------|
@@ -997,7 +997,7 @@ Action
 └── [db] (파라미터 없음)
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1107,7 +1107,7 @@ RecoveryPolicy
 └── recoveryActions?: Action[]
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1202,7 +1202,7 @@ SuppressionPolicy
     └── maxDurationSeconds: number
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1296,7 +1296,7 @@ EscalationStep
 └── actions: Action[]
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1370,7 +1370,7 @@ GroupKeyEntry
 └── enabled: boolean
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1475,7 +1475,7 @@ Severity (JSON 객체 — LeafNode, multiLevel 내부에서 사용)
 └── icon: string ──── 표시 아이콘 (선택). **Material Design Icons 식별자**: `mdi-` prefix (예: `"mdi-alert"`, `"mdi-information"`)
 ```
 
-##### Spec Table
+##### 사양 표
 
 - DB 컬럼(`severityLevel`, `ruleLevel`, `ratedLevel`)에는 level 문자열만 저장
 - JSON 내부(LeafNode, multiLevel)에는 `{ level, name, color, icon }` 객체로 표시 정보 포함
@@ -1569,7 +1569,7 @@ AlarmHistory
 └── escalationState?: JSON
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1693,7 +1693,7 @@ ActionHistory
 └── retryCount: number
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1774,7 +1774,7 @@ AlarmRuleVersion
 └── createdAt: timestamptz
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1805,7 +1805,7 @@ AlarmRuleVersion
 | `ai` | AI 어시스턴트에 의한 변경 |
 | `system` | 시스템 자동 변경 (예: 마이그레이션, 일괄 업데이트) |
 
-**isActive vs isLatest:**
+**isActive와 isLatest:**
 
 | 필드 | 의미 | 예시 |
 |------|------|------|
@@ -1840,7 +1840,7 @@ Category
 └── updatedAt: timestamptz
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -1914,7 +1914,7 @@ Category와 Tags는 모두 알람룰의 논리적 그루핑을 제공하나 성�
 
 ---
 
-### 2.5 Value Object
+### 2.5 값 객체
 
 > DB에 저장하지 않고, API 응답으로만 반환하는 객체.
 
@@ -1936,7 +1936,7 @@ DryRunResult
 └── summary: DryRunSummary
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|
@@ -2127,7 +2127,7 @@ GroupAlarmState
 └── activeHistoryId?: number
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 기본값 | 파생/갱신 로직 | 설명 |
 |------|------|--------|---------------|------|
@@ -2195,7 +2195,7 @@ SuppressionRuntimeState (ruleId + groupKey 단위)
     └── expiresAt: timestamptz
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 기본값 | 파생/갱신 로직 | 설명 |
 |------|------|--------|---------------|------|
@@ -3492,7 +3492,7 @@ BrokerConnection
 └── options: BrokerOptions
 ```
 
-##### Spec Table
+##### 사양 표
 
 | 필드 | 타입 | 필수 | 제약 | 설명 |
 |------|------|------|------|------|

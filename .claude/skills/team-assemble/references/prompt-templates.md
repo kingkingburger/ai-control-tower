@@ -1,4 +1,4 @@
-# Teammate Prompt Templates
+# teammate 프롬프트 템플릿
 
 ## 기본 구조
 
@@ -22,12 +22,12 @@
 ## 팀 정보
 - team_name: {team-name}
 - task_id: {task-id}
-- 작업 완료 시 TaskUpdate(taskId: "{task-id}", status: "completed") 호출
+- 작업 완료 시 `TaskUpdate(taskId: "{task-id}", status: "completed")` 호출
 ```
 
 ## 역할별 프롬프트 예시
 
-### Analyst (분석가)
+### 분석가(Analyst)
 
 ```
 ## 맥락
@@ -54,10 +54,10 @@ Supabase 기반 프로젝트를 셀프호스팅 PostgreSQL로 마이그레이션
 ## 팀 정보
 - team_name: migration-team
 - task_id: 1
-- 완료 시 TaskUpdate(taskId: "1", status: "completed")
+- 완료 시 `TaskUpdate(taskId: "1", status: "completed")`
 ```
 
-### Implementer (구현자)
+### 구현자(Implementer)
 
 ```
 ## 맥락
@@ -87,10 +87,10 @@ Supabase 기반 프로젝트를 셀프호스팅 PostgreSQL로 마이그레이션
 ## 팀 정보
 - team_name: auth-team
 - task_id: 2
-- 완료 시 TaskUpdate(taskId: "2", status: "completed")
+- 완료 시 `TaskUpdate(taskId: "2", status: "completed")`
 ```
 
-### Validator (검증자)
+### 검증자(Validator)
 
 ```
 ## 맥락
@@ -119,7 +119,7 @@ PASS/FAIL 표시와 실패 시 원인.
 ## 팀 정보
 - team_name: migration-team
 - task_id: 5
-- 완료 시 TaskUpdate(taskId: "5", status: "completed")
+- 완료 시 `TaskUpdate(taskId: "5", status: "completed")`
 ```
 
 ## 프롬프트 작성 팁

@@ -1,4 +1,4 @@
-# Octopus Team
+# Octopus 팀
 
 Octopus 팀은 Hub frontend와 공유 web package를 다루는 프로젝트 팀이다. 작업
 시작점은 `profile.md`이며, 공통 역할은 `../../shared/agents/README.md`를 참조한다.

@@ -5,7 +5,7 @@ session: 삼성중공업 Capacity Planning Simulation Ouroboros 문서 세트 �
 
 # TIL: Ouroboros v3 엔진의 35개 내장 Behavior와 JSON 기반 조선소 시뮬레이션
 
-## 1. Technical Learnings
+## 1. 기술 학습
 
 ### Ouroboros v3 엔진: 코드 없이 JSON만으로 시뮬레이션 가능
 

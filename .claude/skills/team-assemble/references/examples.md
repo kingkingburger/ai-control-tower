@@ -1,4 +1,4 @@
-# Team Assemble - Worked Examples
+# Team Assemble - 예제 모음
 
 ## Example 1: DB 마이그레이션
 
@@ -37,10 +37,10 @@ TaskUpdate(taskId: "5", addBlockedBy: ["3", "4"])
 
 ### Phase 3 실행 순서
 
-1. **Round 1** (병렬 없음 — #1만 독립): Task(schema-analyst, opus)
-2. **Round 2** (#2는 #1 결과 필요): Task(migration-planner, opus, 선행결과 포함)
-3. **Round 3** (병렬 — #3, #4 독립): Task(schema-writer, sonnet) + Task(data-migrator, sonnet) 동시
-4. **Round 4** (#5는 #3+#4 필요): Task(validator, sonnet, 선행결과 포함)
+1. **라운드 1** (병렬 없음 — #1만 독립): Task(schema-analyst, opus)
+2. **라운드 2** (#2는 #1 결과 필요): Task(migration-planner, opus, 선행결과 포함)
+3. **라운드 3** (병렬 — #3, #4 독립): Task(schema-writer, sonnet) + Task(data-migrator, sonnet) 동시
+4. **라운드 4** (#5는 #3+#4 필요): Task(validator, sonnet, 선행결과 포함)
 
 ---
 
@@ -63,8 +63,8 @@ TaskUpdate(taskId: "5", addBlockedBy: ["3", "4"])
 
 ### Phase 3 실행 순서
 
-1. **Round 1** (병렬 — #1, #2, #3 모두 독립): 3개 Task 동시 호출
-2. **Round 2** (#4는 모든 결과 필요): Task(report-writer, sonnet, 3개 결과 포함)
+1. **라운드 1** (병렬 — #1, #2, #3 모두 독립): 3개 Task 동시 호출
+2. **라운드 2** (#4는 모든 결과 필요): Task(report-writer, sonnet, 3개 결과 포함)
 
 ---
 
@@ -87,6 +87,6 @@ TaskUpdate(taskId: "5", addBlockedBy: ["3", "4"])
 
 ### Phase 3 실행 순서
 
-1. **Round 1**: Task(architect, opus)
-2. **Round 2** (병렬 — #2, #3 독립): Task(backend-dev, sonnet) + Task(frontend-dev, sonnet) 동시
-3. **Round 3**: Task(test-writer, sonnet, 선행결과 포함)
+1. **라운드 1**: Task(architect, opus)
+2. **라운드 2** (병렬 — #2, #3 독립): Task(backend-dev, sonnet) + Task(frontend-dev, sonnet) 동시
+3. **라운드 3**: Task(test-writer, sonnet, 선행결과 포함)

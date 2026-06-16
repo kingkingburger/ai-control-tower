@@ -2,7 +2,7 @@
 
 `closing-lite` 항목을 여기에 누적한다.
 
-## Entries
+## 항목
 
 ### 2026-05-19 Hub front Sidebar Octoto 권한 아이콘 경계 보정
 

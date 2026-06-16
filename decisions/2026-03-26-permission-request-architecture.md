@@ -201,7 +201,7 @@ hub 변경은 최소화한다. 구체적으로:
 2. API 6개 구현 (신청/승인/거절/내 목록/대기 목록/redirect URL)
 3. EmailService 클래스 + Nodemailer fire-and-forget + 템플릿 2종
 4. hub 인라인 배너 + 읽기전용 권한 뷰 (API 2개 호출)
-5. circuit breaker + shared API key + feature flag
+5. circuit breaker + shared API key + feature flag 조합
 6. E2E 테스트 4종
 7. Slack 실패 알림 연동
 

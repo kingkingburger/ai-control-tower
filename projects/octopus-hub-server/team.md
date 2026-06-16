@@ -1,4 +1,4 @@
-# Octopus Hub Server Team
+# Octopus Hub Server 팀
 
 Octopus Hub Server 팀은 NestJS/Turbo 기반 Hub backend와 Octoto 연동을 다루는
 프로젝트 팀이다. 작업 시작점은 `profile.md`이며, 공통 역할은

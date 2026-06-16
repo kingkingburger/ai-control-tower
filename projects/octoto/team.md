@@ -1,4 +1,4 @@
-# Octoto Team
+# Octoto 팀
 
 Octoto 팀은 중앙 인증, 권한, 서비스 메뉴, 감사 로그, PostgreSQL/Oracle parity를
 다루는 프로젝트 팀이다. 작업 시작점은 `profile.md`이며, 공통 역할은

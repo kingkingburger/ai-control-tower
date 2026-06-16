@@ -3,7 +3,7 @@
 여기의 규칙은 후보일 뿐이다. 반복되고, 팀에 안전하며, 협업자에게 분명히
 유익할 때만 Octoto 공유 문서로 승격한다.
 
-## Candidates
+## 후보
 
 - admin-like flag를 UI 노출 조건으로 쓸 때는 이름만 믿지 말고 소유 시스템과 포함 범위를 먼저 확인한다.
   Hub/Octoto 통합에서는 `isHubUiAdmin`처럼 합성된 bypass 플래그가 legacy `hubServerIsAdmin`까지 포함할 수 있으므로,

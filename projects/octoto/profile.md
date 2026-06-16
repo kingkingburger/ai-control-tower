@@ -1,4 +1,4 @@
-# Octoto Project Profile
+# Octoto 프로젝트 프로필
 
 대상 저장소: Octoto checkout (`<octoto-repo>`)
 

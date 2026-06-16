@@ -1,4 +1,4 @@
-# AI Control Tower
+# AI Control Tower 운영 허브
 
 AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트에 적용하기 전에
 검증하는 개인 작업 공간이다. 루트의 `CLAUDE.md`는 에이전트 실행 지침이고,
@@ -16,7 +16,7 @@ AI 도구, 스킬, 에이전트, 문서 워크플로우를 실제 프로젝트�
 | `outputs/` | 필요할 때 생성되는 임시 산출물 위치. 장기 원본으로 보지 않고 비어 있으면 제거한다. |
 | `presentations/` | 발표용 HTML 슬라이드와 발표 스크립트. `assets/`에는 발표 보조 자산을 둔다. |
 | `problem-finding/` | 반복되는 불편을 실행 가능한 문제 후보로 바꾸는 기록 공간. |
-| `project/` | `ai-control-tower` 자체 운영 문서. roadmap, inventory, distribution sync, runbook으로 나눈다. |
+| `project/` | `ai-control-tower` 자체 운영 문서. 로드맵, 인벤토리, 배포 동기화, 운영 절차로 나눈다. |
 | `projects/` | 프로젝트별 에이전트 팀, 프로필, 메모리, 워크플로우를 관리한다. |
 | `reports/` | 일일 보고서나 목표 기반 결과 보고서. |
 | `requirements/` | 기능이나 실험의 요구사항 문서. |

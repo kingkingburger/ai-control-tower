@@ -1,4 +1,4 @@
-# AI Control Tower
+# AI Control Tower 운영 허브
 
 AI 관련 실험을 위한 작업 공간. 유저 환경에 적용하기 전에 여기서 먼저 테스트한다.
 
@@ -43,6 +43,6 @@ AI 관련 실험을 위한 작업 공간. 유저 환경에 적용하기 전에 �
 - CSS 변수로 컬러 스킴 조정 (`--day1-color`, `--day2-color` 등)
 - 발표 시: F11 전체화면 + 화살표 키
 
-## Known Issues
+## 알려진 이슈
 - ~~Notion 플러그인 MCP 충돌: Claude AI 내장 통합과 플러그인이 동일한 "notion" 서버를 등록하여 스킵됨.~~ → **해결됨 (2026-03-31)**: 빌트인 OAuth로 Notion MCP 연결. 플러그인 방식 폐기.
 - Notion OAuth `resource` 파라미터 오류: OAuth URL에 `resource` 파라미터가 포함되면 `invalid_target` 에러 발생. URL에서 `resource` 파라미터를 제거하면 해결. (Admin 권한 없이 Integration 생성 불가 → OAuth 방식 사용)

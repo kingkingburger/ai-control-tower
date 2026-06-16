@@ -1,4 +1,4 @@
-# Octoto Notes
+# Octoto 메모
 
 Octoto 프로젝트 팀 운영을 위한 메모다. 이 파일을 Octoto 저장소로 복사하지
 않는다.

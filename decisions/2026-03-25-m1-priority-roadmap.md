@@ -1,158 +1,158 @@
-# M1 Prioritized Task Roadmap — Samsung Heavy Industries Shipyard Simulation
+# M1 우선순위 작업 로드맵 — 삼성중공업 조선소 시뮬레이션
 ## 삼성중공업 거제조선소 Capacity Planning Simulation M1 우선순위
 
-**Deadline:** 2026-04-30 (5 weeks from 2026-03-25)
-**Owner:** 원민호
-**Document Date:** 2026-03-25
+**마감:** 2026-04-30 (2026-03-25 기준 5주)
+**담당:** 원민호
+**문서 작성일:** 2026-03-25
 
 ---
 
-## Executive Summary
+## 요약
 
 Ouroboros Phase 1-3 문서 완료. 이제 엔진 검증과 실제 동작 테스트 단계. 5주 내 M1 데모 완성을 위해서는 **병렬 작업** 필요. 다음 세션부터는 팀 내 협력 가능한 작업들이 있으므로 작업 분담 추천.
 
 ---
 
-## Week 1 (3/25 - 3/31): Engine Validation & PoC Foundation
+## 1주차 (3/25 - 3/31): 엔진 검증과 PoC 기반 구축
 
-### P0: Engine Code Review — v3 Behavior 검증
-**Dependency:** Block everyone else until complete
-**Effort:** 2-3 days
-**Blockers:** None
-**Next:** All subsequent work depends on this
+### P0: 엔진 코드 리뷰 — v3 behavior 검증
+**의존 관계:** 완료 전까지 다른 작업 전체를 차단
+**예상 공수:** 2-3일
+**차단 요소:** 없음
+**다음 단계:** 이후 모든 작업이 여기에 의존
 
-#### Subtasks
+#### 세부 작업
 1. **work-smc 브랜치 pull 및 로컬 실행 검증**
-   - [ ] Clone work-smc branch
-   - [ ] Run existing example simulations
-   - [ ] Confirm v3 engine boots without error
-   - [ ] Document Python version, dependencies, installation steps
+   - [ ] 복제: work-smc branch
+   - [ ] 실행: 기존 예시 simulation
+   - [ ] 확인: v3 engine이 오류 없이 부팅되는지
+   - [ ] 문서화: Python version, dependencies, installation steps
 
 2. **35개 behavior 목록 확인 및 조선소 매핑**
-   - [ ] List all behavior/* files (expected ~35)
-   - [ ] Match to requirements: `bundle`, `branch`, `acquire_resource`, `release_resource`
-   - [ ] Verify each behavior's JSON schema
-   - [ ] Document edge cases (e.g., bundle with count mismatch)
+   - [ ] 목록화: behavior/* 파일 전체(예상 약 35개)
+   - [ ] 매핑: to requirements: `bundle`, `branch`, `acquire_resource`, `release_resource`
+   - [ ] 검증: 각 behavior의 JSON schema
+   - [ ] 문서화: 경계 사례(예: count mismatch가 있는 bundle)
 
 3. **Bundle behavior behavior 상세 검증**
    - [ ] Read `core/behavior/handlers/transform_handlers.py:150` (bundle impl)
-   - [ ] Trace `wait_for_items` + `pop` logic for Lot tracking
-   - [ ] Test: merge 3 small blocks → confirm `contents` field tracking
-   - [ ] Test: incomplete merge → confirm no crash on sim end
+   - [ ] Lot tracking을 위해 `wait_for_items` + `pop` 로직 추적
+   - [ ] 테스트: small block 3개 merge → `contents` field 추적 확인
+   - [ ] 테스트: incomplete merge → simulation 종료 시 crash 없음 확인
 
-4. **Branch behavior for routing**
-   - [ ] Confirm `branch(condition=...)` works with prefab checks
-   - [ ] Test: route small/medium/large blocks correctly
-   - [ ] Edge case: what if condition is always false?
+4. **라우팅용 branch behavior**
+   - [ ] 확인: `branch(condition=...)`가 prefab 검사와 함께 작동하는지
+   - [ ] 테스트: small/medium/large block이 올바르게 route되는지
+   - [ ] 경계 사례: condition이 항상 false이면 어떻게 되는지
 
-5. **Resource constraint (acquire/release)**
-   - [ ] Verify `sim.Resource` capacity model
-   - [ ] Test: queue formation when capacity exceeded
-   - [ ] Measure: avg_wait_time metric generation
+5. **리소스 제약(acquire/release)**
+   - [ ] 검증: `sim.Resource` capacity model
+   - [ ] 테스트: capacity 초과 시 queue 형성
+   - [ ] 측정: avg_wait_time metric 생성
 
-**Verification Plan:**
+**검증 계획:**
 ```python
 # test_v3_engine_basics.py
 def test_bundle_behavior():
-    # 3 small blocks → 1 assembled block
-    # Verify: contents tracking, prefab transformation
+    # 작은 블록 3개 → 조립된 블록 1개
+    # 검증: contents tracking, prefab transformation
     pass
 
 def test_branch_routing():
-    # 3 block types → 3 paths
-    # Verify: small doesn't visit pre_painting, etc.
+    # 블록 유형 3개 → 경로 3개
+    # 검증: small이 pre_painting을 방문하지 않음 등
     pass
 
 def test_resource_capacity():
-    # Exceed floor area → queue forms
-    # Verify: blocking and release logic
+    # 바닥 면적 초과 → 큐 생성
+    # 검증: blocking과 release logic
     pass
 ```
 
 ---
 
-### P1: Bundle Behavior Unit Tests (Parallel with P0)
-**Dependency:** P0 code review in progress
-**Effort:** 1.5 days
-**Owner:** Can be delegated if team available
-**Next:** Informs Phase 2 design adjustments
+### P1: Bundle behavior 단위 테스트 (P0와 병렬)
+**의존 관계:** P0 code review 진행 중
+**예상 공수:** 1.5일
+**담당:** 팀이 가능하면 위임 가능
+**다음 단계:** Phase 2 design 조정에 반영
 
-#### Subtasks
-1. **Create `tests/test_bundle_merge.py`**
-   - [ ] Test case 1: 3 small blocks → 1 assembled_block
-     - Input: Entity(prefab="small_block") ×3
-     - Expected: Entity(prefab="assembled_block"), contents=[id1, id2, id3]
+#### 세부 작업
+1. **`tests/test_bundle_merge.py` 생성**
+   - [ ] 테스트 케이스 1: small block 3개 → assembled_block 1개
+     - 입력: Entity(prefab="small_block") ×3
+     - 기대 결과: Entity(prefab="assembled_block"), contents=[id1, id2, id3]
 
-   - [ ] Test case 2: 6 blocks → 2 assemblies (batch processing)
-     - Input: 6 small blocks
-     - Expected: 2 assembled_blocks created sequentially
+   - [ ] 테스트 케이스 2: block 6개 → assembly 2개(batch processing)
+     - 입력: small block 6개
+     - 기대 결과: assembled_block 2개가 순차 생성됨
 
-   - [ ] Test case 3: Incomplete bundle on sim end
-     - Input: 2 blocks, count=3, simulation ends
-     - Expected: No crash, graceful shutdown
+   - [ ] 테스트 케이스 3: sim 종료 시 incomplete bundle 처리
+     - 입력: block 2개, count=3, simulation 종료
+     - 기대 결과: crash 없이 graceful shutdown
 
-   - [ ] Test case 4: Merge creates new Lot hierarchy
-     - Input: 3 small blocks with tags=[component_id]
-     - Expected: new_block.contents contains all tags
+   - [ ] 테스트 케이스 4: Merge가 새 Lot 계층 생성
+     - 입력: tags=[component_id]가 있는 small block 3개
+     - 기대 결과: new_block.contents가 모든 tag를 포함
 
-2. **Create JSON test scenario `scenarios/test_merge_only.json`**
-   - Source generates 3 small blocks (time: 0, 10, 20)
-   - Bundle waits for all 3, produces assembled_block
-   - Record entity lifecycle
+2. **JSON 테스트 시나리오 `scenarios/test_merge_only.json` 생성**
+   - Source가 small block 3개를 생성(time: 0, 10, 20)
+   - Bundle이 3개를 모두 기다린 뒤 assembled_block 생성
+   - entity lifecycle 기록
 
-3. **Verify test output structure**
-   - [ ] Entity registry format
-   - [ ] Event log schema
-   - [ ] KPI fields (throughput, wait_time, utilization)
+3. **테스트 출력 구조 검증**
+   - [ ] Entity registry 형식
+   - [ ] Event log schema(이벤트 로그 스키마)
+   - [ ] KPI fields(throughput, wait_time, utilization) 정의
 
-**Success Criteria:**
-- All 4 test cases pass
-- test_merge_only.json simulation runs to completion
-- Lot tracking confirmed in output
-
----
-
-### P2: Samsung Meeting Debrief — 3/24 결과 확인
-**Dependency:** None
-**Effort:** 0.5 days
-**Owner:** 원민호 (or delegate to team lead)
-**Next:** Informs data format and Merge policy
-
-#### Subtasks
-1. **Collect meeting notes from 3/24 with CTO 서경민**
-   - [ ] Confirm block data format (will they provide CSV, JSON, or raw?)
-   - [ ] Clarify Merge policy: "모두 모이고 시작" vs. "첫 N개부터 병렬 시작"?
-   - [ ] Ask about tact time data source (공정표, 실제 기록, 추정?)
-   - [ ] Confirm floor area metrics (m², relative units, or sim slots?)
-
-2. **Document any new constraints or clarifications**
-   - [ ] If data format differs from assumptions → update Phase 2 design doc
-   - [ ] If Merge policy changes → update bundle behavior test
-
-3. **Get confirmation on Simio/DEVS comparison scope**
-   - [ ] Which metrics will CTO team verify? (throughput, avg_wait, utilization?)
-   - [ ] What is "same scenario"? (block mix, tact times, floor areas?)
-   - [ ] Timeline for CTO's comparison results?
-
-**Success Criteria:**
-- All 3 questions answered in writing
-- Any design changes documented
-- CTO comparison timeline confirmed
+**성공 기준:**
+- 테스트 케이스 4개 모두 통과
+- test_merge_only.json simulation이 끝까지 실행됨
+- output에서 Lot tracking 확인
 
 ---
 
-## Week 2-3 (4/1 - 4/14): JSON Scenario Construction & Integration Test
+### P2: 삼성 미팅 debrief — 3/24 결과 확인
+**의존 관계:** 없음
+**예상 공수:** 0.5일
+**담당:** 원민호(또는 team lead에게 위임)
+**다음 단계:** data format과 Merge policy에 반영
 
-### P3: M1 Scenario JSON Writing
-**Dependency:** P0 (engine validation), P2 (data format confirmed)
-**Effort:** 2-3 days
-**Owner:** 원민호
-**Next:** M1 demo execution
+#### 세부 작업
+1. **3/24 CTO 서경민 미팅 노트 수집**
+   - [ ] 확인: block data format(CSV, JSON, raw 중 무엇을 제공하는가?)
+   - [ ] 명확화: Merge policy: "모두 모이고 시작" vs. "첫 N개부터 병렬 시작"?
+   - [ ] 질문: tact time data source(공정표, 실제 기록, 추정?)
+   - [ ] 확인: floor area metrics(m², relative units, sim slots 중 무엇인가?)
 
-#### Subtasks
-1. **Create `scenarios/m1-demo.json` — Full M1 Scenario**
+2. **새 제약이나 명확화 사항 문서화**
+   - [ ] 조건부 처리: data format이 가정과 다르면 Phase 2 design doc 갱신
+   - [ ] 조건부 처리: Merge policy가 바뀌면 bundle behavior test 갱신
 
-   Structure:
+3. **Simio/DEVS 비교 범위 확인 받기**
+   - [ ] 확인할 항목: CTO team이 검증할 metric은 무엇인가? (throughput, avg_wait, utilization?)
+   - [ ] 확인할 내용: "same scenario" 기준은 무엇인가? (block mix, tact times, floor areas?)
+   - [ ] 일정: CTO comparison result 확보 시점
+
+**성공 기준:**
+- 질문 3개 모두 서면 답변 확보
+- 모든 design 변경사항 문서화
+- CTO 비교 검증 timeline 확인
+
+---
+
+## 2-3주차 (4/1 - 4/14): JSON 시나리오 작성과 통합 테스트
+
+### P3: M1 시나리오 JSON 작성
+**의존 관계:** P0 (engine validation), P2 (data format confirmed)
+**예상 공수:** 2-3 days
+**담당:** 원민호
+**다음 단계:** M1 demo execution
+
+#### 세부 작업
+1. **`scenarios/m1-demo.json` 생성 — 전체 M1 시나리오**
+
+   구조:
    ```json
    {
      "simulation": {
@@ -174,180 +174,180 @@ def test_resource_capacity():
    }
    ```
 
-2. **Define block generation timeline**
-   - [ ] Small block: 1 every 10 time units (source spawns 30 over 500 units)
-   - [ ] Medium block: 1 every 15 time units
-   - [ ] Large block: 1 every 20 time units
-   - Ensure 3 small blocks align for merge test
+2. **블록 생성 timeline 정의**
+   - [ ] 소형 block: 10 time units마다 1개 생성(source가 500 units 동안 30개 생성)
+   - [ ] 중형 block: 15 time units마다 1개 생성
+   - [ ] 대형 block: 20 time units마다 1개 생성
+   - merge 테스트를 위해 소형 block 3개가 맞물리도록 정렬
 
-3. **Define process tact times**
-   - [ ] junjo (중조): 30 time units per block (base)
+3. **공정 tact time 정의**
+   - [ ] junjo (중조): block당 30 time units(기준)
    - [ ] pre_outfitting (선행의장): 25 time units
    - [ ] daejo (대조): 35 time units
    - [ ] pre_painting (선행도장): 20 time units
    - [ ] erection (탑재): 15 time units
 
-4. **Define floor area constraints**
-   - [ ] junjo: capacity = 2 blocks (area_per_block = 4 for small, 8 for medium, 12 for large)
-   - [ ] pre_outfitting: capacity = 1.5 medium + 1 large OR resource pool = 3 units
-   - [ ] daejo: capacity = 2 blocks
-   - [ ] pre_painting: capacity = 1 block (large only)
-   - [ ] erection: no constraint (output only)
+4. **작업장 면적 제약 정의**
+   - [ ] junjo: capacity = block 2개(area_per_block = small 4, medium 8, large 12)
+   - [ ] pre_outfitting: capacity = medium 1.5개 + large 1개 또는 resource pool = 3 units
+   - [ ] daejo: capacity = block 2개
+   - [ ] pre_painting: capacity = block 1개(large only)
+   - [ ] erection: 제약 없음(출력만)
 
-5. **Define routing rules**
-   - [ ] Small block route: junjo → daejo → erection
-   - [ ] Medium block route: junjo → pre_outfitting → daejo → erection
-   - [ ] Large block route: junjo → pre_outfitting → daejo → pre_painting → erection
-   - [ ] Bundle at junjo: 3 small → 1 assembled_medium (new prefab)
-   - [ ] Assembled block follows medium route post-merge
+5. **라우팅 규칙 정의**
+   - [ ] 소형 block route: junjo → daejo → erection
+   - [ ] 중형 block route: junjo → pre_outfitting → daejo → erection
+   - [ ] 대형 block route: junjo → pre_outfitting → daejo → pre_painting → erection
+   - [ ] junjo에서 bundle: 소형 3개 → assembled_medium 1개(new prefab)
+   - [ ] 조립된 block은 merge 이후 중형 route를 따름
 
-6. **Merge policy**
-   - [ ] Use `bundle(port="junjo_input", count=3, output_prefab="assembled_medium")`
-   - [ ] All 3 must arrive before bundle starts
-   - [ ] If < 3 arrive before sim end, stay in queue (no forced merge)
+6. **Merge policy 정의**
+   - [ ] 사용: `bundle(port="junjo_input", count=3, output_prefab="assembled_medium")`
+   - [ ] 전체: 3개가 모두 도착해야 bundle 시작
+   - [ ] 조건부 처리: simulation 종료 전 3개 미만 도착 시 queue에 유지(no forced merge)
 
-**Deliverable:**
-- `/d/reference2/ai-control-tower/scenarios/m1-demo.json` (complete, valid JSON)
-- Test: `python -c "import json; json.load(open('scenarios/m1-demo.json'))"` passes
+**산출물:**
+- `/d/reference2/ai-control-tower/scenarios/m1-demo.json` (완전하고 유효한 JSON)
+- 테스트: `python -c "import json; json.load(open('scenarios/m1-demo.json'))"` 통과
 
 ---
 
-### P4: End-to-End Integration Test
-**Dependency:** P3 (scenario JSON), P0 (engine ready)
-**Effort:** 2 days
-**Owner:** 원민호
-**Next:** Identifies any runtime behavior gaps
+### P4: End-to-End 통합 테스트
+**의존 관계:** P3 (scenario JSON), P0 (engine ready)
+**예상 공수:** 2 days
+**담당:** 원민호
+**다음 단계:** runtime behavior gap 식별
 
-#### Subtasks
-1. **Run M1 scenario for full duration**
+#### 세부 작업
+1. **M1 시나리오를 전체 기간으로 실행**
    ```bash
    cd /work-smc/branch
    python run_simulation.py scenarios/m1-demo.json --output results/m1-demo-run1.json
    ```
 
-2. **Verify all entities complete lifecycle**
-   - [ ] All small blocks reach Sink
-   - [ ] All medium/large blocks reach Sink
-   - [ ] 1 assembled block created from merge
-   - [ ] No entities stuck in queue at end
+2. **모든 entity 생명주기 완료 검증**
+   - [ ] 전체: small block이 Sink에 도달
+   - [ ] 전체: medium/large block이 Sink에 도달
+   - [ ] merge로 assembled block 1개 생성
+   - [ ] 없음: 종료 시 queue에 갇힌 entity
 
-3. **Inspect KPI output**
-   - [ ] Total throughput (entities completed)
-   - [ ] Average wait time per process
-   - [ ] Utilization per process (% time busy)
-   - [ ] Queue depths (max simultaneous in queue)
+3. **KPI 출력 점검**
+   - [ ] 전체: throughput(완료된 entity 수)
+   - [ ] 평균: process별 wait time
+   - [ ] 활용률: process별 busy time 비율
+   - [ ] 대기열: depth(queue 동시 최대 수)
 
-4. **Validate against M1 acceptance criteria**
-   - [ ] 3 block types follow correct paths? → Verify event log
-   - [ ] Merge creates new Entity? → Confirm assembled_block in output
-   - [ ] Lot tracking works? → Check contents field
-   - [ ] Queue forms on floor area exceed? → Check junjo queue depth > 0
+4. **M1 인수 기준 대비 검증**
+   - [ ] 3종 block이 올바른 경로를 따르는가? → event log 확인
+   - [ ] Merge가 새 Entity를 생성하는가? → output의 assembled_block 확인
+   - [ ] Lot tracking이 작동하는가? → contents field 확인
+   - [ ] 대기열: floor area 초과 시 형성되는가? → junjo queue depth > 0 확인
 
-5. **Document any runtime errors**
-   - [ ] If behavior crashes → post issue to work-smc repo
-   - [ ] If JSON schema mismatch → revise scenario
-   - [ ] If logic gap → add ADR to Phase 2 design doc
+5. **런타임 오류 문서화**
+   - [ ] 조건부 처리: behavior crash 발생 시 work-smc repo에 issue 작성
+   - [ ] 조건부 처리: JSON schema mismatch → revise scenario
+   - [ ] 조건부 처리: logic gap → add ADR to Phase 2 design doc
 
-**Success Criteria:**
-- Simulation runs to completion without errors
-- Output JSON valid
-- KPI metrics match expected ranges (see M1 demo checklist)
+**성공 기준:**
+- Simulation이 오류 없이 끝까지 실행됨
+- 출력 JSON이 유효함
+- KPI metrics가 기대 범위와 일치함(M1 demo checklist 참고)
 
 ---
 
-## Week 4 (4/15 - 4/21): Demo Preparation & Documentation
+## 4주차 (4/15 - 4/21): 데모 준비와 문서화
 
-### P5: M1 Demo Scenario Documentation
-**Dependency:** P4 (integration test complete)
-**Effort:** 1.5 days
-**Owner:** 원민호
-**Next:** Presentation material
+### P5: M1 데모 시나리오 문서화
+**의존 관계:** P4(integration test 완료)
+**예상 공수:** 1.5 days
+**담당:** 원민호
+**다음 단계:** 발표 자료
 
-#### Subtasks
-1. **Create demo narrative document**
+#### 세부 작업
+1. **데모 서사 문서 작성**
    - `/d/reference2/ai-control-tower/research/til/2026-04-15-m1-demo-walkthrough.md`
-   - Explain each step: Source → bundle → branch → Sink
-   - Show expected KPI values from trial run
-   - Document any parameter tuning done
+   - 각 단계 설명: Source → bundle → branch → Sink
+   - trial run의 예상 KPI 값 표시
+   - 수행한 parameter tuning 문서화
 
-2. **Create JSON scenario walkthrough**
-   - Annotated version of m1-demo.json
-   - Explain each component's role
-   - Show how to modify: block generation rate, tact times, floor areas
+2. **JSON 시나리오 walkthrough 작성**
+   - m1-demo.json 주석 버전 작성
+   - 각 component 역할 설명
+   - 수정 방법 설명: block generation rate, tact times, floor areas
 
-3. **Generate sample output report**
-   - Run simulation, capture KPI output
-   - Create `.md` template for final demo report
-   - Format: Throughput | Avg Wait | Utilization table
+3. **샘플 출력 보고서 생성**
+   - simulation 실행 후 KPI output 캡처
+   - final demo report용 `.md` 템플릿 생성
+   - 형식: Throughput | Avg Wait | Utilization 표
 
 ---
 
-### P6: Prepare for CTO Comparison (Simio/DEVS Readiness)
-**Dependency:** P4 (baseline scenario), P2 (CTO agreement)
-**Effort:** 1.5 days
-**Owner:** 원민호
-**Next:** Enable external validation
+### P6: CTO 비교 검증 준비 (Simio/DEVS 준비)
+**의존 관계:** P4 (baseline scenario), P2 (CTO agreement)
+**예상 공수:** 1.5 days
+**담당:** 원민호
+**다음 단계:** 외부 검증 활성화
 
-#### Subtasks
-1. **Export scenario to neutral format**
-   - Ensure m1-demo.json has all parameters explicitly stated
-   - Generate `.csv` export of tact times, floor areas, block types
-   - Verify CTO team can read these independently
+#### 세부 작업
+1. **시나리오를 중립 형식으로 export**
+   - m1-demo.json에 모든 parameter가 명시됐는지 확인
+   - tact times, floor areas, block types의 `.csv` export 생성
+   - CTO 팀이 이를 독립적으로 읽을 수 있는지 검증
 
-2. **Document comparison baseline**
+2. **비교 기준선 문서화**
    - `/d/reference2/ai-control-tower/docs/ouroboros/2026-03-25-shipyard-capacity-sim/04-comparison-setup.md`
-   - "What are we comparing?" — metrics list
-   - "How will CTO team run Simio/DEVS?" — scenario mapping
-   - "When are results due?" — timeline
+   - "무엇을 비교하는가?" — metrics 목록
+   - "CTO 팀은 Simio/DEVS를 어떻게 실행하는가?" — scenario mapping
+   - "결과 마감은 언제인가?" — timeline
 
-3. **Prepare for discrepancy handling**
-   - If results differ, what's acceptable tolerance?
-   - Who investigates behavior mismatch?
-   - Where will findings be documented?
+3. **결과 차이 처리 준비**
+   - 결과가 다르면 허용 가능한 tolerance는 얼마인가?
+   - behavior mismatch는 누가 조사하는가?
+   - findings는 어디에 문서화하는가?
 
 ---
 
-## Week 5 (4/22 - 4/30): Final Testing & M1 Demo
+## 5주차 (4/22 - 4/30): 최종 테스트와 M1 데모
 
-### P7: M1 Demo Execution & Reporting
-**Dependency:** All prior tasks
-**Effort:** 2-3 days
-**Owner:** 원민호 + team (if demo presentation needed)
-**Next:** M2 planning
+### P7: M1 데모 실행과 보고
+**의존 관계:** 모든 선행 작업
+**예상 공수:** 2-3 days
+**담당:** 원민호 + team(데모 발표가 필요할 경우)
+**다음 단계:** M2 planning
 
-#### Subtasks
-1. **Final scenario validation run**
-   - [ ] Run m1-demo.json 3× with different random seeds
-   - [ ] Verify results consistent within 5% variance
-   - [ ] Capture screenshots/logs for presentation
+#### 세부 작업
+1. **최종 시나리오 검증 실행**
+   - [ ] 실행: m1-demo.json 3× with different random seeds
+   - [ ] 검증: results consistent within 5% variance
+   - [ ] 발표용 screenshot/log 캡처
 
-2. **Create M1 Demo Report**
+2. **M1 데모 보고서 작성**
    - `/d/reference2/ai-control-tower/research/til/2026-04-30-m1-demo-report.md`
-   - Sections:
-     - Scenario summary (blocks, processes, constraints)
-     - KPI results (throughput, wait, utilization)
-     - M1 acceptance criteria checklist (pass/fail)
-     - Screenshots/diagrams
-     - Known limitations (anything not implemented)
+   - 섹션:
+     - Scenario 요약(blocks, processes, constraints)
+     - KPI 결과(throughput, wait, utilization)
+     - M1 인수 기준 checklist(pass/fail)
+     - screenshot/diagram
+     - 알려진 한계(구현되지 않은 항목)
 
-3. **Prepare presentation for stakeholders**
-   - [ ] Deck or live demo showing:
-       - Block generation and flow
-       - Merge event at junjo
-       - Routing by block type
-       - Floor area constraint queuing
-       - Final KPI report
+3. **이해관계자 발표 준비**
+   - [ ] 다음을 보여주는 deck 또는 live demo 준비:
+       - Block 생성과 흐름
+       - junjo의 Merge event
+       - block type별 routing
+       - floor area constraint 정의에 따른 queueing
+       - 최종 KPI report
 
-4. **Gather feedback**
-   - [ ] Does scenario match Samsung expectations?
-   - [ ] Are M1 acceptance criteria met?
-   - [ ] What should M2 prioritize?
+4. **피드백 수집**
+   - [ ] scenario가 삼성 기대와 맞는가?
+   - [ ] M1 acceptance criteria를 충족하는가?
+   - [ ] M2에서 무엇을 우선해야 하는가?
 
 ---
 
-## Open Issues Tracking
+## 열린 이슈 추적
 
-| Issue | Status | Owner | Due |
+| 이슈 | 상태 | 담당 | 기한 |
 |-------|--------|-------|-----|
 | 3/24 삼성중공업 미팅 결과 | PENDING | 원민호 | 3/26 |
 | v3 엔진 engine 코드 리뷰 | PENDING | 원민호 | 3/31 |
@@ -359,14 +359,14 @@ def test_resource_capacity():
 
 ---
 
-## Suggested Team Work Distribution
+## 추천 팀 작업 분배
 
-**If team members are available:**
+**팀원이 가능하다면:**
 
-| Task | Assignee | Duration | Start |
+| 작업 | 담당자 | 기간 | 시작 |
 |------|----------|----------|-------|
 | P0: Engine code review | 원민호 | 2-3d | 3/25 |
-| P1: Bundle unit tests | Dev (if available) | 1.5d | 3/25 (parallel) |
+| P1: Bundle 단위 테스트 | Dev(가능한 경우) | 1.5일 | 3/25(병렬) |
 | P2: Samsung meeting debrief | 원민호 or PM | 0.5d | 3/25 |
 | P3: M1 scenario JSON | 원민호 | 2-3d | 4/1 |
 | P4: Integration test | 원민호 | 2d | 4/7 |
@@ -374,14 +374,14 @@ def test_resource_capacity():
 | P6: CTO comparison prep | 원민호 | 1.5d | 4/15 |
 | P7: M1 demo & report | 원민호 + PM | 2-3d | 4/22 |
 
-**Critical path (serial):** P0 → P3 → P4 → P7 = ~9 days
-**With parallel work (P1, P2):** Can overlap to compress to ~7 days calendar time
+**핵심 경로(직렬):** P0 → P3 → P4 → P7 = 약 9일
+**병렬 작업 적용 시(P1, P2):** 겹쳐서 약 7일 calendar time으로 압축 가능
 
 ---
 
-## M1 Acceptance Criteria Checklist
+## M1 인수 기준 체크리스트
 
-Use this to validate M1 demo:
+M1 demo 검증에 사용한다.
 
 - [ ] 3종 블록이 Prefab별 다른 경로를 정상적으로 따름
 - [ ] Entity Merge 후 새 ID 생성 및 이전 Entity Destroy
@@ -389,21 +389,21 @@ Use this to validate M1 demo:
 - [ ] 배치 면적 초과 시 대기(Queue) 발생
 - [ ] 시뮬레이션 완료 후 KPI 통계 출력
 - [ ] Octopus v3 엔진에서 JSON만으로 구현됨 (새 코드 없음)
-- [ ] 시나리오 재현 가능 (동일 JSON → 동일 결과, ±random variance)
+- [ ] 시나리오 재현 가능(동일 JSON → 동일 결과, ±random variance)
 
 ---
 
-## Next Session Actions (Recommended)
+## 다음 세션 액션(권장)
 
-1. **Confirm M1 deadline is hard** — 4/30 is immovable?
-2. **Assign team members** — Who can help with P1, P2?
-3. **Schedule Samsung meeting debrief** — When will 3/24 meeting notes be available?
-4. **Pull work-smc branch** — Immediate action, start P0
-5. **Set up testing framework** — Where will unit tests live? (tests/ directory?)
+1. **M1 deadline이 고정인지 확인** — 4/30은 움직일 수 없는가?
+2. **팀원 배정** — P1, P2를 도울 수 있는 사람은 누구인가?
+3. **삼성 미팅 debrief 일정 잡기** — 3/24 미팅 노트는 언제 확보되는가?
+4. **work-smc branch pull** — 즉시 실행하고 P0 시작
+5. **테스트 프레임워크 설정** — unit test는 어디에 둘 것인가? (`tests/` directory?)
 
 ---
 
-## References
+## 참고 자료
 
 - Requirements: `/d/reference2/ai-control-tower/docs/ouroboros/2026-03-25-shipyard-capacity-sim/01-requirements.md`
 - Design (ADR): `/d/reference2/ai-control-tower/docs/ouroboros/2026-03-25-shipyard-capacity-sim/02-design.md`

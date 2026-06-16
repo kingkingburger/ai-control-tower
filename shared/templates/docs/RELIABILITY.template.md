@@ -8,10 +8,10 @@
 
 [OBSERVABILITY]
 
-## SLO/SLA
+## SLO/SLA 목표
 
 [SLO]
 
-## Runbook
+## 런북
 
 - [RUNBOOK]

@@ -1,13 +1,13 @@
 ---
 name: team-assemble
-description: This skill should be used when the user asks to "팀 구성해줘", "team assemble", "전문가 팀으로 해줘", "팀으로 해줘", "swarm", "병렬로 전문가 팀", or wants to decompose a complex task into specialist roles executed via TeamCreate. Also triggers when user describes a task clearly benefiting from parallel expert execution.
+description: 사용자가 "팀 구성해줘", "team assemble", "전문가 팀으로 해줘", "팀으로 해줘", "swarm", "병렬로 전문가 팀"을 요청하거나, 복잡한 작업을 TeamCreate로 실행할 전문 역할들로 분해하려 할 때 사용한다. 병렬 전문가 실행이 명확히 도움이 되는 작업을 설명할 때도 트리거한다.
 ---
 
-# Team Assemble
+# Team Assemble 스킬
 
 작업을 분석하여 전문가 팀을 동적으로 구성하고 TeamCreate 기반으로 즉시 실행하는 스킬.
 
-## When to Use
+## 사용할 때
 
 - 독립적인 하위 작업 2개 이상으로 분해 가능한 복잡한 태스크
 - 리서치 + 구현 + 검증처럼 역할 분리가 명확한 작업
@@ -15,7 +15,7 @@ description: This skill should be used when the user asks to "팀 구성해줘",
 
 **사용하지 말 것:** 단일 파일 수정, 간단한 질문, 순차적으로만 가능한 작업
 
-## Workflow
+## 워크플로
 
 ```dot
 digraph team_assemble {
@@ -157,7 +157,7 @@ shutdown_request에 응답 없으면 이미 종료된 것 — 무시하고 TeamD
 
 ---
 
-## Common Mistakes
+## 흔한 실수
 
 | 실수 | 올바른 방법 |
 |------|------------|
@@ -167,7 +167,7 @@ shutdown_request에 응답 없으면 이미 종료된 것 — 무시하고 TeamD
 | TeamDelete 누락 | 반드시 shutdown_request → TeamDelete 순서로 정리 |
 | 모든 역할에 opus 사용 | 실행/수집 역할은 sonnet으로 비용 절약 |
 
-## Quick Reference
+## 빠른 참조
 
 ```
 Phase 1: 분석 → AskUserQuestion (팀 구성 승인)
@@ -176,9 +176,9 @@ Phase 3: Task × N (병렬) → 결과 전달 → Task × N (후속)
 Phase 4: 결과 종합 → shutdown_request × N → TeamDelete
 ```
 
-## Additional Resources
+## 추가 리소스
 
-### Reference Files
+### 참조 파일
 
-- **`references/examples.md`** — DB 마이그레이션, 경쟁사 분석, 풀스택 구현 등 3개 worked example (전체 Phase 1~3 흐름)
+- **`references/examples.md`** — DB 마이그레이션, 경쟁사 분석, 풀스택 구현 등 3개 예제(전체 Phase 1~3 흐름)
 - **`references/prompt-templates.md`** — 역할별 teammate 프롬프트 템플릿 (analyst, implementer, validator) 및 작성 팁

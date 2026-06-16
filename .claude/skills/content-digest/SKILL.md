@@ -1,9 +1,9 @@
 ---
 name: content-digest
-description: This skill should be used when the user asks to "콘텐츠 정리", "아티클 요약", "PDF 학습", "영상 정리", "트윗 정리", "digest", "summarize", "정리해줘", or provides a YouTube URL, X/Twitter URL (x.com, twitter.com), webpage URL, or PDF file for analysis. Supports YouTube (transcript), X/Twitter (via fetch-tweet skill), webpage (full content via browser), and PDF (text + image per page). Generates Quiz-First learning with 9 questions across 3 difficulty levels.
+description: 사용자가 "콘텐츠 정리", "아티클 요약", "PDF 학습", "영상 정리", "트윗 정리", "digest", "summarize", "정리해줘"라고 요청하거나 분석할 YouTube URL, X/Twitter URL(x.com, twitter.com), 웹페이지 URL, PDF 파일을 제공할 때 사용한다. YouTube(자막), X/Twitter(fetch-tweet 스킬), 웹페이지(브라우저로 전체 콘텐츠), PDF(페이지별 텍스트와 이미지)를 지원한다. 3개 난이도, 총 9문제로 Quiz-First 학습을 생성한다.
 ---
 
-# Content Digest
+# Content Digest 스킬
 
 콘텐츠 → Quiz-First 학습 → 선택적 깊이 탐색 → 근본 개념 확장.
 
@@ -11,10 +11,10 @@ description: This skill should be used when the user asks to "콘텐츠 정리",
 
 ## 아키텍처 원칙
 
-1. **Context Separation**: 긴 자막/본문은 Task agent가 처리, 메인 세션은 가벼운 md 파일만 Read
-2. **Clean Transcript**: 자막에서 번호, 시간 제거 → 순수 영어 텍스트만 추출
-3. **Web Research Integration**: 추출된 키워드로 자동 웹 리서치
-4. **Single Output**: 모든 처리 결과는 단일 md 파일로 저장
+1. **컨텍스트 분리(Context Separation)**: 긴 자막/본문은 Task agent가 처리, 메인 세션은 가벼운 md 파일만 Read
+2. **정제된 자막(Clean Transcript)**: 자막에서 번호, 시간 제거 → 순수 영어 텍스트만 추출
+3. **웹 리서치 통합(Web Research Integration)**: 추출된 키워드로 자동 웹 리서치
+4. **단일 출력(Single Output)**: 모든 처리 결과는 단일 md 파일로 저장
 
 ## 지원 콘텐츠
 
@@ -37,22 +37,22 @@ description: This skill should be used when the user asks to "콘텐츠 정리",
 ## 워크플로우 개요 (Task Agent 기반)
 
 ```
-Phase 1: 콘텐츠 타입 감지
-Phase 2: Task Agent 실행 (콘텐츠 추출 + 정제 + 웹 리서치 + md 저장)
-Phase 3: 메인 세션에서 결과 md Read
-Phase 4: Pre-Quiz (3문제)
-Phase 5: 선택적 콘텐츠 제공
-Phase 6: 본 퀴즈 (9문제)
-Phase 7: Elaborative Interrogation
-Phase 8: Foundation Expansion
-Phase 9: 스키마 연결
-Phase 10: 문서 업데이트 (퀴즈 결과 반영)
-Phase 11: 후속 선택
+1단계: 콘텐츠 타입 감지
+2단계: Task Agent 실행 (콘텐츠 추출 + 정제 + 웹 리서치 + md 저장)
+3단계: 메인 세션에서 결과 md Read
+4단계: Pre-Quiz (3문제)
+5단계: 선택적 콘텐츠 제공
+6단계: 본 퀴즈 (9문제)
+7단계: 정교화 질문(Elaborative Interrogation)
+8단계: 기초 확장(Foundation Expansion)
+9단계: 스키마 연결
+10단계: 문서 업데이트 (퀴즈 결과 반영)
+11단계: 후속 선택
 ```
 
 ---
 
-## Phase 1: 콘텐츠 타입 감지
+## 1단계: 콘텐츠 타입 감지
 
 입력 패턴에 따라 콘텐츠 타입 자동 결정:
 
@@ -81,7 +81,7 @@ questions:
 
 ---
 
-## Phase 2: Task Agent 실행 (핵심)
+## 2단계: Task Agent 실행 (핵심)
 
 > **메인 세션의 context를 보호하면서 긴 콘텐츠를 처리**
 
@@ -234,7 +234,7 @@ keywords: [{키워드1}, {키워드2}, ...]
 
 ---
 
-## Phase 3: 메인 세션에서 결과 Read
+## 3단계: 메인 세션에서 결과 Read
 
 Task Agent 완료 후:
 
@@ -246,7 +246,7 @@ Read: file_path="research/digests/{type}/{YYYY-MM-DD}-{sanitized-title}.md"
 
 ---
 
-## Phase 4: Pre-Quiz (핵심)
+## 4단계: Pre-Quiz (핵심)
 
 > **목적**: 정보 갭 생성 → 주의력 프라이밍 → 능동적 학습 유도
 
@@ -275,11 +275,11 @@ questions:
 **결과 처리**:
 - 정답/오답 즉시 표시
 - 틀린 문제 → "이 부분을 콘텐츠에서 확인해보세요" 안내
-- **Knowledge Gap 생성**: "이제 콘텐츠를 보면 답을 찾고 싶어질 것입니다"
+- **지식 갭(Knowledge Gap) 생성**: "이제 콘텐츠를 보면 답을 찾고 싶어질 것입니다"
 
 ---
 
-## Phase 5: 선택적 콘텐츠 제공
+## 5단계: 선택적 콘텐츠 제공
 
 Pre-Quiz 결과에 따라 사용자에게 선택지 제공:
 
@@ -329,7 +329,7 @@ Pre-Quiz 오답과 관련된 섹션만 추출:
 
 ---
 
-## Phase 6: 본 퀴즈 (9문제)
+## 6단계: 본 퀴즈 (9문제)
 
 3단계 × 3문제. AskUserQuestion으로 각 단계 진행.
 
@@ -347,7 +347,7 @@ Pre-Quiz 오답과 관련된 섹션만 추출:
 
 ---
 
-## Phase 7: Elaborative Interrogation
+## 7단계: 정교화 질문(Elaborative Interrogation)
 
 > **"왜?" 질문이 깊은 처리를 유발 (76% vs 69% 정답률 향상)**
 
@@ -377,7 +377,7 @@ questions:
 
 ---
 
-## Phase 8: Foundation Expansion (근본 확장)
+## 8단계: 기초 확장(Foundation Expansion)
 
 > **콘텐츠 너머의 기초 지식 확장**
 
@@ -391,10 +391,10 @@ questions:
 - "{저자/발표자} other works recommendations"
 ```
 
-### 8-2. 근본 지식 정리
+### 8-2. 기초 지식 정리
 
 ```markdown
-## Foundation Expansion
+## 기초 확장
 
 ### 이 콘텐츠의 기초가 되는 개념들
 
@@ -412,7 +412,7 @@ questions:
 
 ---
 
-## Phase 9: 스키마 연결 (이전 학습과 연결)
+## 9단계: 스키마 연결 (이전 학습과 연결)
 
 > **기존 지식과 연결할 때 학습 효과 극대화**
 
@@ -439,7 +439,7 @@ graph LR
 
 ---
 
-## Phase 10: 문서 업데이트 (퀴즈 결과 반영)
+## 10단계: 문서 업데이트 (퀴즈 결과 반영)
 
 Task Agent가 저장한 md 파일에 퀴즈 결과 추가:
 
@@ -450,7 +450,7 @@ Task Agent가 저장한 md 파일에 퀴즈 결과 추가:
 ## 본 퀴즈 결과
 {점수, 오답 노트}
 
-## Elaborative Interrogation
+## 정교화 질문
 {선택한 개념에 대한 심화 탐구}
 ```
 
@@ -458,7 +458,7 @@ Task Agent가 저장한 md 파일에 퀴즈 결과 추가:
 
 ---
 
-## Phase 11: 후속 선택
+## 11단계: 후속 선택
 
 ```
 AskUserQuestion:
@@ -515,7 +515,7 @@ questions:
 - `--list-subs`: 자막 목록 확인
 - `--cookies-from-browser chrome`: 로그인 필요 시
 
-### Webpage
+### 웹페이지
 
 > **항상 claude-in-chrome 사용**. WebFetch 사용 금지.
 
@@ -536,7 +536,7 @@ questions:
 - 무한 스크롤 페이지 처리
 - 본문 전체를 정확히 가져옴
 
-### PDF
+### PDF 문서
 
 #### Read 도구 특성
 - 텍스트와 이미지를 동시에 인식
@@ -563,16 +563,16 @@ questions:
 
 이 워크플로우는 다음 연구에 기반:
 
-1. **Pretesting Effect** (Richland et al., Roediger & Karpicke)
+1. **사전 시험 효과(Pretesting Effect)** (Richland et al., Roediger & Karpicke)
    - 학습 전 테스트 → 9-12% 향상, effect size g = 0.34-0.54
 
-2. **Information Gap Theory** (Loewenstein, 1994)
+2. **정보 격차 이론(Information Gap Theory)** (Loewenstein, 1994)
    - 지식 갭 인식 → 도파민 회로 활성화 → 기억 강화
 
-3. **Elaborative Interrogation** (Dunlosky et al., 2013)
+3. **정교화 질문(Elaborative Interrogation)** (Dunlosky et al., 2013)
    - "왜?" 질문 → 깊은 처리 → 76% vs 69% 정답률
 
-4. **PACE Framework** (Gruber et al., 2019)
+4. **PACE 프레임워크(PACE Framework)** (Gruber et al., 2019)
    - 호기심 상태에서 무관한 정보도 기억력 향상
 
 상세: `references/learning-science.md`

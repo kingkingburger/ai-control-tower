@@ -1,4 +1,4 @@
-# Octopus Hub Server Project Profile
+# Octopus Hub Server 프로젝트 프로필
 
 대상 저장소: `D:\reference2\octopus-hub-server`
 

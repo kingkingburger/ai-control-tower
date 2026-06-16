@@ -1,4 +1,4 @@
-# Session File Format (.jsonl)
+# 세션 파일 형식(.jsonl)
 
 Claude Code 세션 파일의 상세 구조 및 파싱 방법
 
