@@ -8,7 +8,7 @@
 
 ## 저장 위치
 
-- 하네스 manifest: `shared/harnesses/deep-goal-council/README.md`
+- 하네스 본체: `project/runbooks/deep-goal-council-harness.md`
 - 실행 스킬: `shared/skills/deep-goal-council/SKILL.md`
 - 역할 구조: `shared/skills/deep-goal-council/references/team-blueprints.md`
 - 출력 계약: `shared/skills/deep-goal-council/references/output-contract.md`
@@ -17,7 +17,7 @@
 
 ## 스킬과 하네스의 관계
 
-`shared/skills/deep-goal-council/SKILL.md`는 하네스 자체가 아니라 실행 어댑터다. 하네스의 본체는 manifest, 역할 구조, 출력 계약, 표면별 어댑터, 운영 런북이며, 스킬은 에이전트 런타임이 이 하네스를 일관되게 호출하도록 연결한다.
+`shared/skills/deep-goal-council/SKILL.md`는 하네스 자체가 아니라 실행 어댑터다. 하네스의 본체는 이 런북, 역할 구조, 출력 계약, 표면별 어댑터이며, 스킬은 에이전트 런타임이 이 하네스를 일관되게 호출하도록 연결한다.
 
 ## 운영 흐름
 
